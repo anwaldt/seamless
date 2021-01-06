@@ -42,7 +42,7 @@ https://gitlab.tubit.tu-berlin.de/henrikvoncoler/sc_spat
 
 ```/source/aed i f f f```
 
-- first argument = channel ID
+- first argument  = channel ID
 - second argument = azimuth (degree)
-- third argument = elevation (degree)
+- third argument  = elevation (degree)
 - fourth argument = distance (meters)
