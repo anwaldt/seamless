@@ -123,7 +123,7 @@ s.waitForBoot({
 	s.sync;
 
 	// load all synthdefs
-	load(~root_DIR++"sc_spat_SYNTHDEFS.sc","r");
+	load(~root_DIR++"HuFo_SYNTHDEFS.sc","r");
 
 	/////////////////////////////////////////////////////////////////
 	// THE BUSSES:

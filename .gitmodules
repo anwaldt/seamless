@@ -1,0 +1,3 @@
+[submodule "adt"]
+	path = adt
+	url = https://bitbucket.org/ambidecodertoolbox/adt.git

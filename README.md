@@ -1,12 +1,14 @@
-# SuperCollider OSC Paths
+# HuFo_System
+
+## SuperCollider OSC Paths
 
 The required SynthDefs and scripts are part of the sc_spat repository:
 
 https://gitlab.tubit.tu-berlin.de/henrikvoncoler/sc_spat
 
-## Sends
+### Sends
 
-### To Ambisonics + WFS
+#### To Ambisonics + WFS
 
 ```/send/gain/individual i i f ```
 
@@ -15,7 +17,7 @@ https://gitlab.tubit.tu-berlin.de/henrikvoncoler/sc_spat
   - 0 = Ambisonics (inside SC)
   - 1 = WFS (external, WONDER)
 
-### To Subwoofer
+#### To Subwoofer
 
 ```/send/gain/common i i f ```
 
@@ -23,7 +25,7 @@ https://gitlab.tubit.tu-berlin.de/henrikvoncoler/sc_spat
 - second argument = output ID
   - 0 = Subwoofer
 
-## Ambisonics Spatial Control
+### Ambisonics Spatial Control
 
 ```/source/azim i f```
 
