@@ -1,6 +1,8 @@
 # SuperCollider OSC Paths
 
+The required SynthDefs and scripts are part of the sc_spat repository:
 
+https://gitlab.tubit.tu-berlin.de/henrikvoncoler/sc_spat
 
 ## Sends
 
