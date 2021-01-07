@@ -12,10 +12,21 @@ Henrik von Coler
 
 */
 
+/////////////////////////////////////////////////////////////////
+// Configure
+/////////////////////////////////////////////////////////////////
+
 ~server_ADDRESS = 58010;
 
 // number spatial input modules
 ~nInputs   = 64;
+
+// delays (sec.) for output units (guessed, at this point)
+~wfs_DELAY = 0;
+~hoa_DELAY = 0.02;
+~sub_DELAY = 0.03;
+
+~crossover_freq = 100;
 
 /////////////////////////////////////////////////////////////////
 // Two kinds of send buses, held in individual arrays:
@@ -31,7 +42,7 @@ Henrik von Coler
 
 
 /////////////////////////////////////////////////////////////////
-// BASIC
+// Command line arguments
 /////////////////////////////////////////////////////////////////
 
 postln(thisProcess.argv[0]);
@@ -67,7 +78,6 @@ s.options.numOutputBusChannels = 128;
 s.options.maxLogins            = 2;
 s.options.memSize              = 65536;
 s.options.numBuffers           = 4096;
-
 
 
 
@@ -250,81 +260,6 @@ s.waitForBoot({
 
 	});
 
-
-
-	/////////////////////////////////////////////////////////////////
-	// decoder
-	/////////////////////////////////////////////////////////////////
-
-	~output_GROUP	 = Group.after(~spatial_GROUP);
-
-
-	~decoder = Synth(\hoa_decoder_EN325,
-		[
-			\in_bus,~ambi_BUS.index,
-			\out_bus, 0
-		],
-		target: ~output_GROUP);
-
-	/////////////////////////////////////////////////////////////////
-	// add one output module for each HOA channel
-	/////////////////////////////////////////////////////////////////
-	for (0, ~n_hoa_channnels -1, {arg cnt;
-
-		post('Adding HOA output Module: ');
-		cnt.postln;
-
-		~hoa_outputs = ~hoa_outputs.add(
-			Synth(\output_module,
-				[
-					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-					\out_bus,   cnt                   // first outputs are HOA
-				],
-				target: ~output_GROUP
-		);)
-	});
-
-
-	/////////////////////////////////////////////////////////////////
-	// add one output module for each WFS channel
-	/////////////////////////////////////////////////////////////////
-	for (0, ~nInputs -1, {arg cnt;
-
-		post('Adding WFS output Module: ');
-		cnt.postln;
-
-		~wfs_outputs = ~wfs_outputs.add(
-			Synth(\output_module,
-				[
-					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
-					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
-				],
-				target: ~output_GROUP
-		);)
-	});
-
-
-	/////////////////////////////////////////////////////////////////
-	// add BASS
-	/////////////////////////////////////////////////////////////////
-
-	~lfe_output = Synth(\sub_output_module,
-		[
-			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-		],
-		target: ~output_GROUP
-	);
-
-
-	~sub_output = Synth(\sub_output_module,
-		[
-			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-		],
-		target: ~output_GROUP
-	);
-
 	/////////////////////////////////////////////////////////////////
 	// OSC listeners:
 	/////////////////////////////////////////////////////////////////
@@ -390,6 +325,92 @@ s.waitForBoot({
 	});
 
 	~send_OSC_ROUTINE.play;
+
+
+
+	/////////////////////////////////////////////////////////////////
+	// decoder
+	/////////////////////////////////////////////////////////////////
+
+	~output_GROUP	 = Group.after(~spatial_GROUP);
+
+
+	~decoder = Synth(\hoa_decoder_EN325,
+		[
+			\in_bus,~ambi_BUS.index,
+			\out_bus, 0
+		],
+		target: ~output_GROUP);
+
+	/////////////////////////////////////////////////////////////////
+	// add one output module for each HOA channel
+	/////////////////////////////////////////////////////////////////
+	for (0, ~n_hoa_channnels -1, {arg cnt;
+
+		post('Adding HOA output Module: ');
+		cnt.postln;
+
+		~hoa_outputs = ~hoa_outputs.add(
+			Synth(\output_module,
+				[
+					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
+					\out_bus,   cnt                   // first outputs are HOA
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+	~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
+	~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+
+	/////////////////////////////////////////////////////////////////
+	// add one output module for each WFS channel
+	/////////////////////////////////////////////////////////////////
+	for (0, ~nInputs -1, {arg cnt;
+
+		post('Adding WFS output Module: ');
+		cnt.postln;
+
+		~wfs_outputs = ~wfs_outputs.add(
+			Synth(\output_module,
+				[
+					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
+					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+	~wfs_outputs.do({ arg item, i; item.set(\delay, ~wfs_DELAY); });
+	~wfs_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+
+
+	/////////////////////////////////////////////////////////////////
+	// add BASS
+	/////////////////////////////////////////////////////////////////
+
+	~lfe_output = Synth(\sub_output_module,
+		[
+			\audio_bus, ~common_send_BUSES.index + 0,  //
+			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+		],
+		target: ~output_GROUP
+	);
+
+	~lfe_output.set(\delay, ~sub_DELAY);
+	~lfe_output.set(\lp_cutoff,~crossover_freq);
+
+	~sub_output = Synth(\sub_output_module,
+		[
+			\audio_bus, ~sub_BUS.index,  //
+			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+		],
+		target: ~output_GROUP
+	);
+
+
+	~sub_output.set(\delay, ~sub_DELAY);
+	~sub_output.set(\lp_cutoff,~crossover_freq);
 
 	/////////////////////////////////////////////////////////////////
 	//
