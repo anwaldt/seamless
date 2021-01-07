@@ -24,7 +24,7 @@ Henrik von Coler
 // number of individual sends per input
 // 0: hoa
 // 1: wfs
-~nSends       = 3;
+~nIndividualSends       = 2;
 // number of common sends:
 // 0: sub
 ~nCommonSends = 1;
@@ -137,32 +137,41 @@ s.waitForBoot({
 
 	// control
 	~send_gain_BUSES = Array.fill(~nInputs,
-		Bus.control(s, ~nSends)
+		{
+			Bus.control(s, ~nIndividualSends)
+		}
 	);
-
-	~common_gain_BUSES = Array.fill(~nInputs,
-			Bus.control(s, ~nCommonSends);
-	);
-
-
-	// create audio bus for each spatialization module:
-	// ~audio_BUS_spatial      = Bus.audio(s, ~nInputs);
-
-	~send_BUSES = Array.fill(~nInputs,
-			Bus.audio(s, ~nSends);
-	);
-
-	// bus for encoded HOA
-	~ambi_BUS = Bus.audio(s, ~n_hoa_channnels);
-
-	~common_send_BUSES  = Bus.audio(s, ~nCommonSends);
 
 	s.sync;
 
 
+	~common_gain_BUSES = Array.fill(~nInputs,
+		{
+			Bus.control(s, ~nCommonSends);
+		}
+	);
+
+	s.sync;
+
+	~send_BUSES = Array.fill(~nInputs,
+		{
+			Bus.audio(s, ~nIndividualSends);
+		}
+	);
+
+	s.sync;
+
+	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
+	~sub_BUS           = Bus.audio(s, 1);
+
+	// bus for encoded HOA
+	~ambi_BUS = Bus.audio(s, ~n_hoa_channnels);
+
+	s.sync;
+
 	/////////////////////////////////////////////////////////////////
 	// ROUTING SECTION
-/////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////
 
 	~send_GROUP = Group.new;
 
@@ -175,10 +184,11 @@ s.waitForBoot({
 			Synth(\send_module,
 				[
 					\in_chan,      cnt,
-					\send_bus,     ~send_BUSES[cnt],
-					\common_bus,   ~common_send_BUSES,
-					\send_gains,   ~send_gain_BUSES[cnt],
-					\common_gains, ~common_gain_BUSES[cnt],
+					\send_bus,     ~send_BUSES[cnt].index,
+					\send_gains,   ~send_gain_BUSES[cnt].index,
+					\common_gains, ~common_gain_BUSES[cnt].index,
+					\common_bus,   ~common_send_BUSES.index,
+					\sub_bus,      ~sub_BUS.index,
 				],target: ~send_GROUP
 		);)
 	});
@@ -187,7 +197,6 @@ s.waitForBoot({
 	~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
 		var in_value;
-
 		in_value = msg[3];
 
 		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
@@ -198,7 +207,6 @@ s.waitForBoot({
 	~common_sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
 		var in_value;
-
 		in_value = msg[3];
 
 		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
@@ -221,7 +229,7 @@ s.waitForBoot({
 		~hoa_panners = ~hoa_panners.add(
 			Synth(\binaural_mono_encoder_3,
 				[
-					\in_bus, ~send_BUSES[cnt].index,
+					\in_bus,  ~send_BUSES[cnt].index,
 					\out_bus, ~ambi_BUS.index
 				],
 				target: ~spatial_GROUP
@@ -241,7 +249,6 @@ s.waitForBoot({
 		~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
 
 	});
-
 
 
 
@@ -270,7 +277,7 @@ s.waitForBoot({
 		~hoa_outputs = ~hoa_outputs.add(
 			Synth(\output_module,
 				[
-					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels
+					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
 					\out_bus,   cnt                   // first outputs are HOA
 				],
 				target: ~output_GROUP
@@ -289,8 +296,8 @@ s.waitForBoot({
 		~wfs_outputs = ~wfs_outputs.add(
 			Synth(\output_module,
 				[
-					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels
-					\out_bus,   ~n_hoa_speakers + cnt      // first outputs are HOA
+					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
+					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
 				],
 				target: ~output_GROUP
 		);)
@@ -298,11 +305,21 @@ s.waitForBoot({
 
 
 	/////////////////////////////////////////////////////////////////
-	// add one SUB module
+	// add BASS
 	/////////////////////////////////////////////////////////////////
-	~sub_output = Synth(\sub_output_module,
+
+	~lfe_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~common_send_BUSES.index + 0,  //
+			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+		],
+		target: ~output_GROUP
+	);
+
+
+	~sub_output = Synth(\sub_output_module,
+		[
+			\audio_bus, ~sub_BUS.index,  //
 			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
 		],
 		target: ~output_GROUP
@@ -386,30 +403,21 @@ s.waitForBoot({
 
 
 
-
+/////////////////////////////////////////////////////////////////
+// Debug Monitor
+/////////////////////////////////////////////////////////////////
 {
-
 	s.scope(12,~control_azim_BUS.index);
 
+
+	s.scope(1,~send_gain_BUSES[0].index);
+	s.scope(1,~send_BUSES[1].index);
+
+
+	s.scope(1,~common_send_BUSES.index);
+
+	s.scope(16,~common_send_BUSES.index);
 };
-
-
-{
-
-	// mouse xy controll with busses
-	~mouse_BUS = Bus.control(s,2);
-
-
-	~mouse   = {
-		Out.kr(~control_azim_BUS.index,   MouseX.kr(-pi, pi));
-		Out.kr(~control_elev_BUS.index, MouseY.kr(-1,1));
-	}.play;
-
-};
-
-
-
-
 
 
 
