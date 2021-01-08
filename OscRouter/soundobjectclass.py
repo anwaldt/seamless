@@ -9,6 +9,7 @@ class SoundObject(object):
 
     higher_priority_pos_timeout = 0.5
     number_renderer = 1
+    maxGain = 2.
 
 
     def __init__(self):
@@ -157,6 +158,25 @@ class SoundObject(object):
 
     def getSourceAttribute(self, attribute: skc.SourceAttributes) -> any:
         return self._sourceattributes[attribute]
+
+
+    def setRendererGain(self, rendIdx: int, gain: float, fromUi:bool=True) -> bool:
+
+        _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.maxGain))
+
+        if not self._torenderer_send[rendIdx] == _gain:
+            self._torenderer_send = _gain
+            return True
+        else:
+            return False
+
+
+    def getAllRendererGains(self) -> [float]:
+        return self._torenderer_send
+
+    def getRendererGain(self, idx:int) -> float:
+        return self._torenderer_send[idx]
+
 
 
 class LinkedObject(object):

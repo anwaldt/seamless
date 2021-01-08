@@ -12,7 +12,9 @@ from functools import partial
 
 from oscpy.server import OSCThreadServer
 
-import numpy as np
+import argparse
+
+# import numpy as np
 
 
 
@@ -62,16 +64,22 @@ def getConfigurationFromFile(path: str) -> dict:
 configpath = 'oscRouterConfig.txt'
 configurationDict = getConfigurationFromFile(configpath)
 
+extendedOscInput = True
+
 globalconfig = configurationDict['globalconfig']
 
-inputport_data = globalconfig['inputport_data']       #for automation data. Input will not be mirrored to 'dataclients'
-inputport_ui = globalconfig['inputport_ui']         #for ui applications. Input will be send to every client
-settings_port = globalconfig['settings_port']
+inputport_data = int(globalconfig['inputport_data'])       #for automation data. Input will not be mirrored to 'dataclients'
+inputport_ui = int(globalconfig['inputport_ui'])         #for ui applications. Input will be send to every client
+settings_port = int(globalconfig['settings_port'])
 
+max_gain = float(globalconfig['max_gain'])
+SoundObject.maxGain = max_gain
 
-numberofrenderengines = len(configurationDict['renderengine'].keys())#len(reconf.renderer_list)
-numberofsources = globalconfig['number_sources']#64
-Renderer.numberOfSources = numberofsources
+numberofrenderengines = len(configurationDict['renderengine'].keys())
+numberofsources = int(globalconfig['number_sources']) #64
+
+Renderer.numberOfSources = numberofsources  #
+SoundObject.number_renderer = numberofrenderengines
 
 higher_priority_pos_timeout = 1 #sec a source will be blocked for automation when using "higher priority" socket
 SoundObject.higher_priority_pos_timeout = higher_priority_pos_timeout
@@ -80,34 +88,56 @@ SoundObject.higher_priority_pos_timeout = higher_priority_pos_timeout
 #region Data Storage
 
 audiorouter:Renderer #TODO implement audiorouter
-soundobjects = [SoundObject()] * numberofsources
+soundobjects: [SoundObject] = [SoundObject()] * numberofsources
 renderengines: [Renderer] = []
 dataclients: [Renderer] = []
 viewclients: [Renderer] = []
 
+print('setting audiorouter connection\n')
 if 'audiorouter' in configurationDict.keys():
     audiorouter = render.createRendererClient(skc.renderClass.Audiorouter, kwargs=configurationDict['audiorouter'])
+else:
+    print('!!! NO AUDIOROUTER CONFIGURED')
+print()
 
+print('setting renderer connection\n')
 if 'renderengine' in configurationDict.keys():
     for type, configdata in configurationDict['renderengine'].items():
+        renderengines.append(render.createRendererClient(skc.renderClass(type), configdata))
+else:
+    print('no renderer clients in configfile')
+print()
 
-        renderengines.append(render.createRendererClient(skc.renderClass(type), kwargs=configdata))
-
+print('setting data_client connections\n')
 if 'dataclient' in configurationDict.keys():
     for type, configdata in configurationDict['dataclient'].items():
-
         dataclients.append(render.createRendererClient(skc.renderClass(type), kwargs=configdata))
+else:
+    print('no data clients in configfile')
+print()
 
+print('setting UI-client connections\n')
 if 'viewclient' in configurationDict.keys():
     for type, configdata in configurationDict['viewclient'].items():
-
         viewclients.append(render.createRendererClient(skc.renderClass(type), kwargs=configdata))
+else:
+    print('no UI-clients in configfile')
+print('\n')
 
+print('max number of sources is set to', str(numberofsources))
+print('UI listenport:', inputport_ui)
+print('DATA listenport (for automation):', inputport_data)
+print('port for settings is (no function yet):', settings_port, '\n')
+if extendedOscInput:
+    print('extended osc-string listening activated')
+else:
+    print('only basic osc-strings will be accepted')
 
+print('max gain is', max_gain)
 # for ren in reconf.renderer_list:
 #     renderengines.append(render.createRendererClient(ren))
 
-listener_clients: [Renderer] = [render.createRendererClient(skc.renderClass.Oscar)]
+#listener_clients: [Renderer] = [render.createRendererClient(skc.renderClass.Oscar)]
 
 Renderer.sources = soundobjects
 
@@ -125,45 +155,100 @@ def callbackk(sttt, *values):
     pass
     # exit()
 
-def received_setPositionFromUserInterface(coord_key, *values):
-    # print(coord_key, pos_key_list, values)
-    # update renderer getPosition
-    s_idx = int(values[0] -1)
+
+def oscreceived_setPositionFromUserInterface(coord_key, *values):
+
+    s_idx = int(values[0] - 1)
     if(soundobjects[s_idx].setPositionFromUserInterface(coord_key, values[1:])):
         notifyRendererForSourcePosition(s_idx)
+        notifyDataClientsForSourceDataUpdate(s_idx)
 
-def received_setPositionFromAutomation_wSourceString(coord_key, source, *values):
+
+def oscreceived_setPositionFromUIwString(coord_key, s_idx, *values):
+
+    if (soundobjects[s_idx].setPositionFromUserInterface(coord_key, values)):
+        notifyRendererForSourcePosition(s_idx)
+        notifyDataClientsForSourceDataUpdate(s_idx)
+
+
+def oscreceived_setPositionFromAutomation_wSourceString(coord_key, source, *values):
     s_idx = source -1
     if(soundobjects[s_idx].setPositionFromAutomation(coord_key, values)):
         notifyRendererForSourcePosition(s_idx)
 
-def notifyRendererForSourcePosition(source_idx):
+
+def notifyRendererForSourcePosition(source_idx:int):
     for rend in renderengines:
-        rend.sourceNeedsPositionUpdate(source_idx)
-    for rend in listener_clients:
-        rend.sourceNeedsPositionUpdate(source_idx)
+        rend.sourceNeedsUpdate(source_idx)
+    for vc in viewclients:
+        vc.sourceNeedsUpdate(source_idx)
+    # for rend in dataclients:
+    #     rend.sourceNeedsUpdate(source_idx)
+
+def notifyDataClientsForSourceDataUpdate(source_idx:int):
+    for dClient in dataclients:
+        dClient.sourceNeedsUpdate(source_idx)
+
+
+def oscreceived_setGainForSource(sIdx: int, *args):
+    if(soundobjects[sIdx].setRendererGain(args[0], args[1])):
+        audiorouter.sourceNeedsUpdate(sIdx)
+
+
+def oscreceived_setGain(*args):
+    sIdx = args[0]
+    renderIdx = args[1]
+    gain = args[2]
+    if(soundobjects[sIdx-1].setRendererGain(renderIdx, gain)):
+        audiorouter.sourceNeedsUpdate(sIdx)
+
+
 
 def registerViewClient(*values):
     pass
 
 
 for key, item in skc.posformat.items():
-    addrstring = '/source/pos/' + key
+    addrstring = '/source/' + key
     addrst = addrstring.encode()
-    osc_server.bind(addrst, partial(received_setPositionFromUserInterface, key))
+    osc_server.bind(addrst, partial(oscreceived_setPositionFromUserInterface, key))
+
+    # position input in the format "/source/1/xyz f f f" (and every other possible format)
+    if extendedOscInput:
+        for i in range(numberofsources):
+            idx = i + 1
+            addrWithIndex = '/source/' + str(idx) + '/' + key
+            addrstWidx = addrWithIndex.encode()
+            osc_server.bind(addrstWidx, partial(oscreceived_setPositionFromUIwString, key, i))
+
     # print(addrstring)
 
-
+# special for oscar could be extended for other data sources (automation data input)
 oscarKeys = {skc.nx, skc.ny, skc.nz, skc.nd}
 for key in oscarKeys:
     for i in range(1, numberofsources+1):
         addstring = '/source/' + str(i) + '/' + key
         addstring.encode()
-        osc_automation_listen_server.bind(addstring, partial(received_setPositionFromAutomation_wSourceString, key , i))
+        osc_automation_listen_server.bind(addstring, partial(oscreceived_setPositionFromAutomation_wSourceString, key, i))
 
 
-# osc_server.bind_meta_routes()
+# sendgain input
+gainAddr = '/send/gain/individual'
+gainAddrEnc = gainAddr.encode()
+osc_server.bind(gainAddrEnc, oscreceived_setGain)
+if extendedOscInput:
+    for i in range(numberofsources):
+        idx = i + 1
+        gainAddr2 = '/source/' + str(idx) + '/rendergain'
+        gainAddrEnc2 = gainAddr2.encode()
+        osc_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
+        gainAddr2 = '/source/' + str(idx) + '/send'
+        gainAddrEnc2 = gainAddr2.encode()
+        osc_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
 
+print()
+print('OSC router ready to use')
+print('have fun...')
 
 import signal
 signal.pause()

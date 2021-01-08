@@ -3,29 +3,30 @@ inputport_ui    4455
 inputport_data  4007
 settings_port   4999
 number_sources   64
+max_gain        2
 ***
 audiorouter
 ipaddress       127.0.0.1
-listenport      123456
-sendport        1234
+listenport      12345
+sendport        40000
 updateintervall 5
 ***
 renderengine    scengine
-rendererid      0
+renderid        0
 ipaddress       127.0.0.1
-listenport      58000
+listenport      58002
 sendport        10101
 updateintervall 10
 ***
 renderengine    wonder
-rendererid      1
+renderid        1
 ipaddress       127.0.0.1
 listenport      58000
 sendport        10101
 updateintervall 10
 ***
 dataclient      oscar
-ipaddress       130.149.23.46
+ipaddress       127.0.0.1
 listenport      4001
 dataformat      normcartesian_xyz
 updateintervall 5

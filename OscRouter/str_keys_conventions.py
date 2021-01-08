@@ -114,6 +114,11 @@ fullformat = {
         normcartesian: (nx, ny, nz, nd),
         polar: (azim, elev, dist)
 }
+fullnames = {
+        azim: 'azimuth',
+        elev: 'elevation',
+        dist: 'distance'
+}
 
 from enum import Enum
 import numpy as np
@@ -166,3 +171,9 @@ class CoordFormats(Enum):
         nyzd = 'nyzd'
 
 
+globalconfig = 'globalconfig'
+inputport_data = 'inputport_data'
+inputport_ui = 'inputport_ui'
+settings_port = 'settings_port'
+renderengine = 'renderengine'
+number_sources = 'number_sources'

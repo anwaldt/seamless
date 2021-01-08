@@ -1,4 +1,4 @@
-import renderer_config as reconf
+# import renderer_config as reconf
 from soundobjectclass import SoundObject
 import str_keys_conventions as skc
 from str_keys_conventions import renderClass as renderclass
@@ -8,7 +8,7 @@ import time
 from threading import Timer
 from functools import partial
 from sched import scheduler
-from enum import Enum
+# from enum import Enum
 
 
 class Renderer(object):
@@ -21,15 +21,15 @@ class Renderer(object):
                  ipaddress='127.0.0.1',
                  listenport=4002,
                  continuously_update_intervall=-1,
-                 renderid=0,
+                 renderid=-1,
                  sendport=0):
 
         self.renderid = renderid
         self.posFormat = dataformat
         self.ipaddress = ipaddress
-        self.port = listenport
-        self.updateIntervall = updateintervall / 1000
-        self.continuously_update_intervall = continuously_update_intervall
+        self.listenport = int(listenport)
+        self.updateIntervall = int(updateintervall) / 1000
+        self.continuously_update_intervall = int(continuously_update_intervall)
 
         self.source_needs_update = [False] * self.numberOfSources
         self.source_getting_update = [False] * self.numberOfSources
@@ -37,10 +37,20 @@ class Renderer(object):
         # For renderer that want continous updates
         self.continous_update = self.continuously_update_intervall > 0
 
-        self.toRender = OSCClient(self.ipaddress, self.port, encoding='utf8')
+        self.toRender = OSCClient(self.ipaddress, self.listenport, encoding='utf8')
         self.sCheckSchedule = scheduler(time.time, time.sleep)
 
+        self.printRenderInformation()
+
         # self.sources_updatecounter = 0
+
+    def printRenderInformation(self):
+        print(self.myType(), 'renderID:', self.renderid, '\n',
+              'address:', self.ipaddress, 'listenport:', self.listenport, '\n',
+              'listening to format', self.posFormat, '\n')
+
+    def myType(self) -> str:
+        return 'basic Rendererclass'
 
     def scheduleSourcePositionCheck(self, source_idx):
 
@@ -61,18 +71,22 @@ class Renderer(object):
         else:
             self.source_getting_update[source_idx] = False
 
+
     def updateSourcePosition(self, source_idx):
+        print('update position', source_idx, self.myType())
+
         self.sendSourcePosition(source_idx)
         self.source_needs_update[source_idx] = False
         self.source_getting_update[source_idx] = True
         self.scheduleSourcePositionCheck(source_idx)
 
+
     def sendSourcePosition(self, source_idx):
 
         msgs = self.composeSourcePositionUpdateMessage(source_idx)
+        print(msgs)
         for addr, data in msgs:
             self.toRender.send_message(addr, data)
-
 
 
     def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
@@ -81,7 +95,7 @@ class Renderer(object):
         posData = sobject.getPosition(self.posFormat)
         sourceID = source_idx + 1
         posData.insert(0, sourceID)
-        return [('/source/pos/'+self.posFormat, posData)]
+        return list([('/source/pos/'+self.posFormat, posData)])
 
     def setContinousUpdateIntervall(self, update):
 
@@ -89,8 +103,8 @@ class Renderer(object):
         self.continous_update = update > 0
 
 
-    def sourceNeedsPositionUpdate(self, source_idx):
-        #print('Renderer received Update request ', str(source_idx))
+    def sourceNeedsUpdate(self, source_idx):
+
         self.source_needs_update[source_idx] = True
         if not self.source_getting_update[source_idx]:
             self.updateSourcePosition(source_idx)
@@ -112,6 +126,9 @@ class Wonder(Renderer):
             kwargs['dataformat'] = skc.xy
         super(Wonder, self).__init__(**kwargs)
 
+    def myType(self) -> str:
+        return 'Wonder'
+
 
     def composeSourcePositionUpdateMessage(self, source_idx: int) -> [(str, [])]:
         msgs = []
@@ -125,7 +142,7 @@ class Wonder(Renderer):
             angle_addr = '/WONDER/source/angle'
             sobj_azim = sobject.getPosition(skc.azim)
             angle = ct.azi_to_wonderangle(sobj_azim)
-            msgs.append([angle_addr, source_idx, angle, self.updateIntervall])
+            msgs.append([angle_addr, [source_idx, angle, self.updateIntervall]])
 
         return msgs
 
@@ -142,6 +159,9 @@ class Panoramix(Renderer):
         for i in range(self.numberOfSources):
             self.posAddrs[i] = '/track/' + str(i+1) + '/xyz'
 
+    def myType(self) -> str:
+        return 'Panoramix'
+
     def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
         # msgs = []
         sobject = self.sources[source_idx]
@@ -156,17 +176,24 @@ class Panoramix(Renderer):
 class IemMultiencoder(Renderer):
 
     def __init__(self, **kwargs):
+        if not 'dataformat' in kwargs.keys():
+            kwargs['dataformat'] = skc.ae
         # kwargs[skc.posformat] = skc.aed
         super(IemMultiencoder, self).__init__(**kwargs)
 
         self.posAddrs = [{}] * self.numberOfSources
         for i in range(self.numberOfSources):
 
-            for kk in skc.posformat[skc.aed]:
+            for kk in skc.posformat[self.posFormat][1]:
+#TODO: Check if the right strings
+                addrstr = '/MultiEncoder/' + str(i) + skc.fullnames[kk]
+                self.posAddrs.append(addrstr)
 
-                addrstr = '/MultiEncoder/' + str(i) + ''
 
-            #TODO: implement
+    def myType(self) -> str:
+        return 'IEM Multiencoder, carfeul not implemented'
+
+
     def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
         pass
 
@@ -182,9 +209,24 @@ class SuperColliderEngine(Renderer):
     def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
         sobject = self.sources[source_idx]
         position = sobject.getPosition(self.posFormat)
-        return (self.addrstr, position)
+        return [(self.addrstr, [source_idx+1, *position])]
+
+    def myType(self) -> str:
+        return 'Supercolliderengine'
 
 
+class Audiorouter(Renderer):
+
+    def myType(self) -> str:
+        return 'Audiorouter'
+
+    def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
+
+        msgs = [(str, [])]
+        addStr = '/send/gain/individual'
+        sobject = self.sources[source_idx]
+        for ridx, gain in enumerate(sobject.getAllRendererGains):
+            msgs.append((addStr, [ridx, source_idx, gain]))
 
 
 class ViewClient(Renderer):
@@ -211,6 +253,9 @@ class Oscar(Renderer):
                 sourceAddrs[kk] = addrStr
             self.posAddrs.append(sourceAddrs)
 
+    def myType(self) -> str:
+        return 'Oscar'
+
 
     def composeSourcePositionUpdateMessage(self, source_idx) -> [(str, [])]:
         addrs = self.posAddrs[source_idx]
@@ -224,7 +269,7 @@ class Oscar(Renderer):
         return msgs
 
 
-def createRendererClient(renderclass: renderclass, **kwargs) -> Renderer:
+def createRendererClient(renderclass: renderclass, kwargs) -> Renderer:
 
     # config = reconf.getConfig(renderclass)
     # for key, value in config.items():
@@ -239,6 +284,8 @@ def createRendererClient(renderclass: renderclass, **kwargs) -> Renderer:
         rend = Oscar(**kwargs)
     elif renderclass == renderclass.Scengine:
         rend = SuperColliderEngine(**kwargs)
+    elif renderclass == renderclass.Audiorouter:
+        rend = Audiorouter(**kwargs)
     else:
         rend = Renderer()
 
