@@ -1,12 +1,11 @@
-
+#!/usr/bin/env python3
 
 import str_keys_conventions as skc
-# import renderer_config as reconf
-# import conversionsTools as ct
+import conversionsTools as ct
 
 from soundobjectclass import SoundObject
 from rendererclass import Renderer
-import rendererclass as render
+import rendererclass# as rendererclass
 
 from functools import partial
 
@@ -14,7 +13,12 @@ from oscpy.server import OSCThreadServer
 
 import argparse
 
-# import numpy as np
+parser = argparse.ArgumentParser(description='OSC Message Processor and Router')
+parser.add_argument('--config', default='oscRouterConfig.txt', help='path to configfile', type=str)
+args = parser.parse_args()
+
+configpath = args.config
+# configpath = 'oscRouterConfig.txt'
 
 
 
@@ -52,7 +56,7 @@ def getConfigurationFromFile(path: str) -> dict:
         for line in lines[1:]:
             pair = line.split()
             key = pair[0]
-            value = pair[1]
+            value = ct.convertedValue(pair[1])
             subdict[key] = value
 
             #configd[type[0]][type[1]] = subdict
@@ -60,20 +64,25 @@ def getConfigurationFromFile(path: str) -> dict:
     return configd
 
 
+
+
 #read dictionaries with config informations
-configpath = 'oscRouterConfig.txt'
+
 configurationDict = getConfigurationFromFile(configpath)
 
 extendedOscInput = True
 
 globalconfig = configurationDict['globalconfig']
+SoundObject.globalConfig = globalconfig
+Renderer.globalConfig = globalconfig
 
-inputport_data = int(globalconfig['inputport_data'])       #for automation data. Input will not be mirrored to 'dataclients'
-inputport_ui = int(globalconfig['inputport_ui'])         #for ui applications. Input will be send to every client
-settings_port = int(globalconfig['settings_port'])
 
-max_gain = float(globalconfig['max_gain'])
-SoundObject.maxGain = max_gain
+# inputport_data = int(globalconfig['inputport_data'])       #for automation data. Input will not be mirrored to 'dataclients'
+# inputport_ui = int(globalconfig['inputport_ui'])         #for ui applications. Input will be send to every client
+# settings_port = int(globalconfig['settings_port'])
+
+# max_gain = float(globalconfig['max_gain'])
+# SoundObject.maxGain = max_gain
 
 numberofrenderengines = len(configurationDict['renderengine'].keys())
 numberofsources = int(globalconfig['number_sources']) #64
@@ -81,21 +90,27 @@ numberofsources = int(globalconfig['number_sources']) #64
 Renderer.numberOfSources = numberofsources  #
 SoundObject.number_renderer = numberofrenderengines
 
-higher_priority_pos_timeout = 1 #sec a source will be blocked for automation when using "higher priority" socket
-SoundObject.higher_priority_pos_timeout = higher_priority_pos_timeout
+# higher_priority_pos_timeout = 1 #sec a source will be blocked for automation when using "higher priority" socket
+# SoundObject.data_port_timeout = higher_priority_pos_timeout
 #endregion
 
-#region Data Storage
+#region Data initialisation
+audiorouter:Renderer
 
-audiorouter:Renderer #TODO implement audiorouter
-soundobjects: [SoundObject] = [SoundObject()] * numberofsources
-renderengines: [Renderer] = []
-dataclients: [Renderer] = []
-viewclients: [Renderer] = []
+soundobjects: [SoundObject] = []
+for i in range(numberofsources):
+    soundobjects.append(SoundObject(objectID=1))
+
+
+renderengineClients: [Renderer] = []
+dataClients: [Renderer] = []
+uiClients: [Renderer] = []
+allClients: [Renderer] = []
+
 
 print('setting audiorouter connection\n')
 if 'audiorouter' in configurationDict.keys():
-    audiorouter = render.createRendererClient(skc.renderClass.Audiorouter, kwargs=configurationDict['audiorouter'])
+    audiorouter = rendererclass.createRendererClient(skc.renderClass.Audiorouter, kwargs=configurationDict['audiorouter'])
 else:
     print('!!! NO AUDIOROUTER CONFIGURED')
 print()
@@ -103,7 +118,8 @@ print()
 print('setting renderer connection\n')
 if 'renderengine' in configurationDict.keys():
     for type, configdata in configurationDict['renderengine'].items():
-        renderengines.append(render.createRendererClient(skc.renderClass(type), configdata))
+        renderengineClients.append(rendererclass.createRendererClient(skc.renderClass(type), configdata))
+
 else:
     print('no renderer clients in configfile')
 print()
@@ -111,7 +127,7 @@ print()
 print('setting data_client connections\n')
 if 'dataclient' in configurationDict.keys():
     for type, configdata in configurationDict['dataclient'].items():
-        dataclients.append(render.createRendererClient(skc.renderClass(type), kwargs=configdata))
+        dataClients.append(rendererclass.createRendererClient(skc.renderClass(type), kwargs=configdata))
 else:
     print('no data clients in configfile')
 print()
@@ -119,36 +135,38 @@ print()
 print('setting UI-client connections\n')
 if 'viewclient' in configurationDict.keys():
     for type, configdata in configurationDict['viewclient'].items():
-        viewclients.append(render.createRendererClient(skc.renderClass(type), kwargs=configdata))
+        uiClients.append(rendererclass.createRendererClient(skc.renderClass(type), kwargs=configdata))
 else:
     print('no UI-clients in configfile')
 print('\n')
 
 print('max number of sources is set to', str(numberofsources))
-print('UI listenport:', inputport_ui)
-print('DATA listenport (for automation):', inputport_data)
-print('port for settings is (no function yet):', settings_port, '\n')
+print('UI listenport:', globalconfig[skc.inputport_ui])
+print('DATA listenport (for automation):', globalconfig[skc.inputport_data])
+print('port for settings is (no function yet):', globalconfig[skc.settings_port], '\n')
 if extendedOscInput:
     print('extended osc-string listening activated')
 else:
     print('only basic osc-strings will be accepted')
 
-print('max gain is', max_gain)
-# for ren in reconf.renderer_list:
-#     renderengines.append(render.createRendererClient(ren))
+print('max gain is', globalconfig[skc.max_gain])
 
-#listener_clients: [Renderer] = [render.createRendererClient(skc.renderClass.Oscar)]
+for ren in [*renderengineClients, *dataClients, *uiClients]:
+    allClients.append(ren)
+
 
 Renderer.sources = soundobjects
 
 #endregion
+
+#region osc
 # instantiate all osc related stuff
 
-osc_server = OSCThreadServer()
-osc_listen_socket = osc_server.listen(address='0.0.0.0', port=inputport_ui, default=True)
+osc_ui_server = OSCThreadServer()
+osc_listen_socket = osc_ui_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_ui], default=True)
 
-osc_automation_listen_server = OSCThreadServer()
-osc_automation_socket = osc_automation_listen_server.listen(address='0.0.0.0', port=inputport_data, default=True)
+osc_data_server = OSCThreadServer()
+osc_automation_socket = osc_data_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_data], default=True)
 
 
 def callbackk(sttt, *values):
@@ -178,15 +196,15 @@ def oscreceived_setPositionFromAutomation_wSourceString(coord_key, source, *valu
 
 
 def notifyRendererForSourcePosition(source_idx:int):
-    for rend in renderengines:
+    for rend in renderengineClients:
         rend.sourceNeedsUpdate(source_idx)
-    for vc in viewclients:
+    for vc in uiClients:
         vc.sourceNeedsUpdate(source_idx)
     # for rend in dataclients:
     #     rend.sourceNeedsUpdate(source_idx)
 
 def notifyDataClientsForSourceDataUpdate(source_idx:int):
-    for dClient in dataclients:
+    for dClient in dataClients:
         dClient.sourceNeedsUpdate(source_idx)
 
 
@@ -196,12 +214,23 @@ def oscreceived_setGainForSource(sIdx: int, *args):
 
 
 def oscreceived_setGain(*args):
-    sIdx = args[0]
+    sIdx = args[0]-1
     renderIdx = args[1]
     gain = args[2]
-    if(soundobjects[sIdx-1].setRendererGain(renderIdx, gain)):
+    if(soundobjects[sIdx].setRendererGain(renderIdx, gain)):
         audiorouter.sourceNeedsUpdate(sIdx)
 
+def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args):
+
+    sidx = args.pop(0)
+    oscreceived_sourceAttribute_wString(sidx, attribute, args)
+
+
+def oscreceived_sourceAttribute_wString(sidx: int, attribute: skc.SourceAttributes, *args):
+    sobject = soundobjects[sidx]
+    if(sobject.setSourceAttribute(attribute, args[0])):
+        for ren in allClients:
+            ren.sourceAttributeChanged(sidx, attribute)
 
 
 def registerViewClient(*values):
@@ -211,7 +240,7 @@ def registerViewClient(*values):
 for key, item in skc.posformat.items():
     addrstring = '/source/' + key
     addrst = addrstring.encode()
-    osc_server.bind(addrst, partial(oscreceived_setPositionFromUserInterface, key))
+    osc_ui_server.bind(addrst, partial(oscreceived_setPositionFromUserInterface, key))
 
     # position input in the format "/source/1/xyz f f f" (and every other possible format)
     if extendedOscInput:
@@ -219,7 +248,7 @@ for key, item in skc.posformat.items():
             idx = i + 1
             addrWithIndex = '/source/' + str(idx) + '/' + key
             addrstWidx = addrWithIndex.encode()
-            osc_server.bind(addrstWidx, partial(oscreceived_setPositionFromUIwString, key, i))
+            osc_ui_server.bind(addrstWidx, partial(oscreceived_setPositionFromUIwString, key, i))
 
     # print(addrstring)
 
@@ -229,22 +258,37 @@ for key in oscarKeys:
     for i in range(1, numberofsources+1):
         addstring = '/source/' + str(i) + '/' + key
         addstring.encode()
-        osc_automation_listen_server.bind(addstring, partial(oscreceived_setPositionFromAutomation_wSourceString, key, i))
+        osc_data_server.bind(addstring, partial(oscreceived_setPositionFromAutomation_wSourceString, key, i))
+
+for key in skc.SourceAttributes:
+
+    addstring = '/source/' + key.value
+    addstring.encode()
+    osc_data_server.bind(addstring, oscreceived_sourceAttribute)
+    osc_ui_server.bind(addstring, oscreceived_sourceAttribute)
+
+    for i in range(1, numberofsources+1):
+        addstring = '/source/' + str(i) + '/' + key.value
+        addstring.encode()
+        osc_data_server.bind(addstring, partial(oscreceived_sourceAttribute_wString, i - 0))
+        osc_ui_server.bind(addstring, partial(oscreceived_sourceAttribute_wString, i - 0))
 
 
 # sendgain input
 gainAddr = '/send/gain/individual'
 gainAddrEnc = gainAddr.encode()
-osc_server.bind(gainAddrEnc, oscreceived_setGain)
+osc_ui_server.bind(gainAddrEnc, oscreceived_setGain)
 if extendedOscInput:
     for i in range(numberofsources):
         idx = i + 1
         gainAddr2 = '/source/' + str(idx) + '/rendergain'
         gainAddrEnc2 = gainAddr2.encode()
-        osc_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
+        osc_ui_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
         gainAddr2 = '/source/' + str(idx) + '/send'
         gainAddrEnc2 = gainAddr2.encode()
-        osc_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
+        osc_ui_server.bind(gainAddrEnc2, partial(oscreceived_setGainForSource, i))
+
+#endregion
 
 print()
 print('OSC router ready to use')

@@ -7,12 +7,19 @@ from time import time
 
 class SoundObject(object):
 
-    higher_priority_pos_timeout = 0.5
+    globalConfig: dict = {}
+    # data_port_timeout = 0.5
     number_renderer = 1
-    maxGain = 2.
+    # maxGain = 2.
+    send_change_only = False
+
+    def readGlobalConfig(cls):
+        pass
 
 
-    def __init__(self):
+    def __init__(self, objectID=0):
+
+        self.objectID = objectID
 
         self._position: [str, np.float32] = {
             skc.x: ct.f32(0.),
@@ -33,8 +40,11 @@ class SoundObject(object):
             skc.SourceAttributes.planewave: 0,
             skc.SourceAttributes.doppler: 0
         }
+        self._changedaAttributes: set = set()
 
-        self._torenderer_send = [ct.f32(0.)] * self.number_renderer
+        self._torenderer_sends = [0.] * self.number_renderer
+        self._changedSends: set = set()
+
 
         self._positionIsSet = {
             skc.polar: False,
@@ -42,6 +52,8 @@ class SoundObject(object):
             skc.normcartesian: True,
             skc.polar_rad: False
         }
+        self._lastUpdateKey = ''
+
 
         self._contState = skc.sControl_state.auto_switch_control
 
@@ -90,23 +102,37 @@ class SoundObject(object):
     def setPosition(self, coordinate_key: str, values) -> bool:
 
         coordinateType = skc.posformat[coordinate_key][0]
+        sthChanged = False
 
         if not self._positionIsSet[coordinateType] and not skc.posformat[coordinate_key][2]:
             self.updateCoordinateFormat(coordinateType)
+            sthChanged = True
 
         for kk in self._positionIsSet.keys():
             self._positionIsSet[kk] = False
+
+        self._lastUpdateKey = coordinate_key
 
         #TODO:copy old position
 
         # here the Position is set
         for idx, key in enumerate(skc.posformat[coordinate_key][1]):
-            self._position[key] = ct.f32(values[idx])
+            newValue = ct.f32(values[idx])
+            if self.globalConfig[skc.send_changes_only]:
+                if not newValue == self._position[key]:
+                    sthChanged = True
+                    self._position[key] = newValue
+            else:
+                self._position[key] = newValue
+                sthChanged = True
+
+
+            # self._position[key] = ct.f32(values[idx])
 
         self._positionIsSet[coordinateType] = True
 
         #TODO: compare new Position with old position for return
-        return True
+        return sthChanged
 
 
     def setPositionFromAutomation(self, coordinate_key: str, values) -> bool:
@@ -116,7 +142,7 @@ class SoundObject(object):
 
         elif self._contState == skc.sControl_state.auto_switch_control:
             if self._manuallySetPosition:
-                if (time() - self._lastUpdateTime) < self.higher_priority_pos_timeout:
+                if (time() - self._lastUpdateTime) < self.globalConfig[skc.data_port_timeout]:
                     self._manuallySetPosition = False
                 else:
                     return False
@@ -139,6 +165,11 @@ class SoundObject(object):
     def setControlState(self, state: skc.sControl_state):
         self._contState = state
 
+    def getSingleValueUpdate(self, keys):
+        if self._lastUpdateKey in keys:
+            return (self._lastUpdateKey, self._position[self._lastUpdateKey])
+        else:
+            return False
 
     def getPosition(self, pos_key) -> [float]:
         coordinateType = skc.posformat[pos_key][0]
@@ -153,7 +184,14 @@ class SoundObject(object):
         return coords
 
 
-    def setSourceAttribute(self, attribute, *args):
+    def setSourceAttribute(self, attribute, value) -> bool:
+        if not self._sourceattributes[attribute] == value:
+            self._sourceattributes[attribute] = value
+            return True
+        else:
+            return False
+
+    def getChangedAttributes(self, attribute, value):
         pass
 
     def getSourceAttribute(self, attribute: skc.SourceAttributes) -> any:
@@ -162,20 +200,32 @@ class SoundObject(object):
 
     def setRendererGain(self, rendIdx: int, gain: float, fromUi:bool=True) -> bool:
 
-        _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.maxGain))
+        _gain = np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain])
+        # print('set gain', gain, 'for index', rendIdx, 'my id is', self.objectID)
+        # print('sends', self._torenderer_sends)
+        if self.globalConfig[skc.send_changes_only]:
+            if self._torenderer_sends[rendIdx] == _gain:
+                return False
 
-        if not self._torenderer_send[rendIdx] == _gain:
-            self._torenderer_send = _gain
-            return True
-        else:
-            return False
+        self._torenderer_sends[rendIdx] = _gain
+        self._changedSends.add(rendIdx)
+        return True
 
 
+#TODO: what if audiorouter is no singleton?
     def getAllRendererGains(self) -> [float]:
-        return self._torenderer_send
+        # print(self._torenderer_sends)
+        return self._torenderer_sends
+
+    def getChangedGains(self) -> [(int, float)]:
+        msgs = []
+        while self._changedSends:
+            sendIdx = self._changedSends.pop()
+            msgs.append((sendIdx, self._torenderer_sends[sendIdx]))
+        return msgs
 
     def getRendererGain(self, idx:int) -> float:
-        return self._torenderer_send[idx]
+        return self._torenderer_sends[idx]
 
 
 

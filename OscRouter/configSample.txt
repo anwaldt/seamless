@@ -1,8 +1,11 @@
 globalconfig
-inputport_ui    4455
-inputport_data  4007
-settings_port   4999
+inputport_ui    4455            // inputport for UI-Clients, blocks inputport_data for short time
+inputport_data  4007            // inputport for automation-data clients
+settings_port   4999            // global configs can be changed with this port
 number_sources   64
+max_gain         2               // max gain for the audiorouter
+send_changes_only 0             // checks every input for changes, if set to 1 might be slower
+data_port_timeout 0.5           // time a change in the ui blocks incoming automation (in seconds)
 ***
 audiorouter
 ipaddress       127.0.0.1
@@ -16,7 +19,6 @@ ipaddress       127.0.0.1
 listenport      58000
 sendport        10101
 updateintervall 10
-
 ***
 viewerclient    kivy
 ipaddress       130.149.23.46
@@ -33,5 +35,8 @@ updateintervall 5
 
 
 
-renderengines:
-iemmultiencoder, panoramix, wonder, scengine
+//renderengines:
+//iemmultiencoder, panoramix, wonder, scengine
+
+//dataformats
+//normcartesian_xyzd, normacartesian_xyd, cartesian_xyz, cartesian_xy, polar_aed, polar_ad

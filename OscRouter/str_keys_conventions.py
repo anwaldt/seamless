@@ -139,7 +139,7 @@ class renderClass(Enum):
     Audiorouter = 'audiorouter'
 
 class SourceAttributes(Enum):
-        planewave = plane
+        planewave = planewave
         doppler = doppler
 
 
@@ -171,9 +171,15 @@ class CoordFormats(Enum):
         nyzd = 'nyzd'
 
 
+
+#global config keywords
 globalconfig = 'globalconfig'
 inputport_data = 'inputport_data'
 inputport_ui = 'inputport_ui'
 settings_port = 'settings_port'
-renderengine = 'renderengine'
 number_sources = 'number_sources'
+max_gain = 'max_gain'
+send_changes_only = 'send_changes_only'
+data_port_timeout = 'data_port_timeout'
+
+renderengine = 'renderengine'

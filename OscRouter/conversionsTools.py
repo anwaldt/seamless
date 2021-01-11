@@ -125,3 +125,30 @@ def azi_to_wonderangle(azim) -> np.float32:
 
 def dist_to_gain(dist) -> np.float32:
     return dist
+
+
+def convertedValue(x) -> any:
+    if isint(x):
+        return int(x)
+    elif isfloat(x):
+        return float(x)
+    else:
+        return x
+
+
+def isfloat(x):
+    try:
+        a = float(x)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return True
+
+def isint(x):
+    try:
+        a = float(x)
+        b = int(a)
+    except (TypeError, ValueError):
+        return False
+    else:
+        return a == b
