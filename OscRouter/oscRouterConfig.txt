@@ -1,0 +1,36 @@
+globalconfig
+inputport_ui    4455            // inputport for UI-Clients, blocks inputport_data for short time
+inputport_data  4007            // inputport for automation-data clients
+settings_port   4999            // global configs can be changed with this port
+number_sources   64
+max_gain        2               // max gain for the audiorouter
+send_changes_only 0             // checks every input for changes, if set to 1 might be slower
+data_port_timeout 0.5           // time a change in the ui blocks incoming automation
+***
+audiorouter
+ipaddress       127.0.0.1
+listenport      12345
+sendport        40000
+updateintervall 5
+***
+renderengine    scengine
+renderid        0
+ipaddress       127.0.0.1
+listenport      58002
+sendport        10101
+updateintervall 10
+***
+renderengine    wonder
+renderid        1
+ipaddress       127.0.0.1
+listenport      58000
+sendport        10101
+updateintervall 10
+***
+dataclient      oscar
+ipaddress       127.0.0.1
+listenport      4001
+dataformat      normcartesian_xyzd
+updateintervall 5
+***
+
