@@ -96,6 +96,31 @@ SynthDef(\hoa_mono_encoder_3,
 
 
 
+SynthDef(\hoa_decoder_EN325, {
+
+	|in_bus = 0|
+
+
+	Out.ar(0,EN325DOME3.ar(
+		In.ar(in_bus ),
+		In.ar(in_bus +1),
+		In.ar(in_bus +2),
+		In.ar(in_bus +3),
+		In.ar(in_bus +4),
+		In.ar(in_bus +5),
+		In.ar(in_bus +6),
+		In.ar(in_bus +7),
+		In.ar(in_bus +8),
+		In.ar(in_bus +9),
+		In.ar(in_bus +10),
+		In.ar(in_bus +11),
+		In.ar(in_bus +12),
+		In.ar(in_bus +13),
+		In.ar(in_bus +14),
+		In.ar(in_bus +15),
+		gain:1) );
+
+}).add;
 
 /*
 SynthDef(\hoa_octa_decoder, {
@@ -149,25 +174,30 @@ SynthDef(\send_module,
 		in_chan       = nil,
 		send_bus      = nil,
 		common_bus    = nil
-		send_gains    = nil,
+		individual_gains    = nil,
 		common_gains  = nil,
 		sub_bus       = nil,
 		sub_gain      = 0.5,
-		gain          = 1
+		gain          = 1,
+		// there needs to be a distance set for all sources
+		dist          = 1
 		|
 
 		var in;
 		var gain_i;
+		var sub_level;
 
 		in = SoundIn.ar(in_chan);
+
+		sub_level =  (0.75/(max(0,dist)+1.0))*(0.75/(max(0,dist)+1.0));
 
 		for (0, ~nIndividualSends-1,
 			{arg cnt;
 
-				gain_i = In.kr(send_gains + cnt, 1);
+				gain_i = In.kr(individual_gains + cnt, 1);
 
 				Out.ar(send_bus + cnt, (in * gain) * gain_i);
-				Out.ar(sub_bus, (in * gain * gain_i * sub_gain));
+				Out.ar(sub_bus, sub_level*(in * gain * gain_i * sub_gain));
 			}
 		);
 

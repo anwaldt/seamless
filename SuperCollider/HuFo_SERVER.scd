@@ -90,31 +90,6 @@ s.options.numBuffers           = 4096;
 
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
-SynthDef(\hoa_decoder_EN325, {
-
-	|in_bus = 0|
-
-
-	Out.ar(0,EN325DOME3.ar(
-		In.ar(in_bus ),
-		In.ar(in_bus +1),
-		In.ar(in_bus +2),
-		In.ar(in_bus +3),
-		In.ar(in_bus +4),
-		In.ar(in_bus +5),
-		In.ar(in_bus +6),
-		In.ar(in_bus +7),
-		In.ar(in_bus +8),
-		In.ar(in_bus +9),
-		In.ar(in_bus +10),
-		In.ar(in_bus +11),
-		In.ar(in_bus +12),
-		In.ar(in_bus +13),
-		In.ar(in_bus +14),
-		In.ar(in_bus +15),
-		gain:1) );
-
-}).add;
 
 
 s.boot;
@@ -193,232 +168,237 @@ s.waitForBoot({
 		~send_modules = ~send_modules.add(
 			Synth(\send_module,
 				[
-					\in_chan,      cnt,
-					\send_bus,     ~send_BUSES[cnt].index,
-					\send_gains,   ~send_gain_BUSES[cnt].index,
-					\common_gains, ~common_gain_BUSES[cnt].index,
-					\common_bus,   ~common_send_BUSES.index,
-					\sub_bus,      ~sub_BUS.index,
+					\in_chan,          cnt,
+					\send_bus,         ~send_BUSES[cnt].index,
+					\individual_gains, ~send_gain_BUSES[cnt].index,
+					\common_gains,     ~common_gain_BUSES[cnt].index,
+					\common_bus,       ~common_send_BUSES.index,
+					\sub_bus,          ~sub_BUS.index,
 				],target: ~send_GROUP
 		);)
 	});
 
 
-	~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
-
-		var in_value;
-		in_value = msg[3];
-
-		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
-
-	}, '/send/gain/individual');
-
-
-	~common_sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
-
-		var in_value;
-		in_value = msg[3];
-
-		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
-
-	}, '/send/gain/common');
-
-
-
-	/////////////////////////////////////////////////////////////////
-	// SPATIAL SECTION
-	/////////////////////////////////////////////////////////////////
-
-	~spatial_GROUP = Group.after(~send_GROUP);
-
 	for (0, ~nInputs -1, {arg cnt;
-
-		post('Adding HOA panning Module: ');
-		cnt.postln;
-
-		~hoa_panners = ~hoa_panners.add(
-			Synth(\binaural_mono_encoder_3,
-				[
-					\in_bus,  ~send_BUSES[cnt].index,
-					\out_bus, ~ambi_BUS.index
-				],
-				target: ~spatial_GROUP
-		);)
-	});
+		~send_modules[cnt].map(\dist,             ~control_dist_BUS.index  + cnt);
+	};);
 
 
+~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
+
+	var in_value;
+	in_value = msg[3];
+
+	~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
+
+}, '/source/send/spatial');
 
 
-	for (0, ~nInputs -1, {arg cnt;
+~common_sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
-		post('Mapping HOA module: ');
-		cnt.postln;
+	var in_value;
+	in_value = msg[3];
 
-		~hoa_panners[cnt].map(\azim, ~control_azim_BUS.index  + cnt);
-		~hoa_panners[cnt].map(\elev, ~control_elev_BUS.index  + cnt);
-		~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
+	~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
-	});
-
-	/////////////////////////////////////////////////////////////////
-	// OSC listeners:
-	/////////////////////////////////////////////////////////////////
+}, '/source/send/direct');
 
 
-	~azim_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var azim = msg[2];
-			~control_azim_BUS.setAt(msg[1],azim);
-	}, '/source/azim');
 
-	~elev_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var elev = msg[2];
-			~control_elev_BUS.setAt(msg[1],elev);
-	}, '/source/elev');
+/////////////////////////////////////////////////////////////////
+// SPATIAL SECTION
+/////////////////////////////////////////////////////////////////
 
-	~dist_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var dist = msg[2];
-			~control_dist_BUS.setAt(msg[1],dist);
-	}, '/source/dist');
+~spatial_GROUP = Group.after(~send_GROUP);
 
+for (0, ~nInputs -1, {arg cnt;
 
-	~aed_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
+	post('Adding HOA panning Module: ');
+	cnt.postln;
 
-			var azim = msg[2] / 360.0 * (2.0*pi);
-			var elev = msg[3] / 360.0 * (2.0*pi);
-			var dist = msg[4];
-
-			~control_azim_BUS.setAt(msg[1],azim);
-			~control_elev_BUS.setAt(msg[1],elev);
-			~control_dist_BUS.setAt(msg[1],dist);
-
-	}, '/source/aed');
+	~hoa_panners = ~hoa_panners.add(
+		Synth(\binaural_mono_encoder_3,
+			[
+				\in_bus,  ~send_BUSES[cnt].index,
+				\out_bus, ~ambi_BUS.index
+			],
+			target: ~spatial_GROUP
+	);)
+});
 
 
-	~send_OSC_ROUTINE = Routine({
-
-		inf.do({
-
-			var azim, elev, dist;
 
 
-			for (0, ~nInputs-1, { arg i;
+for (0, ~nInputs -1, {arg cnt;
 
-				azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
-				elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
-				dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
+	post('Mapping HOA module: ');
+	cnt.postln;
 
-				~spatial_OSC.sendMsg('/source/aed', i, azim, elev, dist);
+	~hoa_panners[cnt].map(\azim, ~control_azim_BUS.index  + cnt);
+	~hoa_panners[cnt].map(\elev, ~control_elev_BUS.index  + cnt);
+	~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
 
-			});
+});
 
-			0.01.wait;
+/////////////////////////////////////////////////////////////////
+// OSC listeners:
+/////////////////////////////////////////////////////////////////
+
+
+~azim_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var azim = msg[2];
+		~control_azim_BUS.setAt(msg[1],azim);
+}, '/source/pos/azim');
+
+~elev_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var elev = msg[2];
+		~control_elev_BUS.setAt(msg[1],elev);
+}, '/source/pos/elev');
+
+~dist_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+		var dist = msg[2];
+		~control_dist_BUS.setAt(msg[1],dist);
+}, '/source/pos/dist');
+
+
+~aed_OSC = OSCFunc(
+	{
+		arg msg, time, addr, recvPort;
+
+		var azim = msg[2] / 360.0 * (2.0*pi);
+		var elev = msg[3] / 360.0 * (2.0*pi);
+		var dist = msg[4];
+
+		~control_azim_BUS.setAt(msg[1],azim);
+		~control_elev_BUS.setAt(msg[1],elev);
+		~control_dist_BUS.setAt(msg[1],dist);
+
+}, '/source/pos/aed');
+
+
+~send_OSC_ROUTINE = Routine({
+
+	inf.do({
+
+		var azim, elev, dist;
+
+
+		for (0, ~nInputs-1, { arg i;
+
+			azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
+			elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
+			dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
+
+			~spatial_OSC.sendMsg('/source/pos/aed', i, azim, elev, dist);
+
 		});
 
+		0.01.wait;
 	});
 
-	~send_OSC_ROUTINE.play;
+});
+
+~send_OSC_ROUTINE.play;
 
 
 
-	/////////////////////////////////////////////////////////////////
-	// decoder
-	/////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////
+// decoder
+/////////////////////////////////////////////////////////////////
 
-	~output_GROUP	 = Group.after(~spatial_GROUP);
-
-
-	~decoder = Synth(\hoa_decoder_EN325,
-		[
-			\in_bus,~ambi_BUS.index,
-			\out_bus, 0
-		],
-		target: ~output_GROUP);
-
-	/////////////////////////////////////////////////////////////////
-	// add one output module for each HOA channel
-	/////////////////////////////////////////////////////////////////
-	for (0, ~n_hoa_channnels -1, {arg cnt;
-
-		post('Adding HOA output Module: ');
-		cnt.postln;
-
-		~hoa_outputs = ~hoa_outputs.add(
-			Synth(\output_module,
-				[
-					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-					\out_bus,   cnt                   // first outputs are HOA
-				],
-				target: ~output_GROUP
-		);)
-	});
-
-	~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
-	~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
-
-	/////////////////////////////////////////////////////////////////
-	// add one output module for each WFS channel
-	/////////////////////////////////////////////////////////////////
-	for (0, ~nInputs -1, {arg cnt;
-
-		post('Adding WFS output Module: ');
-		cnt.postln;
-
-		~wfs_outputs = ~wfs_outputs.add(
-			Synth(\output_module,
-				[
-					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
-					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
-				],
-				target: ~output_GROUP
-		);)
-	});
-
-	~wfs_outputs.do({ arg item, i; item.set(\delay, ~wfs_DELAY); });
-	~wfs_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+~output_GROUP	 = Group.after(~spatial_GROUP);
 
 
-	/////////////////////////////////////////////////////////////////
-	// add BASS
-	/////////////////////////////////////////////////////////////////
+~decoder = Synth(\hoa_decoder_EN325,
+	[
+		\in_bus,~ambi_BUS.index,
+		\out_bus, 0
+	],
+	target: ~output_GROUP);
 
-	~lfe_output = Synth(\sub_output_module,
-		[
-			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-		],
-		target: ~output_GROUP
-	);
+/////////////////////////////////////////////////////////////////
+// add one output module for each HOA channel
+/////////////////////////////////////////////////////////////////
+for (0, ~n_hoa_channnels -1, {arg cnt;
 
-	~lfe_output.set(\delay, ~sub_DELAY);
-	~lfe_output.set(\lp_cutoff,~crossover_freq);
+	post('Adding HOA output Module: ');
+	cnt.postln;
 
-	~sub_output = Synth(\sub_output_module,
-		[
-			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-		],
-		target: ~output_GROUP
-	);
+	~hoa_outputs = ~hoa_outputs.add(
+		Synth(\output_module,
+			[
+				\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
+				\out_bus,   cnt                   // first outputs are HOA
+			],
+			target: ~output_GROUP
+	);)
+});
+
+~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
+~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+
+/////////////////////////////////////////////////////////////////
+// add one output module for each WFS channel
+/////////////////////////////////////////////////////////////////
+for (0, ~nInputs -1, {arg cnt;
+
+	post('Adding WFS output Module: ');
+	cnt.postln;
+
+	~wfs_outputs = ~wfs_outputs.add(
+		Synth(\output_module,
+			[
+				\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
+				\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
+			],
+			target: ~output_GROUP
+	);)
+});
+
+~wfs_outputs.do({ arg item, i; item.set(\delay, ~wfs_DELAY); });
+~wfs_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
 
 
-	~sub_output.set(\delay, ~sub_DELAY);
-	~sub_output.set(\lp_cutoff,~crossover_freq);
+/////////////////////////////////////////////////////////////////
+// add BASS
+/////////////////////////////////////////////////////////////////
 
-	/////////////////////////////////////////////////////////////////
-	//
-	/////////////////////////////////////////////////////////////////
+~lfe_output = Synth(\sub_output_module,
+	[
+		\audio_bus, ~common_send_BUSES.index + 0,  //
+		\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+	],
+	target: ~output_GROUP
+);
 
-	post("Listening on port: ");
-	postln(NetAddr.langPort);
-	ServerMeter(s);
+~lfe_output.set(\delay, ~sub_DELAY);
+~lfe_output.set(\lp_cutoff,~crossover_freq);
+
+~sub_output = Synth(\sub_output_module,
+	[
+		\audio_bus, ~sub_BUS.index,  //
+		\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+	],
+	target: ~output_GROUP
+);
+
+
+~sub_output.set(\delay, ~sub_DELAY);
+~sub_output.set(\lp_cutoff,~crossover_freq);
+
+/////////////////////////////////////////////////////////////////
+//
+/////////////////////////////////////////////////////////////////
+
+post("Listening on port: ");
+postln(NetAddr.langPort);
+ServerMeter(s);
 
 });
 
