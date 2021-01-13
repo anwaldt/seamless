@@ -1,0 +1,12 @@
+[Unit]
+Description=Jack Audio Server 
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/usr/bin/jackd -d alsa
+User=studio
