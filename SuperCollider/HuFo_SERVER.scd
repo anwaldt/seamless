@@ -184,221 +184,222 @@ s.waitForBoot({
 	};);
 
 
-~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
+	~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
-	var in_value;
-	in_value = msg[3];
+		var in_value;
+		in_value = msg[3];
 
-	~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
+		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
-}, '/source/send/spatial');
-
-
-~common_sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
-
-	var in_value;
-	in_value = msg[3];
-
-	~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
-
-}, '/source/send/direct');
+	}, '/source/send/spatial');
 
 
+	~common_sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
-/////////////////////////////////////////////////////////////////
-// SPATIAL SECTION
-/////////////////////////////////////////////////////////////////
+		var in_value;
+		in_value = msg[3];
 
-~spatial_GROUP = Group.after(~send_GROUP);
+		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
-for (0, ~nInputs -1, {arg cnt;
-
-	post('Adding HOA panning Module: ');
-	cnt.postln;
-
-	~hoa_panners = ~hoa_panners.add(
-		Synth(\binaural_mono_encoder_3,
-			[
-				\in_bus,  ~send_BUSES[cnt].index,
-				\out_bus, ~ambi_BUS.index
-			],
-			target: ~spatial_GROUP
-	);)
-});
+	}, '/source/send/direct');
 
 
 
+	/////////////////////////////////////////////////////////////////
+	// SPATIAL SECTION
+	/////////////////////////////////////////////////////////////////
 
-for (0, ~nInputs -1, {arg cnt;
+	~spatial_GROUP = Group.after(~send_GROUP);
 
-	post('Mapping HOA module: ');
-	cnt.postln;
+	for (0, ~nInputs -1, {arg cnt;
 
-	~hoa_panners[cnt].map(\azim, ~control_azim_BUS.index  + cnt);
-	~hoa_panners[cnt].map(\elev, ~control_elev_BUS.index  + cnt);
-	~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
+		post('Adding HOA panning Module: ');
+		cnt.postln;
 
-});
-
-/////////////////////////////////////////////////////////////////
-// OSC listeners:
-/////////////////////////////////////////////////////////////////
-
-
-~azim_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var azim = msg[2];
-		~control_azim_BUS.setAt(msg[1],azim);
-}, '/source/pos/azim');
-
-~elev_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var elev = msg[2];
-		~control_elev_BUS.setAt(msg[1],elev);
-}, '/source/pos/elev');
-
-~dist_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-		var dist = msg[2];
-		~control_dist_BUS.setAt(msg[1],dist);
-}, '/source/pos/dist');
-
-
-~aed_OSC = OSCFunc(
-	{
-		arg msg, time, addr, recvPort;
-
-		var azim = msg[2] / 360.0 * (2.0*pi);
-		var elev = msg[3] / 360.0 * (2.0*pi);
-		var dist = msg[4];
-
-		~control_azim_BUS.setAt(msg[1],azim);
-		~control_elev_BUS.setAt(msg[1],elev);
-		~control_dist_BUS.setAt(msg[1],dist);
-
-}, '/source/pos/aed');
-
-
-~send_OSC_ROUTINE = Routine({
-
-	inf.do({
-
-		var azim, elev, dist;
-
-
-		for (0, ~nInputs-1, { arg i;
-
-			azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
-			elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
-			dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
-
-			~spatial_OSC.sendMsg('/source/pos/aed', i, azim, elev, dist);
-
-		});
-
-		0.01.wait;
+		~hoa_panners = ~hoa_panners.add(
+			Synth(\binaural_mono_encoder_3,
+				[
+					\in_bus,  ~send_BUSES[cnt].index,
+					\out_bus, ~ambi_BUS.index
+				],
+				target: ~spatial_GROUP
+		);)
 	});
 
-});
-
-~send_OSC_ROUTINE.play;
 
 
 
-/////////////////////////////////////////////////////////////////
-// decoder
-/////////////////////////////////////////////////////////////////
+	for (0, ~nInputs -1, {arg cnt;
 
-~output_GROUP	 = Group.after(~spatial_GROUP);
+		post('Mapping HOA module: ');
+		cnt.postln;
 
+		~hoa_panners[cnt].map(\azim, ~control_azim_BUS.index  + cnt);
+		~hoa_panners[cnt].map(\elev, ~control_elev_BUS.index  + cnt);
+		~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
 
-~decoder = Synth(\hoa_decoder_EN325,
-	[
-		\in_bus,~ambi_BUS.index,
-		\out_bus, 0
-	],
-	target: ~output_GROUP);
+	});
 
-/////////////////////////////////////////////////////////////////
-// add one output module for each HOA channel
-/////////////////////////////////////////////////////////////////
-for (0, ~n_hoa_channnels -1, {arg cnt;
-
-	post('Adding HOA output Module: ');
-	cnt.postln;
-
-	~hoa_outputs = ~hoa_outputs.add(
-		Synth(\output_module,
-			[
-				\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-				\out_bus,   cnt                   // first outputs are HOA
-			],
-			target: ~output_GROUP
-	);)
-});
-
-~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
-~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
-
-/////////////////////////////////////////////////////////////////
-// add one output module for each WFS channel
-/////////////////////////////////////////////////////////////////
-for (0, ~nInputs -1, {arg cnt;
-
-	post('Adding WFS output Module: ');
-	cnt.postln;
-
-	~wfs_outputs = ~wfs_outputs.add(
-		Synth(\output_module,
-			[
-				\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
-				\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
-			],
-			target: ~output_GROUP
-	);)
-});
-
-~wfs_outputs.do({ arg item, i; item.set(\delay, ~wfs_DELAY); });
-~wfs_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+	/////////////////////////////////////////////////////////////////
+	// OSC listeners:
+	/////////////////////////////////////////////////////////////////
 
 
-/////////////////////////////////////////////////////////////////
-// add BASS
-/////////////////////////////////////////////////////////////////
+	~azim_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+			var azim = msg[2];
+			~control_azim_BUS.setAt(msg[1],azim);
+	}, '/source/pos/azim');
 
-~lfe_output = Synth(\sub_output_module,
-	[
-		\audio_bus, ~common_send_BUSES.index + 0,  //
-		\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-	],
-	target: ~output_GROUP
-);
+	~elev_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+			var elev = msg[2];
+			~control_elev_BUS.setAt(msg[1],elev);
+	}, '/source/pos/elev');
 
-~lfe_output.set(\delay, ~sub_DELAY);
-~lfe_output.set(\lp_cutoff,~crossover_freq);
-
-~sub_output = Synth(\sub_output_module,
-	[
-		\audio_bus, ~sub_BUS.index,  //
-		\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
-	],
-	target: ~output_GROUP
-);
+	~dist_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+			var dist = msg[2];
+			~control_dist_BUS.setAt(msg[1],dist);
+	}, '/source/pos/dist');
 
 
-~sub_output.set(\delay, ~sub_DELAY);
-~sub_output.set(\lp_cutoff,~crossover_freq);
+	~aed_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
 
-/////////////////////////////////////////////////////////////////
-//
-/////////////////////////////////////////////////////////////////
+			var azim = msg[2] / 360.0 * (2.0*pi);
+			var elev = msg[3] / 360.0 * (2.0*pi);
+			var dist = msg[4];
 
-post("Listening on port: ");
-postln(NetAddr.langPort);
-ServerMeter(s);
+			~control_azim_BUS.setAt(msg[1],azim);
+			~control_elev_BUS.setAt(msg[1],elev);
+			~control_dist_BUS.setAt(msg[1],dist);
+
+	}, '/source/pos/aed');
+
+
+	~send_OSC_ROUTINE = Routine({
+
+		inf.do({
+
+			var azim, elev, dist;
+
+
+			for (0, ~nInputs-1, { arg i;
+
+				azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
+				elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
+				dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
+
+				~spatial_OSC.sendMsg('/source/pos/aed', i, azim, elev, dist);
+
+			});
+
+			0.01.wait;
+		});
+
+	});
+
+	~send_OSC_ROUTINE.play;
+
+
+
+	/////////////////////////////////////////////////////////////////
+	// decoder
+	/////////////////////////////////////////////////////////////////
+
+	~output_GROUP	 = Group.after(~spatial_GROUP);
+
+
+	~decoder = Synth(\hoa_decoder_EN325,
+		[
+			\in_bus,~ambi_BUS.index,
+			\out_bus, 0
+		],
+		target: ~output_GROUP);
+
+	/////////////////////////////////////////////////////////////////
+	// add one output module for each HOA channel
+	/////////////////////////////////////////////////////////////////
+	for (0, ~n_hoa_channnels -1, {arg cnt;
+
+		post('Adding HOA output Module: ');
+		cnt.postln;
+
+		~hoa_outputs = ~hoa_outputs.add(
+			Synth(\output_module,
+				[
+					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
+					\out_bus,   cnt                   // first outputs are HOA
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+	~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
+	~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+
+	/////////////////////////////////////////////////////////////////
+	// add one output module for each WFS channel
+	/////////////////////////////////////////////////////////////////
+	for (0, ~nInputs -1, {arg cnt;
+
+		post('Adding WFS output Module: ');
+		cnt.postln;
+
+		~wfs_outputs = ~wfs_outputs.add(
+			Synth(\output_module,
+				[
+					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
+					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
+				],
+				target: ~output_GROUP
+		);)
+	});
+
+	~wfs_outputs.do({ arg item, i; item.set(\delay, ~wfs_DELAY); });
+	~wfs_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+
+
+	/////////////////////////////////////////////////////////////////
+	// add BASS
+	/////////////////////////////////////////////////////////////////
+
+	~lfe_output = Synth(\sub_output_module,
+		[
+			\audio_bus, ~common_send_BUSES.index + 0,  //
+			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+		],
+		target: ~output_GROUP
+	);
+
+	~lfe_output.set(\delay, ~sub_DELAY);
+	~lfe_output.set(\lp_cutoff,~crossover_freq);
+
+	~sub_output = Synth(\sub_output_module,
+		[
+			\audio_bus, ~sub_BUS.index,  //
+			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+		],
+		target: ~output_GROUP
+	);
+
+
+	~sub_output.set(\delay, ~sub_DELAY);
+	~sub_output.set(\lp_cutoff,~crossover_freq);
+
+	/////////////////////////////////////////////////////////////////
+	//
+	/////////////////////////////////////////////////////////////////
+
+	post("Listening on port: ");
+	postln(NetAddr.langPort);
+
+	# ServerMeter(s);
 
 });
 

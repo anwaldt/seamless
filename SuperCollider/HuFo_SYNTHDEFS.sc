@@ -212,6 +212,9 @@ SynthDef(\send_module,
 	}
 ).add;
 
+
+// The generic output module is equipped with a high pass and a delay
+
 SynthDef(\output_module,
 	{
 		|
@@ -229,6 +232,9 @@ SynthDef(\output_module,
 		Out.ar(out_bus, gain*out);
 
 }).add;
+
+
+// The sub output module is equipped with a low pass and a delay
 
 SynthDef(\sub_output_module,
 	{
