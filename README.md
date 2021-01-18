@@ -1,5 +1,12 @@
 # HuFo_System
 
+## Signal Flow
+
+<img src="./graphics/hufo_flow_1.png" width="1000">
+
+## Ambisonics Decoders
+
+For larger loudspeaker setups (<24), standalone Jack decoders are used.
 
 
 ## Included in this Repository
