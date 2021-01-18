@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<!-- 
+
+	//==============================================================================
+	This file is used to specify the automation parameters of the OSCar plugin.
+	
+	The file must be located in : 
+	~/Documents/Ircam/oscar/oscar.xml 
+	where "~" corresponds to your home folder, e.g. :	
+	/Users/USERNAME/Documents/Ircam/oscar/oscar.xml      on macOS	
+	C:\Users\USERNAME\Documents\Ircam\oscar\oscar.xml    on Windows
+	
+	(replace USERNAME with the appropriate value)
+	
+	If this folder doesn't exist yet, just create it.
+	
+	You can adapt the content of this file to your own needs, but its filename and location
+	must not be changed.
+
+	The syntax is as follows :  
+	
+	<oscar version="1.0">	
+		<parameter index="1" name="x" pattern="/source/1/x" min="-20" max="20" default="0"/>
+		<parameter index="2" name="y" pattern="/source/1/y" min="-20" max="20" default="0"/>
+		<parameter index="3" name="z" pattern="/source/1/z" min="-20" max="20" default="0"/>
+		<parameter index="4" name="pres" pattern="/source/1/pres" min="0" max="120" default="40"/>
+		<parameter index="5" name="bril" pattern="/source/1/bril" min="0" max="50" default="25"/>
+		<parameter index="6" name="warm" pattern="/source/1/warm" min="0" max="50" default="25"/>
+	</oscar>
+	
+	The parameter index must be greater than 1.
+	There should be no duplicate indices.
+	The 'index' determine the order the parameters appear in the Digital Audio Workstation
+	
+	'name' is the label of parameter, as it will appear in your Digital Audio Workstation
+	
+	'pattern' is the OSC address pattern used to communicate with this parameter to/from the outside world
+	
+	'min', 'max', and 'default' specify the minimum, maximum, and default values of the parameter
+	
+	
+	The OSC address pattern should not contain the following characters:
+	'#', '*', ',', '?', '[', ']', '{', '}', ' ' 
+	
+	//==============================================================================
+	All instances of the OSCar plugin share the same set of parameters.
+	However, it is possible to use the "Plugin ID" as a variable for the OSC address pattern:
+	
+	<parameter index="6" name="warm" pattern="/source/$1/warm" min="0" max="50" default="25"/>
+
+	'$1' will be automatically replaced by the ID of the current plugin instance
+	when receiving/sending OSC data e.g.
+	"/source/1/warm" for instance #1,
+	"/source/2/warm" for instance #2,
+	etc.
+	
+	
+	//==============================================================================
+	After edition of this file, you probably need to restart your Digital Audio Workstation
+	to make sure the OSCar plugin(s) get updated accordingly.
+	
+-->
+ 
+<oscar version="1.0">	
+    <parameter index="1" name="source x" pattern="/source/$1/pos/nx" min="-1" max="1" default="0"/>
+    <parameter index="2" name="source y" pattern="/source/$1/pos/ny" min="-1" max="1" default="1"/>
+    <parameter index="3" name="source z" pattern="/source/$1/pos/nz" min="-1" max="1" default="0"/>
+    <parameter index="4" name="source distance" pattern="/source/$1/pos/nd" min="0" max="50" default="1"/>
+    <parameter index="5" name="distance factor" pattern="/source/$1/distfact" min="0" max="10" default="1"/>
+    <parameter index="6" name="doppler Effect" pattern="/source/$1/doppler" min="0" max="1" default="0"/>
+    <parameter index="7" name="planewave" pattern="/source/$1/planewave" min="0" max="1" default="0"/>
+    <parameter index="8" name="attribute 1" pattern="/source/$1/attr1" min="0" max="1" default="0"/>
+    <parameter index="9" name="attribute 2" pattern="/source/$1/attr2" min="0" max="1" default="0"/>
+    <parameter index="10" name="attribute 3" pattern="/source/$1/attr3" min="0" max="1" default="0"/>
+    <parameter index="11" name="attribute 4" pattern="/source/$1/attr4" min="0" max="1" default="0"/>
+    <parameter index="12" name="attribute 5" pattern="/source/$1/attr5" min="0" max="1" default="0"/>
+    <parameter index="13" name="attribute 6" pattern="/source/$1/attr6" min="0" max="1" default="0"/>
+    <parameter index="14" name="attribute 7" pattern="/source/$1/attr7" min="0" max="1" default="0"/>
+    <parameter index="15" name="attribute 8" pattern="/source/$1/attr8" min="0" max="1" default="0"/>
+    <parameter index="16" name="send to 1" pattern="/source/$1/send1" min="0" max="2" default="0"/>
+    <parameter index="17" name="send to 2" pattern="/source/$1/send2" min="0" max="2" default="0"/>
+    <parameter index="18" name="send to 3" pattern="/source/$1/send3" min="0" max="2" default="0"/>
+    <parameter index="19" name="send to 4" pattern="/source/$1/send4" min="0" max="2" default="0"/>
+    <parameter index="20" name="send to 5" pattern="/source/$1/send5" min="0" max="2" default="0"/>
+    <parameter index="21" name="send to 6" pattern="/source/$1/send6" min="0" max="2" default="0"/>
+    <parameter index="22" name="send to 7" pattern="/source/$1/send7" min="0" max="2" default="0"/>
+</oscar>
+ 
