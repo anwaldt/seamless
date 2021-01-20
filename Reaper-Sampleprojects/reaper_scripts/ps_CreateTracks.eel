@@ -1,0 +1,35 @@
+
+
+
+#x = "2,1,1,1,0";
+GetUserInputs("Create NewTracks with send", 5, "number of tracks:,receiving track:,first recv-ch:,mono send:,master send:", #x) ? (
+
+match("%d,%d,%d,%d,%d", #x, nTracks, rcvTrackIdx, firstCh, mono, master);
+
+ShowConsoleMsg("Creating new channels");
+
+nTracksInProject =  GetNumTracks();
+
+recvTrack = GetTrack(0,rcvTrackIdx-1);
+
+idx = 0;
+while (idx < nTracks) (
+
+  InsertTrackAtIndex(idx + nTracksInProject, 0);
+  sendTrack = GetTrack(0, idx + nTracksInProject);
+  
+  sendIdx = CreateTrackSend(sendTrack, recvTrack);
+  
+  mono ? (
+    SetTrackSendInfo_Value(sendTrack, 0, sendIdx, "I_DSTCHAN", idx+firstCh-1 + 1024);
+  );
+  !mono ? (
+    SetTrackSendInfo_Value(sendTrack, 0, sendIdx, "I_DSTCHAN", 2*idx+firstCh-1);
+  );
+  SetMediaTrackInfo_Value( sendTrack, "B_MAINSEND", master );
+  
+
+  idx = idx +1;
+);
+);
+

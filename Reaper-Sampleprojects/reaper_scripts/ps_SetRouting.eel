@@ -1,0 +1,41 @@
+//ShowConsoleMsg("yeah yeah eel set my routing yeah \n");
+
+function msg_d(m)
+(
+  ShowConsoleMsg(sprintf(#, "%d", m)); // convert int to string
+  ShowConsoleMsg("\n");
+);
+
+function getInstructions()
+(
+  #x = "1,1,2,3,1,1";
+
+  GetUserInputs("Create Receives", 6, "for receiving Track:,first channel:,first Track:,last Track:,mono(0/1):,remove mastersend(0/1):", #x);
+);
+
+
+function main()
+(
+  getInstructions() ? (
+    match("%d,%d,%d,%d,%d,%d", #x, recTrack,firstChannel,firstTrack,lastTrack,monoSend,remMastersend);
+//    msg_d(firstChannel);
+    
+    recv_track = GetTrack(0,recTrack-1);
+    index = 0;
+    while(index <= lastTrack-firstTrack) (
+      sending_track = GetTrack(0,index+firstTrack-1);
+      sendidx = CreateTrackSend( sending_track, recv_track );
+//      SetTrackSendInfo_Value(sending_track,0,i,"B_MONO",1);
+//      monoSend == 1 ? (
+//        ShowConsoleMsg("setting to mono");
+//        SetTrackSendInfo_Value( sending_track, 0, sendidx, "B_MONO",1 );
+//        );
+      SetTrackSendInfo_Value( sending_track, 0, sendidx, "I_DSTCHAN", index+firstChannel-1 + 1024 );
+      SetMediaTrackInfo_Value( sending_track, "B_MAINSEND", !remMastersend );
+      index = index +1;
+    );
+  );
+  
+);
+main()
+
