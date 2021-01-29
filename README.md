@@ -1,12 +1,15 @@
 # HuFo_System
 
-## Signal Flow
+This repository contains all components for running
+the combined WFS and Ambisonics system at the Humboldt Forum.
 
-<img src="./Graphics/hufo_flow_1.png" width="1000">
 
-## Ambisonics Decoders
+## Install
 
-For larger loudspeaker setups (<24), standalone Jack decoders are used.
+
+
+
+
 
 
 ## Included in this Repository

@@ -17,14 +17,12 @@ Henrik von Coler
 ~path = ~root_DIR++"../adt/";
 
 
-
+// read speaker positions from txt file:
 ~spkrPos = TabFileReader.read(~root_DIR++"../speakerpositions/Hufo_AmbiSpeakerPositions.txt",true).postcs;
-
 ~spkrPos.do({arg e; e.add("spkr")});
 
 
-
-// 2: Define speaker positions:
+// 2: or define speaker positions:
 ~sp = [
 [ -5.888, 2.217, 1.000, "spkr" ],
 [ -4.473, 3.116, 1.000, "spkr" ],
@@ -45,7 +43,7 @@ Henrik von Coler
 [ -5.142, -2.732, 1.000, "spkr" ],
 [ -6.518, -1.692, 1.000, "spkr" ],
 [ -5.888, 2.217, 1.691, "spkr" ],
-[ -4.473, 3.116, 1.691, "spkr" ],
+[ -4.473, 3.116, 1.691, "spkr" ], // 20
 [ -2.925, 3.757, 1.691, "spkr" ],
 [ -1.289, 4.123, 1.691, "spkr" ],
 [ 0.385, 4.201, 1.691, "spkr" ],
@@ -70,7 +68,7 @@ Henrik von Coler
 [ 1.896, -4.022, 3.062, "spkr" ],
 [ -1.861, -4.035, 3.062, "spkr" ],
 [ -5.306, -2.632, 3.062, "spkr" ],
-[ 0.000, 0.000, 3.767, "spkr" ],
+[ 0.000, 0.000, 3.767, "spkr" ]
 ];
 
 
