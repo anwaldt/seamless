@@ -94,8 +94,6 @@ SynthDef(\hoa_mono_encoder_3,
 }).add;
 
 
-
-
 SynthDef(\hoa_decoder_EN325, {
 
 	|in_bus = 0|
@@ -121,6 +119,37 @@ SynthDef(\hoa_decoder_EN325, {
 		gain:1) );
 
 }).add;
+
+
+
+SynthDef(\hoa_decoder_HUFO, {
+
+	|in_bus = 0|
+
+
+	Out.ar(0,FaustHUFOHOA3.ar(
+		In.ar(in_bus ),
+		In.ar(in_bus +1),
+		In.ar(in_bus +2),
+		In.ar(in_bus +3),
+		In.ar(in_bus +4),
+		In.ar(in_bus +5),
+		In.ar(in_bus +6),
+		In.ar(in_bus +7),
+		In.ar(in_bus +8),
+		In.ar(in_bus +9),
+		In.ar(in_bus +10),
+		In.ar(in_bus +11),
+		In.ar(in_bus +12),
+		In.ar(in_bus +13),
+		In.ar(in_bus +14),
+		In.ar(in_bus +15),
+		gain:1) );
+
+}).add;
+
+
+
 
 /*
 SynthDef(\hoa_octa_decoder, {
@@ -153,7 +182,7 @@ gain:1) );
 
 
 
-SynthDef(\hoa_binaural_decoder_3,
+/*SynthDef(\hoa_binaural_decoder_3,
 	{
 		|
 		in_bus  = 0,
@@ -163,7 +192,7 @@ SynthDef(\hoa_binaural_decoder_3,
 		var sig = HOABinaural.ar(3, In.ar(in_bus,16));
 		Out.ar(0, sig);
 
-}).add;
+}).add;*/
 
 
 

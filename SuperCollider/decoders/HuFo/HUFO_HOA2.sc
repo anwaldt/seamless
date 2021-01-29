@@ -22,7 +22,7 @@ FaustHUFOHOA2 : MultiOutUGen
 
   init { | ... theInputs |
       inputs = theInputs
-      ^this.initOutputs(45, rate)
+      ^this.initOutputs(28, rate)
   }
 
   name { ^"FaustHUFOHOA2" }

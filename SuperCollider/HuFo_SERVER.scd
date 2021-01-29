@@ -69,9 +69,9 @@ postln("Launching with port:"++~server_ADDRESS++"!");
 
 // Server.supernova;
 
-Server.default = Server(\binaural_server, NetAddr("127.0.0.1", ~server_ADDRESS));
+// Server.default = Server(\binaural_server, NetAddr("127.0.0.1", ~server_ADDRESS));
 
-s.options.device               = "SC_HOA";
+s.options.device               = "SC_Mix";
 s.options.numInputBusChannels  = ~nInputs;
 s.options.numOutputBusChannels = 128;
 
@@ -79,14 +79,14 @@ s.options.maxLogins            = 2;
 s.options.memSize              = 65536;
 s.options.numBuffers           = 4096;
 
-
+s.options.numAudioBusChannels = 4096;
 
 /////////////////////////////////////////////////////////////////
 // HOA parameters
 /////////////////////////////////////////////////////////////////
 
 ~hoa_order      = 3;
-~n_hoa_speakers = 21;
+~n_hoa_speakers = 45;
 
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
@@ -314,13 +314,15 @@ s.waitForBoot({
 
 	~output_GROUP	 = Group.after(~spatial_GROUP);
 
-
-	~decoder = Synth(\hoa_decoder_EN325,
+	// use external decoder instead
+	/*
+	~decoder = Synth(\hoa_decoder_HUFO,
 		[
 			\in_bus,~ambi_BUS.index,
 			\out_bus, 0
 		],
 		target: ~output_GROUP);
+	*/
 
 	/////////////////////////////////////////////////////////////////
 	// add one output module for each HOA channel
@@ -399,7 +401,6 @@ s.waitForBoot({
 	post("Listening on port: ");
 	postln(NetAddr.langPort);
 
-	# ServerMeter(s);
 
 });
 
@@ -409,6 +410,9 @@ s.waitForBoot({
 // Debug Monitor
 /////////////////////////////////////////////////////////////////
 {
+
+	ServerMeter(s);
+
 	s.scope(12,~control_azim_BUS.index);
 
 
