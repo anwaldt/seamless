@@ -3,6 +3,8 @@ site_name: HuFo System
 
 nav:
     - Home: index.md
+    - User Guide: userguide.md
     - SuperCollider: supercollider.md
     - OSC Router: oscrouter.md
     - Signal Flow: signalflow.md
+    - System Setup: system_setup.md
