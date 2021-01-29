@@ -1,0 +1,8 @@
+site_name: HuFo System
+
+
+nav:
+    - Home: index.md
+        - SuperCollider: supercollider.md
+    - OSC Router: oscrouter.md
+    - Signal Flow: signalflow.md

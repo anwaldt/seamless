@@ -8,9 +8,6 @@ the combined WFS and Ambisonics system at the Humboldt Forum.
 
 
 
-## Signal Flow
-
-<img src="./Graphics/hufo_flow_1.png" width="1000">
 
 
 
