@@ -9,15 +9,15 @@ data_port_timeout 0.5           // time a change in the ui blocks incoming autom
 ***
 audiorouter
 ipaddress       127.0.0.1
-listenport      12345
-sendport        57120
+listenport      57120
+sendport        59999
 updateintervall 5
 ***
 renderengine    scengine
 renderid        0
 ipaddress       127.0.0.1
 listenport      57120
-sendport        10101
+sendport        59998
 updateintervall 10
 ***
 renderengine    wonder
@@ -28,7 +28,7 @@ sendport        10101
 updateintervall 10
 ***
 dataclient      oscar
-ipaddress       127.0.0.1
+ipaddress       130.149.23.46
 listenport      4001
 dataformat      normcartesian_xyzd
 updateintervall 5
