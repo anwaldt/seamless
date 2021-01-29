@@ -1,9 +1,10 @@
 # import renderer_config as reconf
 from soundobjectclass import SoundObject
 import str_keys_conventions as skc
-from str_keys_conventions import renderClass as renderclass
+from str_keys_conventions import renderClass as renderclasstype
 import conversionsTools as ct
 from oscpy.client import OSCClient
+import oscpy.client as oscsock
 import time
 from threading import Timer
 from functools import partial
@@ -63,7 +64,7 @@ class Renderer(object):
         #       'listening to format', self.posFormat, '\n')
 
     def myType(self) -> str:
-        return 'basic Rendererclass'
+        return 'basic Rendererclass: abstract class'
 
     def scheduleSourcePositionCheck(self, source_idx):
 
@@ -86,7 +87,7 @@ class Renderer(object):
 
 
     def updateSourcePosition(self, source_idx):
-        print('update position', source_idx, self.myType())
+        # print('update position', source_idx, self.myType())
 
         self.sendSourcePosition(source_idx)
         self.source_needs_update[source_idx] = False
@@ -97,7 +98,7 @@ class Renderer(object):
     def sendSourcePosition(self, source_idx):
 
         msgs = self.composeSourceUpdateMessage(source_idx)
-        print(msgs)
+        # print(msgs)
         for addr, data in msgs:
             self.toRender.send_message(addr, data)
 
@@ -142,6 +143,7 @@ class Renderer(object):
 
 
 
+
 class Wonder(Renderer):
 
     def __init__(self, **kwargs):
@@ -150,6 +152,12 @@ class Wonder(Renderer):
         if not 'sourceattributes' in kwargs.keys():
             kwargs['sourceattributes'] = (skc.SourceAttributes.doppler, skc.SourceAttributes.planewave)
         super(Wonder, self).__init__(**kwargs)
+
+        self.attributeOsc = {
+            skc.SourceAttributes.doppler: b'/source/dopplerEffect',
+            skc.SourceAttributes.planewave: b'/source/type'
+        }
+
 
     def myType(self) -> str:
         return 'Wonder'
@@ -174,12 +182,16 @@ class Wonder(Renderer):
 
         attriValue = self.sources[sidx].getSourceAttribute(attribute)
 
-        if attribute == skc.SourceAttributes.planewave:
-            osc_str = b'/source/type'
-            self.toRender.send_message(osc_str, [attriValue])
-        elif attribute == skc.SourceAttributes.doppler:
-            osc_str = b'/source/dopplerEffect'
-            self.toRender.send_message(osc_str, [attriValue])
+        oscStr = self.attributeOsc[attribute]
+
+        self.toRender.send_message(oscStr, [attriValue])
+
+        # if attribute == skc.SourceAttributes.planewave:
+        #     osc_str = b'/source/type'
+        #     self.toRender.send_message(osc_str, [attriValue])
+        # elif attribute == skc.SourceAttributes.doppler:
+        #     osc_str = b'/source/dopplerEffect'
+        #     self.toRender.send_message(osc_str, [attriValue])
 
 
 
@@ -226,7 +238,7 @@ class IemMultiencoder(Renderer):
 
 
     def myType(self) -> str:
-        return 'IEM Multiencoder, carfeul not implemented'
+        return 'IEM Multiencoder, NOT IMPLEMENTED'
 
 
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
@@ -270,7 +282,7 @@ class Audiorouter(Renderer):
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
 
         msgs: [(str, [])] = []
-        addStr = '/send/gain/individual'
+        addStr = '/source/send/spatial'
         sobject = self.sources[source_idx]
 
         for idx, gain in sobject.getChangedGains():
@@ -300,15 +312,32 @@ class Oscar(Renderer):
             kwargs['dataformat'] = skc.nxyzd
         super(Oscar, self).__init__(**kwargs)
 
+        self.sourceAttributes = (skc.SourceAttributes.doppler, skc.SourceAttributes.planewave)
+
         self.posAddrs = []
+
+        self.attributeOsc = {
+            skc.SourceAttributes.doppler: [],
+            skc.SourceAttributes.planewave: []
+        }
+
         for i in range(self.numberOfSources):
             sourceAddrs = {}
             for kk in skc.fullformat[skc.nxyzd]:
                 addrStr = '/source/' + str(i+1) + '/pos/' + kk
                 sourceAddrs[kk] = addrStr
+
+            for key in self.attributeOsc:
+                oscStr = '/source' + str(i+1) + '/' + key.value
+                sourceAddrs[key] = oscStr
+
             self.posAddrs.append(sourceAddrs)
 
+
+
         self.validPosKeys = {skc.dist}
+
+
 
     def myType(self) -> str:
         return 'Oscar'
@@ -319,13 +348,85 @@ class Oscar(Renderer):
         posData = self.sources[source_idx].getPosition(self.posFormat)
 
         msgs = []
-        for idx, addr in enumerate(addrs.values()):
-            msgs.append((addr, [posData[idx]]))
+
+        for idx, key in enumerate(skc.fullformat[self.posFormat]):
+            msgs.append((addrs[key], [posData[idx]]))
+
+        # for idx, addr in enumerate(addrs.values()):
+        #     msgs.append((addr, [posData[idx]]))
 
         return msgs
 
+    def sendSourceAttributeMessage(self, sidx, attribute):
 
-def createRendererClient(renderclass: renderclass, kwargs) -> Renderer:
+        attriValue = self.sources[sidx].getSourceAttribute(attribute)
+
+        self.toRender.send_message(self.posAddrs[sidx][attribute], [attriValue])
+
+        # if attribute == skc.SourceAttributes.planewave:
+        #     osc_str = b'/source/type'
+        #     self.toRender.send_message(osc_str, [attriValue])
+        # elif attribute == skc.SourceAttributes.doppler:
+        #     osc_str = b'/source/dopplerEffect'
+        #     self.toRender.send_message(osc_str, [attriValue])
+
+
+
+class Osclight(Renderer):
+    def myType(self) -> str:
+        return "osc-light plugin"
+
+    def __init__(self, **kwargs):
+        if not 'dataformat' in kwargs.keys():
+            kwargs['dataformat'] = skc.nxyzd
+        super(Osclight, self).__init__(**kwargs)
+
+        self.basePort = 11000
+
+        self.sourceAttributes = (skc.SourceAttributes.doppler, skc.SourceAttributes.planewave)
+
+        self.oscAddrs: dict = {}
+
+        self.oscPosAddr = b"/nxyz"
+
+        for key in skc.fullformat[self.posFormat]:
+            self.oscAddrs[key] = "/{}".format(key).encode()
+
+        for vv in self.sourceAttributes:
+            self.oscAddrs[vv.value] = "/{}".format(vv.value).encode()
+
+
+        self.oscClients: [OSCClient] = []
+        for x in range(self.numberOfSources):
+            self.oscClients.append(OSCClient(self.ipaddress, port=self.basePort+x))
+
+
+    def sendSourcePosition(self, source_idx):
+        msgs = self.composeSourceUpdateMessage(source_idx)
+
+        for addr, data in msgs:
+            # oscsock.send_message(addr, data, ip_address=self.ipaddress, port=self.basePort+source_idx)
+            self.oscClients[source_idx].send_message(addr, data)
+
+
+    def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
+        # msgs = []
+        posData = self.sources[source_idx].getPosition[self.posFormat]
+
+        # for idx,key in enumerate(skc.fullformat[self.posFormat]):
+        #     msgs.append((self.oscAddrs[key], posData[idx]))
+
+        return [self.oscPosAddr, posData]
+
+        # oscsock.send_message(b"/beepbepp", [], self.ipaddress, port=123)
+
+
+    def sendSourceAttributeMessage(self, sidx, attribute):
+        pass
+
+
+
+def createRendererClient(renderclass: renderclasstype, kwargs) -> Renderer:
 
     # config = reconf.getConfig(renderclass)
     # for key, value in config.items():
@@ -349,16 +450,18 @@ def createRendererClient(renderclass: renderclass, kwargs) -> Renderer:
 
 
 
-    if renderclass == renderclass.Wonder:
+    if renderclass == renderclasstype.Wonder:
         rend = Wonder(**kwargs)
-    elif renderclass == renderclass.Panoramix:
+    elif renderclass == renderclasstype.Panoramix:
         rend = Panoramix(**kwargs)
-    elif renderclass == renderclass.Oscar:
+    elif renderclass == renderclasstype.Oscar:
         rend = Oscar(**kwargs)
-    elif renderclass == renderclass.Scengine:
+    elif renderclass == renderclasstype.Scengine:
         rend = SuperColliderEngine(**kwargs)
-    elif renderclass == renderclass.Audiorouter:
+    elif renderclass == renderclasstype.Audiorouter:
         rend = Audiorouter(**kwargs)
+    elif renderclass == renderclasstype.Osclight:
+        rend = Osclight(**kwargs)
     else:
         rend = Renderer()
 

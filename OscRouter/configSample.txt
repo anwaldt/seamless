@@ -37,6 +37,8 @@ updateintervall 5
 
 //renderengines:
 //iemmultiencoder, panoramix, wonder, scengine
+//dataclients:
+//oscar, osclight
 
 //dataformats
 //normcartesian_xyzd, normacartesian_xyd, cartesian_xyz, cartesian_xy, polar_aed, polar_ad

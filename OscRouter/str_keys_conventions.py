@@ -137,6 +137,7 @@ class renderClass(Enum):
     Oscar = 'oscar'
     Scengine = 'scengine'
     Audiorouter = 'audiorouter'
+    Osclight = "osclight"
 
 class SourceAttributes(Enum):
         planewave = planewave
