@@ -1,0 +1,15 @@
+[Unit]
+Description=Ambisonics Decoder JACK Client
+After=sound.target local-fs.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecStart=/home/studio/hufo_system/Standalone_Decoders/EN325_DOME3
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=studio
