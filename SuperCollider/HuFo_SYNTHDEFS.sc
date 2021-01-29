@@ -94,7 +94,7 @@ SynthDef(\hoa_mono_encoder_3,
 }).add;
 
 
-SynthDef(\hoa_decoder_EN325, {
+/*SynthDef(\hoa_decoder_EN325, {
 
 	|in_bus = 0|
 
@@ -118,11 +118,11 @@ SynthDef(\hoa_decoder_EN325, {
 		In.ar(in_bus +15),
 		gain:1) );
 
-}).add;
+}).add;*/
 
 
 
-SynthDef(\hoa_decoder_HUFO, {
+/*SynthDef(\hoa_decoder_HUFO, {
 
 	|in_bus = 0|
 
@@ -146,7 +146,7 @@ SynthDef(\hoa_decoder_HUFO, {
 		In.ar(in_bus +15),
 		gain:1) );
 
-}).add;
+}).add;*/
 
 
 
