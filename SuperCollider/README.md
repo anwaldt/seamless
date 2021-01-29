@@ -4,12 +4,12 @@ Decoders in ADT have a problem for more than speakers 24? speakers. Use standalo
 
 ## Install Decoders
 
-
 Copy the directory ``decoders`` to the SC user 
 extension directory. It can be obtained in SC:
 
 ```Platform.userExtensionDir```
-    
+
+For larger loudspeaker setups (<24), standalone Jack decoders are used.
 
 
 

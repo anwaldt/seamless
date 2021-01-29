@@ -71,7 +71,7 @@ postln("Launching with port:"++~server_ADDRESS++"!");
 
 // Server.default = Server(\binaural_server, NetAddr("127.0.0.1", ~server_ADDRESS));
 
-s.options.device               = "SC_Mix";
+s.options.device               = "SC_MIX";
 s.options.numInputBusChannels  = ~nInputs;
 s.options.numOutputBusChannels = 128;
 
