@@ -22,8 +22,8 @@ root@riviera:/opt/wonder/wonderWinter/scripts# cp -r /home/studio/Development/wo
 ## Hostnames
 An /etc/hosts anhängen:
 
-n101 localhost
-n102 wintermute.ak.tu-berlin.de
+127.0.0.1 localhost n101
+[IP von Wintermute] n102 wintermute.ak.tu-berlin.de
 
 # Riviera 27.01.
 - panoramix ins home verzeichnis kopiert
@@ -50,4 +50,16 @@ n102 wintermute.ak.tu-berlin.de
 
 ## Services
 [*] Jack mit RT Priorities
+[*] Jackservice enabled
+[*] script configs von Wonder auf 512 Buffer geändert (mit services vermutlich egal)
 
+## Wonder
+- start_wonder.sh: start all jack auskommentiert
+- SSH Zertifikate: ansonsten müssen bei den wonder skripten ständig Zugangsdaten eingegeben werden
+	Riviera: 
+	ssh-keygen -t ed25519 -C "Wintermute Login"
+	ssh-copy-id -i id_ed25519.pub studio@wintermute
+	ssh-copy-id -i id_ed25519.pub studio@n101
+	Wintermute:
+	ssh-keygen -t ed25519 -C "Wintermute Login"
+	ssh-copy-id -i id_ed25519.pub studio@riviera
