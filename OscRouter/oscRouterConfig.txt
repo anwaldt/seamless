@@ -10,13 +10,13 @@ data_port_timeout 0.5           // time a change in the ui blocks incoming autom
 audiorouter
 ipaddress       127.0.0.1
 listenport      12345
-sendport        40000
+sendport        57120
 updateintervall 5
 ***
 renderengine    scengine
 renderid        0
 ipaddress       127.0.0.1
-listenport      58002
+listenport      57120
 sendport        10101
 updateintervall 10
 ***
