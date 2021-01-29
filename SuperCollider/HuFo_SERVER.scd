@@ -336,7 +336,7 @@ s.waitForBoot({
 			Synth(\output_module,
 				[
 					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-					\out_bus,   cnt                   // first outputs are HOA
+					\out_bus, ~nInputs + 16 + cnt                 // 64 + 16
 				],
 				target: ~output_GROUP
 		);)
@@ -357,7 +357,7 @@ s.waitForBoot({
 			Synth(\output_module,
 				[
 					\audio_bus, ~send_BUSES[cnt].index+1,  // individual HOA channels (IDX = 1)
-					\out_bus,   ~n_hoa_speakers + cnt      // second output block is WFS
+					\out_bus, cnt      // first outputs are WFS
 				],
 				target: ~output_GROUP
 		);)
@@ -374,7 +374,7 @@ s.waitForBoot({
 	~lfe_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+			\out_bus,   ~nInputs     // output after WFS
 		],
 		target: ~output_GROUP
 	);
@@ -385,7 +385,7 @@ s.waitForBoot({
 	~sub_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~n_hoa_speakers + ~nInputs     // output after WFS and HOA outputs
+			\out_bus,   ~nInputs     // output after WFS
 		],
 		target: ~output_GROUP
 	);
