@@ -9,7 +9,7 @@ WantedBy=multi-user.target
 Type=simple
 PrivateTmp=true
 Environment="JACK_NO_AUDIO_RESERVATION=1"
-ExecStart=/usr/bin/jackd -d alsa
+ExecStart=/usr/bin/jackd -P 95 -d alsa -d hw:DantePCIe -p 512 
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
