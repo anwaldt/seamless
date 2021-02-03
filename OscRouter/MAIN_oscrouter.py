@@ -15,10 +15,20 @@ import argparse
 
 parser = argparse.ArgumentParser(description='OSC Message Processor and Router')
 parser.add_argument('--config', default='oscRouterConfig.txt', help='path to configfile', type=str)
+parser.add_argument('--oscdebug', default='', help='ip and port for debug messages, e.g. "130.149.23.46 55112"', type=str)
 args = parser.parse_args()
 
 configpath = args.config
 # configpath = 'oscRouterConfig.txt'
+
+s_oscDebug = args.oscdebug
+
+
+if s_oscDebug:
+    debugIp = s_oscDebug.split()[0]
+    debugPort = int(s_oscDebug.split()[1])
+    Renderer.createDebugClient(debugIp, debugPort)
+    Renderer.debugCopy = True
 
 
 
@@ -220,7 +230,7 @@ def oscreceived_setGain(*args):
     if(soundobjects[sIdx].setRendererGain(renderIdx, gain)):
         audiorouter.sourceNeedsUpdate(sIdx)
 
-def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args):
+def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args: list):
 
     sidx = args.pop(0)
     oscreceived_sourceAttribute_wString(sidx, attribute, args)

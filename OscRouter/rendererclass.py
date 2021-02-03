@@ -17,6 +17,12 @@ class Renderer(object):
     numberOfSources = 64
     sources: [SoundObject] = []
     globalConfig = {}
+    debugCopy: bool = False
+    oscDebugClient: OSCClient
+
+    @classmethod
+    def createDebugClient(cls, ip, port):
+        cls.oscDebugClient = OSCClient(ip, port)
 
     def __init__(self, dataformat=skc.xyz,
                  updateintervall=10,
@@ -38,6 +44,8 @@ class Renderer(object):
 
         self.source_needs_update = [False] * self.numberOfSources
         self.source_getting_update = [False] * self.numberOfSources
+
+        self.debugPrefix = "/genericRenderer"
 
         # self.sourceAttributes_needsUpdate = [''] * self.numberOfSources
 
@@ -102,6 +110,10 @@ class Renderer(object):
         for addr, data in msgs:
             self.toRender.send_message(addr, data)
 
+        if self.debugCopy:
+            for addr, data in msgs:
+                self.oscDebugSend(addr, data)
+
 
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
 
@@ -109,7 +121,7 @@ class Renderer(object):
         posData = sobject.getPosition(self.posFormat)
         sourceID = source_idx + 1
         posData.insert(0, sourceID)
-        return list([('/source/pos/'+self.posFormat, posData)])
+        return [(('/source/pos/'+self.posFormat).encode(), posData)]
 
     def setContinousUpdateIntervall(self, update):
 
@@ -141,6 +153,14 @@ class Renderer(object):
             self.sendSourcePosition(idx)
 
 
+    def oscDebugSend(self, oscStr, data: []):
+        decStr = oscStr.decode()
+        newOscAddr = self.debugPrefix + decStr
+        self.oscDebugClient.send_message(newOscAddr.encode(), data)
+
+
+
+
 
 
 
@@ -157,6 +177,10 @@ class Wonder(Renderer):
             skc.SourceAttributes.doppler: b'/source/dopplerEffect',
             skc.SourceAttributes.planewave: b'/source/type'
         }
+        self.oscPosPref = b'/WONDER/source/pos'
+        self.oscAnglePref = b'/WONDER/source/angle'
+
+        self.debugPrefix = "/dWonder"
 
 
     def myType(self) -> str:
@@ -167,14 +191,14 @@ class Wonder(Renderer):
         sobject: SoundObject = self.sources[source_idx]
         position = sobject.getPosition(skc.xy)
         position = ct.apply_factor_addition(position, [0, -1], [0, 3])
-        addr = '/WONDER/source/pos'
-        msgs.append([addr, [source_idx, *position, self.updateIntervall]])
+        # addr = '/WONDER/source/pos'
+        msgs.append([self.oscPosPref, [source_idx, *position, self.updateIntervall]])
 
         if sobject.getSourceAttribute(skc.SourceAttributes.planewave):
-            angle_addr = '/WONDER/source/angle'
+            # angle_addr = '/WONDER/source/angle'
             sobj_azim = sobject.getPosition(skc.azim)
             angle = ct.azi_to_wonderangle(sobj_azim)
-            msgs.append([angle_addr, [source_idx, angle, self.updateIntervall]])
+            msgs.append([self.oscAnglePref, [source_idx, angle, self.updateIntervall]])
 
         return msgs
 
@@ -202,9 +226,11 @@ class Panoramix(Renderer):
             kwargs['dataformat'] = skc.xyz
         super(Panoramix, self).__init__(**kwargs)
 
-        self.posAddrs = [''] * self.numberOfSources
+        self.posAddrs = []
         for i in range(self.numberOfSources):
-            self.posAddrs[i] = '/track/' + str(i+1) + '/xyz'
+            self.posAddrs.append(('/track/' + str(i+1) + '/xyz').encode())
+
+        self.debugPrefix = "/dPanoramix"
 
     def myType(self) -> str:
         return 'Panoramix'
@@ -236,6 +262,8 @@ class IemMultiencoder(Renderer):
                 addrstr = '/MultiEncoder/' + str(i) + skc.fullnames[kk]
                 self.posAddrs.append(addrstr)
 
+        self.debugPrefix = "/dIEM"
+
 
     def myType(self) -> str:
         return 'IEM Multiencoder, NOT IMPLEMENTED'
@@ -251,13 +279,15 @@ class SuperColliderEngine(Renderer):
             kwargs['dataformat'] = skc.aed
         super(SuperColliderEngine, self).__init__(**kwargs)
 
-        self.addrstr = '/source/aed'
+        self.addrstr = b'/source/aed'
         self.singleValKeys = {
-            skc.azim: '/source/azim',
-            skc.dist: '/source/dist',
-            skc.elev: '/source/elev'
+            skc.azim: b'/source/azim',
+            skc.dist: b'/source/dist',
+            skc.elev: b'/source/elev'
         }
         self.validPosKeys = {skc.azim, skc.dist, skc.elev}
+
+        self.debugPrefix = "/dSuperCollider"
 
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
         sobject = self.sources[source_idx]
@@ -276,13 +306,19 @@ class SuperColliderEngine(Renderer):
 
 class Audiorouter(Renderer):
 
+    def __init__(self, **kwargs):
+        super(Audiorouter, self).__init__(**kwargs)
+
+        self.debugPrefix = "/dAudiorouter"
+
+
     def myType(self) -> str:
         return 'Audiorouter'
 
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
 
         msgs: [(str, [])] = []
-        addStr = '/source/send/spatial'
+        addStr = b'/source/send/spatial'
         sobject = self.sources[source_idx]
 
         for idx, gain in sobject.getChangedGains():
@@ -300,6 +336,8 @@ class ViewClient(Renderer):
 
     def __init__(self, **kwargs):
         super(ViewClient, self).__init__(**kwargs)
+
+        self.debugPrefix = "/dViewClient"
 
 
     #TODO: send complete Scene data
@@ -325,17 +363,17 @@ class Oscar(Renderer):
             sourceAddrs = {}
             for kk in skc.fullformat[skc.nxyzd]:
                 addrStr = '/source/' + str(i+1) + '/pos/' + kk
-                sourceAddrs[kk] = addrStr
+                sourceAddrs[kk] = addrStr.encode()
 
             for key in self.attributeOsc:
                 oscStr = '/source' + str(i+1) + '/' + key.value
-                sourceAddrs[key] = oscStr
+                sourceAddrs[key] = oscStr.encode()
 
             self.posAddrs.append(sourceAddrs)
 
-
-
         self.validPosKeys = {skc.dist}
+
+        self.debugPrefix = "/dOscar"
 
 
 
@@ -400,6 +438,8 @@ class Osclight(Renderer):
         for x in range(self.numberOfSources):
             self.oscClients.append(OSCClient(self.ipaddress, port=self.basePort+x))
 
+        self.debugPrefix = "/dOscLight"
+
 
     def sendSourcePosition(self, source_idx):
         msgs = self.composeSourceUpdateMessage(source_idx)
@@ -407,6 +447,10 @@ class Osclight(Renderer):
         for addr, data in msgs:
             # oscsock.send_message(addr, data, ip_address=self.ipaddress, port=self.basePort+source_idx)
             self.oscClients[source_idx].send_message(addr, data)
+
+        if self.debugCopy:
+            for addr, data in msgs:
+                self.oscDebugSend(addr, data)
 
 
     def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
