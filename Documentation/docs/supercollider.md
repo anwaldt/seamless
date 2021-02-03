@@ -1,3 +1,8 @@
+# SuperCollider
+
+SuperCollider is used as a mixing and distribution instance for the source signals, as well as for Ambisonics encoding.
+
+
 ## Build Decoders
 
 Decoders in ADT have a problem for more than speakers 24? speakers. Use standalone decoder in that case.
@@ -14,6 +19,8 @@ For larger loudspeaker setups (<24), standalone Jack decoders are used.
 
 
 ## SuperCollider OSC Paths
+
+The sueprcollider mixer listens to several OSC messages for signal routing and conrolling positions
 
 ### Sends
 

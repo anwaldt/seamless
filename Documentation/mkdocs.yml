@@ -1,8 +1,15 @@
 site_name: HuFo System
 
+theme:
+    name: readthedocs
+    highlightjs: true
+
+docs:
+    ../graphics/
+      hufo_flow_1.png
 
 nav:
-    - Home: index.md
+    - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
     - User Guide: userguide.md
     - SuperCollider: supercollider.md
     - OSC Router: oscrouter.md
