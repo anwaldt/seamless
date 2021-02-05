@@ -1,0 +1,16 @@
+[Unit]
+Description=TWonder Connections
+After=twonder.target network.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+PrivateTmp=true
+WorkingDirectory=/opt/wonder/current/scripts/connections/
+ExecStart=/opt/wonder/current/scripts/connections/connect-twonder.sh n101
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=studio
