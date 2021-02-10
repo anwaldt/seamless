@@ -10,7 +10,7 @@ docs:
 
 nav:
     - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
-    - User Guide: userguide.md
+    - User Guide (Reaper): reaper.md
     - SuperCollider: supercollider.md
     - OSC Router: oscrouter.md
     - Signal Flow: signalflow.md
