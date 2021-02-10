@@ -228,7 +228,8 @@ def notifyDataClientsForSourceDataUpdate(source_idx:int):
 
 def oscreceived_setGainForSource(sIdx: int, *args):
     if(soundobjects[sIdx].setRendererGain(args[0], args[1])):
-        audiorouter.sourceNeedsUpdate(sIdx)
+        for arouter in audiorouter:
+            arouter.sourceNeedsUpdate(sIdx)
 
 
 def oscreceived_setGain(*args):
@@ -236,7 +237,8 @@ def oscreceived_setGain(*args):
     renderIdx = args[1]
     gain = args[2]
     if(soundobjects[sIdx].setRendererGain(renderIdx, gain)):
-        audiorouter.sourceNeedsUpdate(sIdx)
+        for arouter in audiorouter:
+            arouter.sourceNeedsUpdate(sIdx)
 
 def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args: list):
 
