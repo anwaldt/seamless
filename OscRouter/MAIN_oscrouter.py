@@ -53,9 +53,15 @@ def getConfigurationFromFile(path: str) -> dict:
 
         type = lines[0].split()
 
-        if type[0] in ['globalconfig', 'audiorouter']:
+        if type[0] in ['globalconfig']:
             configd[type[0]] = {}
             subdict = configd[type[0]]
+        elif type[0] in ['audiorouter']:
+            if not 'audiorouter' in configd.keys():
+                configd[type[0]] = []
+            subdict = {}
+            configd['audiorouter'].append(subdict)
+
         else:
             if not type[0] in configd.keys():
                 configd[type[0]] = {}
@@ -105,13 +111,13 @@ SoundObject.number_renderer = numberofrenderengines
 #endregion
 
 #region Data initialisation
-audiorouter:Renderer
+
 
 soundobjects: [SoundObject] = []
 for i in range(numberofsources):
     soundobjects.append(SoundObject(objectID=1))
 
-
+audiorouter: [Renderer] = []
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
 uiClients: [Renderer] = []
@@ -120,7 +126,9 @@ allClients: [Renderer] = []
 
 print('setting audiorouter connection\n')
 if 'audiorouter' in configurationDict.keys():
-    audiorouter = rendererclass.createRendererClient(skc.renderClass.Audiorouter, kwargs=configurationDict['audiorouter'])
+    for dic in configurationDict['audiorouter']:
+        audiorouter.append(rendererclass.createRendererClient(skc.renderClass.Audiorouter, kwargs=dic))
+
 else:
     print('!!! NO AUDIOROUTER CONFIGURED')
 print()

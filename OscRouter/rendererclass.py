@@ -312,6 +312,16 @@ class Audiorouter(Renderer):
         self.debugPrefix = "/dAudiorouter"
 
 
+    def printRenderInformation(self):
+        info = [self.myType(), '\n',
+              'address:', self.ipaddress, 'listenport:', self.listenport, '\n',
+              'listening to format', 'send to render gains', '\n']
+        if self.renderid >= 0:
+            info.insert(1, 'renderID:')
+            info.insert(2, self.renderid)
+        print(*info)
+
+
     def myType(self) -> str:
         return 'Audiorouter'
 
