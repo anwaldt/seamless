@@ -177,7 +177,7 @@ class Wonder(Renderer):
             skc.SourceAttributes.doppler: b'/source/dopplerEffect',
             skc.SourceAttributes.planewave: b'/source/type'
         }
-        self.oscPosPref = b'/WONDER/source/pos'
+        self.oscPosPref = b'/WONDER/source/position'
         self.oscAnglePref = b'/WONDER/source/angle'
 
         self.debugPrefix = "/dWonder"
