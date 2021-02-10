@@ -29,7 +29,7 @@ updateintervall 10
 renderengine    wonder
 renderid        1
 ipaddress       127.0.0.1
-listenport      58000
+listenport      58100
 sendport        10101
 updateintervall 10
 ***
