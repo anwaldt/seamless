@@ -1,14 +1,9 @@
 /*
 
-Mixing and HOA rendering software for the HuFo.
-
-- parallel use of internal HOA and external WFS
-- additional send bus for subwoofer output
-
-- allows individual delays for all outputs
+A WFS only version of the SC mixer.
 
 Henrik von Coler
-2021-01-05
+2021-02-11
 
 */
 
@@ -71,7 +66,7 @@ postln("Launching with port:"++~server_ADDRESS++"!");
 
 // Server.default = Server(\binaural_server, NetAddr("127.0.0.1", ~server_ADDRESS));
 
-s.options.device               = "SC_MIX";
+s.options.device               = "SC_WFS";
 s.options.numInputBusChannels  = ~nInputs;
 s.options.numOutputBusChannels = 128;
 
@@ -80,15 +75,6 @@ s.options.memSize              = 65536;
 s.options.numBuffers           = 4096;
 
 s.options.numAudioBusChannels = 4096;
-
-/////////////////////////////////////////////////////////////////
-// HOA parameters
-/////////////////////////////////////////////////////////////////
-
-~hoa_order      = 3;
-~n_hoa_speakers = 45;
-
-~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
 
@@ -99,18 +85,9 @@ s.boot;
 
 s.waitForBoot({
 
-	// load necessary HOA stuff
-	HOABinaural.loadbinauralIRs(s);
-	HOABinaural.loadHeadphoneCorrections(s);
-	HOABinaural.binauralIRs;
-	HOABinaural.headPhoneIRs;
 
-	s.sync;
-
-	// load all synthdefs
+	// load all non-HOA synthdefs
 	load(~root_DIR++"HuFo_MISC_SYNTHDEFS.sc","r");
-	load(~root_DIR++"HuFo_HOA_SYNTHDEFS.sc","r");
-
 
 	/////////////////////////////////////////////////////////////////
 	// THE BUSSES:
@@ -150,9 +127,6 @@ s.waitForBoot({
 
 	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
 	~sub_BUS           = Bus.audio(s, 1);
-
-	// bus for encoded HOA
-	~ambi_BUS = Bus.audio(s, ~n_hoa_channnels);
 
 	s.sync;
 
@@ -213,34 +187,6 @@ s.waitForBoot({
 
 	~spatial_GROUP = Group.after(~send_GROUP);
 
-	for (0, ~nInputs -1, {arg cnt;
-
-		post('Adding HOA panning Module: ');
-		cnt.postln;
-
-		~hoa_panners = ~hoa_panners.add(
-			Synth(\binaural_mono_encoder_3,
-				[
-					\in_bus,  ~send_BUSES[cnt].index,
-					\out_bus, ~ambi_BUS.index
-				],
-				target: ~spatial_GROUP
-		);)
-	});
-
-
-
-
-	for (0, ~nInputs -1, {arg cnt;
-
-		post('Mapping HOA module: ');
-		cnt.postln;
-
-		~hoa_panners[cnt].map(\azim, ~control_azim_BUS.index  + cnt);
-		~hoa_panners[cnt].map(\elev, ~control_elev_BUS.index  + cnt);
-		~hoa_panners[cnt].map(\dist, ~control_dist_BUS.index  + cnt);
-
-	});
 
 	/////////////////////////////////////////////////////////////////
 	// OSC listeners:
@@ -284,31 +230,6 @@ s.waitForBoot({
 	}, '/source/pos/aed');
 
 
-	~send_OSC_ROUTINE = Routine({
-
-		inf.do({
-
-			var azim, elev, dist;
-
-
-			for (0, ~nInputs-1, { arg i;
-
-				azim = ~control_azim_BUS.getnSynchronous(~nInputs)[i];
-				elev = ~control_elev_BUS.getnSynchronous(~nInputs)[i];
-				dist = ~control_dist_BUS.getnSynchronous(~nInputs)[i];
-
-				~spatial_OSC.sendMsg('/source/pos/aed', i, azim, elev, dist);
-
-			});
-
-			0.01.wait;
-		});
-
-	});
-
-	~send_OSC_ROUTINE.play;
-
-
 
 	/////////////////////////////////////////////////////////////////
 	// decoder
@@ -316,40 +237,12 @@ s.waitForBoot({
 
 	~output_GROUP	 = Group.after(~spatial_GROUP);
 
-	// use external decoder instead
-	/*
-	~decoder = Synth(\hoa_decoder_HUFO,
-		[
-			\in_bus,~ambi_BUS.index,
-			\out_bus, 0
-		],
-		target: ~output_GROUP);
-	*/
 
-	/////////////////////////////////////////////////////////////////
-	// add one output module for each HOA channel
-	/////////////////////////////////////////////////////////////////
-	for (0, ~n_hoa_channnels -1, {arg cnt;
-
-		post('Adding HOA output Module: ');
-		cnt.postln;
-
-		~hoa_outputs = ~hoa_outputs.add(
-			Synth(\output_module,
-				[
-					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-					\out_bus, ~nInputs + 16 + cnt                 // 64 + 16
-				],
-				target: ~output_GROUP
-		);)
-	});
-
-	~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
-	~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
 
 	/////////////////////////////////////////////////////////////////
 	// add one output module for each WFS channel
 	/////////////////////////////////////////////////////////////////
+
 	for (0, ~nInputs -1, {arg cnt;
 
 		post('Adding WFS output Module: ');
