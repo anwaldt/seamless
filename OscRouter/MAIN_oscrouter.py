@@ -26,7 +26,7 @@ s_oscDebug = args.oscdebug
 
 if s_oscDebug:
     debugIp = s_oscDebug.split()[0]
-    debugPort = int(s_oscDebug.split()[1])
+    debugPort = int(s_oscDebug.split(':')[1])
     Renderer.createDebugClient(debugIp, debugPort)
     Renderer.debugCopy = True
 
