@@ -1,0 +1,15 @@
+[Unit]
+Description=aj-snapshot Connections
+After=network.target twonder.service sc_mix.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=forking
+PrivateTmp=true
+ExecStart=aj-snapshot -j -d -p 10000 /home/studio/hufo_system/Services/en325_riviera_jack_connections.xml
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=studio
