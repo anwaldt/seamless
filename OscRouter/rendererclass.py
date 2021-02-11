@@ -4,7 +4,7 @@ import str_keys_conventions as skc
 from str_keys_conventions import renderClass as renderclasstype
 import conversionsTools as ct
 from oscpy.client import OSCClient
-import oscpy.client as oscsock
+# import oscpy.client as oscsock
 import time
 from threading import Timer
 from functools import partial
@@ -37,8 +37,8 @@ class Renderer(object):
         self.posFormat = dataformat
         self.validSinglePosKeys = {}
         self.sourceAttributes = sourceattributes
-        self.ipaddress = ipaddress
-        self.listenport = int(listenport)
+        self.ipaddress = [ipaddress]
+        self.listenport = [int(listenport)]
         self.updateIntervall = int(updateintervall) / 1000
         self.continuously_update_intervall = int(continuously_update_intervall)
 
@@ -47,12 +47,17 @@ class Renderer(object):
 
         self.debugPrefix = "/genericRenderer"
 
+        self.multipleDestinations = False
+
         # self.sourceAttributes_needsUpdate = [''] * self.numberOfSources
 
         # For renderer that want continous updates
         self.continous_update = self.continuously_update_intervall > 0
 
-        self.toRender = OSCClient(self.ipaddress, self.listenport, encoding='utf8')
+        self.toRender: [OSCClient] = []
+        for idx, ip in enumerate(self.ipaddress):
+            self.toRender.append(OSCClient(ip, self.listenport[0], encoding='utf8'))
+        # self.toRender = OSCClient(self.ipaddress, self.listenport, encoding='utf8')
         self.sCheckSchedule = scheduler(time.time, time.sleep)
 
         self.printRenderInformation()
@@ -108,7 +113,8 @@ class Renderer(object):
         msgs = self.composeSourceUpdateMessage(source_idx)
         # print(msgs)
         for addr, data in msgs:
-            self.toRender.send_message(addr, data)
+            for client in self.toRender:
+                client.send_message(addr, data)
 
         if self.debugCopy:
             for addr, data in msgs:
@@ -157,6 +163,13 @@ class Renderer(object):
         decStr = oscStr.decode()
         newOscAddr = self.debugPrefix + decStr
         self.oscDebugClient.send_message(newOscAddr.encode(), data)
+
+
+    def addDestination(self, ip: str, port: int):
+        self.toRender.append(OSCClient(ip, port, encoding='utf8'))
+
+        print(self.myType(), 'added destination', ip, str(port))
+
 
 
 
@@ -208,7 +221,8 @@ class Wonder(Renderer):
 
         oscStr = self.attributeOsc[attribute]
 
-        self.toRender.send_message(oscStr, [attriValue])
+        for client in self.toRender:
+            client.send_message(oscStr, [attriValue])
 
         # if attribute == skc.SourceAttributes.planewave:
         #     osc_str = b'/source/type'
@@ -408,8 +422,8 @@ class Oscar(Renderer):
     def sendSourceAttributeMessage(self, sidx, attribute):
 
         attriValue = self.sources[sidx].getSourceAttribute(attribute)
-
-        self.toRender.send_message(self.posAddrs[sidx][attribute], [attriValue])
+        for client in self.toRender:
+            client.send_message(self.posAddrs[sidx][attribute], [attriValue])
 
         # if attribute == skc.SourceAttributes.planewave:
         #     osc_str = b'/source/type'

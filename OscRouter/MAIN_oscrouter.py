@@ -117,7 +117,7 @@ soundobjects: [SoundObject] = []
 for i in range(numberofsources):
     soundobjects.append(SoundObject(objectID=1))
 
-audiorouter: [Renderer] = []
+audiorouter: Renderer = None
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
 uiClients: [Renderer] = []
@@ -126,8 +126,13 @@ allClients: [Renderer] = []
 
 print('setting audiorouter connection\n')
 if 'audiorouter' in configurationDict.keys():
+
+
     for dic in configurationDict['audiorouter']:
-        audiorouter.append(rendererclass.createRendererClient(skc.renderClass.Audiorouter, kwargs=dic))
+        if not audiorouter:
+            audiorouter = rendererclass.createRendererClient(skc.renderClass.Audiorouter, kwargs=dic)
+        else:
+            audiorouter.addDestination(dic['ipaddress'], dic['listenport'])
 
 else:
     print('!!! NO AUDIOROUTER CONFIGURED')
@@ -228,17 +233,16 @@ def notifyDataClientsForSourceDataUpdate(source_idx:int):
 
 def oscreceived_setGainForSource(sIdx: int, *args):
     if(soundobjects[sIdx].setRendererGain(args[0], args[1])):
-        for arouter in audiorouter:
-            arouter.sourceNeedsUpdate(sIdx)
+        audiorouter.sourceNeedsUpdate(sIdx)
 
 
 def oscreceived_setGain(*args):
-    sIdx = args[0]-1
-    renderIdx = args[1]
-    gain = args[2]
-    if(soundobjects[sIdx].setRendererGain(renderIdx, gain)):
-        for arouter in audiorouter:
-            arouter.sourceNeedsUpdate(sIdx)
+    if args[0] > 0:
+        sIdx = args[0]-1
+        renderIdx = args[1]
+        gain = args[2]
+        if(soundobjects[sIdx].setRendererGain(renderIdx, gain)):
+            audiorouter.sourceNeedsUpdate(sIdx)
 
 def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args: list):
 
