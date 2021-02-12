@@ -1,7 +1,27 @@
-# SuperCollider
+# SuperCollider 
 
-SuperCollider is used as a mixing and distribution instance for the source signals, as well as for Ambisonics encoding.
+Mixing and signal distribution is based on SuperCollider.
+Two main scripts are used:
 
+### HuFo_SERVER.scd
+
+**HuFo_SERVER** is a mixing and distribution instance for the source signals, as well as for Ambisonics encoding.
+
+### HuFo_WFS.scd
+
+**HuFo_WFS** is a  mixing and distribution instance for the source signals, limited to WFS for.
+
+Both instances are take the same optional input arguments:
+
+```console
+$ sclang HuFo_SERVER.scd <N_inputs> <server_port>
+$ sclang HuFo_WFS.scd <N_inputs> <server_port>
+```
+Defaults:
+
+- N_inputs: 64
+- server_port: 58010
+# Setting Up
 
 ## Build Decoders
 
@@ -18,7 +38,7 @@ For larger loudspeaker setups (<24), standalone Jack decoders are used.
 
 
 
-## SuperCollider OSC Paths
+# SuperCollider OSC Paths
 
 The sueprcollider mixer listens to several OSC messages for signal routing and conrolling positions
 

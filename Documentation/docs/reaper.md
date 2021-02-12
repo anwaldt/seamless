@@ -32,7 +32,7 @@ The output of the audio tracks should be set be sent to a mono channel, either a
 
 ---
 
-![reapearmono](graphics/Reaper_HWmono1.svg "Mono Output Routing")
+![reapearmono](graphics/reaper_HWmono1.svg "Mono Output Routing")
 
 ---
 

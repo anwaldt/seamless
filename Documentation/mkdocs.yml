@@ -1,8 +1,12 @@
 site_name: HuFo System
 
 theme:
-    name: readthedocs
+    name: material
     highlightjs: true
+    logo: graphics/interface_HVC_small.png
+
+extra:
+    generator: false
 
 docs:
     ../graphics/
@@ -10,7 +14,7 @@ docs:
 
 nav:
     - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
-    - User Guide (Reaper): reaper.md
+    - Reaper User Guide: reaper.md
     - SuperCollider: supercollider.md
     - OSC Router: oscrouter.md
     - Signal Flow: signalflow.md
