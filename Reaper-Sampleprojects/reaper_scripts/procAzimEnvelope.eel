@@ -1,0 +1,52 @@
+
+//ShowConsoleMsg("Hallo");
+
+envelope = GetSelectedEnvelope();
+
+
+// GetEnvelopePoint( envelope, ptidx, time, value, shape, tension, selected )
+
+nPoints = CountEnvelopePoints(envelope);
+
+ShowConsoleMsg(sprintf(#,"%d Envelope-Points\n", nPoints));
+
+
+
+i = 0;
+point_t = 0.0;
+prevpoint_t = 0.0;
+point_v = 0.0;
+prevpoint_v = 0.0;
+
+counter = 0;
+
+loop(nPoints,
+
+GetEnvelopePoint(envelope, i, point_t, point_v);
+  //ShowConsoleMsg(sprintf(#,"%f",point_v));
+  
+  i > 0 ? (
+  
+ // ShowConsoleMsg(sprintf(#,"idx=%d Value= %f time= %f \n",i, point_v,point_t));
+  
+  point_v - prevpoint_v > 0.5 ?
+  (
+  counter+=1;
+ // ShowConsoleMsg(sprintf(#,"C-Cl index = %d\n", i));
+ SetEnvelopePoint( envelope, i-1, prevpoint_t, prevpoint_v, 1, nil, nil,true );
+  );
+  
+  point_v - prevpoint_v < -0.5 ?
+  (
+  counter+=1;
+  //ShowConsoleMsg(sprintf(#,"Cl index = %d\n", i));
+ SetEnvelopePoint( envelope, i-1, prevpoint_t, prevpoint_v, 1, nil, nil,true );
+  );
+  
+  );
+  prevpoint_v = point_v;
+  prevpoint_t = point_t;
+  i+=1;
+  //ShowConsoleMsg(sprintf(#,"Jump found with diff = %f\n", point_v-prevpoint_v));
+);
+//ShowConsoleMsg("Hallo");

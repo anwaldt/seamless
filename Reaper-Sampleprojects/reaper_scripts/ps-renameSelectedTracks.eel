@@ -1,0 +1,20 @@
+
+nSelected = CountSelectedTracks(0);
+
+#vars = "Source_,0";
+
+GetUserInputs("Rename multiple Tracks", 2, "Prefix,index-offset", #vars) ? (
+  match("%s,%d",#vars,name,offset);
+  i = 0;
+  loop(CountSelectedTracks(0),
+  index_suffix = i + offset + 1;
+//  #newTrackname = name;
+  sprintf(#newTrackname, "%s%d", name, index_suffix);
+  track = GetSelectedTrack(0,i);
+  GetSetMediaTrackInfo_String(track, "P_NAME", #newTrackname, 1);
+  i += 1;
+);
+);
+
+
+

@@ -15,7 +15,7 @@ recvTrack = GetTrack(0,rcvTrackIdx-1);
 idx = 0;
 while (idx < nTracks) (
 
-  InsertTrackAtIndex(idx + nTracksInProject, 0);
+  InsertTrackAtIndex(idx + rcvTrackIdx, 0);
   sendTrack = GetTrack(0, idx + nTracksInProject);
   
   sendIdx = CreateTrackSend(sendTrack, recvTrack);
