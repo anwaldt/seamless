@@ -12,9 +12,16 @@ class SoundObject(object):
     number_renderer = 1
     # maxGain = 2.
     send_change_only = False
+    #
+    preferUi = True
+    dataPortTimeOut = 1.0
 
-    def readGlobalConfig(cls):
-        pass
+    @classmethod
+    def readGlobalConfig(cls, config: dict):
+        cls.globalConfig = config
+        cls.preferUi = bool(not config['data_port_timeout'] == 0)
+        cls.dataPortTimeOut = float(config['data_port_timeout'])
+        # cls.number_renderer =
 
 
     def __init__(self, objectID=0):
@@ -42,8 +49,10 @@ class SoundObject(object):
         }
         self._changedaAttributes: set = set()
 
-        self._torenderer_sends = [0.] * self.number_renderer
+        self._torendererSends = [0.] * self.number_renderer
         self._changedSends: set = set()
+        self._directSends = [0.] * self.globalConfig['number_direct_sends']
+        self._changedDirSends = set()
 
 
         self._positionIsSet = {
@@ -57,8 +66,15 @@ class SoundObject(object):
 
         self._contState = skc.sControl_state.auto_switch_control
 
-        self._lastUpdateTime = time()
-        self._manuallySetPosition = False
+        self.t_position = time()
+        self._uiDidSetPosition = False
+
+        self.t_setAttribute = time()
+        self._uiDidSetAttribute = False
+        self.t_renderGain = [time()] * self.number_renderer
+        self._uiDidSetRenderGain = [False] * self.number_renderer
+        self.t_directSend = [time()] * self.globalConfig['number_direct_sends']
+        self._uiDidSetDirectSend = [False] * self.globalConfig['number_direct_sends']
 
 
     def getPositionValuesForKey(self, key: skc.CoordFormats) -> []:
@@ -99,8 +115,18 @@ class SoundObject(object):
         self._positionIsSet[updateFormat] = True
 
 
-    def setPosition(self, coordinate_key: str, values) -> bool:
+    def setPosition(self, coordinate_key: str, values, fromUi:bool=True) -> bool:
 
+        if self.preferUi:
+            if not fromUi and self._uiDidSetPosition:
+                if self.dataPortStillBlocked(self.t_position):
+                    return False
+                else:
+                    self._uiDidSetPosition = False
+            else:
+                self.t_position = time()
+                self._uiDidSetPosition = True
+        #
         coordinateType = skc.posformat[coordinate_key][0]
         sthChanged = False
 
@@ -118,6 +144,8 @@ class SoundObject(object):
         # here the Position is set
         for idx, key in enumerate(skc.posformat[coordinate_key][1]):
             newValue = ct.f32(values[idx])
+            if key == skc.dist:
+                newValue = np.maximum(self.globalConfig['min_dist'], newValue)
             if self.globalConfig[skc.send_changes_only]:
                 if not newValue == self._position[key]:
                     sthChanged = True
@@ -135,31 +163,31 @@ class SoundObject(object):
         return sthChanged
 
 
-    def setPositionFromAutomation(self, coordinate_key: str, values) -> bool:
-
-        if self._contState == skc.sControl_state.automation_control:
-            return self.setPosition(coordinate_key, values)
-
-        elif self._contState == skc.sControl_state.auto_switch_control:
-            if self._manuallySetPosition:
-                if (time() - self._lastUpdateTime) < self.globalConfig[skc.data_port_timeout]:
-                    self._manuallySetPosition = False
-                else:
-                    return False
-
-            return self.setPosition(coordinate_key, values)
-        else:
-            return False
-
-
-    def setPositionFromUserInterface(self, coordinate_key: str, values) -> bool:
-        if self._contState == skc.sControl_state.auto_switch_control or self._contState == skc.sControl_state.manually_control:
-            self._manuallySetPosition = True
-            self._lastUpdateTime = time()
-            self.setPosition(coordinate_key, values)
-            return True
-        else:
-            return False
+    # def setPositionFromAutomation(self, coordinate_key: str, values) -> bool:
+    #
+    #     if self._contState == skc.sControl_state.automation_control:
+    #         return self.setPosition(coordinate_key, values)
+    #
+    #     elif self._contState == skc.sControl_state.auto_switch_control:
+    #         if self._uiDidSetRenderGain:
+    #             if (time() - self._lastPositionUpdateTime) < self.globalConfig[skc.data_port_timeout]:
+    #                 self._uiDidSetRenderGain = False
+    #             else:
+    #                 return False
+    #
+    #         return self.setPosition(coordinate_key, values)
+    #     else:
+    #         return False
+    #
+    #
+    # def setPositionFromUserInterface(self, coordinate_key: str, values) -> bool:
+    #     if self._contState == skc.sControl_state.auto_switch_control or self._contState == skc.sControl_state.manually_control:
+    #         self._uiDidSetRenderGain = True
+    #         self._lastPositionUpdateTime = time()
+    #         self.setPosition(coordinate_key, values)
+    #         return True
+    #     else:
+    #         return False
 
 
     def setControlState(self, state: skc.sControl_state):
@@ -184,51 +212,108 @@ class SoundObject(object):
         return coords
 
 
-    def setSourceAttribute(self, attribute, value) -> bool:
+    def setAttribute(self, attribute, value, fromUi:bool=True) -> bool:
+        if self.preferUi:
+            if not fromUi and self._uiDidSetAttribute:
+                if self.dataPortStillBlocked(self.t_setAttribute):
+                    return False
+                else:
+                    self._uiDidSetAttribute = False
+            else:
+                self.t_position = time()
+                self._uiDidSetAttribute = True
+
+
         if not self._sourceattributes[attribute] == value:
             self._sourceattributes[attribute] = value
             return True
         else:
             return False
 
-    def getChangedAttributes(self, attribute, value):
-        pass
 
-    def getSourceAttribute(self, attribute: skc.SourceAttributes) -> any:
+    def getAttribute(self, attribute: skc.SourceAttributes) -> any:
         return self._sourceattributes[attribute]
 
 
     def setRendererGain(self, rendIdx: int, gain: float, fromUi:bool=True) -> bool:
+        if self.preferUi:
+            if not fromUi and self._uiDidSetRenderGain[rendIdx]:
+                if self.dataPortStillBlocked(self.t_renderGain[rendIdx]):
+                    return False
+                else:
+                    self._uiDidSetRenderGain[rendIdx] = False
+            else:
+                self.t_position = time()
+                self._uiDidSetRenderGain[rendIdx] = True
 
-        _gain = np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain])
-        # print('set gain', gain, 'for index', rendIdx, 'my id is', self.objectID)
-        # print('sends', self._torenderer_sends)
+        _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain]))
+
         if self.globalConfig[skc.send_changes_only]:
-            if self._torenderer_sends[rendIdx] == _gain:
+            if self._torendererSends[rendIdx] == _gain:
                 return False
 
-        self._torenderer_sends[rendIdx] = _gain
-        self._changedSends.add(rendIdx)
+        self._torendererSends[rendIdx] = _gain
+        # self._changedSends.add(rendIdx)
         return True
 
 
-#TODO: what if audiorouter is no singleton?
+    def setDirectSend(self, directIdx: int, gain: float, fromUi:bool=True) -> bool:
+        #TODO: replace the fromUi thing with a function
+        if self.preferUi:
+            if not fromUi and self._uiDidSetDirectSend[directIdx]:
+                if self.dataPortStillBlocked(self.t_directSend[directIdx]):
+                    return False
+                else:
+                    self._uiDidSetDirectSend[directIdx] = False
+            else:
+                self.t_position = time()
+                self._uiDidSetDirectSend[directIdx] = True
+
+        _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain]))
+
+        if self.globalConfig[skc.send_changes_only]:
+            if self._torendererSends[directIdx] == _gain:
+                return False
+
+        self._directSends[directIdx] = _gain
+        # self._changedDirSends.add(directIdx)
+        return True
+
     def getAllRendererGains(self) -> [float]:
-        # print(self._torenderer_sends)
-        return self._torenderer_sends
+        return self._torendererSends
 
-    def getChangedGains(self) -> [(int, float)]:
-        msgs = []
-        while self._changedSends:
-            sendIdx = self._changedSends.pop()
-            msgs.append((sendIdx, self._torenderer_sends[sendIdx]))
-        return msgs
+    def getRenderGain(self, rIdx:int) -> float:
+        return self._torendererSends[rIdx]
 
-    def getRendererGain(self, idx:int) -> float:
-        return self._torenderer_sends[idx]
+    def getAllDirectSends(self) -> [float]:
+        return self._directSends
 
+    def getDirectSend(self, cIdx:int) -> float:
+        return self._directSends[cIdx]
 
+    def dataPortStillBlocked(self, t_lastUiUpdate) -> bool:
+        return time() - t_lastUiUpdate >= self.dataPortTimeOut
 
+    # def getChangedDirectSends(self) -> [(int, float)]:
+    #     msgs = []
+    #     while self._changedDirSends:
+    #         sendIdx = self._changedSends.pop()
+    #         msgs.append((sendIdx, self._directSends[sendIdx]))
+    #     return msgs
+    #
+    # def getChangedGains(self) -> ([],[]):
+    #     return (self.getChangedRendererGains(), self.getChangedDirectSends())
+    #
+    # def getChangedRendererGains(self) -> [(int, float)]:
+    #     msgs = []
+    #     while self._changedSends:
+    #         sendIdx = self._changedSends.pop()
+    #         msgs.append((sendIdx, self._torendererSends[sendIdx]))
+    #     return msgs
+    # def getChangedAttributes(self, attribute, value):
+    #     pass
+
+# does nothing for now
 class LinkedObject(object):
     def __init__(self, **kwargs):
         super(LinkedObject, self).__init__(**kwargs)

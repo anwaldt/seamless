@@ -139,6 +139,13 @@ class renderClass(Enum):
     Audiorouter = 'audiorouter'
     Osclight = "osclight"
 
+
+# sourceAttributes: dict = {
+#         planewave: planewave,
+#         doppler: doppler
+# }
+knownAttributes = {planewave, doppler}
+
 class SourceAttributes(Enum):
         planewave = planewave
         doppler = doppler

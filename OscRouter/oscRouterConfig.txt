@@ -4,8 +4,10 @@ inputport_data  4007            // inputport for automation-data clients
 settings_port   4999            // global configs can be changed with this port
 number_sources   64
 max_gain        2               // max gain for the audiorouter
+min_dist        0.001
+number_direct_sends   46              // including subwoofer
 send_changes_only 0             // checks every input for changes, if set to 1 might be slower
-data_port_timeout 0.5           // time a change in the ui blocks incoming automation
+data_port_timeout 1           // time a change in the ui-port blocks incoming automation, set to 0 to deactivate this feature
 ***
 audiorouter
 ipaddress       127.0.0.1
@@ -36,7 +38,6 @@ updateintervall 10
 dataclient      oscar
 ipaddress       130.149.23.46
 listenport      4001
-dataformat      normcartesian_xyzd
 updateintervall 5
 ***
 
