@@ -124,18 +124,12 @@ soundobjects: [SoundObject] = []
 for i in range(numberofsources):
     soundobjects.append(SoundObject(objectID=i+1))
 Renderer.sources = soundobjects
-osccomcenter.soundobjects = soundobjects
 
 audiorouter: Renderer = None
-osccomcenter.audiorouter = audiorouter
 renderengineClients: [Renderer] = []
-osccomcenter.renderengineClients = renderengineClients
 dataClients: [Renderer] = []
-osccomcenter.dataClients = dataClients
 uiClients: [Renderer] = []
-osccomcenter.uiClients = uiClients
 allClients: [Renderer] = []
-osccomcenter.allClients = allClients
 
 print('setting audiorouter connection\n')
 if 'audiorouter' in configurationDict.keys():
@@ -375,6 +369,13 @@ else:
 
 # print('creating OSC bindings...')
 ###
+osccomcenter.soundobjects = soundobjects
+osccomcenter.audiorouter = audiorouter
+osccomcenter.renderengineClients = renderengineClients
+osccomcenter.dataClients = dataClients
+osccomcenter.uiClients = uiClients
+osccomcenter.allClients = allClients
+
 osccomcenter.setupOscBindings()
 ###
 

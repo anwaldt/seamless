@@ -4,6 +4,8 @@ import conversionsTools as ct
 from functools import partial
 from time import time
 
+_tt = 'time'
+_uiBlock = '_uiDidBlock'
 
 class SoundObject(object):
 
@@ -66,23 +68,45 @@ class SoundObject(object):
 
         self._contState = skc.sControl_state.auto_switch_control
 
-        self.t_position = time()
-        self._uiDidSetPosition = False
 
-        self.t_setAttribute = time()
-        self._uiDidSetAttribute = False
-        self.t_renderGain = [time()] * self.number_renderer
-        self._uiDidSetRenderGain = [False] * self.number_renderer
-        self.t_directSend = [time()] * self.globalConfig['number_direct_sends']
-        self._uiDidSetDirectSend = [False] * self.globalConfig['number_direct_sends']
+        self.uiBlockingDict = {}
+        self.uiBlockingDict['position'] = self.createBlockingDict()
+        #     {
+        #     _tt: time(),
+        #     _uiBlock: False
+        # }
+        # self.t_position = time()
+        # self._uiDidSetPosition = False
+        self.uiBlockingDict['attribute'] = self.createBlockingDict()
+        # self.t_setAttribute = time()
+        # self._uiDidSetAttribute = False
+        self.uiBlockingDict['rendergain'] = []
+        for i in range(self.number_renderer):
+            self.uiBlockingDict['rendergain'].append(self.createBlockingDict())
+        self.uiBlockingDict['directsend'] = []
+        for i in range(self.globalConfig['number_direct_sends']):
+            self.uiBlockingDict['directsend'].append(self.createBlockingDict())
 
+        # self.t_renderGain = [time()] * self.number_renderer
 
-    def getPositionValuesForKey(self, key: skc.CoordFormats) -> []:
+        # self._uiDidSetRenderGain = [False] * self.number_renderer
+        # self.t_directSend = [time()] * self.globalConfig['number_direct_sends']
+        # self._uiDidSetDirectSend = [False] * self.globalConfig['number_direct_sends']
+
+    def createBlockingDict(self)->dict:
+        return {_tt: time(),
+                _uiBlock: False}
+
+    def _getPositionValuesForKey(self, key: skc.CoordFormats) -> []:
         vals = []
         for kk in skc.posformat[key.value][1]:
             vals.append(self._position[kk])
 
         return vals
+
+
+    def setControlState(self, state: skc.sControl_state):
+        self._contState = state
 
     def updateCoordinateFormat(self, updateFormat):
 
@@ -108,24 +132,33 @@ class SoundObject(object):
         convert_metadata = conversionMap[updateFormat][statusTupel]
         conversion = partial(convert_metadata[0])#, skc.posformat[convert_metadata[1]])
 
-        updatedCoo = conversion(*self.getPositionValuesForKey(convert_metadata[1]))
+        updatedCoo = conversion(*self._getPositionValuesForKey(convert_metadata[1]))
         for idx, coo in enumerate(skc.fullformat[updateFormat]):
             self._position[coo] = updatedCoo[idx]
 
         self._positionIsSet[updateFormat] = True
 
 
-    def setPosition(self, coordinate_key: str, values, fromUi:bool=True) -> bool:
+    def setPosition(self, coordinate_key: str, *values, fromUi:bool=True) -> bool:
 
-        if self.preferUi:
-            if not fromUi and self._uiDidSetPosition:
-                if self.dataPortStillBlocked(self.t_position):
-                    return False
-                else:
-                    self._uiDidSetPosition = False
-            else:
-                self.t_position = time()
-                self._uiDidSetPosition = True
+        if not self.shouldProcessInput(self.uiBlockingDict['position'], fromUi):
+            return False
+
+        # if fromUi:
+        #     self.gotUiInput(self.uiBlockDict['position'])
+        #
+        # elif self.preferUi and self.dataPortStillBlocked(self.uiBlockDict['position']):
+        #     return False
+
+        # if self.preferUi:
+        #     if not fromUi and self._uiDidSetPosition:
+        #         if self.dataPortStillBlocked(self.t_position):
+        #             return False
+        #         else:
+        #             self._uiDidSetPosition = False
+        #     else:
+        #         self.t_position = time()
+        #         self._uiDidSetPosition = True
         #
         coordinateType = skc.posformat[coordinate_key][0]
         sthChanged = False
@@ -140,7 +173,7 @@ class SoundObject(object):
         self._lastUpdateKey = coordinate_key
 
         #TODO:copy old position
-
+        print(len(values), values)
         # here the Position is set
         for idx, key in enumerate(skc.posformat[coordinate_key][1]):
             newValue = ct.f32(values[idx])
@@ -190,8 +223,6 @@ class SoundObject(object):
     #         return False
 
 
-    def setControlState(self, state: skc.sControl_state):
-        self._contState = state
 
     def getSingleValueUpdate(self, keys):
         if self._lastUpdateKey in keys:
@@ -213,15 +244,19 @@ class SoundObject(object):
 
 
     def setAttribute(self, attribute, value, fromUi:bool=True) -> bool:
-        if self.preferUi:
-            if not fromUi and self._uiDidSetAttribute:
-                if self.dataPortStillBlocked(self.t_setAttribute):
-                    return False
-                else:
-                    self._uiDidSetAttribute = False
-            else:
-                self.t_position = time()
-                self._uiDidSetAttribute = True
+
+        if not self.shouldProcessInput(self.uiBlockingDict['attribute'], fromUi):
+            return False
+
+        # if self.preferUi:
+        #     if not fromUi and self._uiDidSetAttribute:
+        #         if self.dataPortStillBlocked(self.t_setAttribute):
+        #             return False
+        #         else:
+        #             self._uiDidSetAttribute = False
+        #     else:
+        #         self.t_position = time()
+        #         self._uiDidSetAttribute = True
 
 
         if not self._sourceattributes[attribute] == value:
@@ -236,15 +271,19 @@ class SoundObject(object):
 
 
     def setRendererGain(self, rendIdx: int, gain: float, fromUi:bool=True) -> bool:
-        if self.preferUi:
-            if not fromUi and self._uiDidSetRenderGain[rendIdx]:
-                if self.dataPortStillBlocked(self.t_renderGain[rendIdx]):
-                    return False
-                else:
-                    self._uiDidSetRenderGain[rendIdx] = False
-            else:
-                self.t_position = time()
-                self._uiDidSetRenderGain[rendIdx] = True
+
+        if not self.shouldProcessInput(self.uiBlockingDict['rendergain'][rendIdx], fromUi):
+            return False
+
+        # if self.preferUi:
+        #     if not fromUi and self._uiDidSetRenderGain[rendIdx]:
+        #         if self.dataPortStillBlocked(self.t_renderGain[rendIdx]):
+        #             return False
+        #         else:
+        #             self._uiDidSetRenderGain[rendIdx] = False
+        #     else:
+        #         self.t_position = time()
+        #         self._uiDidSetRenderGain[rendIdx] = True
 
         _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain]))
 
@@ -259,15 +298,18 @@ class SoundObject(object):
 
     def setDirectSend(self, directIdx: int, gain: float, fromUi:bool=True) -> bool:
         #TODO: replace the fromUi thing with a function
-        if self.preferUi:
-            if not fromUi and self._uiDidSetDirectSend[directIdx]:
-                if self.dataPortStillBlocked(self.t_directSend[directIdx]):
-                    return False
-                else:
-                    self._uiDidSetDirectSend[directIdx] = False
-            else:
-                self.t_position = time()
-                self._uiDidSetDirectSend[directIdx] = True
+        if not self.shouldProcessInput(self.uiBlockingDict['directsend'][directIdx], fromUi):
+            return False
+
+        # if self.preferUi:
+        #     if not fromUi and self._uiDidSetDirectSend[directIdx]:
+        #         if self.dataPortStillBlocked(self.t_directSend[directIdx]):
+        #             return False
+        #         else:
+        #             self._uiDidSetDirectSend[directIdx] = False
+        #     else:
+        #         self.t_position = time()
+        #         self._uiDidSetDirectSend[directIdx] = True
 
         _gain = ct.f32(np.clip(gain, a_min=0, a_max=self.globalConfig[skc.max_gain]))
 
@@ -278,6 +320,13 @@ class SoundObject(object):
         self._directSends[directIdx] = _gain
         # self._changedDirSends.add(directIdx)
         return True
+
+
+    def checkIsBlocked(self, *args):
+        pass
+
+    def getBoolAndTime(self, *args):
+        pass
 
     def getAllRendererGains(self) -> [float]:
         return self._torendererSends
@@ -291,8 +340,23 @@ class SoundObject(object):
     def getDirectSend(self, cIdx:int) -> float:
         return self._directSends[cIdx]
 
-    def dataPortStillBlocked(self, t_lastUiUpdate) -> bool:
-        return time() - t_lastUiUpdate >= self.dataPortTimeOut
+    def shouldProcessInput(self, blockDict:dict, fromUi:bool=True, ) -> bool:
+        if fromUi:
+            self.gotUiInput(blockDict)
+            return True
+        elif self.preferUi and self.dataPortStillBlocked(blockDict):
+            return False
+
+    def gotUiInput(self, blockDict:dict):
+        blockDict[_uiBlock] = True
+        blockDict[_tt] = time()
+
+    def dataPortStillBlocked(self, blockDict:dict) -> bool:
+        if blockDict[_uiBlock]:
+            if time() - blockDict[_tt] > self.dataPortTimeOut:
+                blockDict[_uiBlock] = False
+
+        return True
 
     # def getChangedDirectSends(self) -> [(int, float)]:
     #     msgs = []

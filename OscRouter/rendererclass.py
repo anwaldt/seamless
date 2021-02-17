@@ -90,9 +90,10 @@ class Renderer(object):
         return [(osc_pre, values)]
 
     def sourceChanged(self, source_idx):
-        self.source_needs_update[source_idx] = True
         if not self.source_getting_update[source_idx]:
             self.updateSource(source_idx)
+        else:
+            self.source_needs_update[source_idx] = True
 
     def updateSource(self, source_idx):
 
@@ -105,12 +106,13 @@ class Renderer(object):
         self.scheduleSourceUpdateCheck(source_idx)
 
     def sendUpdates(self, msgs):
+        print('sending updates', msgs)
         for msg in msgs:
             for toRenderClient in self.toRender:
                 toRenderClient.send_message(msg[0], msg[1])
 
             if self.debugCopy:
-                debugOsc = (self.debugPrefix + msg.decode()).encode()
+                debugOsc = (self.debugPrefix + msg[0].decode()).encode()
                 self.oscDebugClient.send_message(debugOsc, msg[1])
 
     def sendToDebugClient(self):
@@ -118,7 +120,7 @@ class Renderer(object):
 
     def scheduleSourceUpdateCheck(self, source_idx):
         self.source_needs_update[source_idx] = False
-        self.source_getting_update = True
+        self.source_getting_update[source_idx] = True
         Timer(self.updateIntervall, partial(self.check_sourceNeedsUpdate, source_idx)).start()
 
     def check_sourceNeedsUpdate(self, source_idx):
@@ -137,7 +139,7 @@ class Renderer(object):
 
     def sourcePositionChanged(self, source_idx):
         pass
-
+        # print('blabla')
 
 # the following were not needed anymore
     def sendSourcePosition(self, source_idx):
@@ -162,15 +164,14 @@ class Renderer(object):
         self.oscDebugClient.send_message(newOscAddr.encode(), data)
 
 
-
-
 class SpatialRenderer(Renderer):
 
     def myType(self) -> str:
         return 'Generic Spatial Renderer'
 
     def sourcePositionChanged(self, source_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition),
+        print('got position change',self.myType(), source_idx)
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
                                           self.oscPre))
         self.sourceChanged(source_idx)
 
@@ -242,7 +243,7 @@ class Wonder(SpatialRenderer):
 
 
 class Audiorouter(Renderer):
-
+    #
     def __init__(self, **kwargs):
         super(Audiorouter, self).__init__(**kwargs)
 
@@ -282,6 +283,7 @@ class Audiorouter(Renderer):
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
+        print('audiorouter', source_idx, render_idx)
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), self.oscpre_renderGain))
         self.sourceChanged(source_idx)
 
@@ -408,7 +410,7 @@ class Oscar(SpatialRenderer):
         for i in range(self.numberOfSources):
             sourceAddrs = {}
             for kk in skc.fullformat[self.posFormat]:
-                addrStr = '/source/' + str(i+1) + kk
+                addrStr = '/source/' + str(i+1) + '/' + kk
                 sourceAddrs[kk] = addrStr.encode()
             self.oscPosPre.append(sourceAddrs)
 

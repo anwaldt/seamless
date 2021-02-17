@@ -37,6 +37,7 @@ osc_automation_socket: OSCThreadServer# = osc_data_server.listen(address='0.0.0.
 
 
 def setupOscBindings():
+
     osc_ui_socket = osc_ui_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_ui], default=True)
     osc_data_socket = osc_data_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_data], default=True)
 
@@ -116,88 +117,108 @@ def bindToDataAndUiPort(addr, func):
 def sourceLegit(id:int) -> bool:
     return 0<=id<globalconfig['number_sources']
 
+def renderIndexLegit(id:int) -> bool:
+    return 0<=id<globalconfig['numberofrenderengines']
+
+def directSendLegit(id:int) -> bool:
+    return 0<=id<globalconfig['number_direct_sends']
+
 
 def oscreceived_setPosition(coordKey, *args, fromUi=True):
-    sIdx = args.pop(0)-1
+    sIdx = args[0]-1
     if sourceLegit(sIdx):
-        oscreceived_setPositionForSource(coordKey, sIdx, args, fromUi)
+        oscreceived_setPositionForSource(coordKey, sIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
 
-    if(soundobjects[sIdx].setPosition(coordKey, args, fromUi)):
-        notifyRendererForSourcePosition(sIdx, fromUi)
+    if(soundobjects[sIdx].setPosition(coordKey, *args, fromUi=fromUi)):
+        notifyRenderClientsForUpdate(Renderer.sourcePositionChanged, sIdx, fromUi=fromUi)
+        # notifyRendererForSourcePosition(sIdx, fromUi)
 
-
-def notifyRendererForSourcePosition(source_idx:int, fromUi:bool=True):
-    for rend in [*renderengineClients, *uiClients]:
-        rend.sourceChanged(source_idx)
-    if not fromUi:
-        for rend in dataClients:
-            rend.sourceChanged(source_idx)
-
+# def notifyRendererForSourcePosition(source_idx:int, fromUi:bool=True):
+#     for rend in [*renderengineClients, *uiClients]:
+#         rend.sourcePositionChanged(source_idx)
+#     if fromUi:
+#         for rend in dataClients:
+#             rend.sourcePositionChanged(source_idx)
 
 def oscreceived_setRenderGain(*args, fromUi:bool=True):
-    sIdx = args.pop(0)-1
+    sIdx = args[0]-1
     if sourceLegit(sIdx):
-        oscreceived_setRenderGainForSource(sIdx, args, fromUi)
+        oscreceived_setRenderGainForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setRenderGainForSource(sIdx: int, *args, fromUi: bool=True):
-    rIdx = args.pop(0)
-    if 0 <= rIdx < len(renderengineClients):
-        oscreceived_setRenderGainForSourceForRenderer(sIdx, rIdx, args, fromUi=fromUi)
-
+    rIdx = args[0]
+    if renderIndexLegit(rIdx):
+        oscreceived_setRenderGainForSourceForRenderer(sIdx, rIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setRenderGainForSourceForRenderer(sIdx:int, rIdx: int, *args, fromUi:bool=True):
     if soundobjects[sIdx].setRendererGain(rIdx, args[0], fromUi):
-        pass
+        notifyRenderClientsForUpdate(Renderer.sourceRenderGainChanged, sIdx, rIdx, fromUi=fromUi)
+        # notifyRendererForRendergain(sIdx, rIdx, fromUi)
 
-def notifyRendererForRendergain(sIdx: int, rIdx:int, fromUi: bool = True):
-    for rend in [*renderengineClients, *uiClients]:
-        rend.sourceChanged(sIdx)
-    if not fromUi:
-        for rend in dataClients:
-            rend.sourceChanged(sIdx)
+# def notifyRendererForRendergain(sIdx: int, rIdx:int, fromUi: bool = True):
+#
+#     for rend in [*renderengineClients, *uiClients]:
+#         rend.sourceRenderGainChanged(sIdx, rIdx)
+#     if fromUi:
+#         for rend in dataClients:
+#             rend.sourceChanged(sIdx)
 
 def oscreceived_setDirectSend(*args, fromUi:bool=True):
-    sIdx = args.pop(0)
+    sIdx = args[0]
     if sourceLegit(sIdx):
-        oscreceived_setDirectSendForSource(sIdx, args, fromUi)
+        oscreceived_setDirectSendForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setDirectSendForSource(sIdx: int, *args, fromUi:bool=True):
-    cIdx = args.pop(0)
+    cIdx = args[0]
     if 0 <= cIdx < globalconfig['number_direct_sends']:
-        oscreceived_setDirectSendForSourceForChannel(sIdx, cIdx, args, fromUi)
+        oscreceived_setDirectSendForSourceForChannel(sIdx, cIdx, *args[1:], fromUi)
 
 def oscreceived_setDirectSendForSourceForChannel(sIdx:int, cIdx:int, *args, fromUi:bool=True):
     if soundobjects[sIdx].setDirectSend(cIdx, args[0], fromUi):
-        pass
+        notifyRenderClientsForUpdate(Renderer.sourceDirectSendChanged, sIdx, cIdx, fromUi=fromUi)
 
 def notifyRendererForDirectsendGain(sIdx:int, cIfx:int, fromUi:bool=True):
     pass
 
 def oscreceived_setAttribute(*args, fromUi:bool=True):
-    sIdx = args.pop(0)
+    sIdx = args[0]
     if sourceLegit(sIdx):
-        oscreceived_setAttributeForSource(sIdx, args, fromUi)
+        oscreceived_setAttributeForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setAttributeForSource(sIdx:int, *args, fromUi:bool=True):
-    attribute = args.pop(0)
+    attribute = args[0]
     if attribute in skc.knownAttributes:
         oscreceived_setAttributeForSourceForAttribute(sIdx, attribute, fromUi)
 
 
 def oscreceived_setAttributeForSourceForAttribute(sIdx:int, attribute:skc.SourceAttributes, fromUi:bool=True):
     if soundobjects[sIdx].setAttribute(sIdx):
-        pass
+        notifyRenderClientsForUpdate(Renderer.sourceAttributeChanged, sIdx, attribute, fromUi=fromUi)
+        # notifyRenderForAttributeChange(sIdx, attribute, fromUi)
 
-def notifyRenderForAttributeChange(sIdx:int, attribute:skc.SourceAttributes):
-    pass
+# def notifyRenderForAttributeChange(sIdx:int, attribute:skc.SourceAttributes, fromUi:bool=True):
+#     pass
 
-def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args: list):
+def notifyRenderClientsForUpdate(updateFunction, *args, fromUi:bool=True):
+    print(updateFunction, args, len(args))
+    for rend in [*renderengineClients, *uiClients, audiorouter]:
+        # print(rend)
 
-    sidx = args.pop(0)
-    if sidx > 0 and sidx < 65:
-        oscreceived_sourceAttribute_wString(sidx, attribute, args)
+        updateFunction(rend, args[0])
+    if fromUi:
+        for rend in dataClients:
+            updateFunction(rend, args)
+
+
+
+######
+def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args):
+
+    sidx = int(args[0])-1
+    if sidx >= 0 and sidx < 64:
+        oscreceived_sourceAttribute_wString(sidx, attribute, args[1:])
 
 def oscreceived_sourceAttribute_wString(sidx: int, attribute: skc.SourceAttributes, *args):
     sobject = soundobjects[sidx]
