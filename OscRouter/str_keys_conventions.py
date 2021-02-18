@@ -73,38 +73,38 @@ continuously_update_intervall = 'cont_updt_interv'
 
 posformat = {
 # cartesian xyz
-        x: (cartesian, (x), False),
-        y: (cartesian, (y), False),
-        z: (cartesian, (z), False),
+        x: (cartesian, (x,), False),
+        y: (cartesian, (y,), False),
+        z: (cartesian, (z,), False),
         xy: (cartesian, (x, y), False),
         xz: (cartesian, (x, z), False),
         yz: (cartesian, (y, z), False),
         xyz: (cartesian, (x, y, z), True),
 # polar aed
-        azim: (polar, (azim), False),
-        a: (polar, (azim), False),
-        elev: (polar, (elev), False),
-        e: (polar, (elev), False),
-        dist: (polar, (dist), False),
-        d: (polar, (dist), False),
+        azim: (polar, (azim,), False),
+        a: (polar, (azim,), False),
+        elev: (polar, (elev,), False),
+        e: (polar, (elev,), False),
+        dist: (polar, (dist,), False),
+        d: (polar, (dist,), False),
         ad: (polar, (azim, dist), False),
         ed: (polar, (elev, dist), False),
         ae: (polar, (azim, elev), False),
         aed: (polar, (azim, elev, dist), True),
 # oscar specific "normcartesian
-        nx: (normcartesian, (nx), False),
+        nx: (normcartesian, (nx,), False),
         nxd: (normcartesian, (nx, nd), False),
-        ny: (normcartesian, (ny), False),
+        ny: (normcartesian, (ny,), False),
         nyd: (normcartesian, (ny, nd), False),
-        nz: (normcartesian, (nz), False),
-        nzd: (normcartesian, (nzd), False),
+        nz: (normcartesian, (nz,), False),
+        nzd: (normcartesian, (nzd,), False),
         nxy: (normcartesian, (nx, ny), False),
         nxyd: (normcartesian, (nx, ny, nd), False),
         nyz: (normcartesian, (ny, nz), False),
         nyzd: (normcartesian, (ny, nz, nd), False),
         nxyz: (normcartesian, (nx, ny, nz), False),
         nxyzd: (normcartesian, (nx, ny, nz, nd), True),
-        nd: (normcartesian, (nd), False)
+        nd: (normcartesian, (nd,), False)
 }
 fullformat = {
         xyz: (x, y, z),
@@ -138,6 +138,13 @@ class renderClass(Enum):
     Scengine = 'scengine'
     Audiorouter = 'audiorouter'
     Osclight = "osclight"
+
+
+# sourceAttributes: dict = {
+#         planewave: planewave,
+#         doppler: doppler
+# }
+knownAttributes = {planewave, doppler}
 
 class SourceAttributes(Enum):
         planewave = planewave
