@@ -332,13 +332,13 @@ class SoundObject(object):
         return self._torendererSends
 
     def getRenderGain(self, rIdx:int) -> float:
-        return self._torendererSends[rIdx]
+        return float(self._torendererSends[rIdx])
 
     def getAllDirectSends(self) -> [float]:
         return self._directSends
 
     def getDirectSend(self, cIdx:int) -> float:
-        return self._directSends[cIdx]
+        return float(self._directSends[cIdx])
 
     def shouldProcessInput(self, blockDict:dict, fromUi:bool=True, ) -> bool:
         if fromUi:

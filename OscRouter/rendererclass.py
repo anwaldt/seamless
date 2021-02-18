@@ -106,7 +106,6 @@ class Renderer(object):
         self.scheduleSourceUpdateCheck(source_idx)
 
     def sendUpdates(self, msgs):
-        print('sending updates', msgs)
         for msg in msgs:
             for toRenderClient in self.toRender:
                 toRenderClient.send_message(msg[0], msg[1])
@@ -124,6 +123,7 @@ class Renderer(object):
         Timer(self.updateIntervall, partial(self.check_sourceNeedsUpdate, source_idx)).start()
 
     def check_sourceNeedsUpdate(self, source_idx):
+        self.source_getting_update[source_idx] = False
         if self.source_needs_update[source_idx]:
             self.updateSource(source_idx)
 
@@ -139,6 +139,7 @@ class Renderer(object):
 
     def sourcePositionChanged(self, source_idx):
         pass
+
         # print('blabla')
 
 # the following were not needed anymore
@@ -170,7 +171,6 @@ class SpatialRenderer(Renderer):
         return 'Generic Spatial Renderer'
 
     def sourcePositionChanged(self, source_idx):
-        print('got position change',self.myType(), source_idx)
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
                                           self.oscPre))
         self.sourceChanged(source_idx)
@@ -271,20 +271,22 @@ class Audiorouter(Renderer):
             getValueFunc, oscPre, secondIndex = self.updateStack[source_idx].pop()
             value = getValueFunc()
             msgs = self.composeSourceUpdateMessage(oscPre, value, source_idx, secondIndex)
+            print('audiorouter messages ', msgs)
             self.sendUpdates(msgs)
 
         self.scheduleSourceUpdateCheck(source_idx)
 
     def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0, cIdx:int=0) -> [(bytes, [])]:
-        return [(osc_pre, sIdx, cIdx, values)]
+        return [(osc_pre, [sIdx, cIdx, values])]
 
+#TODO: better solution putting a tuple of three values in there?
     def sourceDirectSendChanged(self, source_idx, send_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getDirectSend, send_idx), self.oscpre_directSend))
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getDirectSend, send_idx), self.oscpre_directSend, send_idx))
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
         print('audiorouter', source_idx, render_idx)
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), self.oscpre_renderGain))
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), self.oscpre_renderGain, render_idx))
         self.sourceChanged(source_idx)
 
 
@@ -304,12 +306,12 @@ class Panoramix(SpatialRenderer):
     def myType(self) -> str:
         return 'Panoramix'
 
-    def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
+    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
         # msgs = []
-        sobject = self.sources[source_idx]
+        sobject = self.sources[sIdx]
         position = sobject.getPosition(self.posFormat)
         # sourceID = source_idx + 1
-        addr = self.posAddrs[source_idx]
+        addr = self.posAddrs[sIdx]
 
         return [(addr, position)]
 
@@ -337,7 +339,7 @@ class IemMultiencoder(SpatialRenderer):
         return 'IEM Multiencoder, NOT IMPLEMENTED'
 
 
-    def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
+    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
         pass
 
 
@@ -348,11 +350,11 @@ class SuperColliderEngine(SpatialRenderer):
             kwargs['dataformat'] = skc.aed
         super(SuperColliderEngine, self).__init__(**kwargs)
 
-        self.oscPre = b'/source/aed'
+        self.oscPre = b'/source/pos/aed'
         self.singleValKeys = {
-            skc.azim: b'/source/azim',
-            skc.dist: b'/source/dist',
-            skc.elev: b'/source/elev'
+            skc.azim: b'/source/pos/azim',
+            skc.dist: b'/source/pos/dist',
+            skc.elev: b'/source/pos/elev'
         }
         self.validPosKeys = {skc.azim, skc.dist, skc.elev}
 
@@ -464,6 +466,8 @@ class Oscar(SpatialRenderer):
                                           self.oscRenderPre[source_idx][render_idx]))
         self.sourceChanged(source_idx)
 
+    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
+        return [(osc_pre, [values])]
     #
     # def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
     #     addrs = self.posAddrs[source_idx]
@@ -496,7 +500,7 @@ class Oscar(SpatialRenderer):
 
 class Osclight(SpatialRenderer):
     def myType(self) -> str:
-        return "osc-light plugin"
+        return "osc-light plugin: WARNING not fully implemented"
 
     def __init__(self, **kwargs):
         if not 'dataformat' in kwargs.keys():
@@ -537,9 +541,9 @@ class Osclight(SpatialRenderer):
                 self.oscDebugSend(addr, data)
 
 
-    def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
+    def composeSourceUpdateMessage(self,  osc_pre, values, sIdx:int=0) -> [(str, [])]:
         # msgs = []
-        posData = self.sources[source_idx].getPosition[self.posFormat]
+        posData = self.sources[sIdx].getPosition[self.posFormat]
 
         # for idx,key in enumerate(skc.fullformat[self.posFormat]):
         #     msgs.append((self.oscAddrs[key], posData[idx]))

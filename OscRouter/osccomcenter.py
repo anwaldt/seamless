@@ -16,7 +16,7 @@ from soundobjectclass import SoundObject
 # halligalli = 'moses'
 soundobjects: [SoundObject] = []
 
-audiorouter: Renderer = None
+audiorouter: Renderer
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
 uiClients: [Renderer] = []
@@ -132,7 +132,7 @@ def oscreceived_setPosition(coordKey, *args, fromUi=True):
 def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
 
     if(soundobjects[sIdx].setPosition(coordKey, *args, fromUi=fromUi)):
-        notifyRenderClientsForUpdate(Renderer.sourcePositionChanged, sIdx, fromUi=fromUi)
+        notifyRenderClientsForUpdate('sourcePositionChanged', sIdx, fromUi=fromUi)
         # notifyRendererForSourcePosition(sIdx, fromUi)
 
 # def notifyRendererForSourcePosition(source_idx:int, fromUi:bool=True):
@@ -154,7 +154,7 @@ def oscreceived_setRenderGainForSource(sIdx: int, *args, fromUi: bool=True):
 
 def oscreceived_setRenderGainForSourceForRenderer(sIdx:int, rIdx: int, *args, fromUi:bool=True):
     if soundobjects[sIdx].setRendererGain(rIdx, args[0], fromUi):
-        notifyRenderClientsForUpdate(Renderer.sourceRenderGainChanged, sIdx, rIdx, fromUi=fromUi)
+        notifyRenderClientsForUpdate('sourceRenderGainChanged', sIdx, rIdx, fromUi=fromUi)
         # notifyRendererForRendergain(sIdx, rIdx, fromUi)
 
 # def notifyRendererForRendergain(sIdx: int, rIdx:int, fromUi: bool = True):
@@ -177,7 +177,7 @@ def oscreceived_setDirectSendForSource(sIdx: int, *args, fromUi:bool=True):
 
 def oscreceived_setDirectSendForSourceForChannel(sIdx:int, cIdx:int, *args, fromUi:bool=True):
     if soundobjects[sIdx].setDirectSend(cIdx, args[0], fromUi):
-        notifyRenderClientsForUpdate(Renderer.sourceDirectSendChanged, sIdx, cIdx, fromUi=fromUi)
+        notifyRenderClientsForUpdate('sourceDirectSendChanged', sIdx, cIdx, fromUi=fromUi)
 
 def notifyRendererForDirectsendGain(sIdx:int, cIfx:int, fromUi:bool=True):
     pass
@@ -195,21 +195,22 @@ def oscreceived_setAttributeForSource(sIdx:int, *args, fromUi:bool=True):
 
 def oscreceived_setAttributeForSourceForAttribute(sIdx:int, attribute:skc.SourceAttributes, fromUi:bool=True):
     if soundobjects[sIdx].setAttribute(sIdx):
-        notifyRenderClientsForUpdate(Renderer.sourceAttributeChanged, sIdx, attribute, fromUi=fromUi)
+        notifyRenderClientsForUpdate('sourceAttributeChanged', sIdx, attribute, fromUi=fromUi)
         # notifyRenderForAttributeChange(sIdx, attribute, fromUi)
 
 # def notifyRenderForAttributeChange(sIdx:int, attribute:skc.SourceAttributes, fromUi:bool=True):
 #     pass
 
-def notifyRenderClientsForUpdate(updateFunction, *args, fromUi:bool=True):
-    print(updateFunction, args, len(args))
+def notifyRenderClientsForUpdate(updateFunction: str, *args, fromUi:bool=True):
     for rend in [*renderengineClients, *uiClients, audiorouter]:
-        # print(rend)
+        updatFunc = getattr(rend, updateFunction)
+        updatFunc(*args)
 
-        updateFunction(rend, args[0])
+        # updateFunction(rend, args[0])
     if fromUi:
         for rend in dataClients:
-            updateFunction(rend, args)
+            updatFunc = getattr(rend, updateFunction)
+            updatFunc(*args)
 
 
 
