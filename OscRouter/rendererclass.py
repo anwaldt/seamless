@@ -195,7 +195,7 @@ class Wonder(SpatialRenderer):
         self.oscPre = b'/WONDER/source/position'
         self.oscAnglePref = b'/WONDER/source/angle'
 
-        self.interpolTime = 1 / self.updateIntervall
+        self.interpolTime = self.updateIntervall
         self.linkPositionAndAngle = True
 
         self.debugPrefix = "/dWonder"
