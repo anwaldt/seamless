@@ -271,7 +271,6 @@ class Audiorouter(Renderer):
             getValueFunc, oscPre, secondIndex = self.updateStack[source_idx].pop()
             value = getValueFunc()
             msgs = self.composeSourceUpdateMessage(oscPre, value, source_idx, secondIndex)
-            print('audiorouter messages ', msgs)
             self.sendUpdates(msgs)
 
         self.scheduleSourceUpdateCheck(source_idx)
@@ -285,7 +284,6 @@ class Audiorouter(Renderer):
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
-        print('audiorouter', source_idx, render_idx)
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), self.oscpre_renderGain, render_idx))
         self.sourceChanged(source_idx)
 
@@ -467,6 +465,7 @@ class Oscar(SpatialRenderer):
         self.sourceChanged(source_idx)
 
     def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
+
         return [(osc_pre, [values])]
     #
     # def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
