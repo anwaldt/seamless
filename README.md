@@ -2,26 +2,5 @@
 
 This repository contains all components for running
 the combined WFS and Ambisonics system at the Humboldt Forum.
-
-
-## Install
-
-
-
-
-
-
-
-## Included in this Repository
-
-### OSC Router
-
-### SuperCollider Mixer and HOA Renderer
-
-
-
-## Submodules
-
-### WONDER Lite
-
-### Ambisonics Decoder Toolbox
+Read the [Documentation](https://anwaldt.github.io/HuFo_System/)
+for details on use and installation.
