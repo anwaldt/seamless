@@ -32,21 +32,21 @@ The output of the audio tracks should be set be sent to a mono channel, either a
 
 ---
 
-![reapersource](graphics/reaper_source.svg "One Source in Reaper")
+![reapersource](graphics/reaper_source.svg "One Source in Reaper"){: style="width:500px"}
 
 ---
 
-![oscar-inreaper](graphics/Reaper-OscarPlugin.svg "OSCar plugin with source ID")
+![oscar-inreaper](graphics/Reaper-OscarPlugin.svg "OSCar plugin with source ID"){: style="width:500px"}
 
 ---
 
-![reapearmono](graphics/reaper_HWmono1.svg "Mono Output Routing")
+![reapearmono](graphics/reaper_HWmono1.svg "Mono Output Routing"){: style="width:500px"}
 
 ---
 
 ## Content Production Process
 
-![](graphics/ReaperDiagramm.png)
+![](graphics/ReaperDiagramm.png){: style="width:500px"}
 
 In the production process the automation data can either be written with the pencil tool inside of REAPER. Also a dedicated interface-client or hardware controllers can be used, which connect also to the central OSC router. The OSC messages are then distributed to the REAPER-plugin where it can be written using the Reaper's automation modes.
 
@@ -55,7 +55,7 @@ In the production process the automation data can either be written with the pen
 For more information about the OSC-Data have a look in the chapter OSC-Router.
 
 
-![](graphics/interface-example.png)
+![](graphics/interface-example.png){: style="width:700px"}
 
 ---
 

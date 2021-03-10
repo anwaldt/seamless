@@ -1,9 +1,12 @@
+# Setting up the System
 
 
- pip3 install oscpy
+## Python Dependencies
+
+    pip3 install oscpy
 
 
-# SuperCollider
+## SuperCollider
 
 Build a headless version of SC:
 
@@ -19,7 +22,7 @@ Install SC-HOA classes:
 
     Quarks.install("https://github.com/florian-grond/SC-HOA")
 
-# System Services
+## System Services
 
 copy all services to:
 

@@ -1,13 +1,13 @@
-# SuperCollider 
+# SuperCollider
 
 Mixing and signal distribution is based on SuperCollider.
 Two main scripts are used:
 
-### HuFo_SERVER.scd
+## HuFo_SERVER.scd
 
 **HuFo_SERVER** is a mixing and distribution instance for the source signals, as well as for Ambisonics encoding.
 
-### HuFo_WFS.scd
+## HuFo_WFS.scd
 
 **HuFo_WFS** is a  mixing and distribution instance for the source signals, limited to WFS for.
 
@@ -21,24 +21,24 @@ Defaults:
 
 - N_inputs: 64
 - server_port: 58010
-# Setting Up
+## Setting Up
 
-## Build Decoders
+### Build Decoders
 
 Decoders in ADT have a problem for more than speakers 24? speakers. Use standalone decoder in that case.
 
-## Install Decoders
+### Install Decoders
 
-Copy the directory ``decoders`` to the SC user 
+Copy the directory ``decoders`` to the SC user
 extension directory. It can be obtained in SC:
 
-```Platform.userExtensionDir```
+``Platform.userExtensionDir``
 
 For larger loudspeaker setups (<24), standalone Jack decoders are used.
 
 
 
-# SuperCollider OSC Paths
+## SuperCollider OSC Paths
 
 The sueprcollider mixer listens to several OSC messages for signal routing and conrolling positions
 
@@ -46,7 +46,7 @@ The sueprcollider mixer listens to several OSC messages for signal routing and c
 
 #### To Ambisonics + WFS
 
-```/source/send/spatial i i f ```
+``/source/send/spatial i i f ``
 
 - first argument = channel ID
 - second argument = system ID
@@ -55,13 +55,13 @@ The sueprcollider mixer listens to several OSC messages for signal routing and c
 
 #### To Subwoofer
 
-```/source/send/direct i i f ```
+``/source/send/direct i i f ``
 
 - first argument = channel ID
 - second argument = output ID
   - 0 = Subwoofer
 
-### Ambisonics Spatial Control
+#### Ambisonics Spatial Control
 
 ```/source/pos/azim i f```
 
