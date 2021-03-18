@@ -63,9 +63,9 @@
 -->
  
 <oscar version="1.0">	
-    <parameter index="1" name="azimuth" pattern="/source/$1/azim" min="-1" max="1" default="0"/>
-    <parameter index="2" name="elevation" pattern="/source/$1/elev" min="-1" max="1" default="1"/>
-    <parameter index="3" name="distance" pattern="/source/$1/dist" min="-1" max="1" default="0"/>
+    <parameter index="1" name="azimuth" pattern="/source/$1/azim" min="-180" max="180" default="0"/>
+    <parameter index="2" name="elevation" pattern="/source/$1/elev" min="-90" max="90" default="1"/>
+    <parameter index="3" name="distance" pattern="/source/$1/dist" min="0" max="10" default="0"/>
     <parameter index="4" name="azimuth offset" pattern="/source/$1/azimoff" min="0" max="50" default="1"/>
     <parameter index="5" name="distance offset" pattern="/source/$1/distoff" min="0" max="10" default="1"/>
     <parameter index="6" name="doppler Effect" pattern="/source/$1/doppler" min="0" max="1" default="0"/>
