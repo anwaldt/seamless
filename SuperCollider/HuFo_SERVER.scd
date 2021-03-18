@@ -28,6 +28,8 @@ Henrik von Coler
 
 ~crossover_freq = 100;
 
+~debug_level = 0;
+
 /////////////////////////////////////////////////////////////////
 // Two kinds of send buses, held in individual arrays:
 /////////////////////////////////////////////////////////////////
@@ -35,10 +37,10 @@ Henrik von Coler
 // number of individual sends per input
 // 0: hoa
 // 1: wfs
-~nIndividualSends       = 2;
+~nIndividualSends = 2;
 // number of common sends:
 // 0: sub
-~nCommonSends = 1;
+~nCommonSends     = 1;
 
 
 /////////////////////////////////////////////////////////////////
@@ -191,6 +193,8 @@ s.waitForBoot({
 		var in_value;
 		in_value = msg[3];
 
+		if(~debug_level == 1,{msg.postln()});
+
 		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
 	}, '/source/send/spatial');
@@ -222,7 +226,7 @@ s.waitForBoot({
 			Synth(\binaural_mono_encoder_3,
 				[
 					\in_bus,  ~send_BUSES[cnt].index,
-					\out_bus, ~ambi_BUS.index
+					\out_bus,  ~ambi_BUS.index
 				],
 				target: ~spatial_GROUP
 		);)
@@ -338,7 +342,7 @@ s.waitForBoot({
 			Synth(\output_module,
 				[
 					\audio_bus, ~ambi_BUS.index+cnt,  // individual HOA channels (IDX=0)
-					\out_bus, ~nInputs + 16 + cnt                 // 64 + 16
+					\out_bus, ~nInputs + cnt                 // 64 + 16
 				],
 				target: ~output_GROUP
 		);)
@@ -376,7 +380,7 @@ s.waitForBoot({
 	~lfe_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~nInputs     // output after WFS
+			\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
 		],
 		target: ~output_GROUP
 	);

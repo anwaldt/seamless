@@ -1,11 +1,17 @@
+# Setting up the System
 
 
- pip3 install oscpy
+## Python Dependencies
+
+    pip3 install oscpy
 
 
-# SuperCollider
+## SuperCollider
 
-Build a headless version of SC:
+1: Build and install SC
+
+
+2: Build a headless version of SC:
 
 Follow https://github.com/supercollider/supercollider/blob/develop/README_LINUX.md but call cmake:
 
@@ -19,17 +25,26 @@ Install SC-HOA classes:
 
     Quarks.install("https://github.com/florian-grond/SC-HOA")
 
-# System Services
+## Developer Mode
+
+The scripts `supercollider_gui.sh` and `supercollider_nogui.sh`
+allow to switch between the standard SC install
+and the headless version by setting symlinks in `/usr/local/bin`
+
+Once the standard version is lionked, `scide` can be started for
+development and debugging.
+
+## System Services
 
 copy all services to:
 
     /usr/lib/systemd/system
 
 
-# Disable Automatic Updates
+## Disable Automatic Updates
 
 
-Automatic updates are not desired, since they can change the 
+Automatic updates are not desired, since they can change the
 system behavior. In addition can disable the DANTE drivers.
 
 Edit:
@@ -42,4 +57,3 @@ It needs to be:
 	APT::Periodic::Download-Upgradeable-Packages "0";
 	APT::Periodic::AutocleanInterval "0";
 	APT::Periodic::Unattended-Upgrade "1";
-
