@@ -1,0 +1,24 @@
+s.scope(16,~control_azim_BUS.index);
+
+
+/////////////////////////////////////////////////////////////////
+// Debug Monitor
+/////////////////////////////////////////////////////////////////
+{
+
+	/*
+
+	ServerMeter(s);
+
+	s.scope(12,~control_azim_BUS.index);
+
+	s.scope(1,~send_gain_BUSES[0].index);
+	s.scope(1,~send_BUSES[1].index);
+
+	s.scope(1,~common_send_BUSES.index);
+
+	s.scope(16,~common_send_BUSES.index);
+
+	*/
+};
+

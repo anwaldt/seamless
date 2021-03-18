@@ -26,9 +26,11 @@ Henrik von Coler
 ~hoa_DELAY = 0.02;
 ~sub_DELAY = 0.03;
 
+~hoa_GAIN = 1;
+
 ~crossover_freq = 100;
 
-~debug_level = 0;
+~debug_level    = 0;
 
 /////////////////////////////////////////////////////////////////
 // Two kinds of send buses, held in individual arrays:
@@ -205,6 +207,8 @@ s.waitForBoot({
 		var in_value;
 		in_value = msg[3];
 
+		if(~debug_level == 1,{msg.postln()});
+
 		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
 	}, '/source/send/direct');
@@ -255,6 +259,9 @@ s.waitForBoot({
 		{
 			arg msg, time, addr, recvPort;
 			var azim = msg[2];
+
+			if(~debug_level == 1,{msg.postln()});
+
 			~control_azim_BUS.setAt(msg[1],azim);
 	}, '/source/pos/azim');
 
@@ -262,6 +269,9 @@ s.waitForBoot({
 		{
 			arg msg, time, addr, recvPort;
 			var elev = msg[2];
+
+			if(~debug_level == 1,{msg.postln()});
+
 			~control_elev_BUS.setAt(msg[1],elev);
 	}, '/source/pos/elev');
 
@@ -269,6 +279,9 @@ s.waitForBoot({
 		{
 			arg msg, time, addr, recvPort;
 			var dist = msg[2];
+
+			if(~debug_level == 1,{msg.postln()});
+
 			~control_dist_BUS.setAt(msg[1],dist);
 	}, '/source/pos/dist');
 
@@ -277,9 +290,12 @@ s.waitForBoot({
 		{
 			arg msg, time, addr, recvPort;
 
-			var azim = msg[2] / 360.0 * (2.0*pi);
-			var elev = msg[3] / 360.0 * (2.0*pi);
+			var azim = msg[2];// / 360.0 * (2.0*pi);
+			var elev = msg[3];// / 360.0 * (2.0*pi);
 			var dist = msg[4];
+
+			if(~debug_level == 1,{msg.postln()});
+
 
 			~control_azim_BUS.setAt(msg[1],azim);
 			~control_elev_BUS.setAt(msg[1],elev);
@@ -350,10 +366,12 @@ s.waitForBoot({
 
 	~hoa_outputs.do({ arg item, i; item.set(\delay, ~hoa_DELAY); });
 	~hoa_outputs.do({ arg item, i; item.set(\hp_cutoff,~crossover_freq); });
+	~hoa_outputs.do({ arg item, i; item.set(\gain,5); });
 
 	/////////////////////////////////////////////////////////////////
 	// add one output module for each WFS channel
 	/////////////////////////////////////////////////////////////////
+
 	for (0, ~nInputs -1, {arg cnt;
 
 		post('Adding WFS output Module: ');
@@ -391,7 +409,7 @@ s.waitForBoot({
 	~sub_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~nInputs     // output after WFS
+			\out_bus,   ~nInputs  + ~n_hoa_channnels   // output after WFS
 		],
 		target: ~output_GROUP
 	);
@@ -411,27 +429,6 @@ s.waitForBoot({
 });
 
 
-
-/////////////////////////////////////////////////////////////////
-// Debug Monitor
-/////////////////////////////////////////////////////////////////
-{
-
-	/*
-
-	ServerMeter(s);
-
-	s.scope(12,~control_azim_BUS.index);
-
-	s.scope(1,~send_gain_BUSES[0].index);
-	s.scope(1,~send_BUSES[1].index);
-
-	s.scope(1,~common_send_BUSES.index);
-
-	s.scope(16,~common_send_BUSES.index);
-
-	*/
-};
 
 
 
