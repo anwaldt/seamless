@@ -5,17 +5,26 @@ theme:
     highlightjs: true
     logo: graphics/interface_HVC_small.png
 
+bibtex:
+      bib_file: "refs.bib"
+      cite_style: "pandoc"
 extra:
     generator: false
 
+markdown_extensions:
+  - attr_list
+  - pymdownx.arithmatex:
+      generic: true
 docs:
     ../graphics/
       hufo_flow_1.png
 
 nav:
 #    - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
+    - About the System: about.md
     - Reaper User Guide: reaper.md
-    - SuperCollider: supercollider.md
-    - OSC Router: oscrouter.md
-    - Signal Flow: signalflow.md
-    - System Setup: system_setup.md
+    - Technical Documentation:
+      - Signal Flow: signalflow.md
+      - SuperCollider: supercollider.md
+      - OSC Router: oscrouter.md
+      - System Setup: system_setup.md

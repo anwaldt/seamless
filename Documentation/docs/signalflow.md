@@ -2,11 +2,11 @@
 
 The following flow chart visualizes the interconnection between the software components. Scroll down to get the exact input and output assignment.
 
-![Signal Flow](graphics/hufo_flow_1.svg)
+![Signal Flow](graphics/hufo_flow_2.png)
 
-# Input-Output Assignment
+## Input-Output Assignment
 
-### Linux: MAIN (DANTE)
+## Linux: MAIN (DANTE)
 
 
 
