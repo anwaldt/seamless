@@ -78,13 +78,13 @@
     <parameter index="13" name="attribute 6" pattern="/source/$1/attr6" min="0" max="1" default="0"/>
     <parameter index="14" name="attribute 7" pattern="/source/$1/attr7" min="0" max="1" default="0"/>
     <parameter index="15" name="attribute 8" pattern="/source/$1/attr8" min="0" max="1" default="0"/>
-    <parameter index="16" name="send to Ambisonics" pattern="/source/$1/send/0" min="0" max="4" default="0"/>
-    <parameter index="17" name="send to WFS" pattern="/source/$1/send/1" min="0" max="4" default="0"/>
-    <parameter index="18" name="send to Reverb" pattern="/source/$1/send/2" min="0" max="4" default="0"/>
-    <parameter index="19" name="send to 3" pattern="/source/$1/send/3" min="0" max="4" default="0"/>
-    <parameter index="20" name="send to 4" pattern="/source/$1/send/4" min="0" max="4" default="0"/>
-    <parameter index="21" name="send to 5" pattern="/source/$1/send/5" min="0" max="4" default="0"/>
-    <parameter index="22" name="send to 6" pattern="/source/$1/send/6" min="0" max="4" default="0"/>
+    <parameter index="16" name="send to Ambisonics" pattern="/source/$1/spatial/0" min="0" max="4" default="0"/>
+    <parameter index="17" name="send to WFS" pattern="/source/$1/spatial/1" min="0" max="4" default="0"/>
+    <parameter index="18" name="send to Reverb" pattern="/source/$1/spatial/2" min="0" max="4" default="0"/>
+    <parameter index="19" name="send to 3" pattern="/source/$1/spatial/3" min="0" max="4" default="0"/>
+    <parameter index="20" name="send to 4" pattern="/source/$1/spatial/4" min="0" max="4" default="0"/>
+    <parameter index="21" name="send to 5" pattern="/source/$1/spatial/5" min="0" max="4" default="0"/>
+    <parameter index="22" name="send to 6" pattern="/source/$1/spatial/6" min="0" max="4" default="0"/>
     <parameter index="23" name="direct send to LFE" pattern="/source/$1/direct/0" min="0" max="4" default="0"/>
     <parameter index="24" name="direct send to 1" pattern="/source/$1/direct/1" min="0" max="4" default="0"/>
     <parameter index="25" name="direct send to 2" pattern="/source/$1/direct/2" min="0" max="4" default="0"/>
