@@ -3,6 +3,7 @@ coord_format = 'coord_format'
 cartesian = 'cartesian'
 polar = 'polar'
 normcartesian = 'normcartesian'
+
 x = 'x'
 y = 'y'
 z = 'z'
@@ -36,6 +37,10 @@ aed = 'aed'
 ad = 'ad'
 ae = 'ae'
 ed = 'ed'
+aedrad = 'aedrad'
+# arad = 'arad'
+# erad = 'erad'
+
 xyz = 'xyz'
 xy = 'xy'
 xz = 'xz'
@@ -91,6 +96,8 @@ posformat = {
         ed: (polar, (elev, dist), False),
         ae: (polar, (azim, elev), False),
         aed: (polar, (azim, elev, dist), True),
+#Polar in rad
+        aedrad: (polar_rad, (az_rad,el_rad,dist), True),
 # oscar specific "normcartesian
         nx: (normcartesian, (nx,), False),
         nxd: (normcartesian, (nx, nd), False),

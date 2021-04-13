@@ -4,13 +4,13 @@
 		"appversion" : 		{
 			"major" : 8,
 			"minor" : 1,
-			"revision" : 8,
+			"revision" : 10,
 			"architecture" : "x64",
 			"modernui" : 1
 		}
 ,
 		"classnamespace" : "box",
-		"rect" : [ 1129.0, 81.0, 914.0, 1328.0 ],
+		"rect" : [ -2092.0, 154.0, 1094.0, 1181.0 ],
 		"bglocked" : 0,
 		"openinpresentation" : 0,
 		"default_fontsize" : 12.0,
@@ -146,13 +146,13 @@
 , 			{
 				"box" : 				{
 					"id" : "obj-71",
-					"linecount" : 4,
+					"linecount" : 3,
 					"maxclass" : "message",
 					"numinlets" : 2,
 					"numoutlets" : 1,
 					"outlettype" : [ "" ],
-					"patching_rect" : [ 1.0, 253.0, 50.0, 62.0 ],
-					"text" : "/source/aed 1 40. 0. 1."
+					"patching_rect" : [ 1.0, 253.0, 50.0, 49.0 ],
+					"text" : "/source/aed 1 8. 0. 2."
 				}
 
 			}
@@ -199,7 +199,7 @@
 					"numinlets" : 2,
 					"numoutlets" : 2,
 					"outlettype" : [ "", "" ],
-					"patching_rect" : [ 38.0, 200.0, 42.0, 22.0 ],
+					"patching_rect" : [ 62.0, 196.0, 42.0, 22.0 ],
 					"text" : "gate 2"
 				}
 
@@ -1004,7 +1004,7 @@
 					"maxclass" : "newobj",
 					"numinlets" : 1,
 					"numoutlets" : 0,
-					"patching_rect" : [ 127.0, 241.0, 165.0, 22.0 ],
+					"patching_rect" : [ 99.0, 241.0, 165.0, 22.0 ],
 					"text" : "udpsend 130.149.23.24 4455"
 				}
 

@@ -17,7 +17,11 @@ import argparse
 parser = argparse.ArgumentParser(description='OSC Message Processor and Router')
 parser.add_argument('--config', default='oscRouterConfig.txt', help='path to configfile', type=str)
 parser.add_argument('--oscdebug', default='', help='ip and port for debug messages, e.g. "130.149.23.46:55112"', type=str)
+parser.add_argument('-v', '--verbose', action='count', default=0, help=' increase verbosity level.')
 args = parser.parse_args()
+
+osccomcenter.verbosity = args.verbose
+rendererclass.verbosity = args.verbose
 
 configpath = args.config
 # configpath = 'oscRouterConfig.txt'
@@ -187,6 +191,12 @@ if Renderer.debugCopy:
     print('Osc-Messages will be copied to', debugIp, ':', debugPort)
 else:
     print('No Debug client configured')
+
+print('Verbosity Level is', args.verbose)
+if args.verbose == 1:
+    print('outgoing osc will be printed in console')
+elif args.verbose > 1:
+    print('incoming and outgoing osc will be printed in console')
 
 # print('creating OSC bindings...')
 ###

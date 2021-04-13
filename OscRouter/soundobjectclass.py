@@ -110,39 +110,70 @@ class SoundObject(object):
 
     def updateCoordinateFormat(self, updateFormat):
 
-        statusTupel = (self._positionIsSet[skc.polar], self._positionIsSet[skc.cartesian], self._positionIsSet[skc.normcartesian])
+        # if updateFormat =
+        _calcRad = False
+        _calcDeg = False
+        if updateFormat == skc.polar_rad:
+            if self._positionIsSet[skc.polar]:
+                _convert = False
+            else:
+                _convert = True
+            updateFormat = skc.polar
+            _calcRad = True
 
-        conversionMap = {
-            skc.polar: {
-                (False, True, True): (ct.conv_ncart2pol, skc.CoordFormats.nxyzd),
-                (False, True, False): (ct.conv_cart2pol, skc.CoordFormats.xyz),
-                (False, False, True): (ct.conv_ncart2pol, skc.CoordFormats.nxyzd)
-            },
-            skc.cartesian: {
-                (True, False, True): (ct.conv_ncart2cart, skc.CoordFormats.nxyzd),
-                (True, False, False): (ct.conv_pol2cart, skc.CoordFormats.aed),
-                (False, False, True): (ct.conv_ncart2cart, skc.CoordFormats.nxyzd)
-            },
-            skc.normcartesian: {
-                (True, True, False): (ct.conv_cart2ncart, skc.CoordFormats.xyz),
-                (True, False, False): (ct.conv_pol2ncart, skc.CoordFormats.aed),
-                (False, True, False): (ct.conv_cart2ncart, skc.CoordFormats.xyz)
+        elif updateFormat == skc.polar and self._positionIsSet[skc.polar_rad]:
+            _calcDeg = True
+            _convert = False
+
+        else:
+            _calcRad = False
+            _convert = True
+
+        if _convert:
+            statusTupel = (self._positionIsSet[skc.polar], self._positionIsSet[skc.cartesian], self._positionIsSet[skc.normcartesian])
+
+            conversionMap = {
+                skc.polar: {
+                    (False, True, True): (ct.conv_ncart2pol, skc.CoordFormats.nxyzd),
+                    (False, True, False): (ct.conv_cart2pol, skc.CoordFormats.xyz),
+                    (False, False, True): (ct.conv_ncart2pol, skc.CoordFormats.nxyzd)
+                },
+                skc.cartesian: {
+                    (True, False, True): (ct.conv_ncart2cart, skc.CoordFormats.nxyzd),
+                    (True, False, False): (ct.conv_pol2cart, skc.CoordFormats.aed),
+                    (False, False, True): (ct.conv_ncart2cart, skc.CoordFormats.nxyzd)
+                },
+                skc.normcartesian: {
+                    (True, True, False): (ct.conv_cart2ncart, skc.CoordFormats.xyz),
+                    (True, False, False): (ct.conv_pol2ncart, skc.CoordFormats.aed),
+                    (False, True, False): (ct.conv_cart2ncart, skc.CoordFormats.xyz)
+                }
             }
-        }
-        convert_metadata = conversionMap[updateFormat][statusTupel]
-        conversion = partial(convert_metadata[0])#, skc.posformat[convert_metadata[1]])
+            convert_metadata = conversionMap[updateFormat][statusTupel]
+            conversion = partial(convert_metadata[0])#, skc.posformat[convert_metadata[1]])
 
-        updatedCoo = conversion(*self._getPositionValuesForKey(convert_metadata[1]))
-        for idx, coo in enumerate(skc.fullformat[updateFormat]):
-            self._position[coo] = updatedCoo[idx]
+            updatedCoo = conversion(*self._getPositionValuesForKey(convert_metadata[1]))
+            for idx, coo in enumerate(skc.fullformat[updateFormat]):
+                self._position[coo] = updatedCoo[idx]
+
+        if _calcRad:
+            self._position[skc.az_rad] = ct.deg2rad(self._position[skc.azim])
+            self._position[skc.el_rad] = ct.deg2rad(self._position[skc.elev])
+            self._positionIsSet[skc.polar_rad] = True
+        elif _calcDeg:
+            self._position[skc.azim] = ct.rad2deg(self._position[skc.az_rad])
+            self._position[skc.elev] = ct.rad2deg(self._position[skc.el_rad])
 
         self._positionIsSet[updateFormat] = True
+
 
 
     def setPosition(self, coordinate_key: str, *values, fromUi:bool=True) -> bool:
 
         if not self.shouldProcessInput(self.uiBlockingDict['position'], fromUi):
             return False
+
+
 
         # if fromUi:
         #     self.gotUiInput(self.uiBlockDict['position'])
@@ -349,6 +380,8 @@ class SoundObject(object):
             return True
         elif self.preferUi and self.dataPortStillBlocked(blockDict):
             return False
+        else:
+            return True
 
     def gotUiInput(self, blockDict:dict):
         blockDict[_uiBlock] = True
@@ -359,7 +392,8 @@ class SoundObject(object):
             if time() - blockDict[_tt] > self.dataPortTimeOut:
                 blockDict[_uiBlock] = False
 
-        return True
+
+        return blockDict[_uiBlock]
 
     # def getChangedDirectSends(self) -> [(int, float)]:
     #     msgs = []

@@ -11,6 +11,7 @@ from functools import partial
 from sched import scheduler
 # from enum import Enum
 
+verbosity = 0
 
 class Renderer(object):
 
@@ -50,6 +51,8 @@ class Renderer(object):
 
         self.debugPrefix = "/genericRenderer"
         self.oscPre = ('/source/'+self.posFormat).encode()
+
+        self.printOutput = verbosity >= 1
 
         self.multipleDestinations = False
 
@@ -114,6 +117,10 @@ class Renderer(object):
                 debugOsc = (self.debugPrefix + msg[0].decode()).encode()
                 self.oscDebugClient.send_message(debugOsc, msg[1])
 
+            if self.printOutput:
+                self.printOscOutput(msg[0], msg[1])
+
+
     def sendToDebugClient(self):
         pass
 
@@ -164,6 +171,11 @@ class Renderer(object):
         newOscAddr = self.debugPrefix + decStr
         self.oscDebugClient.send_message(newOscAddr.encode(), data)
 
+    def printOscOutput(self, oscStr, data: []):
+        decStr = oscStr.decode()
+        # newOscAddr = self.debugPrefix + decStr
+        print('OSC out', self.debugPrefix, decStr, data)
+        # self.oscDebugClient.send_message(newOscAddr.encode(), data)
 
 class SpatialRenderer(Renderer):
 
@@ -538,6 +550,10 @@ class Osclight(SpatialRenderer):
         if self.debugCopy:
             for addr, data in msgs:
                 self.oscDebugSend(addr, data)
+
+        if self.printOutput:
+            for addr, data in msgs:
+                self.printOscOutput(addr, data)
 
 
     def composeSourceUpdateMessage(self,  osc_pre, values, sIdx:int=0) -> [(str, [])]:

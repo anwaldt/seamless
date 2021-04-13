@@ -27,13 +27,14 @@ ipaddress       127.0.0.1
 listenport      57120
 sendport        59998
 updateintervall 10
+dataformat      aedrad
 ***
 renderengine    wonder
 renderid        1
 ipaddress       127.0.0.1
 listenport      58100
 sendport        10101
-updateintervall 10
+updateintervall 50
 ***
 dataclient      oscar
 ipaddress       130.149.23.46

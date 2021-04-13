@@ -10,6 +10,11 @@ def f32(val) -> np.float32:
 
 deg90_rad = f32(np.deg2rad(90))
 
+def deg2rad(angle_deg) -> np.float32:
+    return f32(angle_deg * 0.01745329252)
+
+def rad2deg(angle_rad) -> np.float32:
+    return f32(angle_rad) * 57.2957795131
 
 def mag_xyz(x, y, z) -> np.float32:
     return np.sqrt(np.square(x) + np.square(y) + np.square(z))
