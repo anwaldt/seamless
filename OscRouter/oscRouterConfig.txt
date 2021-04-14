@@ -6,7 +6,7 @@ number_sources   64
 max_gain        2               // max gain for the audiorouter
 min_dist        0.001
 number_direct_sends   46              // including subwoofer
-send_changes_only 0             // checks every input for changes, if set to 1 might be slower
+send_changes_only 1             // checks every input for changes, if set to 1 might be slower
 data_port_timeout 1           // time a change in the ui-port blocks incoming automation, set to 0 to deactivate this feature
 ***
 audiorouter

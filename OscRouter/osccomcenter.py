@@ -67,7 +67,9 @@ def setupOscBindings():
 
     # sendgain input
     spatialGainAddr = '/source/send/spatial'
-    bindToDataAndUiPort(spatialGainAddr, partial(oscreceived_setRenderGain))
+    spatialGainAddr2 =  '/send/gain'
+    for spatGAdd in [spatialGainAddr2, spatialGainAddr]:
+        bindToDataAndUiPort(spatGAdd, partial(oscreceived_setRenderGain))
     directSendAddr = '/source/send/direct'
     bindToDataAndUiPort(directSendAddr, partial(oscreceived_setDirectSend))
     if extendedOscInput:

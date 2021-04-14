@@ -4,7 +4,7 @@ inputport_data  4007            // inputport for automation-data clients
 settings_port   4999            // global configs can be changed with this port
 number_sources   64
 max_gain         2               // max gain for the audiorouter
-send_changes_only 0             // checks every input for changes, if set to 1 might be slower
+send_changes_only 1             // checks every input for changes, if set to 1 might be slower
 data_port_timeout 0.5           // time a change in the ui blocks incoming automation (in seconds)
 ***
 audiorouter

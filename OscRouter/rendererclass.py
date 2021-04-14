@@ -564,7 +564,7 @@ class HufoPlugin(SpatialRenderer):
         pass
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain), (self.oscAddrs['renderGain'], render_idx)))
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscAddrs['renderGain'], render_idx)))
         self.sourceChanged(source_idx)
 
     def sourcePositionChanged(self, source_idx):
