@@ -144,7 +144,7 @@ class renderClass(Enum):
     Oscar = 'oscar'
     Scengine = 'scengine'
     Audiorouter = 'audiorouter'
-    Osclight = "osclight"
+    HufoPlugin = "hufoplugin"
 
 
 # sourceAttributes: dict = {

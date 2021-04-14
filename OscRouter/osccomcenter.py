@@ -54,6 +54,7 @@ def setupOscBindings():
                 for addr in [('/source/'+str(idx)+'/pos/'+key), ('/source/'+str(idx) + '/'+key)]:
                     bindToDataAndUiPort(addr, partial(oscreceived_setPositionForSource, key, i))
 
+
     for key in skc.SourceAttributes:
 
         addstring = '/source/' + key.value
@@ -100,12 +101,15 @@ def setupOscBindings():
 def bindToDataAndUiPort(addr:str, func):
     # dontUseDataPortFlag = bool(globalconfig['data_port_timeout'] == 0)
     addrEnc = addr.encode()
-    osc_ui_server.bind(addrEnc, partial(func, fromUi=True))
-    osc_data_server.bind(addrEnc, partial(func, fromUi=False))
 
     if verbosity >= 2:
         osc_ui_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_ui]))
         osc_data_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_data]))
+
+    osc_ui_server.bind(addrEnc, partial(func, fromUi=True))
+    osc_data_server.bind(addrEnc, partial(func, fromUi=False))
+
+
 
 
 def sourceLegit(id:int) -> bool:

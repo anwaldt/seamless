@@ -89,8 +89,8 @@ class Renderer(object):
         self.continuously_update_intervall = update
         self.continous_update = update > 0
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
-        return [(osc_pre, values)]
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        return [(args[0], values)]
 
     def sourceChanged(self, source_idx):
         if not self.source_getting_update[source_idx]:
@@ -103,7 +103,7 @@ class Renderer(object):
         while self.updateStack[source_idx]:
             getValueFunc, oscPre = self.updateStack[source_idx].pop()
             values = getValueFunc()
-            msgs = self.composeSourceUpdateMessage(oscPre, values, source_idx)
+            msgs = self.composeSourceUpdateMessage(values, source_idx, *oscPre)
             self.sendUpdates(msgs)
 
         self.scheduleSourceUpdateCheck(source_idx)
@@ -123,6 +123,7 @@ class Renderer(object):
 
     def sendToDebugClient(self):
         pass
+
 
     def scheduleSourceUpdateCheck(self, source_idx):
         self.source_needs_update[source_idx] = False
@@ -184,11 +185,11 @@ class SpatialRenderer(Renderer):
 
     def sourcePositionChanged(self, source_idx):
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
-                                          self.oscPre))
+                                          (self.oscPre,)))
         self.sourceChanged(source_idx)
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
-        return [(osc_pre, values)]
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        return [(args[0], values)]
 
 
 class Wonder(SpatialRenderer):
@@ -217,11 +218,11 @@ class Wonder(SpatialRenderer):
 
     def sourceAttributeChanged(self, source_idx, attribute):
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getAttribute, attribute),
-                                          self.attributeOsc[attribute]))
+                                          (self.attributeOsc[attribute],)))
         self.sourceChanged(source_idx)
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
-
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        osc_pre = args[0]
         wonderOscMap = {
             b'/WONDER/source/position': self.wonderPositionValues,
             b'/WONDER/source/angle': self.wonderAngleValues,
@@ -277,26 +278,28 @@ class Audiorouter(Renderer):
     def myType(self) -> str:
         return 'Audiorouter'
 
-    def updateSource(self, source_idx):
+    # def updateSource(self, source_idx):
+    #
+    #     while self.updateStack[source_idx]:
+    #         getValueFunc, oscPre, secondIndex = self.updateStack[source_idx].pop()
+    #         value = getValueFunc()
+    #         msgs = self.composeSourceUpdateMessage(value, source_idx, secondIndex, *oscPre)
+    #         self.sendUpdates(msgs)
+    #
+    #     self.scheduleSourceUpdateCheck(source_idx)
 
-        while self.updateStack[source_idx]:
-            getValueFunc, oscPre, secondIndex = self.updateStack[source_idx].pop()
-            value = getValueFunc()
-            msgs = self.composeSourceUpdateMessage(oscPre, value, source_idx, secondIndex)
-            self.sendUpdates(msgs)
-
-        self.scheduleSourceUpdateCheck(source_idx)
-
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0, cIdx:int=0) -> [(bytes, [])]:
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        osc_pre = args[0]
+        cIdx = args[1]
         return [(osc_pre, [sIdx, cIdx, values])]
 
 #TODO: better solution putting a tuple of three values in there?
     def sourceDirectSendChanged(self, source_idx, send_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getDirectSend, send_idx), self.oscpre_directSend, send_idx))
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getDirectSend, send_idx), (self.oscpre_directSend, send_idx)))
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), self.oscpre_renderGain, render_idx))
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
         self.sourceChanged(source_idx)
 
 
@@ -314,9 +317,9 @@ class Panoramix(SpatialRenderer):
         self.debugPrefix = "/dPanoramix"
 
     def myType(self) -> str:
-        return 'Panoramix'
+        return 'Panoramix CAREFUL NOT REALLY IMPLEMENTED'
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
         # msgs = []
         sobject = self.sources[sIdx]
         position = sobject.getPosition(self.posFormat)
@@ -349,7 +352,7 @@ class IemMultiencoder(SpatialRenderer):
         return 'IEM Multiencoder, NOT IMPLEMENTED'
 
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
         pass
 
 
@@ -370,8 +373,8 @@ class SuperColliderEngine(SpatialRenderer):
 
         self.debugPrefix = "/dSuperCollider"
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
-
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        osc_pre = args[0]
         return [(osc_pre, [sIdx, *values])]
         # sobject = self.sources[source_idx]
         # singleUpdate = sobject.getSingleValueUpdate(self.validPosKeys)
@@ -458,26 +461,26 @@ class Oscar(SpatialRenderer):
     def sourcePositionChanged(self, source_idx):
         for key in skc.fullformat[self.posFormat]:
             self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, key),
-                                             self.oscPosPre[source_idx][key]))
+                                             (self.oscPosPre[source_idx][key],)))
             self.sourceChanged(source_idx)
 
     def sourceAttributeChanged(self, source_idx, attribute):
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getAttribute[attribute]),
-                                          self.oscAttrPre[source_idx][attribute]))
+                                          (self.oscAttrPre[source_idx][attribute],)))
         self.sourceChanged(source_idx)
 
     def sourceDirectSendChanged(self, source_idx, send_idx):
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getDirectSend, send_idx),
-                                          self.oscDirectPre[source_idx][send_idx]))
+                                          (self.oscDirectPre[source_idx][send_idx],)))
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
         self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx),
-                                          self.oscRenderPre[source_idx][render_idx]))
+                                          (self.oscRenderPre[source_idx][render_idx],)))
         self.sourceChanged(source_idx)
 
-    def composeSourceUpdateMessage(self, osc_pre, values, sIdx:int=0) -> [(bytes, [])]:
-
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        osc_pre = args[0]
         return [(osc_pre, [values])]
     #
     # def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
@@ -509,67 +512,67 @@ class Oscar(SpatialRenderer):
 
 
 
-class Osclight(SpatialRenderer):
+class HufoPlugin(SpatialRenderer):
     def myType(self) -> str:
-        return "osc-light plugin: WARNING not fully implemented"
+        return "Hufo Plugin"
 
     def __init__(self, **kwargs):
         if not 'dataformat' in kwargs.keys():
-            kwargs['dataformat'] = skc.nxyzd
-        super(Osclight, self).__init__(**kwargs)
+            kwargs['dataformat'] = skc.xyz
+        super(HufoPlugin, self).__init__(**kwargs)
 
-        self.basePort = 11000
+        # self.basePort = 11000
 
         self.sourceAttributes = (skc.SourceAttributes.doppler, skc.SourceAttributes.planewave)
 
         self.oscAddrs: dict = {}
 
-        self.oscPosAddr = b"/nxyz"
+        # self.oscPosAddr = b"/source"
 
         for key in skc.fullformat[self.posFormat]:
-            self.oscAddrs[key] = "/{}".format(key).encode()
+            self.oscAddrs[key] = "/source/pos/{}".format(key).encode()
 
         for vv in self.sourceAttributes:
             self.oscAddrs[vv.value] = "/{}".format(vv.value).encode()
 
-
-        self.oscClients: [OSCClient] = []
-        for x in range(self.numberOfSources):
-            self.oscClients.append(OSCClient(self.ipaddress, port=self.basePort+x))
-
-        self.debugPrefix = "/dOscLight"
+        self.oscAddrs['renderGain'] = "/send/gain".encode()
 
 
-    def sendSourcePosition(self, source_idx):
-        msgs = self.composeSourceUpdateMessage(source_idx)
 
-        for addr, data in msgs:
-            # oscsock.send_message(addr, data, ip_address=self.ipaddress, port=self.basePort+source_idx)
-            self.oscClients[source_idx].send_message(addr, data)
-
-        if self.debugCopy:
-            for addr, data in msgs:
-                self.oscDebugSend(addr, data)
-
-        if self.printOutput:
-            for addr, data in msgs:
-                self.printOscOutput(addr, data)
+        self.debugPrefix = "/dHufoPlugin"
 
 
-    def composeSourceUpdateMessage(self,  osc_pre, values, sIdx:int=0) -> [(str, [])]:
-        # msgs = []
-        posData = self.sources[sIdx].getPosition[self.posFormat]
+    # def updateSource(self, source_idx):
+    #
+    #     while self.updateStack[source_idx]:
+    #         getValueFunc, oscPre = self.updateStack[source_idx].pop()
+    #         values = getValueFunc()
+    #
+    #         msgs = self.composeSourceUpdateMessage(oscPre, values, source_idx)
+    #         self.sendUpdates(msgs)
+    #
+    #     self.scheduleSourceUpdateCheck(source_idx)
 
-        # for idx,key in enumerate(skc.fullformat[self.posFormat]):
-        #     msgs.append((self.oscAddrs[key], posData[idx]))
+    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+        osc_pre = args[0]
+        if osc_pre == self.oscAddrs['renderGain']:
+            return [(osc_pre, [sIdx+1, args[1]])]
+        else:
+            return [(osc_pre, [sIdx+1, values])]
 
-        return [self.oscPosAddr, posData]
-
-        # oscsock.send_message(b"/beepbepp", [], self.ipaddress, port=123)
-
-
-    def sendSourceAttributeMessage(self, sidx, attribute):
+    def sourceAttributeChanged(self, source_idx, attribute):
         pass
+
+    def sourceRenderGainChanged(self, source_idx, render_idx):
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain), (self.oscAddrs['renderGain'], render_idx)))
+        self.sourceChanged(source_idx)
+
+    def sourcePositionChanged(self, source_idx):
+        for key in skc.fullformat[self.posFormat]:
+            self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, key), (self.oscAddrs[key],)))
+
+        self.sourceChanged(source_idx)
+
 
 
 class DataClient(Audiorouter, SpatialRenderer):
@@ -608,8 +611,8 @@ def createRendererClient(renderclass: renderclasstype, kwargs) -> Renderer:
         rend = SuperColliderEngine(**kwargs)
     elif renderclass == renderclasstype.Audiorouter:
         rend = Audiorouter(**kwargs)
-    elif renderclass == renderclasstype.Osclight:
-        rend = Osclight(**kwargs)
+    elif renderclass == renderclasstype.HufoPlugin:
+        rend = HufoPlugin(**kwargs)
     else:
         rend = Renderer()
 

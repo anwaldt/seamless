@@ -36,9 +36,9 @@ listenport      58100
 sendport        10101
 updateintervall 50
 ***
-dataclient      oscar
+dataclient      hufoplugin
 ipaddress       130.149.23.46
-listenport      4001
+listenport      52713
 updateintervall 5
 ***
 
