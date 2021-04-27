@@ -126,6 +126,9 @@ s.waitForBoot({
 	~control_elev_BUS     = Bus.control(s,~nInputs);
 	~control_dist_BUS     = Bus.control(s,~nInputs);
 
+
+	~reverb_gain_BUS   = Bus.control(s,~nInputs);
+
 	// control
 	~send_gain_BUSES = Array.fill(~nInputs,
 		{
@@ -155,8 +158,12 @@ s.waitForBoot({
 	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
 	~sub_BUS           = Bus.audio(s, 1);
 
+
 	// bus for encoded HOA
 	~ambi_BUS = Bus.audio(s, ~n_hoa_channnels);
+
+	// bus for reverb (starting with mono for a trial)
+	~reverb_BUS = Bus.audio(s,1);
 
 	s.sync;
 
@@ -179,6 +186,7 @@ s.waitForBoot({
 					\individual_gains, ~send_gain_BUSES[cnt].index,
 					\common_gains,     ~common_gain_BUSES[cnt].index,
 					\common_bus,       ~common_send_BUSES.index,
+					\reverb_bus,       ~reverb_BUS.index,
 					\sub_bus,          ~sub_BUS.index,
 				],target: ~send_GROUP
 		);)
@@ -187,6 +195,7 @@ s.waitForBoot({
 
 	for (0, ~nInputs -1, {arg cnt;
 		~send_modules[cnt].map(\dist,             ~control_dist_BUS.index  + cnt);
+		~send_modules[cnt].map(\reverb_gain,      ~reverb_gain_BUS.index  + cnt);
 	};);
 
 
@@ -392,13 +401,25 @@ s.waitForBoot({
 
 
 	/////////////////////////////////////////////////////////////////
+	// Reverb Output
+	/////////////////////////////////////////////////////////////////
+
+	~reverb_output = Synth(\output_module,
+		[
+			\audio_bus, ~reverb_BUS.index,  //
+			\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
+		],
+		target: ~output_GROUP
+	);
+
+	/////////////////////////////////////////////////////////////////
 	// add BASS
 	/////////////////////////////////////////////////////////////////
 
 	~lfe_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
+			\out_bus,   ~nInputs + ~n_hoa_channnels +1   // output after reverb
 		],
 		target: ~output_GROUP
 	);
@@ -409,7 +430,7 @@ s.waitForBoot({
 	~sub_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~nInputs  + ~n_hoa_channnels   // output after WFS
+			\out_bus,   ~nInputs  + ~n_hoa_channnels +1  // output after reverb
 		],
 		target: ~output_GROUP
 	);

@@ -58,6 +58,10 @@ SynthDef(\send_module,
 		common_bus    = nil
 		individual_gains    = nil,
 		common_gains  = nil,
+		//
+		reverb_bus    = nil,
+		reverb_gain   = 0.1,
+		//
 		sub_bus       = nil,
 		sub_gain      = 0.5,
 		gain          = 1,
@@ -91,6 +95,8 @@ SynthDef(\send_module,
 				Out.ar(common_bus + (cnt), in * gain * gain_i);
 			}
 		);
+
+		Out.ar(reverb_bus,in*gain*reverb_gain);
 	}
 ).add;
 
