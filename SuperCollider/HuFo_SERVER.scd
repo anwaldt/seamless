@@ -95,6 +95,9 @@ s.options.numAudioBusChannels = 4096;
 ~n_hoa_channnels = pow(~hoa_order + 1.0 ,2.0);
 
 
+// the reverb is 1st order
+~reverb_order      = 1;
+~n_reverb_channels = pow(~reverb_order + 1.0 ,2.0);
 
 s.boot;
 
@@ -365,6 +368,7 @@ s.waitForBoot({
 
 
 
+
 	/////////////////////////////////////////////////////////////////
 	// decoder
 	/////////////////////////////////////////////////////////////////
@@ -430,6 +434,17 @@ s.waitForBoot({
 	// Reverb Output
 	/////////////////////////////////////////////////////////////////
 
+
+	~reverb = {
+		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(In.ar(~reverb_BUS.index)));
+	}.play;
+
+	s.sync;
+
+	~reverb.moveToTail(~output_GROUP);
+
+
+
 	~reverb_output = Synth(\output_module,
 		[
 			\audio_bus, ~reverb_BUS.index,  //
@@ -445,7 +460,7 @@ s.waitForBoot({
 	~lfe_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~common_send_BUSES.index + 0,  //
-			\out_bus,   ~nInputs + ~n_hoa_channnels +1   // output after reverb
+			\out_bus,   ~nInputs + ~n_hoa_channnels + ~n_reverb_channels   // output after reverb
 		],
 		target: ~output_GROUP
 	);
@@ -456,7 +471,7 @@ s.waitForBoot({
 	~sub_output = Synth(\sub_output_module,
 		[
 			\audio_bus, ~sub_BUS.index,  //
-			\out_bus,   ~nInputs  + ~n_hoa_channnels +1  // output after reverb
+			\out_bus,   ~nInputs  + ~n_hoa_channnels + ~n_reverb_channels  // output after reverb
 		],
 		target: ~output_GROUP
 	);

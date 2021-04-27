@@ -21,8 +21,8 @@ Outputs | Description
 ---     | ---  
 00-63   | WFS input channels
 64-79   | HOA encoded
-80      | reverb send
-81      | sub send
+80-83   | FOA encoded reverb
+84      | sub send
 
 ----
 
