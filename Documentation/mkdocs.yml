@@ -5,6 +5,11 @@ theme:
     highlightjs: true
     logo: graphics/interface_HVC_small.png
 
+plugins:
+    - with-pdf
+#    - search
+#    - mkpdfs
+
 bibtex:
       bib_file: "refs.bib"
       cite_style: "pandoc"
