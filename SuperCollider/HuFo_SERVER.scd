@@ -213,6 +213,8 @@ s.waitForBoot({
 
 		if(~debug_level == 1,{msg.postln()});
 
+		in_value = max(0,min(1,in_value));
+
 		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
 	}, '/source/send/spatial');
@@ -224,6 +226,8 @@ s.waitForBoot({
 		in_value = msg[3];
 
 		if(~debug_level == 1,{msg.postln()});
+
+		in_value = max(0,min(1,in_value));
 
 		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
@@ -298,6 +302,8 @@ s.waitForBoot({
 
 			if(~debug_level == 1,{msg.postln()});
 
+			dist = max(0,min(100,dist));
+
 			~control_dist_BUS.setAt(msg[1],dist);
 	}, '/source/pos/dist');
 
@@ -312,6 +318,7 @@ s.waitForBoot({
 
 			if(~debug_level == 1,{msg.postln()});
 
+			dist = max(0,min(100,dist));
 
 			~control_azim_BUS.setAt(msg[1],azim);
 			~control_elev_BUS.setAt(msg[1],elev);
@@ -323,11 +330,13 @@ s.waitForBoot({
 	~reverb_OSC = OSCFunc(
 		{
 			arg msg, time, addr, recvPort;
-			var dist = msg[2];
+			var gain = msg[2];
 
 			if(~debug_level == 1,{msg.postln()});
 
-			~reverb_gain_BUS.setAt(msg[1],dist);
+			gain = max(0,min(1,gain));
+
+			~reverb_gain_BUS.setAt(msg[1],gain);
 	}, '/source/reverb/gain');
 
 
@@ -434,24 +443,31 @@ s.waitForBoot({
 	// Reverb Output
 	/////////////////////////////////////////////////////////////////
 
-
 	~reverb = {
-		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(In.ar(~reverb_BUS.index)));
+
+		|f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 1.0, t60dc= 3.0, t60m= 4.0|
+
+		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(In.ar(~reverb_BUS.index),f1,f2,rdel,rgxyz,t60dc,t60m));
 	}.play;
 
 	s.sync;
 
 	~reverb.moveToTail(~output_GROUP);
 
+	~reverb.set(\rgxyz,-9);
+	~reverb.set(\rdel,10);
+	~reverb.set(\t60dc, 1.75, \t60m, 4);
+	~reverb.set(\f1, 500, \f2, 2700);
 
-
+	/*
 	~reverb_output = Synth(\output_module,
-		[
-			\audio_bus, ~reverb_BUS.index,  //
-			\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
-		],
-		target: ~output_GROUP
+	[
+	\audio_bus, ~reverb_BUS.index,  //
+	\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
+	],
+	target: ~output_GROUP
 	);
+	*/
 
 	/////////////////////////////////////////////////////////////////
 	// add BASS
