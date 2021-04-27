@@ -313,6 +313,17 @@ s.waitForBoot({
 	}, '/source/pos/aed');
 
 
+	~reverb_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+			var dist = msg[2];
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_gain_BUS.setAt(msg[1],dist);
+	}, '/source/reverb/gain');
+
+
 	~send_OSC_ROUTINE = Routine({
 
 		inf.do({
@@ -348,11 +359,11 @@ s.waitForBoot({
 	// use external decoder instead
 	/*
 	~decoder = Synth(\hoa_decoder_HUFO,
-		[
-			\in_bus,~ambi_BUS.index,
-			\out_bus, 0
-		],
-		target: ~output_GROUP);
+	[
+	\in_bus,~ambi_BUS.index,
+	\out_bus, 0
+	],
+	target: ~output_GROUP);
 	*/
 
 	/////////////////////////////////////////////////////////////////
