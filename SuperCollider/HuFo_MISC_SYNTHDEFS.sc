@@ -64,6 +64,7 @@ SynthDef(\send_module,
 		//
 		sub_bus       = nil,
 		sub_gain      = 0.5,
+		//
 		gain          = 1,
 		// there needs to be a distance set for all sources
 		dist          = 1

@@ -117,7 +117,7 @@ s.waitForBoot({
 
 
 	/////////////////////////////////////////////////////////////////
-	// THE BUSSES:
+	// CONTROL BUSSES:
 	/////////////////////////////////////////////////////////////////
 
 	s.sync;
@@ -127,40 +127,43 @@ s.waitForBoot({
 	~control_dist_BUS     = Bus.control(s,~nInputs);
 
 
-	~reverb_gain_BUS   = Bus.control(s,~nInputs);
+	~reverb_gain_BUS  = Bus.control(s,~nInputs);
+	~sub_gain_BUS     = Bus.control(s,~nInputs);
 
 	// control
 	~send_gain_BUSES = Array.fill(~nInputs,
-		{
-			Bus.control(s, ~nIndividualSends)
-		}
+		{Bus.control(s, ~nIndividualSends)}
 	);
 
 	s.sync;
 
-
 	~common_gain_BUSES = Array.fill(~nInputs,
-		{
-			Bus.control(s, ~nCommonSends);
-		}
+		{Bus.control(s, ~nCommonSends);}
 	);
 
 	s.sync;
 
 	~send_BUSES = Array.fill(~nInputs,
-		{
-			Bus.audio(s, ~nIndividualSends);
-		}
+		{Bus.audio(s, ~nIndividualSends);}
 	);
 
 	s.sync;
+
+	~reverb_gain_BUS.set(0.5);
+	~sub_gain_BUS.set(0.5);
+
+
+	/////////////////////////////////////////////////////////////////
+	// AUDIO BUSSES:
+	/////////////////////////////////////////////////////////////////
+
 
 	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
 	~sub_BUS           = Bus.audio(s, 1);
 
 
 	// bus for encoded HOA
-	~ambi_BUS = Bus.audio(s, ~n_hoa_channnels);
+	~ambi_BUS   = Bus.audio(s, ~n_hoa_channnels);
 
 	// bus for reverb (starting with mono for a trial)
 	~reverb_BUS = Bus.audio(s,1);
@@ -196,6 +199,7 @@ s.waitForBoot({
 	for (0, ~nInputs -1, {arg cnt;
 		~send_modules[cnt].map(\dist,             ~control_dist_BUS.index  + cnt);
 		~send_modules[cnt].map(\reverb_gain,      ~reverb_gain_BUS.index  + cnt);
+		~send_modules[cnt].map(\sub_gain,      ~sub_gain_BUS.index  + cnt);
 	};);
 
 
@@ -322,6 +326,17 @@ s.waitForBoot({
 
 			~reverb_gain_BUS.setAt(msg[1],dist);
 	}, '/source/reverb/gain');
+
+
+	~sub_OSC = OSCFunc(
+		{
+			arg msg, time, addr, recvPort;
+			var dist = msg[2];
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~sub_gain_BUS.setAt(msg[1],dist);
+	}, '/source/sub/gain');
 
 
 	~send_OSC_ROUTINE = Routine({

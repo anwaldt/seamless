@@ -1,15 +1,39 @@
 # SuperCollider
 
-Mixing and signal distribution is based on SuperCollider.
+Mixing, signal distribution and Ambisonics encoding is based on SuperCollider.
 Two main scripts are used:
 
 ## HuFo_SERVER.scd
 
-**HuFo_SERVER** is a mixing and distribution instance for the source signals, as well as for Ambisonics encoding.
+**HuFo_SERVER** is the central distribution instance for the source signals, as well as for Ambisonics encoding.
+
+
+### SC IO Assignment
+
+The following assignment is only valid for the 3rd order configuration:
+
+Inputs  | Description
+---     | ---  
+00-63   | raw audio input
+
+
+Outputs | Description
+---     | ---  
+00-63   | WFS input channels
+64-79   | HOA encoded
+80      | reverb send
+81      | sub send
+
+----
+
+
 
 ## HuFo_WFS.scd
 
-**HuFo_WFS** is a  mixing and distribution instance for the source signals, limited to WFS for.
+**HuFo_WFS** is a  mixing and distribution instance for the source signals, limited to WFS for use on the additional WFS rendering servers.
+
+
+## Starting
 
 Both instances are take the same optional input arguments:
 
@@ -21,6 +45,8 @@ Defaults:
 
 - N_inputs: 64
 - server_port: 58010
+
+
 ## Setting Up
 
 ### Build Decoders
