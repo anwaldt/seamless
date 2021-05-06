@@ -64,12 +64,12 @@ def conv_pol2ncart(azim, elev, dist) -> [np.float32]:
 
 def conv_cart2pol(x, y, z) -> [np.float32]:
     dist = mag_xyz(x, y, z )
-    azim_rad = np.arctan(x / y)
+    azim_rad = np.arctan2(x, y)
     azim = np.rad2deg(azim_rad)
     if azim > 180.:
         azim -= f32(360)
 
-    elev_rad = np.arctan(np.sqrt(np.square(x) + np.square(y) / z))
+    elev_rad = np.arctan2(z, np.sqrt(np.square(x) + np.square(y))) if not z==0 else 0
     elev = np.rad2deg(elev_rad)
     if elev > 90.:
         elev = 90. - elev
@@ -90,7 +90,7 @@ def conv_ncart2pol(nx, ny, nz, nd):
     azim = np.rad2deg(azim_rad)
     azim = wrapAzimuth180(azim)
 
-    elev_rad = np.arctan(np.sqrt(np.square(nx) + np.square(ny) / nz))
+    elev_rad = np.arctan2(nz, np.sqrt(np.square(nx) + np.square(ny)))
     elev = np.rad2deg(elev_rad)
     elev = wrapElevation90(elev)
 
