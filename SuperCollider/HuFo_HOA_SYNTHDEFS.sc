@@ -13,8 +13,30 @@ SynthDef(\binaural_mono_encoder_3,
 		|
 
 		var sound, level, bform;
+		var a=0,e=0,d=1;
+		var sane;
 
 		sound = gain * In.ar(in_bus);
+
+
+/*		sane = BinaryOpUGen('==',CheckBadValues.kr(azim,0,1), 0);
+		if ( sane==1,
+			{a=azim},    // true
+			{a=a}    // false
+		);
+
+		sane = BinaryOpUGen('==',CheckBadValues.kr(elev,0,1), 0);
+		if ( sane==1,
+			{e=elev},    // true
+			{e=e}    // false
+		);
+
+		sane = BinaryOpUGen('==',CheckBadValues.kr(dist,0,1), 0);
+		if ( sane==1,
+			{d=dist},    // true
+			{d=d}    // false
+		);*/
+
 
 		// dist  = max(0.001,min(gain,100));
 
@@ -25,9 +47,7 @@ SynthDef(\binaural_mono_encoder_3,
 		// dist = Lag.kr(dist,0.01);
 
 
-		azim = CheckBadValues.kr(azim,0,0);
-		elev = CheckBadValues.kr(elev,0,0);
-		dist = CheckBadValues.kr(dist,0,0);
+
 
 		bform = HOASphericalHarmonics.coefN3D(3, azim, elev) * sound * level;
 
