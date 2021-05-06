@@ -18,7 +18,16 @@ SynthDef(\binaural_mono_encoder_3,
 
 		// dist  = max(0.001,min(gain,100));
 
-		level =   (0.75/(max(0,dist)+1.0));
+		level = (0.75/(max(0,dist)+1.0));
+
+		// azim = Lag.kr(azim,0.01);
+		// elev = Lag.kr(elev,0.01);
+		// dist = Lag.kr(dist,0.01);
+
+
+		azim = CheckBadValues.kr(azim,0,0);
+		elev = CheckBadValues.kr(elev,0,0);
+		dist = CheckBadValues.kr(dist,0,0);
 
 		bform = HOASphericalHarmonics.coefN3D(3, azim, elev) * sound * level;
 
