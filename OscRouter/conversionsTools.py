@@ -69,7 +69,7 @@ def conv_cart2pol(x, y, z) -> [np.float32]:
     if azim > 180.:
         azim -= f32(360)
 
-    elev_rad = np.arctan2(z, np.sqrt(np.square(x) + np.square(y))) if not z==0 else 0
+    elev_rad = np.arctan2(z, np.sqrt(np.square(x) + np.square(y)))
     elev = np.rad2deg(elev_rad)
     if elev > 90.:
         elev = 90. - elev
