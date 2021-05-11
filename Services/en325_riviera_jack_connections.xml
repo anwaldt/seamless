@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <aj-snapshot>
+<alsa>
+  <client name="System">
+    <port id="0" />
+    <port id="1" />
+  </client>
+  <client name="Midi Through">
+    <port id="0" />
+  </client>
+  <client name="External MIDI">
+    <port id="0" />
+    <port id="32" />
+    <port id="64" />
+  </client>
+  <client name="Client-128" />
+</alsa>
 <jack>
   <client name="system">
     <port name="capture_1">
@@ -259,204 +274,134 @@
     <port name="capture_127" />
     <port name="capture_128" />
   </client>
-  <client name="twonder1">
-    <port name="speaker1">
-      <connection port="system:playback_1" />
+  <client name="EN325_DOME3">
+    <port name="out_0">
+      <connection port="system:playback_65" />
     </port>
-    <port name="speaker2">
-      <connection port="system:playback_2" />
+    <port name="out_1">
+      <connection port="system:playback_66" />
     </port>
-    <port name="speaker3">
-      <connection port="system:playback_3" />
+    <port name="out_2">
+      <connection port="system:playback_67" />
     </port>
-    <port name="speaker4">
-      <connection port="system:playback_4" />
+    <port name="out_3">
+      <connection port="system:playback_68" />
     </port>
-    <port name="speaker5">
-      <connection port="system:playback_5" />
+    <port name="out_4">
+      <connection port="system:playback_69" />
     </port>
-    <port name="speaker6">
-      <connection port="system:playback_6" />
+    <port name="out_5">
+      <connection port="system:playback_70" />
     </port>
-    <port name="speaker7">
-      <connection port="system:playback_7" />
+    <port name="out_6">
+      <connection port="system:playback_71" />
     </port>
-    <port name="speaker8">
-      <connection port="system:playback_8" />
+    <port name="out_7">
+      <connection port="system:playback_72" />
     </port>
-    <port name="speaker9">
-      <connection port="system:playback_9" />
+    <port name="out_8">
+      <connection port="system:playback_73" />
     </port>
-    <port name="speaker10">
-      <connection port="system:playback_10" />
+    <port name="out_9">
+      <connection port="system:playback_74" />
     </port>
-    <port name="speaker11">
-      <connection port="system:playback_11" />
+    <port name="out_10">
+      <connection port="system:playback_75" />
     </port>
-    <port name="speaker12">
-      <connection port="system:playback_12" />
+    <port name="out_11">
+      <connection port="system:playback_76" />
     </port>
-    <port name="speaker13">
-      <connection port="system:playback_13" />
+    <port name="out_12">
+      <connection port="system:playback_77" />
     </port>
-    <port name="speaker14">
-      <connection port="system:playback_14" />
+    <port name="out_13">
+      <connection port="system:playback_78" />
     </port>
-    <port name="speaker15">
-      <connection port="system:playback_15" />
+    <port name="out_14">
+      <connection port="system:playback_79" />
     </port>
-    <port name="speaker16">
-      <connection port="system:playback_16" />
+    <port name="out_15">
+      <connection port="system:playback_80" />
     </port>
-  </client>
-  <client name="twonder2">
-    <port name="speaker1">
-      <connection port="system:playback_17" />
+    <port name="out_16">
+      <connection port="system:playback_81" />
     </port>
-    <port name="speaker2">
-      <connection port="system:playback_18" />
+    <port name="out_17">
+      <connection port="system:playback_82" />
     </port>
-    <port name="speaker3">
-      <connection port="system:playback_19" />
+    <port name="out_18">
+      <connection port="system:playback_83" />
     </port>
-    <port name="speaker4">
-      <connection port="system:playback_20" />
+    <port name="out_19">
+      <connection port="system:playback_84" />
     </port>
-    <port name="speaker5">
-      <connection port="system:playback_21" />
-    </port>
-    <port name="speaker6">
-      <connection port="system:playback_22" />
-    </port>
-    <port name="speaker7">
-      <connection port="system:playback_23" />
-    </port>
-    <port name="speaker8">
-      <connection port="system:playback_24" />
-    </port>
-    <port name="speaker9">
-      <connection port="system:playback_25" />
-    </port>
-    <port name="speaker10">
-      <connection port="system:playback_26" />
-    </port>
-    <port name="speaker11">
-      <connection port="system:playback_27" />
-    </port>
-    <port name="speaker12">
-      <connection port="system:playback_28" />
-    </port>
-    <port name="speaker13">
-      <connection port="system:playback_29" />
-    </port>
-    <port name="speaker14">
-      <connection port="system:playback_30" />
-    </port>
-    <port name="speaker15">
-      <connection port="system:playback_31" />
-    </port>
-    <port name="speaker16">
-      <connection port="system:playback_32" />
+    <port name="out_20">
+      <connection port="system:playback_85" />
     </port>
   </client>
-  <client name="twonder3">
-    <port name="speaker1">
-      <connection port="system:playback_33" />
+  <client name="EN325_DOME1">
+    <port name="out_0">
+      <connection port="system:playback_65" />
     </port>
-    <port name="speaker2">
-      <connection port="system:playback_34" />
+    <port name="out_1">
+      <connection port="system:playback_66" />
     </port>
-    <port name="speaker3">
-      <connection port="system:playback_35" />
+    <port name="out_2">
+      <connection port="system:playback_67" />
     </port>
-    <port name="speaker4">
-      <connection port="system:playback_36" />
+    <port name="out_3">
+      <connection port="system:playback_68" />
     </port>
-    <port name="speaker5">
-      <connection port="system:playback_37" />
+    <port name="out_4">
+      <connection port="system:playback_69" />
     </port>
-    <port name="speaker6">
-      <connection port="system:playback_38" />
+    <port name="out_5">
+      <connection port="system:playback_70" />
     </port>
-    <port name="speaker7">
-      <connection port="system:playback_39" />
+    <port name="out_6">
+      <connection port="system:playback_71" />
     </port>
-    <port name="speaker8">
-      <connection port="system:playback_40" />
+    <port name="out_7">
+      <connection port="system:playback_72" />
     </port>
-    <port name="speaker9">
-      <connection port="system:playback_41" />
+    <port name="out_8">
+      <connection port="system:playback_73" />
     </port>
-    <port name="speaker10">
-      <connection port="system:playback_42" />
+    <port name="out_9">
+      <connection port="system:playback_74" />
     </port>
-    <port name="speaker11">
-      <connection port="system:playback_43" />
+    <port name="out_10">
+      <connection port="system:playback_75" />
     </port>
-    <port name="speaker12">
-      <connection port="system:playback_44" />
+    <port name="out_11">
+      <connection port="system:playback_76" />
     </port>
-    <port name="speaker13">
-      <connection port="system:playback_45" />
+    <port name="out_12">
+      <connection port="system:playback_77" />
     </port>
-    <port name="speaker14">
-      <connection port="system:playback_46" />
+    <port name="out_13">
+      <connection port="system:playback_78" />
     </port>
-    <port name="speaker15">
-      <connection port="system:playback_47" />
+    <port name="out_14">
+      <connection port="system:playback_79" />
     </port>
-    <port name="speaker16">
-      <connection port="system:playback_48" />
+    <port name="out_15">
+      <connection port="system:playback_80" />
     </port>
-  </client>
-  <client name="twonder4">
-    <port name="speaker1">
-      <connection port="system:playback_49" />
+    <port name="out_16">
+      <connection port="system:playback_81" />
     </port>
-    <port name="speaker2">
-      <connection port="system:playback_50" />
+    <port name="out_17">
+      <connection port="system:playback_82" />
     </port>
-    <port name="speaker3">
-      <connection port="system:playback_51" />
+    <port name="out_18">
+      <connection port="system:playback_83" />
     </port>
-    <port name="speaker4">
-      <connection port="system:playback_52" />
+    <port name="out_19">
+      <connection port="system:playback_84" />
     </port>
-    <port name="speaker5">
-      <connection port="system:playback_53" />
-    </port>
-    <port name="speaker6">
-      <connection port="system:playback_54" />
-    </port>
-    <port name="speaker7">
-      <connection port="system:playback_55" />
-    </port>
-    <port name="speaker8">
-      <connection port="system:playback_56" />
-    </port>
-    <port name="speaker9">
-      <connection port="system:playback_57" />
-    </port>
-    <port name="speaker10">
-      <connection port="system:playback_58" />
-    </port>
-    <port name="speaker11">
-      <connection port="system:playback_59" />
-    </port>
-    <port name="speaker12">
-      <connection port="system:playback_60" />
-    </port>
-    <port name="speaker13">
-      <connection port="system:playback_61" />
-    </port>
-    <port name="speaker14">
-      <connection port="system:playback_62" />
-    </port>
-    <port name="speaker15">
-      <connection port="system:playback_63" />
-    </port>
-    <port name="speaker16">
-      <connection port="system:playback_64" />
+    <port name="out_20">
+      <connection port="system:playback_85" />
     </port>
   </client>
   <client name="SC_MIX">
@@ -892,10 +837,18 @@
     <port name="out_80">
       <connection port="EN325_DOME3:in_15" />
     </port>
-    <port name="out_81" />
-    <port name="out_82" />
-    <port name="out_83" />
-    <port name="out_84" />
+    <port name="out_81">
+      <connection port="EN325_DOME1:in_0" />
+    </port>
+    <port name="out_82">
+      <connection port="EN325_DOME1:in_1" />
+    </port>
+    <port name="out_83">
+      <connection port="EN325_DOME1:in_2" />
+    </port>
+    <port name="out_84">
+      <connection port="EN325_DOME1:in_3" />
+    </port>
     <port name="out_85" />
     <port name="out_86" />
     <port name="out_87" />
@@ -915,6 +868,208 @@
     <port name="out_101" />
     <port name="out_102" />
     <port name="out_103" />
+  </client>
+  <client name="twonder1">
+    <port name="speaker1">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_2" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_3" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_4" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_5" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_6" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_7" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_8" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_9" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_10" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_11" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_12" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_13" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_14" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_15" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_16" />
+    </port>
+  </client>
+  <client name="twonder2">
+    <port name="speaker1">
+      <connection port="system:playback_17" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_18" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_19" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_20" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_21" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_22" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_23" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_24" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_25" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_26" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_27" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_28" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_29" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_30" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_31" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_32" />
+    </port>
+  </client>
+  <client name="twonder3">
+    <port name="speaker1">
+      <connection port="system:playback_33" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_34" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_35" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_36" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_37" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_38" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_39" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_40" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_41" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_42" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_43" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_44" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_45" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_46" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_47" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_48" />
+    </port>
+  </client>
+  <client name="twonder4">
+    <port name="speaker1">
+      <connection port="system:playback_49" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_50" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_51" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_52" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_53" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_54" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_55" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_56" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_57" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_58" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_59" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_60" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_61" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_62" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_63" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_64" />
+    </port>
+  </client>
+  <client name="SC_MIX">
     <port name="out_104" />
     <port name="out_105" />
     <port name="out_106" />
@@ -940,71 +1095,6 @@
     <port name="out_126" />
     <port name="out_127" />
     <port name="out_128" />
-  </client>
-  <client name="EN325_DOME3">
-    <port name="out_0">
-      <connection port="system:playback_65" />
-    </port>
-    <port name="out_1">
-      <connection port="system:playback_66" />
-    </port>
-    <port name="out_2">
-      <connection port="system:playback_67" />
-    </port>
-    <port name="out_3">
-      <connection port="system:playback_68" />
-    </port>
-    <port name="out_4">
-      <connection port="system:playback_69" />
-    </port>
-    <port name="out_5">
-      <connection port="system:playback_70" />
-    </port>
-    <port name="out_6">
-      <connection port="system:playback_71" />
-    </port>
-    <port name="out_7">
-      <connection port="system:playback_72" />
-    </port>
-    <port name="out_8">
-      <connection port="system:playback_73" />
-    </port>
-    <port name="out_9">
-      <connection port="system:playback_74" />
-    </port>
-    <port name="out_10">
-      <connection port="system:playback_75" />
-    </port>
-    <port name="out_11">
-      <connection port="system:playback_76" />
-    </port>
-    <port name="out_12">
-      <connection port="system:playback_77" />
-    </port>
-    <port name="out_13">
-      <connection port="system:playback_78" />
-    </port>
-    <port name="out_14">
-      <connection port="system:playback_79" />
-    </port>
-    <port name="out_15">
-      <connection port="system:playback_80" />
-    </port>
-    <port name="out_16">
-      <connection port="system:playback_81" />
-    </port>
-    <port name="out_17">
-      <connection port="system:playback_82" />
-    </port>
-    <port name="out_18">
-      <connection port="system:playback_83" />
-    </port>
-    <port name="out_19">
-      <connection port="system:playback_84" />
-    </port>
-    <port name="out_20">
-      <connection port="system:playback_85" />
-    </port>
   </client>
 </jack>
 </aj-snapshot>
