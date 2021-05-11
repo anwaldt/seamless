@@ -158,8 +158,8 @@ s.waitForBoot({
 
 	s.sync;
 
-	~reverb_gain_BUS.set(0.5);
-	~sub_gain_BUS.set(0.5);
+	~reverb_gain_BUS.set(0);
+	~sub_gain_BUS.set(0);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -205,11 +205,11 @@ s.waitForBoot({
 	});
 
 
-	for (0, ~nInputs -1, {arg cnt;
+/*	for (0, ~nInputs -1, {arg cnt;
 		~send_modules[cnt].map(\dist,             ~control_dist_BUS.index  + cnt);
 		~send_modules[cnt].map(\reverb_gain,      ~reverb_gain_BUS.index  + cnt);
 		~send_modules[cnt].map(\sub_gain,      ~sub_gain_BUS.index  + cnt);
-	};);
+	};);*/
 
 
 	~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;

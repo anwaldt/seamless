@@ -70,7 +70,7 @@ postln("Launching with port:"++~server_ADDRESS++"!");
 
 s.options.device               = "SC_WFS";
 s.options.numInputBusChannels  = ~nInputs;
-s.options.numOutputBusChannels = 128;
+s.options.numOutputBusChannels = 64;
 
 s.options.maxLogins            = 2;
 s.options.memSize              = 65536;
@@ -323,8 +323,8 @@ s.waitForBoot({
 
 	s.scope(12,~control_azim_BUS.index);
 
-	s.scope(1,~send_gain_BUSES[0].index);
-	s.scope(1,~send_BUSES[1].index);
+	s.scope(2,~send_gain_BUSES[0].index,rate:'control');
+	s.scope(2,~send_BUSES[0].index,rate:'audio');
 
 	s.scope(1,~common_send_BUSES.index);
 
