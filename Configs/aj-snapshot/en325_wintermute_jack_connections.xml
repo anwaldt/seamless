@@ -3,196 +3,196 @@
 <jack>
   <client name="system">
     <port name="capture_1">
-      <connection port="SC_MIX:in_1" />
+      <connection port="SC_WFS:in_1" />
     </port>
     <port name="capture_2">
-      <connection port="SC_MIX:in_2" />
+      <connection port="SC_WFS:in_2" />
     </port>
     <port name="capture_3">
-      <connection port="SC_MIX:in_3" />
+      <connection port="SC_WFS:in_3" />
     </port>
     <port name="capture_4">
-      <connection port="SC_MIX:in_4" />
+      <connection port="SC_WFS:in_4" />
     </port>
     <port name="capture_5">
-      <connection port="SC_MIX:in_5" />
+      <connection port="SC_WFS:in_5" />
     </port>
     <port name="capture_6">
-      <connection port="SC_MIX:in_6" />
+      <connection port="SC_WFS:in_6" />
     </port>
     <port name="capture_7">
-      <connection port="SC_MIX:in_7" />
+      <connection port="SC_WFS:in_7" />
     </port>
     <port name="capture_8">
-      <connection port="SC_MIX:in_8" />
+      <connection port="SC_WFS:in_8" />
     </port>
     <port name="capture_9">
-      <connection port="SC_MIX:in_9" />
+      <connection port="SC_WFS:in_9" />
     </port>
     <port name="capture_10">
-      <connection port="SC_MIX:in_10" />
+      <connection port="SC_WFS:in_10" />
     </port>
     <port name="capture_11">
-      <connection port="SC_MIX:in_11" />
+      <connection port="SC_WFS:in_11" />
     </port>
     <port name="capture_12">
-      <connection port="SC_MIX:in_12" />
+      <connection port="SC_WFS:in_12" />
     </port>
     <port name="capture_13">
-      <connection port="SC_MIX:in_13" />
+      <connection port="SC_WFS:in_13" />
     </port>
     <port name="capture_14">
-      <connection port="SC_MIX:in_14" />
+      <connection port="SC_WFS:in_14" />
     </port>
     <port name="capture_15">
-      <connection port="SC_MIX:in_15" />
+      <connection port="SC_WFS:in_15" />
     </port>
     <port name="capture_16">
-      <connection port="SC_MIX:in_16" />
+      <connection port="SC_WFS:in_16" />
     </port>
     <port name="capture_17">
-      <connection port="SC_MIX:in_17" />
+      <connection port="SC_WFS:in_17" />
     </port>
     <port name="capture_18">
-      <connection port="SC_MIX:in_18" />
+      <connection port="SC_WFS:in_18" />
     </port>
     <port name="capture_19">
-      <connection port="SC_MIX:in_19" />
+      <connection port="SC_WFS:in_19" />
     </port>
     <port name="capture_20">
-      <connection port="SC_MIX:in_20" />
+      <connection port="SC_WFS:in_20" />
     </port>
     <port name="capture_21">
-      <connection port="SC_MIX:in_21" />
+      <connection port="SC_WFS:in_21" />
     </port>
     <port name="capture_22">
-      <connection port="SC_MIX:in_22" />
+      <connection port="SC_WFS:in_22" />
     </port>
     <port name="capture_23">
-      <connection port="SC_MIX:in_23" />
+      <connection port="SC_WFS:in_23" />
     </port>
     <port name="capture_24">
-      <connection port="SC_MIX:in_24" />
+      <connection port="SC_WFS:in_24" />
     </port>
     <port name="capture_25">
-      <connection port="SC_MIX:in_25" />
+      <connection port="SC_WFS:in_25" />
     </port>
     <port name="capture_26">
-      <connection port="SC_MIX:in_26" />
+      <connection port="SC_WFS:in_26" />
     </port>
     <port name="capture_27">
-      <connection port="SC_MIX:in_27" />
+      <connection port="SC_WFS:in_27" />
     </port>
     <port name="capture_28">
-      <connection port="SC_MIX:in_28" />
+      <connection port="SC_WFS:in_28" />
     </port>
     <port name="capture_29">
-      <connection port="SC_MIX:in_29" />
+      <connection port="SC_WFS:in_29" />
     </port>
     <port name="capture_30">
-      <connection port="SC_MIX:in_30" />
+      <connection port="SC_WFS:in_30" />
     </port>
     <port name="capture_31">
-      <connection port="SC_MIX:in_31" />
+      <connection port="SC_WFS:in_31" />
     </port>
     <port name="capture_32">
-      <connection port="SC_MIX:in_32" />
+      <connection port="SC_WFS:in_32" />
     </port>
     <port name="capture_33">
-      <connection port="SC_MIX:in_33" />
+      <connection port="SC_WFS:in_33" />
     </port>
     <port name="capture_34">
-      <connection port="SC_MIX:in_34" />
+      <connection port="SC_WFS:in_34" />
     </port>
     <port name="capture_35">
-      <connection port="SC_MIX:in_35" />
+      <connection port="SC_WFS:in_35" />
     </port>
     <port name="capture_36">
-      <connection port="SC_MIX:in_36" />
+      <connection port="SC_WFS:in_36" />
     </port>
     <port name="capture_37">
-      <connection port="SC_MIX:in_37" />
+      <connection port="SC_WFS:in_37" />
     </port>
     <port name="capture_38">
-      <connection port="SC_MIX:in_38" />
+      <connection port="SC_WFS:in_38" />
     </port>
     <port name="capture_39">
-      <connection port="SC_MIX:in_39" />
+      <connection port="SC_WFS:in_39" />
     </port>
     <port name="capture_40">
-      <connection port="SC_MIX:in_40" />
+      <connection port="SC_WFS:in_40" />
     </port>
     <port name="capture_41">
-      <connection port="SC_MIX:in_41" />
+      <connection port="SC_WFS:in_41" />
     </port>
     <port name="capture_42">
-      <connection port="SC_MIX:in_42" />
+      <connection port="SC_WFS:in_42" />
     </port>
     <port name="capture_43">
-      <connection port="SC_MIX:in_43" />
+      <connection port="SC_WFS:in_43" />
     </port>
     <port name="capture_44">
-      <connection port="SC_MIX:in_44" />
+      <connection port="SC_WFS:in_44" />
     </port>
     <port name="capture_45">
-      <connection port="SC_MIX:in_45" />
+      <connection port="SC_WFS:in_45" />
     </port>
     <port name="capture_46">
-      <connection port="SC_MIX:in_46" />
+      <connection port="SC_WFS:in_46" />
     </port>
     <port name="capture_47">
-      <connection port="SC_MIX:in_47" />
+      <connection port="SC_WFS:in_47" />
     </port>
     <port name="capture_48">
-      <connection port="SC_MIX:in_48" />
+      <connection port="SC_WFS:in_48" />
     </port>
     <port name="capture_49">
-      <connection port="SC_MIX:in_49" />
+      <connection port="SC_WFS:in_49" />
     </port>
     <port name="capture_50">
-      <connection port="SC_MIX:in_50" />
+      <connection port="SC_WFS:in_50" />
     </port>
     <port name="capture_51">
-      <connection port="SC_MIX:in_51" />
+      <connection port="SC_WFS:in_51" />
     </port>
     <port name="capture_52">
-      <connection port="SC_MIX:in_52" />
+      <connection port="SC_WFS:in_52" />
     </port>
     <port name="capture_53">
-      <connection port="SC_MIX:in_53" />
+      <connection port="SC_WFS:in_53" />
     </port>
     <port name="capture_54">
-      <connection port="SC_MIX:in_54" />
+      <connection port="SC_WFS:in_54" />
     </port>
     <port name="capture_55">
-      <connection port="SC_MIX:in_55" />
+      <connection port="SC_WFS:in_55" />
     </port>
     <port name="capture_56">
-      <connection port="SC_MIX:in_56" />
+      <connection port="SC_WFS:in_56" />
     </port>
     <port name="capture_57">
-      <connection port="SC_MIX:in_57" />
+      <connection port="SC_WFS:in_57" />
     </port>
     <port name="capture_58">
-      <connection port="SC_MIX:in_58" />
+      <connection port="SC_WFS:in_58" />
     </port>
     <port name="capture_59">
-      <connection port="SC_MIX:in_59" />
+      <connection port="SC_WFS:in_59" />
     </port>
     <port name="capture_60">
-      <connection port="SC_MIX:in_60" />
+      <connection port="SC_WFS:in_60" />
     </port>
     <port name="capture_61">
-      <connection port="SC_MIX:in_61" />
+      <connection port="SC_WFS:in_61" />
     </port>
     <port name="capture_62">
-      <connection port="SC_MIX:in_62" />
+      <connection port="SC_WFS:in_62" />
     </port>
     <port name="capture_63">
-      <connection port="SC_MIX:in_63" />
+      <connection port="SC_WFS:in_63" />
     </port>
     <port name="capture_64">
-      <connection port="SC_MIX:in_64" />
+      <connection port="SC_WFS:in_64" />
     </port>
     <port name="capture_65" />
     <port name="capture_66" />
@@ -659,7 +659,7 @@
       <connection port="system:playback_128" />
     </port>
   </client>
-  <client name="SC_MIX">
+  <client name="SC_WFS">
     <port name="out_1">
       <connection port="twonder1:input1" />
       <connection port="twonder2:input1" />
