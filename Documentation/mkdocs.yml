@@ -31,5 +31,6 @@ nav:
     - Technical Documentation:
       - Signal Flow: signalflow.md
       - SuperCollider: supercollider.md
+      - WFS/WONDER: wonder.md
       - OSC Router: oscrouter.md
       - System Setup: system_setup.md
