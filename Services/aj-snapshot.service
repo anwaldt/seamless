@@ -8,7 +8,7 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 PrivateTmp=true
-ExecStart=/bin/sh -c 'aj-snapshot -j -d -p 10000 /home/studio/hufo_system/Services/en325_riviera_jack_connections.xml'
+ExecStart=/bin/sh -c 'aj-snapshot -j -d -p 10000 /etc/hufo/aj_snapshot_config.xml'
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
