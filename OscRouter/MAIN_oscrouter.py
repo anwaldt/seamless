@@ -100,7 +100,7 @@ SoundObject.readGlobalConfig(globalconfig)
 Renderer.globalConfig = globalconfig
 osccomcenter.globalconfig = globalconfig
 
-globalconfig['numberofrenderengines'] = len(configurationDict['renderengine'].keys())
+globalconfig['numberofrenderengines'] = configurationDict['globalconfig']['number_renderunits']#len(configurationDict['renderengine'].keys())
 
 # inputport_data = int(globalconfig['inputport_data'])       #for automation data. Input will not be mirrored to 'dataclients'
 # inputport_ui = int(globalconfig['inputport_ui'])         #for ui applications. Input will be send to every client
@@ -171,6 +171,7 @@ else:
 print('\n')
 
 print('max number of sources is set to', str(numberofsources))
+print('number of rendering units is', str(globalconfig['numberofrenderengines']))
 print('UI listenport:', globalconfig[skc.inputport_ui])
 print('DATA listenport (for automation):', globalconfig[skc.inputport_data])
 print('port for settings is (no function yet):', globalconfig[skc.settings_port], '\n')
