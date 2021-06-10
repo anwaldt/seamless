@@ -3,6 +3,7 @@ inputport_ui    4455            // inputport for UI-Clients, blocks inputport_da
 inputport_data  4007            // inputport for automation-data clients
 settings_port   4999            // global configs can be changed with this port
 number_sources   64
+number_renderunits 3
 max_gain        2               // max gain for the audiorouter
 min_dist        0.001
 number_direct_sends   46              // including subwoofer

@@ -1,6 +1,6 @@
 /*
 
-Make HOA decoders for the dome at TU Studio (EN324)
+Make HOA decoders for the HuFo System
 for different orders (up to 5), uing the ADT.
 
 - adapted from SC readme: 'HOA Tutorial Exercise 15'

@@ -103,6 +103,7 @@ class Renderer(object):
         while self.updateStack[source_idx]:
             getValueFunc, oscPre = self.updateStack[source_idx].pop()
             values = getValueFunc()
+            # print("wonder update Source:",oscPre)
             msgs = self.composeSourceUpdateMessage(values, source_idx, *oscPre)
             self.sendUpdates(msgs)
 
@@ -241,7 +242,7 @@ class Wonder(SpatialRenderer):
 
     def wonderAngleValues(self, sIdx, values) -> []:
         #TODO: Umrechnen
-        return [sIdx, *values, self.interpolTime]
+        return [sIdx, values, self.interpolTime]
 
     def wonderDopplerValues(self, sIdx, value) -> []:
         return [sIdx, value]
@@ -252,7 +253,7 @@ class Wonder(SpatialRenderer):
         return [sIdx, int(not value)]
 
     def addUpdateAngleToStack(self, sIdx:int):
-        self.updateStack[sIdx].add((partial(self.sources[sIdx].getPosition, skc.aed), self.oscAnglePref))
+        self.updateStack[sIdx].add((partial(self.sources[sIdx].getPosition, skc.azim), (self.oscAnglePref,)))
 
 
 class Audiorouter(Renderer):

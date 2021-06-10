@@ -58,8 +58,13 @@ SynthDef(\send_module,
 		common_bus    = nil
 		individual_gains    = nil,
 		common_gains  = nil,
+		//
+		reverb_bus    = nil,
+		reverb_gain   = 0.1,
+		//
 		sub_bus       = nil,
 		sub_gain      = 0.5,
+		//
 		gain          = 1,
 		// there needs to be a distance set for all sources
 		dist          = 1
@@ -79,7 +84,11 @@ SynthDef(\send_module,
 				gain_i = In.kr(individual_gains + cnt, 1);
 
 				Out.ar(send_bus + cnt, (in * gain) * gain_i);
+
+				// sub and reverb are added according to all spatial sends
 				Out.ar(sub_bus, sub_level*(in * gain * gain_i * sub_gain));
+				Out.ar(reverb_bus, in * gain * gain_i * reverb_gain);
+
 			}
 		);
 
@@ -91,6 +100,7 @@ SynthDef(\send_module,
 				Out.ar(common_bus + (cnt), in * gain * gain_i);
 			}
 		);
+
 	}
 ).add;
 

@@ -4,3 +4,5 @@
 [submodule "Wonder"]
 	path = Wonder
 	url = https://github.com/ntonnaett/wonder-lite
+	branch = main
+	update = rebase

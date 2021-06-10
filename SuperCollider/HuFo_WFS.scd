@@ -11,6 +11,8 @@ Henrik von Coler
 // Configure
 /////////////////////////////////////////////////////////////////
 
+~debug_level    = 0;
+
 ~server_ADDRESS = 58010;
 
 // number spatial input modules
@@ -68,7 +70,7 @@ postln("Launching with port:"++~server_ADDRESS++"!");
 
 s.options.device               = "SC_WFS";
 s.options.numInputBusChannels  = ~nInputs;
-s.options.numOutputBusChannels = 128;
+s.options.numOutputBusChannels = 64;
 
 s.options.maxLogins            = 2;
 s.options.memSize              = 65536;
@@ -160,10 +162,15 @@ s.waitForBoot({
 	};);
 
 
+
 	~sends_OSC = OSCFunc({ arg msg, time, addr, recvPort;
 
 		var in_value;
 		in_value = msg[3];
+
+		if(~debug_level == 1,{msg.postln()});
+
+		in_value = max(0,min(1,in_value));
 
 		~send_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
@@ -174,6 +181,10 @@ s.waitForBoot({
 
 		var in_value;
 		in_value = msg[3];
+
+		if(~debug_level == 1,{msg.postln()});
+
+		in_value = max(0,min(1,in_value));
 
 		~common_gain_BUSES[msg[1]].setAt(msg[2], in_value);
 
@@ -192,43 +203,43 @@ s.waitForBoot({
 	// OSC listeners:
 	/////////////////////////////////////////////////////////////////
 
-
-	~azim_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var azim = msg[2];
-			~control_azim_BUS.setAt(msg[1],azim);
-	}, '/source/pos/azim');
-
-	~elev_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var elev = msg[2];
-			~control_elev_BUS.setAt(msg[1],elev);
-	}, '/source/pos/elev');
-
-	~dist_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-			var dist = msg[2];
-			~control_dist_BUS.setAt(msg[1],dist);
-	}, '/source/pos/dist');
-
-
-	~aed_OSC = OSCFunc(
-		{
-			arg msg, time, addr, recvPort;
-
-			var azim = msg[2] / 360.0 * (2.0*pi);
-			var elev = msg[3] / 360.0 * (2.0*pi);
-			var dist = msg[4];
-
-			~control_azim_BUS.setAt(msg[1],azim);
-			~control_elev_BUS.setAt(msg[1],elev);
-			~control_dist_BUS.setAt(msg[1],dist);
-
-	}, '/source/pos/aed');
-
+	//
+	// ~azim_OSC = OSCFunc(
+	// 	{
+	// 		arg msg, time, addr, recvPort;
+	// 		var azim = msg[2];
+	// 		~control_azim_BUS.setAt(msg[1],azim);
+	// }, '/source/pos/azim');
+	//
+	// ~elev_OSC = OSCFunc(
+	// 	{
+	// 		arg msg, time, addr, recvPort;
+	// 		var elev = msg[2];
+	// 		~control_elev_BUS.setAt(msg[1],elev);
+	// }, '/source/pos/elev');
+	//
+	// ~dist_OSC = OSCFunc(
+	// 	{
+	// 		arg msg, time, addr, recvPort;
+	// 		var dist = msg[2];
+	// 		~control_dist_BUS.setAt(msg[1],dist);
+	// }, '/source/pos/dist');
+	//
+	//
+	// ~aed_OSC = OSCFunc(
+	// 	{
+	// 		arg msg, time, addr, recvPort;
+	//
+	// 		var azim = msg[2] / 360.0 * (2.0*pi);
+	// 		var elev = msg[3] / 360.0 * (2.0*pi);
+	// 		var dist = msg[4];
+	//
+	// 		~control_azim_BUS.setAt(msg[1],azim);
+	// 		~control_elev_BUS.setAt(msg[1],elev);
+	// 		~control_dist_BUS.setAt(msg[1],dist);
+	//
+	// }, '/source/pos/aed');
+	//
 
 
 	/////////////////////////////////////////////////////////////////
@@ -312,8 +323,8 @@ s.waitForBoot({
 
 	s.scope(12,~control_azim_BUS.index);
 
-	s.scope(1,~send_gain_BUSES[0].index);
-	s.scope(1,~send_BUSES[1].index);
+	s.scope(2,~send_gain_BUSES[0].index,rate:'control');
+	s.scope(2,~send_BUSES[0].index,rate:'audio');
 
 	s.scope(1,~common_send_BUSES.index);
 

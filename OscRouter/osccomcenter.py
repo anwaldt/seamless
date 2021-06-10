@@ -197,12 +197,12 @@ def oscReceived_setAttributeForAttribute(attribute:skc.SourceAttributes, *args, 
 
 
 def oscreceived_setAttributeForSourceForAttribute(sIdx:int, attribute:skc.SourceAttributes, *args, fromUi:bool=True):
-    if soundobjects[sIdx].setAttribute(sIdx):
+    if soundobjects[sIdx].setAttribute(attribute, args[0], fromUi):
         notifyRenderClientsForUpdate('sourceAttributeChanged', sIdx, attribute, fromUi=fromUi)
         # notifyRenderForAttributeChange(sIdx, attribute, fromUi)
 
 # def notifyRenderForAttributeChange(sIdx:int, attribute:skc.SourceAttributes, fromUi:bool=True):
-#     pass
+#     p
 
 def notifyRenderClientsForUpdate(updateFunction: str, *args, fromUi:bool=True):
     for rend in [*renderengineClients, *uiClients, audiorouter]:
