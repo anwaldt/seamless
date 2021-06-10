@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="PzKjEr" name="SeamLess_MainPlugin" projectType="audioplug"
+              useAppConfig="0" addUsingNamespaceToJuceHeader="0" jucerFormatVersion="1"
+              pluginFormats="buildVST3" pluginManufacturer="TU Studio" companyName="TU Studio"
+              displaySplashScreen="1">
+  <MAINGROUP id="VAkndo" name="SeamLess_MainPlugin">
+    <GROUP id="{6DE0190C-DAA2-EA58-5C86-CBE9B2B9D26B}" name="Source">
+      <FILE id="po0avM" name="SeamLess_Main.h" compile="0" resource="0" file="Source/SeamLess_Main.h"/>
+      <FILE id="L1NGl7" name="MainConnection.cpp" compile="1" resource="0"
+            file="Source/MainConnection.cpp"/>
+      <FILE id="nGDe0h" name="MainConnection.h" compile="0" resource="0"
+            file="Source/MainConnection.h"/>
+      <FILE id="fYXEVg" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="Source/PluginProcessor.cpp"/>
+      <FILE id="OvE7Gt" name="PluginProcessor.h" compile="0" resource="0"
+            file="Source/PluginProcessor.h"/>
+      <FILE id="lPXF1X" name="PluginEditor.cpp" compile="1" resource="0"
+            file="Source/PluginEditor.cpp"/>
+      <FILE id="tLA8iu" name="PluginEditor.h" compile="0" resource="0" file="Source/PluginEditor.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1" JUCE_VST3_CAN_REPLACE_VST2="0"/>
+  <EXPORTFORMATS>
+    <LINUX_MAKE targetFolder="Builds/LinuxMakefile">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="SeamLess_MainPlugin_DEBUG"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="SeamLess_MainPlugin"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="../../../../Development/JUCE/modules"/>
+        <MODULEPATH id="juce_osc" path="../../../../Development/JUCE/modules"/>
+      </MODULEPATHS>
+    </LINUX_MAKE>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="HuFo_MasterPlugin_DEBUG"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="SeamLess_MainPlugin"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_osc" path="../../juce"/>
+        <MODULEPATH id="juce_gui_extra" path="../../juce"/>
+        <MODULEPATH id="juce_gui_basics" path="../../juce"/>
+        <MODULEPATH id="juce_graphics" path="../../juce"/>
+        <MODULEPATH id="juce_events" path="../../juce"/>
+        <MODULEPATH id="juce_data_structures" path="../../juce"/>
+        <MODULEPATH id="juce_core" path="../../juce"/>
+        <MODULEPATH id="juce_audio_utils" path="../../juce"/>
+        <MODULEPATH id="juce_audio_processors" path="../../juce"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="../../juce"/>
+        <MODULEPATH id="juce_audio_formats" path="../../juce"/>
+        <MODULEPATH id="juce_audio_devices" path="../../juce"/>
+        <MODULEPATH id="juce_audio_basics" path="../../juce"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="1"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <LINUX/>
+    <OSX/>
+  </LIVE_SETTINGS>
+</JUCERPROJECT>
