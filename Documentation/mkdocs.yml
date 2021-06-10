@@ -28,9 +28,13 @@ nav:
 #    - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
     - About the System: about.md
     - Reaper User Guide: reaper.md
+    - SeamLess Plugins:
+      - Plugins: plugins.md
+      - OSC Paths: paths.md
     - Technical Documentation:
       - Signal Flow: signalflow.md
       - SuperCollider: supercollider.md
       - WFS/WONDER: wonder.md
+      - Reverb: reverb.md
       - OSC Router: oscrouter.md
       - System Setup: system_setup.md
