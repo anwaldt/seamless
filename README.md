@@ -1,6 +1,3 @@
-# HuFo_System
+# SeamLess
 
-This repository contains all components for running
-the combined WFS and Ambisonics system at the Humboldt Forum.
-Read the [Documentation](https://anwaldt.github.io/HuFo_System/)
-for details on use and installation.
+This repository contains all components for running combined WFS and Ambisonics systems. The project is used at the TU studio and  at the Humboldt Forum. Read the [Documentation](https://anwaldt.github.io/seamless/) for details on use and installation.
