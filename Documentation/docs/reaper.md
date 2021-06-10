@@ -1,8 +1,7 @@
 # Working with Reaper
 
 
-The most accessible way of using the HuFo system is a single DAW session
-from a laptop, just as working with any other multi-track audio project.
+The most accessible way of using the SeamLess system is a single DAW session from a laptop, just as working with any other multi-track audio project.
 Reaper is used as the standard software in most projects and recommended.
 Other solutions are possible but not fully tested.
 Each audio track in a Reaper project is directly routed to the system with DANTE

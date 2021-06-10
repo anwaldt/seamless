@@ -1,7 +1,6 @@
 # SuperCollider
 
-Mixing, signal distribution and Ambisonics encoding is based on SuperCollider.
-Two main scripts are used:
+Mixing, signal distribution and Ambisonics encoding in  the SeamLess System is based on SuperCollider. Two main scripts are used:
 
 ## HuFo_SERVER.scd
 
