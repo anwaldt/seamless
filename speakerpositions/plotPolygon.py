@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Polygon
 import numpy as np
 
-polyFile = open('HUFO/Hufo_WFS_polygon.txt', 'r')
+polyFile = open('EN325-WFS/EN325_WFS_Polygon.txt', 'r')
 lines = polyFile.readlines()
 polyFile.close()
 pypoints = []
@@ -46,17 +46,13 @@ ys = []
 print(xs)
 print(ys)
 # plt.plot(xs,ys)
-ax.set_xlim((-10, 10))
-ax.set_ylim((-7, 7))
+ax.set_xlim((-5, 5))
+ax.set_ylim((-3, 3))
+ax.axis('equal')
 
-# for pp in npPoints:
-#     plt.scatter(pp[0], pp[1])
-# x = np.linspace(0, 2*np.pi, 10)
-# y = np.sin(x)
-# ax.scatter(xs,ys)
+plt.xlabel('x / m')
+plt.ylabel('y / m')
 
+ 
 
-plt.show()
-
-
-# plt.plot(npPoints)
+plt.savefig('en325-wfs.pdf')  
