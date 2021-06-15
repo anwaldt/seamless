@@ -1,0 +1,15 @@
+[Unit]
+Description=Ambisonics Reverb Decoder
+After=sound.target local-fs.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecStart=/bin/sh -c 'ambdec_rev'
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=%i
