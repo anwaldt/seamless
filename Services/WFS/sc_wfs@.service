@@ -1,5 +1,5 @@
 [Unit]
-Description=SuperCollider mixer for WFS Node 
+Description=SuperCollider mixer for WFS Node
 After=sound.target local-fs.target
 
 [Install]
@@ -12,5 +12,5 @@ ExecStart=/usr/local/bin/sclang /home/studio/hufo_system/SuperCollider/HuFo_WFS.
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
+User=%i
 
