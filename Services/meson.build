@@ -1,0 +1,7 @@
+install_data('aj-snapshot@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('ambdec_3rd@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('ambdec_rev@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('oscrouter@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('MAIN/sc_mix@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('WFS/sc_wfs@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
+install_data('seamless_jack@.service', install_dir: get_option('libdir') / 'systemd' / 'system' )
