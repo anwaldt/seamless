@@ -1,5 +1,5 @@
 [Unit]
-Description=Ambisonics Decoder JACK Client
+Description=Ambisonics Decoder 3rd Order
 After=sound.target local-fs.target
 
 [Install]
@@ -8,8 +8,8 @@ WantedBy=multi-user.target
 [Service]
 Type=idle
 PrivateTmp=true
-ExecStart=/home/studio/hufo_system/Standalone_Decoders/EN325_DOME3
+ExecStart=/bin/sh -c 'ambdec_3rd'
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
+User=%i
