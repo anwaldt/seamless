@@ -13,4 +13,4 @@ ExecStart=python3 /home/studio/hufo_system/OscRouter/MAIN_oscrouter.py
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
+User=%i
