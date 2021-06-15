@@ -8,7 +8,7 @@ WantedBy=multi-user.target
 [Service]
 Type=idle
 PrivateTmp=true
-ExecStart=/usr/local/bin/sclang /home/studio/hufo_system/SuperCollider/HuFo_SERVER.scd
+ExecStart=/usr/local/bin/sclang @share_dir@/SC/HuFo_SERVER.scd
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
