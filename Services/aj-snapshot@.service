@@ -1,6 +1,6 @@
 [Unit]
 Description=aj-snapshot Connections
-After=network.target twonder.service sc_mix.service
+After=network.target
 
 [Install]
 WantedBy=multi-user.target
@@ -8,8 +8,8 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 PrivateTmp=true
-ExecStart=/bin/sh -c 'aj-snapshot -j -d -p 10000 /etc/hufo/aj_snapshot_config.xml'
+ExecStart=/bin/sh -c 'aj-snapshot -j -d -p 10000 /etc/seamless/aj_snapshot_config.xml'
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
-User=studio
+User=%i
