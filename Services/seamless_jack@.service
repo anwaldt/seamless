@@ -1,0 +1,17 @@
+[Unit]
+Description=Jack audio server
+After=sound.target local-fs.target
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+EnvironmentFile=/etc/seamless/jack.conf
+Environment="JACK_NO_AUDIO_RESERVATION=1"
+ExecStart=/usr/bin/jackd $JACK_OPTIONS -d $DRIVER -d $DEVICE $DRIVER_SETTINGS
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
+User=%i
