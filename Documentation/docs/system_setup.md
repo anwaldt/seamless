@@ -28,7 +28,7 @@ Install SC-HOA classes:
 
 ## Build Faust Reverb
 
-- install ruby before
+Faust code for the Ambisonics reverb is located in `Faust/reverb`. The install script builds and installs the SuperCollider class and objects to the user extensions directory. Make sure install ruby before using the Faust to SC compiler.
 
 
 ## Developer Mode
