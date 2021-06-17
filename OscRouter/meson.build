@@ -5,7 +5,7 @@ py_files = ['conversionsTools.py',
 	'soundobjectclass.py',
 	'str_keys_conventions.py']
 
-install_data(py_files, install_dir: get_option('datadir') / 'seamless' / 'OscRouter')
+install_data(py_files, install_mode: 'rwxr-xr-x', install_dir: get_option('datadir') / 'seamless' / 'OscRouter')
 
 meson.add_install_script(
     'sh', '-c',
