@@ -1,4 +1,12 @@
-install_data('*.py', install_dir: get_option('datadir') / 'seamless' / 'OscRouter')
+py_files = ['conversionsTools.py',
+	'MAIN_oscrouter.py',
+	'osccomcenter.py',
+	'rendererclass.py',
+	'soundobjectclass.py',
+	'str_keys_conventions.py']
+
+install_data(py_files, install_dir: get_option('datadir') / 'seamless' / 'OscRouter')
+
 meson.add_install_script(
     'sh', '-c',
     'ln -fs OscRouter @0@@1@'.format(
