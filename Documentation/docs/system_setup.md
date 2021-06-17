@@ -25,6 +25,12 @@ Install SC-HOA classes:
 
     Quarks.install("https://github.com/florian-grond/SC-HOA")
 
+
+## Build Faust Reverb
+
+- install ruby before
+
+
 ## Developer Mode
 
 The scripts `supercollider_gui.sh` and `supercollider_nogui.sh`
