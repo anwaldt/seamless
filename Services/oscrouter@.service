@@ -8,8 +8,7 @@ WantedBy=multi-user.target
 [Service]
 Type=simple
 PrivateTmp=true
-WorkingDirectory=/home/studio/hufo_system/OscRouter
-ExecStart=python3 /home/studio/hufo_system/OscRouter/MAIN_oscrouter.py
+ExecStart=/bin/sh -c 'OscRouter -c /etc/seamless/oscRouterConfig.txt'
 LimitRTPRIO=95
 LimitRTTIME=infinity
 LimitMEMLOCK=infinity
