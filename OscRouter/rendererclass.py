@@ -557,7 +557,7 @@ class HufoPlugin(SpatialRenderer):
     def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
         osc_pre = args[0]
         if osc_pre == self.oscAddrs['renderGain']:
-            return [(osc_pre, [sIdx+1, args[1]])]
+            return [(osc_pre, [sIdx+1, args[1], values])]
         else:
             return [(osc_pre, [sIdx+1, values])]
 
