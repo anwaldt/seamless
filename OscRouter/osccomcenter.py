@@ -70,6 +70,57 @@ def setupOscBindings():
     spatialGainAddr2 =  '/send/gain'
     for spatGAdd in [spatialGainAddr2, spatialGainAddr]:
         bindToDataAndUiPort(spatGAdd, partial(oscreceived_setRenderGain))
+
+    if 'index_ambi' in globalconfig.keys():
+        rendIdx = int(globalconfig['index_ambi'])
+        for addr in ['/source/send/ambi', '/source/send/ambisonics', '/send/ambisonics', '/send/ambi']:
+        #bindToDataAndUiPort('/source/send/ambi', partial(oscreceived_setRenderGainToRenderer, rendIdx))
+            bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainToRenderer, rendIdx))
+        if extendedOscInput:
+            for i in range(globalconfig['number_sources']):
+                idx = i + 1
+                for addr in [
+                    ('/source/' + str(idx) + '/ambi'),
+                    ('/source/' + str(idx) + '/ambisonics'),
+                    ('/source/' + str(idx) + '/send/ambi'),
+                    ('/source/' + str(idx) + '/send/ambisonics'),
+                ]:
+                    bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainForSourceForRenderer, i, rendIdx))
+
+    if 'index_wfs' in globalconfig.keys():
+        rendIdx = int(globalconfig['index_wfs'])
+        for addr in ['/source/send/wfs', '/source/send/wavefieldsynthesis', '/send/wfs', '/send/wavefieldsynthesis']:
+            bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_wfs'])))
+        #bindToDataAndUiPort('/source/send/wavefieldsynthesis', partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_wfs'])))
+        if extendedOscInput:
+            for i in range(globalconfig['number_sources']):
+                idx = i + 1
+                for addr in [
+                    ('/source/' + str(idx) + '/wfs'),
+                    ('/source/' + str(idx) + '/wavefieldsynthesis'),
+                    ('/source/' + str(idx) + '/send/wfs'),
+                    ('/source/' + str(idx) + '/send/wavefieldsynthesis'),
+                ]:
+                    bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainForSourceForRenderer, i, rendIdx))
+
+    if 'index_reverb' in globalconfig.keys():
+        rendIdx = int(globalconfig['index_reverb'])
+        for addr in ['/source/send/reverb', '/source/send/rev', '/send/rev', '/send/reverb']:
+
+            bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_reverb'])))
+        #bindToDataAndUiPort('/source/send/rev', partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_reverb'])))
+
+        if extendedOscInput:
+            for i in range(globalconfig['number_sources']):
+                idx = i + 1
+                for addr in [
+                    ('/source/' + str(idx) + '/rev'),
+                    ('/source/' + str(idx) + '/reverb'),
+                    ('/source/' + str(idx) + '/send/rev'),
+                    ('/source/' + str(idx) + '/send/reverb'),
+                ]:
+                    bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainForSourceForRenderer, i, rendIdx))
+
     directSendAddr = '/source/send/direct'
     bindToDataAndUiPort(directSendAddr, partial(oscreceived_setDirectSend))
     if extendedOscInput:
@@ -142,6 +193,11 @@ def oscreceived_setRenderGain(*args, fromUi:bool=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
         oscreceived_setRenderGainForSource(sIdx, *args[1:], fromUi)
+
+def oscreceived_setRenderGainToRenderer(rIdx: int, *args, fromUi:bool=True):
+    sIdx = args[0]-1
+    if renderIndexLegit(rIdx) and sourceLegit(sIdx):
+        oscreceived_setRenderGainForSourceForRenderer(sIdx, rIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setRenderGainForSource(sIdx: int, *args, fromUi: bool=True):
     rIdx = args[0]

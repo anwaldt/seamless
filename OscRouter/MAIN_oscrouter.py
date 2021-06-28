@@ -113,7 +113,7 @@ numberofrenderengines = len(configurationDict['renderengine'].keys())
 numberofsources = int(globalconfig['number_sources']) #64
 
 Renderer.numberOfSources = numberofsources  #
-SoundObject.number_renderer = numberofrenderengines
+SoundObject.number_renderer = int(globalconfig['numberofrenderengines'])
 
 # SoundObject.preferUi = bool(globalconfig['data_port_timeout'] == 0)
 
@@ -172,6 +172,13 @@ print('\n')
 
 print('max number of sources is set to', str(numberofsources))
 print('number of rendering units is', str(globalconfig['numberofrenderengines']))
+if 'index_ambi' in globalconfig.keys():
+    print('ambisonics index:', globalconfig['index_ambi'])
+if 'index_wfs' in globalconfig.keys():
+    print('wfs index:', globalconfig['index_wfs'])
+if 'index_reverb' in globalconfig.keys():
+    print('reverb index:', globalconfig['index_reverb'])
+
 print('UI listenport:', globalconfig[skc.inputport_ui])
 print('DATA listenport (for automation):', globalconfig[skc.inputport_data])
 print('port for settings is (no function yet):', globalconfig[skc.settings_port], '\n')
