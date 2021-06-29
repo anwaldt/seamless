@@ -40,12 +40,31 @@ and the headless version by setting symlinks in `/usr/local/bin`
 Once the standard version is lionked, `scide` can be started for
 development and debugging.
 
-## System Services
+## Seamless installation
 
-copy all services to:
+For the installation of SeamLess the Meson build system is used.
 
-    /usr/lib/systemd/system
+Create build directory:
+```bash
+meson builddir
+```
 
+Set SeamLess location (e.g. EN325, HUFO):
+```bash
+cd builddir
+meson configure -Dlocation=HUFO
+```
+
+Installation:
+```bash
+sudo meson install
+```
+
+Create symlink to specific snapshot:
+```bash
+cd /etc/seamless
+ln -s snapshots/wfs1.snap aj_snapshot_config.xml
+```
 
 ## Disable Automatic Updates
 
