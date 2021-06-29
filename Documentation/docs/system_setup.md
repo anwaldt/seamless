@@ -40,12 +40,50 @@ and the headless version by setting symlinks in `/usr/local/bin`
 Once the standard version is lionked, `scide` can be started for
 development and debugging.
 
-## System Services
+## Turn off dbus activated jack
 
-copy all services to:
+For using the seamless_jack system service it might be necessary to turn off
+the dbus activated jack daemon:
+```bash
+jack_control stop
+```
 
-    /usr/lib/systemd/system
+## Seamless installation
 
+For the installation of SeamLess the Meson build system is used.
+
+Create build directory:
+```bash
+meson builddir
+```
+
+Set SeamLess location (e.g. EN325, HUFO):
+```bash
+cd builddir
+meson configure -Dlocation=HUFO
+```
+
+Installation:
+```bash
+sudo meson install
+```
+
+Create symlink to specific snapshot:
+```bash
+cd /etc/seamless
+ln -s snapshots/wfs1.snap aj_snapshot_config.xml
+```
+## WONDER installation
+
+WONDER also uses Meson.
+
+```bash
+meson builddir
+cd builddir
+meson configure -Dlocation=HUFO
+meson compile
+sudo meson install
+```
 
 ## Disable Automatic Updates
 
