@@ -8,7 +8,7 @@ py_files = ['conversionsTools.py',
 install_data(py_files, install_mode: 'rwxr-xr-x', install_dir: get_option('datadir') / 'seamless' / 'OscRouter')
 
 meson.add_install_script(
-    'sh', '-c -f',
-    'ln -s @0@ @1@'.format(
+    'sh', '-c',
+    'ln -s -f @0@ @1@'.format(
         get_option('prefix') / get_option('datadir') / 'seamless' / 'OscRouter' / 'MAIN_oscrouter.py',
         get_option('prefix') / get_option('bindir') / 'OscRouter'))
