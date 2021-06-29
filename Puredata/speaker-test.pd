@@ -1,0 +1,43 @@
+#N canvas 343 301 631 657 12;
+#X obj 155 385 noise~;
+#X obj 155 505 dac~;
+#X msg 240 485 set \$1;
+#X obj 155 440 *~ 0.005;
+#N canvas 0 119 1920 961 counter 0;
+#X obj 148 148 i 0;
+#X obj 216 299 moses 45;
+#X obj 117 134 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
+1;
+#X obj 148 114 metro 500;
+#X floatatom 148 173 5 0 0 0 - - -;
+#X msg 277 103 1;
+#X obj 222 211 + 1;
+#X floatatom 207 154 5 0 0 0 - - -;
+#X obj 132 515 outlet;
+#X obj 119 173 bng 15 250 50 0 empty empty empty 17 7 0 10 -262144
+-1 -1;
+#X connect 0 0 4 0;
+#X connect 1 0 6 0;
+#X connect 1 1 5 0;
+#X connect 2 0 3 0;
+#X connect 3 0 0 0;
+#X connect 4 0 1 0;
+#X connect 4 0 8 0;
+#X connect 5 0 0 1;
+#X connect 6 0 0 1;
+#X connect 7 0 3 1;
+#X connect 9 0 5 0;
+#X coords 0 -1 1 1 149 96 1 100 100;
+#X restore 240 254 pd counter;
+#X msg 380 410 46;
+#X text 419 409 SUB;
+#X msg 284 388 1;
+#X text 17 49 - connect this one with 128 channels directly to the
+DANTE oututs, f 78;
+#X text 15 14 Swipe all 45 HOA speakers;
+#X connect 0 0 3 0;
+#X connect 2 0 1 0;
+#X connect 3 0 1 0;
+#X connect 4 0 2 0;
+#X connect 5 0 2 0;
+#X connect 7 0 2 0;
