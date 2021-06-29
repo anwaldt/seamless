@@ -6,13 +6,13 @@ theme:
     logo: graphics/interface_HVC_small.png
 
 plugins:
-    - with-pdf
+#    - with-pdf
 #    - search
 #    - mkpdfs
 
-bibtex:
-      bib_file: "refs.bib"
-      cite_style: "pandoc"
+# bibtex:
+#      bib_file: "refs.bib"
+#      cite_style: "pandoc"
 extra:
     generator: false
 
@@ -20,9 +20,9 @@ markdown_extensions:
   - attr_list
   - pymdownx.arithmatex:
       generic: true
-docs:
-    ../graphics/
-      hufo_flow_1.png
+#docs:
+#    ../graphics/
+#      hufo_flow_1.png
 
 nav:
 #    - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
