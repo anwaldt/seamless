@@ -114,9 +114,11 @@ class Renderer(object):
             for toRenderClient in self.toRender:
                 toRenderClient.send_message(msg[0], msg[1])
 
-            if self.debugCopy:
-                debugOsc = (self.debugPrefix + msg[0].decode()).encode()
-                self.oscDebugClient.send_message(debugOsc, msg[1])
+                if self.debugCopy:
+                    debugOsc = (self.debugPrefix + '/' + toRenderClient.address + ':' + str(toRenderClient.port) + '/'  + msg[0].decode()).encode()
+                    self.oscDebugClient.send_message(debugOsc, msg[1])
+
+
 
             if self.printOutput:
                 self.printOscOutput(msg[0], msg[1])
