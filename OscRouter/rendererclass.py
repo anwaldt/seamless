@@ -115,7 +115,7 @@ class Renderer(object):
                 toRenderClient.send_message(msg[0], msg[1])
 
                 if self.debugCopy:
-                    debugOsc = (self.debugPrefix + '/' + toRenderClient.address + ':' + str(toRenderClient.port) + '/'  + msg[0].decode()).encode()
+                    debugOsc = (self.debugPrefix + '/' + toRenderClient.address + ':' + str(toRenderClient.port)  + msg[0].decode()).encode()
                     self.oscDebugClient.send_message(debugOsc, msg[1])
 
 
@@ -265,6 +265,7 @@ class Audiorouter(Renderer):
 
         self.debugPrefix = "/dAudiorouter"
         self.oscpre_renderGain = b'/source/send/spatial'
+        self.oscpre_reverbGain = b'/source/reverb/gain'
         self.oscpre_directSend = b'/source/send/direct'
 
 
@@ -292,9 +293,14 @@ class Audiorouter(Renderer):
     #     self.scheduleSourceUpdateCheck(source_idx)
 
     def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+
         osc_pre = args[0]
-        cIdx = args[1]
-        return [(osc_pre, [sIdx, cIdx, values])]
+
+        if osc_pre == self.oscpre_reverbGain:
+            return [(osc_pre, [sIdx, values])]
+        else:
+            cIdx = args[1]
+            return [(osc_pre, [sIdx, cIdx, values])]
 
 #TODO: better solution putting a tuple of three values in there?
     def sourceDirectSendChanged(self, source_idx, send_idx):
@@ -302,7 +308,10 @@ class Audiorouter(Renderer):
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
-        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
+        if render_idx == 2:
+            self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_reverbGain, render_idx)))
+        else:
+            self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
         self.sourceChanged(source_idx)
 
 

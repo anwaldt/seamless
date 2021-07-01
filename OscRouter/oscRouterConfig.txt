@@ -21,7 +21,7 @@ updateintervall 5
 ***
 audiorouter
 ipaddress       127.0.0.1
-listenport      57120
+listenport      57121
 sendport        59999
 updateintervall 5
 ***
