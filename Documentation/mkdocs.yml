@@ -1,4 +1,5 @@
 site_name: SeamLess
+repo_url: https://github.com/anwaldt/seamless
 
 theme:
     name: material
