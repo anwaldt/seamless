@@ -101,7 +101,13 @@ It needs to be:
 	APT::Periodic::Download-Upgradeable-Packages "0";
 	APT::Periodic::AutocleanInterval "0";
 	APT::Periodic::Unattended-Upgrade "1";
-	
+
+## Turn off graphical user interface
+
+```bash
+sudo systemctl set-default multi-user
+```
+
 ## Add user to audio group
 
 Add the user to the audio group:
