@@ -34,6 +34,16 @@ def convert_deg_angleToRad(azimuth, elevation) -> [np.float32]:
 
     # self._positionIsSet[dk.polar_rad] = True
 
+def convert_deg_angleToRad_correctMath(azimuth, elevation) -> [np.float32]:
+
+    _azi = wrapAzimuth180(azimuth - 90) * -1
+
+    _aziRad = deg2rad(_azi)
+    _elevRad = deg2rad(elevation)
+
+    return [_aziRad, _elevRad]
+    # return convert_deg_angleToRad(_azi, elevation)
+
 def conv_pol2cart(azim, elev, dist) -> [np.float32]:
 
 
@@ -107,9 +117,15 @@ def conv_ncart2cart(nx, ny, nz, nd) -> [np.float32]:
 def wrapAzimuth180(azim) -> np.float32:
     if azim > 180.:
         azim -= f32(360)
-        return azim
-    else:
-        return azim
+        # return azim
+    elif azim < -180.:
+        azim += 360.
+
+    while azim < -180. or azim > 180.:
+        azim = wrapAzimuth180(azim)
+
+    return azim
+
 
 
 def wrapElevation90(elev) -> np.float32:

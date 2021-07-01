@@ -157,8 +157,9 @@ class SoundObject(object):
                 self._position[coo] = updatedCoo[idx]
 
         if _calcRad:
-            self._position[skc.az_rad] = ct.deg2rad(self._position[skc.azim])
-            self._position[skc.el_rad] = ct.deg2rad(self._position[skc.elev])
+            # self._position[skc.az_rad] = ct.deg2rad(self._position[skc.azim])
+            # self._position[skc.el_rad] = ct.deg2rad(self._position[skc.elev])
+            [self._position[skc.az_rad], self._position[skc.el_rad]] = ct.convert_deg_angleToRad_correctMath(self._position[skc.azim], self._position[skc.elev])
             self._positionIsSet[skc.polar_rad] = True
         elif _calcDeg:
             self._position[skc.azim] = ct.rad2deg(self._position[skc.az_rad])
