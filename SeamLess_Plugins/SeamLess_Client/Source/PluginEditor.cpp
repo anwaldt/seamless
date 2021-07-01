@@ -95,7 +95,7 @@ void SeamLess_ClientAudioProcessorEditor::paint (juce::Graphics& g)
     // set the font size and draw text to the screen
     g.setFont (15.0f);
 
-    // g.drawFittedText ("HuFO Source Control", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
+    // g.drawFittedText ("SeamLess Source Control", 0, 0, getWidth(), 30, juce::Justification::centred, 1);
 
 
 
