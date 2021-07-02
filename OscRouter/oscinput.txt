@@ -1,0 +1,81 @@
+OscRouter possible inputs
+
+[#] <- for index
+#s Source indices start with 1
+#r renderengine indices start with 0
+#d direct sends start with 0
+
+
+Position [poskey]
+
+cartesian
+xyz, x, y, z, xy, xz, yz
+
+spherical
+aed, azim, elev, dist, ae, ad, ed, a, e, d
+
+spherical rad (not tested)
+aedrad
+
+normal cartesian (xyz on sphere with r = 1 + distance factor)
+nxyzd, nx, ny, nd, (every combination with n as first)
+
+set source position
+
+index in arguments
+/source/pos/[poskey] i fff
+/source/position/[poskey] i fff
+/source/[poskey] i fff
+
+index in osc-prefix
+/source/#s/[poskey] fff
+/source/#s/pos/[poskey] fff
+/source/#s/position/[poskey] fff
+
+send to renderer
+
+/source/send/spatial
+/send/gain
+/source/send
+
+/source/#s/rendergain i f
+/source/#s/spatial i f
+/source/#s/send/spatial i f
+/source/#s/sendspatial i f
+
+/source/#s/rendergain/#r f
+/source/#s/spatial/#r f
+/source/#s/send/spatial/#r f
+/source/#s/sendspatial/#r f
+
+
+if configured in configfile
+for reverb
+/source/send/reverb
+/source/send/rev
+/source/reverb
+/send/rev
+/source/reverb/gain
+
+/source/#1/reverb/gain
+etc
+
+for ambisonics
+/source/send/ambi
+/source/send/ambisonics
+/send/ambi
+/send/ambisonics
+/source/#i/send/ambi
+
+for wfs same as ambisonics
+wfs, wavefieldsynthesis
+
+
+direct sends
+/source/direct i i f
+/source/directsend
+/source/senddirect
+/source/send/direct
+
+/source/#i/direct i f
+/source/#i/direct/#d f

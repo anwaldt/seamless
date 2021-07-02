@@ -45,30 +45,30 @@ def setupOscBindings():
 
     for key, item in skc.posformat.items():
 
-        for addr in [('/source/'+key), '/source/pos/'+key]:
+        for addr in [('/source/'+key), '/source/pos/'+key, '/source/position/'+key]:
             bindToDataAndUiPort(addr, partial(oscreceived_setPosition, key))
 
         if extendedOscInput:
             for i in range(globalconfig['number_sources']):
                 idx = i + 1
-                for addr in [('/source/'+str(idx)+'/pos/'+key), ('/source/'+str(idx) + '/'+key)]:
+                for addr in [('/source/'+str(idx)+'/pos/'+key), ('/source/'+str(idx)+'/position/'+key), ('/source/'+str(idx) + '/'+key)]:
                     bindToDataAndUiPort(addr, partial(oscreceived_setPositionForSource, key, i))
 
 
     for key in skc.SourceAttributes:
 
         addstring = '/source/' + key.value
-        bindToDataAndUiPort(addstring, partial(oscReceived_setAttributeForAttribute, key))
+        bindToDataAndUiPort(addstring, partial(oscReceived_setValueForAttribute, key))
 
         for i in range(globalconfig['number_sources']):
             idx = i + 1
             addstring = '/source/' + str(idx) + '/' + key.value
-            bindToDataAndUiPort(addstring, partial(oscreceived_setAttributeForSourceForAttribute, i, key))
+            bindToDataAndUiPort(addstring, partial(oscreceived_setValueForSourceForAttribute, i, key))
 
     # sendgain input
-    spatialGainAddr = '/source/send/spatial'
-    spatialGainAddr2 =  '/send/gain'
-    for spatGAdd in [spatialGainAddr2, spatialGainAddr]:
+    # spatialGainAddr =
+    # spatialGainAddr2 =
+    for spatGAdd in ['/source/send/spatial', '/send/gain', '/source/send']:
         bindToDataAndUiPort(spatGAdd, partial(oscreceived_setRenderGain))
 
     if 'index_ambi' in globalconfig.keys():
@@ -105,7 +105,7 @@ def setupOscBindings():
 
     if 'index_reverb' in globalconfig.keys():
         rendIdx = int(globalconfig['index_reverb'])
-        for addr in ['/source/send/reverb', '/source/send/rev', '/send/rev', '/send/reverb']:
+        for addr in ['/source/send/reverb', '/source/send/rev', '/send/rev', '/send/reverb', '/source/reverb/gain']:
 
             bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_reverb'])))
         #bindToDataAndUiPort('/source/send/rev', partial(oscreceived_setRenderGainToRenderer, int(globalconfig['index_reverb'])))
@@ -118,6 +118,7 @@ def setupOscBindings():
                     ('/source/' + str(idx) + '/reverb'),
                     ('/source/' + str(idx) + '/send/rev'),
                     ('/source/' + str(idx) + '/send/reverb'),
+                    ('/source/' + str(idx) + '/reverb/gain'),
                 ]:
                     bindToDataAndUiPort(addr, partial(oscreceived_setRenderGainForSourceForRenderer, i, rendIdx))
 
@@ -148,6 +149,11 @@ def setupOscBindings():
                     addr2 = addr + '/' + str(j)
                     bindToDataAndUiPort(addr2, partial(oscreceived_setDirectSendForSourceForChannel, idx, j))
 
+    if verbosity > 2:
+        for add in osc_ui_server.addresses:
+            print(add)
+
+
 
 
 
@@ -166,18 +172,40 @@ def bindToDataAndUiPort(addr:str, func):
 
 
 def sourceLegit(id:int) -> bool:
-    return 0<=id<globalconfig['number_sources']
+    indexInRange = id in range(globalconfig['number_sources'])
+    if verbosity > 0:
+        if not indexInRange:
+            if not type(id) == int:
+                print('source index is no integer')
+            else:
+                print('source index out of range')
+    return indexInRange
 
 def renderIndexLegit(id:int) -> bool:
-    return 0<=id<globalconfig['numberofrenderengines']
+    indexInRange = id in range(globalconfig['numberofrenderengines'])
+    if verbosity > 0:
+        if not indexInRange:
+            if not type(id) == int:
+                print('renderengine index is no integer')
+            else:
+                print('renderengine index out of range')
+    return indexInRange
 
 def directSendLegit(id:int) -> bool:
-    return 0<=id<globalconfig['number_direct_sends']
+    indexInRange = id in range(globalconfig['number_direct_sends'])
+    if verbosity > 0:
+        if not indexInRange:
+            if not type(id) == int:
+                print('direct send index is no integer')
+            else:
+                print('direct send index out of range')
+    return indexInRange
 
 
 def oscreceived_setPosition(coordKey, *args, fromUi=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
+        sIdx = int(sIdx)
         oscreceived_setPositionForSource(coordKey, sIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
@@ -192,16 +220,20 @@ def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
 def oscreceived_setRenderGain(*args, fromUi:bool=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
+        sIdx = int(sIdx)
         oscreceived_setRenderGainForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setRenderGainToRenderer(rIdx: int, *args, fromUi:bool=True):
     sIdx = args[0]-1
     if renderIndexLegit(rIdx) and sourceLegit(sIdx):
+        rIdx = int(rIdx)
+        sIdx = int(sIdx)
         oscreceived_setRenderGainForSourceForRenderer(sIdx, rIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setRenderGainForSource(sIdx: int, *args, fromUi: bool=True):
     rIdx = args[0]
     if renderIndexLegit(rIdx):
+        rIdx = int(rIdx)
         oscreceived_setRenderGainForSourceForRenderer(sIdx, rIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setRenderGainForSourceForRenderer(sIdx:int, rIdx: int, *args, fromUi:bool=True):
@@ -221,38 +253,43 @@ def oscreceived_setRenderGainForSourceForRenderer(sIdx:int, rIdx: int, *args, fr
 def oscreceived_setDirectSend(*args, fromUi:bool=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
+        sIdx = int(sIdx)
         oscreceived_setDirectSendForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setDirectSendForSource(sIdx: int, *args, fromUi:bool=True):
     cIdx = args[0]
-    if 0 <= cIdx < globalconfig['number_direct_sends']:
+    if directSendLegit(cIdx):#0 <= cIdx < globalconfig['number_direct_sends']:
+        cIdx = int(cIdx)
         oscreceived_setDirectSendForSourceForChannel(sIdx, cIdx, *args[1:], fromUi)
 
 def oscreceived_setDirectSendForSourceForChannel(sIdx:int, cIdx:int, *args, fromUi:bool=True):
     if soundobjects[sIdx].setDirectSend(cIdx, args[0], fromUi):
         notifyRenderClientsForUpdate('sourceDirectSendChanged', sIdx, cIdx, fromUi=fromUi)
 
+#TODO: implement this thing
 def notifyRendererForDirectsendGain(sIdx:int, cIfx:int, fromUi:bool=True):
     pass
 
 def oscreceived_setAttribute(*args, fromUi:bool=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
+        sIdx = int(sIdx)
         oscreceived_setAttributeForSource(sIdx, *args[1:], fromUi)
 
 def oscreceived_setAttributeForSource(sIdx:int, *args, fromUi:bool=True):
     attribute = args[0]
     if attribute in skc.knownAttributes:
-        oscreceived_setAttributeForSourceForAttribute(sIdx, attribute, fromUi)
+        oscreceived_setValueForSourceForAttribute(sIdx, attribute, *args[1:], fromUi)
 
 
-def oscReceived_setAttributeForAttribute(attribute:skc.SourceAttributes, *args, fromUi:bool=True):
+def oscReceived_setValueForAttribute(attribute:skc.SourceAttributes, *args, fromUi:bool=True):
     sIdx = args[0]-1
     if sourceLegit(sIdx):
-        oscreceived_setAttributeForSourceForAttribute(sIdx, attribute, *args[1:], fromUi)
+        sIdx = int(sIdx)
+        oscreceived_setValueForSourceForAttribute(sIdx, attribute, *args[1:], fromUi)
 
 
-def oscreceived_setAttributeForSourceForAttribute(sIdx:int, attribute:skc.SourceAttributes, *args, fromUi:bool=True):
+def oscreceived_setValueForSourceForAttribute(sIdx:int, attribute:skc.SourceAttributes, *args, fromUi:bool=True):
     if soundobjects[sIdx].setAttribute(attribute, args[0], fromUi):
         notifyRenderClientsForUpdate('sourceAttributeChanged', sIdx, attribute, fromUi=fromUi)
         # notifyRenderForAttributeChange(sIdx, attribute, fromUi)
@@ -271,8 +308,6 @@ def notifyRenderClientsForUpdate(updateFunction: str, *args, fromUi:bool=True):
         for rend in dataClients:
             updatFunc = getattr(rend, updateFunction)
             updatFunc(*args)
-
-
 
 ######
 def oscreceived_sourceAttribute(attribute: skc.SourceAttributes, *args):
