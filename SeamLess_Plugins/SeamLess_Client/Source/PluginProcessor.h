@@ -92,7 +92,7 @@ public:
     bool getSendState();
     void setSendState(bool s);
 
-    virtual void parameterChanged(const juce::String & id, float val);
+    virtual void parameterChanged(const juce::String & id, float val) override;
     juce::AudioProcessorValueTreeState& getState();
 
 private:
@@ -130,7 +130,7 @@ private:
 
     std::unique_ptr<ClientConnection> client;
 
-    virtual void hiResTimerCallback();
+    virtual void hiResTimerCallback() override;
 
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SeamLess_ClientAudioProcessor)

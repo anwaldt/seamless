@@ -28,8 +28,8 @@ public:
     ~SeamLess_ClientAudioProcessorEditor() override;
 
     //==============================================================================
-    void paint (juce::Graphics&);
-    void resized();
+    void paint (juce::Graphics&) override;
+    void resized() override;
 
     // static void setOscTargetAddressText(SeamLess_ClientAudioProcessorEditor *p, juce::String a);
 
@@ -53,7 +53,7 @@ private:
 
     juce::Label zSliderLabel;
 
-    void sliderValueChanged(juce::Slider* slider);
+    void sliderValueChanged(juce::Slider* slider) override;
 
     //juce::AudioProcessorValueTreeState::SliderAttachment xSliderAttachment;
     //juce::AudioProcessorValueTreeState::SliderAttachment ySliderAttachment;
