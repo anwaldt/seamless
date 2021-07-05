@@ -20,8 +20,9 @@ parser.add_argument('--oscdebug', default='', help='ip and port for debug messag
 parser.add_argument('-v', '--verbose', action='count', default=0, help=' increase verbosity level.')
 args = parser.parse_args()
 
-osccomcenter.verbosity = args.verbose
-rendererclass.verbosity = args.verbose
+osccomcenter.setVerbosity(args.verbose)
+# osccomcenter.verbosity = args.verbose
+# rendererclass.verbosity = args.verbose
 
 configpath = args.config
 # configpath = 'oscRouterConfig.txt'

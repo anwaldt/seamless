@@ -3,7 +3,7 @@ import str_keys_conventions as skc
 from oscpy.server import OSCThreadServer
 from functools import partial
 from soundobjectclass import SoundObject
-
+import ipaddress
 
 
 # class OscHelper:
@@ -24,6 +24,13 @@ allClients: [Renderer] = []
 globalconfig = dict()
 extendedOscInput = True
 verbosity = 0
+bPrintOSC = False
+def setVerbosity(v:int):
+    global verbosity, bPrintOSC
+    verbosity = v
+    bPrintOSC = v >= 2
+    Renderer.setVerbosity(v)
+    print('verbosity set to',v)
 # sourcePrioriInput = { #put in her fromUi
 #     True: True,
 #     False: False
@@ -35,9 +42,68 @@ osc_ui_server = OSCThreadServer()
 
 osc_data_server = OSCThreadServer()
 # osc_automation_socket: OSCThreadServer# = osc_data_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_data], default=True)
+osc_setting_server = OSCThreadServer()
 
+
+def setupOscSettingsBindings():
+    osc_setting_server.listen(address='0.0.0.0', port=globalconfig['settings_port'], default=True)
+
+    osc_setting_server.bind('/debug/osccopy'.encode(), oscreceived_debugOscCopy)
+    osc_setting_server.bind('/debug/verbose'.encode(), oscreceived_verbose)
+
+def oscreceived_debugOscCopy(*args):
+    print('received debug osc', args)
+    ip=''
+    port = 0
+    if len(args) == 2:
+        ip = args[0].decode()
+        port = args[1]
+    elif len(args) == 1:
+        ipport = args[0].decode().split(':')
+        if len(ipport) == 2:
+            ip = ipport[0]
+            port = ipport[1]
+    else:
+        Renderer.debugCopy = False
+        return
+
+    try:
+        ip = '127.0.0.1' if ip=='localhost' else ip
+        osccopy_ip = ipaddress.ip_address(ip)
+        osccopy_port = int(port)
+    except:
+        print('unccorrect ip or port')
+        return
+
+    if 1023 < osccopy_port < 65535:
+        Renderer.createDebugClient(str(osccopy_ip), osccopy_port)
+        Renderer.debugCopy = True
+        return
+
+    Renderer.debugCopy = False
+
+
+def oscreceived_verbose(*args):
+    vvvv = -1
+    try:
+        vvvv = int(args[0])
+    except:
+        setVerbosity(0)
+        # verbosity = 0
+        # Renderer.setVerbosity(0)
+        print('wrong verbosity argument')
+        return
+
+    if 0<= vvvv <=2:
+        setVerbosity(vvvv)
+        # global verbosity
+        # verbosity = vvvv
+        # Renderer.setVerbosity(vvvv)
+    else:
+        setVerbosity(0)
 
 def setupOscBindings():
+    setupOscSettingsBindings()
 
     osc_ui_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_ui], default=True)
     osc_data_server.listen(address='0.0.0.0', port=globalconfig[skc.inputport_data], default=True)
@@ -161,9 +227,9 @@ def bindToDataAndUiPort(addr:str, func):
     # dontUseDataPortFlag = bool(globalconfig['data_port_timeout'] == 0)
     addrEnc = addr.encode()
 
-    if verbosity >= 2:
-        osc_ui_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_ui]))
-        osc_data_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_data]))
+    #if verbosity >= 2:
+    osc_ui_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_ui]))
+    osc_data_server.bind(addrEnc, partial(printOSC, addr=addr, port=globalconfig[skc.inputport_data]))
 
     osc_ui_server.bind(addrEnc, partial(func, fromUi=True))
     osc_data_server.bind(addrEnc, partial(func, fromUi=False))
@@ -324,4 +390,5 @@ def oscreceived_sourceAttribute_wString(sidx: int, attribute: skc.SourceAttribut
 
 
 def printOSC(*args, addr:str='', port:int=0):
-    print('incoming OSC on Port', port, addr, args)
+    if bPrintOSC:
+        print('incoming OSC on Port', port, addr, args)

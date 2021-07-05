@@ -21,9 +21,18 @@ class Renderer(object):
     debugCopy: bool = False
     oscDebugClient: OSCClient
 
+    printOutput = verbosity >= 1
+
     @classmethod
     def createDebugClient(cls, ip, port):
         cls.oscDebugClient = OSCClient(ip, port)
+        # print(ip, port, cls.oscDebugClient)
+
+    @classmethod
+    def setVerbosity(cls, v: int):
+        global verbosity
+        verbosity = v
+        cls.printOutput = verbosity >= 1
 
     def __init__(self, dataformat=skc.xyz,
                  updateintervall=10,
@@ -33,6 +42,8 @@ class Renderer(object):
                  renderid=-1,
                  sendport=0,
                  sourceattributes=()):
+
+        self.setVerbosity(verbosity)
 
         self.renderid = int(renderid)
         self.posFormat = dataformat
@@ -52,7 +63,7 @@ class Renderer(object):
         self.debugPrefix = "/genericRenderer"
         self.oscPre = ('/source/'+self.posFormat).encode()
 
-        self.printOutput = verbosity >= 1
+
 
         self.multipleDestinations = False
 
