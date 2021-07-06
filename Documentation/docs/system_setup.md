@@ -88,12 +88,11 @@ jack_control stop
 
 ### Turn off pulseaudio
 
-Pulseaudio runs as user service and should be disabled.
+Pulseaudio runs as user service and should be masked.
 
 ```bash
-systemctl --user disable pulseaudio.socket
 systemctl --user stop pulseaudio.socket
-systemctl --user stop pulseaudio.service
+systemctl --user mask pulseaudio.socket
 ```
 
 ### Disable Automatic Updates
