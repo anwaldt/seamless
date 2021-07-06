@@ -86,6 +86,13 @@ the dbus activated jack daemon:
 jack_control stop
 ```
 
+Comment out `jackdbus auto` in `/usr/share/dbus-1/services/org.jackaudio.service`:
+```bash
+[D-BUS Service]
+Name=org.jackaudio.service
+#Exec=/usr/bin/jackdbus auto
+```
+
 ### Turn off pulseaudio
 
 Pulseaudio runs as user service and should be masked.
