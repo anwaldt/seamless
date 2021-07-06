@@ -40,14 +40,6 @@ and the headless version by setting symlinks in `/usr/local/bin`
 Once the standard version is lionked, `scide` can be started for
 development and debugging.
 
-## Turn off dbus activated jack
-
-For using the seamless_jack system service it might be necessary to turn off
-the dbus activated jack daemon:
-```bash
-jack_control stop
-```
-
 ## Seamless installation
 
 For the installation of SeamLess the Meson build system is used.
@@ -85,7 +77,26 @@ meson compile
 sudo meson install
 ```
 
-## Disable Automatic Updates
+## Disable unneeded things
+### Turn off dbus activated jack
+
+For using the seamless_jack system service it might be necessary to turn off
+the dbus activated jack daemon:
+```bash
+jack_control stop
+```
+
+### Turn off pulseaudio
+
+Pulseaudio runs as user service and should be disabled.
+
+```bash
+systemctl --user disable pulseaudio.socket
+systemctl --user stop pulseaudio.socket
+systemctl --user stop pulseaudio.service
+```
+
+### Disable Automatic Updates
 
 
 Automatic updates are not desired, since they can change the
@@ -102,7 +113,7 @@ It needs to be:
 	APT::Periodic::AutocleanInterval "0";
 	APT::Periodic::Unattended-Upgrade "1";
 
-## Turn off graphical user interface
+### Turn off graphical user interface
 
 ```bash
 sudo systemctl set-default multi-user
