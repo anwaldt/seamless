@@ -451,9 +451,11 @@ s.waitForBoot({
 
 	~reverb = {
 
-		|f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 1.0, t60dc= 3.0, t60m= 4.0|
+		|f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 1.0, t60dc= 3.0, t60m= 4.0, lp = 5000|
 
-		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(2*In.ar(~reverb_BUS.index),f1,f2,rdel,rgxyz,t60dc,t60m));
+		var sig = LPF.ar(In.ar(~reverb_BUS.index),lp);
+
+		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(2*sig,f1,f2,rdel,rgxyz,t60dc,t60m));
 
 	}.play;
 
