@@ -110,7 +110,7 @@ It needs to be:
 	APT::Periodic::Update-Package-Lists "0";
 	APT::Periodic::Download-Upgradeable-Packages "0";
 	APT::Periodic::AutocleanInterval "0";
-	APT::Periodic::Unattended-Upgrade "1";
+	APT::Periodic::Unattended-Upgrade "0";
 
 ### Turn off graphical user interface
 
