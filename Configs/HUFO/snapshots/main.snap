@@ -99,101 +99,77 @@
       <connection port="SC_MIX:in_32" />
     </port>
     <port name="capture_33">
-      <connection port="SC_MIX:in_33" />
+      <connection port="ambdec_rev:in_0" />
     </port>
     <port name="capture_34">
-      <connection port="SC_MIX:in_34" />
+      <connection port="ambdec_rev:in_1" />
     </port>
     <port name="capture_35">
-      <connection port="SC_MIX:in_35" />
+      <connection port="ambdec_rev:in_2" />
     </port>
     <port name="capture_36">
-      <connection port="SC_MIX:in_36" />
+      <connection port="ambdec_rev:in_3" />
     </port>
     <port name="capture_37">
-      <connection port="SC_MIX:in_37" />
+      <connection port="ambdec_3rd:in_0" />
     </port>
     <port name="capture_38">
-      <connection port="SC_MIX:in_38" />
+      <connection port="ambdec_3rd:in_1" />
     </port>
     <port name="capture_39">
-      <connection port="SC_MIX:in_39" />
+      <connection port="ambdec_3rd:in_2" />
     </port>
     <port name="capture_40">
-      <connection port="SC_MIX:in_40" />
+      <connection port="ambdec_3rd:in_3" />
     </port>
     <port name="capture_41">
-      <connection port="SC_MIX:in_41" />
+      <connection port="ambdec_3rd:in_4" />
     </port>
     <port name="capture_42">
-      <connection port="SC_MIX:in_42" />
+      <connection port="ambdec_3rd:in_5" />
     </port>
     <port name="capture_43">
-      <connection port="SC_MIX:in_43" />
+      <connection port="ambdec_3rd:in_6" />
     </port>
     <port name="capture_44">
-      <connection port="SC_MIX:in_44" />
+      <connection port="ambdec_3rd:in_7" />
     </port>
     <port name="capture_45">
-      <connection port="SC_MIX:in_45" />
+      <connection port="ambdec_3rd:in_8" />
     </port>
     <port name="capture_46">
-      <connection port="SC_MIX:in_46" />
+      <connection port="ambdec_3rd:in_9" />
     </port>
     <port name="capture_47">
-      <connection port="SC_MIX:in_47" />
+      <connection port="ambdec_3rd:in_10" />
     </port>
     <port name="capture_48">
-      <connection port="SC_MIX:in_48" />
+      <connection port="ambdec_3rd:in_11" />
     </port>
     <port name="capture_49">
-      <connection port="SC_MIX:in_49" />
+      <connection port="ambdec_3rd:in_12" />
     </port>
     <port name="capture_50">
-      <connection port="SC_MIX:in_50" />
+      <connection port="ambdec_3rd:in_13" />
     </port>
     <port name="capture_51">
-      <connection port="SC_MIX:in_51" />
+      <connection port="ambdec_3rd:in_14" />
     </port>
     <port name="capture_52">
-      <connection port="SC_MIX:in_52" />
+      <connection port="ambdec_3rd:in_15" />
     </port>
-    <port name="capture_53">
-      <connection port="SC_MIX:in_53" />
-    </port>
-    <port name="capture_54">
-      <connection port="SC_MIX:in_54" />
-    </port>
-    <port name="capture_55">
-      <connection port="SC_MIX:in_55" />
-    </port>
-    <port name="capture_56">
-      <connection port="SC_MIX:in_56" />
-    </port>
-    <port name="capture_57">
-      <connection port="SC_MIX:in_57" />
-    </port>
-    <port name="capture_58">
-      <connection port="SC_MIX:in_58" />
-    </port>
-    <port name="capture_59">
-      <connection port="SC_MIX:in_59" />
-    </port>
-    <port name="capture_60">
-      <connection port="SC_MIX:in_60" />
-    </port>
-    <port name="capture_61">
-      <connection port="SC_MIX:in_61" />
-    </port>
-    <port name="capture_62">
-      <connection port="SC_MIX:in_62" />
-    </port>
-    <port name="capture_63">
-      <connection port="SC_MIX:in_63" />
-    </port>
-    <port name="capture_64">
-      <connection port="SC_MIX:in_64" />
-    </port>
+    <port name="capture_53" />
+    <port name="capture_54" />
+    <port name="capture_55" />
+    <port name="capture_56" />
+    <port name="capture_57" />
+    <port name="capture_58" />
+    <port name="capture_59" />
+    <port name="capture_60" />
+    <port name="capture_61" />
+    <port name="capture_62" />
+    <port name="capture_63" />
+    <port name="capture_64" />
     <port name="capture_65" />
     <port name="capture_66" />
     <port name="capture_67" />
@@ -368,62 +344,98 @@
     <port name="out_35">
       <connection port="system:playback_36" />
     </port>
-    <port name="out_36">
-      <connection port="system:playback_37" />
-    </port>
-    <port name="out_37">
-      <connection port="system:playback_38" />
-    </port>
-    <port name="out_38">
-      <connection port="system:playback_39" />
-    </port>
-    <port name="out_39">
-      <connection port="system:playback_40" />
-    </port>
-    <port name="out_40">
-      <connection port="system:playback_41" />
-    </port>
-    <port name="out_41">
-      <connection port="system:playback_42" />
-    </port>
-    <port name="out_42">
-      <connection port="system:playback_43" />
-    </port>
-    <port name="out_43">
-      <connection port="system:playback_44" />
-    </port>
-    <port name="out_44">
-      <connection port="system:playback_45" />
-    </port>
   </client>
   <client name="ambdec_rev">
     <port name="out_0">
       <connection port="system:playback_1" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_36">
+      <connection port="system:playback_37" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_1">
       <connection port="system:playback_2" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_37">
+      <connection port="system:playback_38" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_2">
       <connection port="system:playback_3" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_38">
+      <connection port="system:playback_39" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_3">
       <connection port="system:playback_4" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_39">
+      <connection port="system:playback_40" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_4">
       <connection port="system:playback_5" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_40">
+      <connection port="system:playback_41" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_5">
       <connection port="system:playback_6" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_41">
+      <connection port="system:playback_42" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_6">
       <connection port="system:playback_7" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_42">
+      <connection port="system:playback_43" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_7">
       <connection port="system:playback_8" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_43">
+      <connection port="system:playback_44" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_8">
       <connection port="system:playback_9" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_44">
+      <connection port="system:playback_45" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
     <port name="out_9">
       <connection port="system:playback_10" />
     </port>
