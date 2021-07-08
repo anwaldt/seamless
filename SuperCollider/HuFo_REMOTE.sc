@@ -15,14 +15,13 @@ Henrik von Coler
 (
 
 o = ServerOptions.new;
-o.maxLogins = 2;
 
-o.numInputBusChannels  = 32;
-o.numOutputBusChannels = 64;
+o.numInputBusChannels  = 64;
+o.numOutputBusChannels = 128;
 
-// 57110
-// 58010
-t = Server.remote(\sprawl_remote, NetAddr("130.149.23.24", 65536), o);
+o.maxLogins            = 2;
+
+t = Server.remote(\hufo_remote, NetAddr("172.25.18.201", 65536), o);
 
 )
 
@@ -33,3 +32,5 @@ t.makeWindow;
 t.meter;
 
 t.queryAllNodes();
+
+
