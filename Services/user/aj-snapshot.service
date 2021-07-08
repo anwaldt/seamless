@@ -3,7 +3,7 @@ Description=aj-snapshot Connections
 After=network.target seamless_jack.service
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 [Service]
 Type=simple

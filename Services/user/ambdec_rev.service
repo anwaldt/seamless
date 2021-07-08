@@ -3,7 +3,7 @@ Description=Ambisonics Reverb Decoder
 After=sound.target local-fs.target seamless_jack.service
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=default.target
 
 [Service]
 Type=idle
