@@ -6,7 +6,7 @@ After=sound.target local-fs.target
 WantedBy=multi-user.target
 
 [Service]
-Type=notify
+Type=simple
 PrivateTmp=true
 EnvironmentFile=/etc/seamless/jack.conf
 Environment="JACK_NO_AUDIO_RESERVATION=1"
