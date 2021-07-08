@@ -1,0 +1,14 @@
+[Unit]
+Description=SuperCollider mixer and encoder
+After=sound.target local-fs.target seamless_jack.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=idle
+PrivateTmp=true
+ExecStart=/usr/local/bin/sclang @share_dir@/SC/HuFo_SERVER.scd
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity

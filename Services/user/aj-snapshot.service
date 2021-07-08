@@ -1,0 +1,14 @@
+[Unit]
+Description=aj-snapshot Connections
+After=network.target seamless_jack.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=/bin/sh -c 'aj-snapshot -j -d -p 10000 /etc/seamless/aj_snapshot_config.xml'
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity

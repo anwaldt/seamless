@@ -1,0 +1,14 @@
+[Unit]
+Description=OSC Router
+After=network.target wonder.service twonder.service decoder.service sc_mix.service
+
+[Install]
+WantedBy=multi-user.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=/bin/sh -c 'OscRouter --config /etc/seamless/oscRouterConfig.txt'
+LimitRTPRIO=95
+LimitRTTIME=infinity
+LimitMEMLOCK=infinity
