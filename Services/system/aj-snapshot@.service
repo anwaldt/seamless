@@ -1,6 +1,6 @@
 [Unit]
 Description=aj-snapshot Connections
-After=network.target
+After=network.target seamless_jack@.service
 
 [Install]
 WantedBy=multi-user.target
