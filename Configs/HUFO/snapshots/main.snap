@@ -158,7 +158,9 @@
     <port name="capture_52">
       <connection port="ambdec_3rd:in_15" />
     </port>
-    <port name="capture_53" />
+    <port name="capture_53">
+      <connection port="system:playback_46" />
+    </port>
     <port name="capture_54" />
     <port name="capture_55" />
     <port name="capture_56" />
@@ -170,58 +172,162 @@
     <port name="capture_62" />
     <port name="capture_63" />
     <port name="capture_64" />
-    <port name="capture_65" />
-    <port name="capture_66" />
-    <port name="capture_67" />
-    <port name="capture_68" />
-    <port name="capture_69" />
-    <port name="capture_70" />
-    <port name="capture_71" />
-    <port name="capture_72" />
-    <port name="capture_73" />
-    <port name="capture_74" />
-    <port name="capture_75" />
-    <port name="capture_76" />
-    <port name="capture_77" />
-    <port name="capture_78" />
-    <port name="capture_79" />
-    <port name="capture_80" />
-    <port name="capture_81" />
-    <port name="capture_82" />
-    <port name="capture_83" />
-    <port name="capture_84" />
-    <port name="capture_85" />
-    <port name="capture_86" />
-    <port name="capture_87" />
-    <port name="capture_88" />
-    <port name="capture_89" />
-    <port name="capture_90" />
-    <port name="capture_91" />
-    <port name="capture_92" />
-    <port name="capture_93" />
-    <port name="capture_94" />
-    <port name="capture_95" />
-    <port name="capture_96" />
-    <port name="capture_97" />
-    <port name="capture_98" />
-    <port name="capture_99" />
-    <port name="capture_100" />
-    <port name="capture_101" />
-    <port name="capture_102" />
-    <port name="capture_103" />
-    <port name="capture_104" />
-    <port name="capture_105" />
-    <port name="capture_106" />
-    <port name="capture_107" />
-    <port name="capture_108" />
-    <port name="capture_109" />
-    <port name="capture_110" />
-    <port name="capture_111" />
-    <port name="capture_112" />
-    <port name="capture_113" />
-    <port name="capture_114" />
-    <port name="capture_115" />
-    <port name="capture_116" />
+    <port name="capture_65">
+      <connection port="SC_MIX:in_1" />
+    </port>
+    <port name="capture_66">
+      <connection port="SC_MIX:in_2" />
+    </port>
+    <port name="capture_67">
+      <connection port="SC_MIX:in_3" />
+    </port>
+    <port name="capture_68">
+      <connection port="SC_MIX:in_4" />
+    </port>
+    <port name="capture_69">
+      <connection port="SC_MIX:in_5" />
+    </port>
+    <port name="capture_70">
+      <connection port="SC_MIX:in_6" />
+    </port>
+    <port name="capture_71">
+      <connection port="SC_MIX:in_7" />
+    </port>
+    <port name="capture_72">
+      <connection port="SC_MIX:in_8" />
+    </port>
+    <port name="capture_73">
+      <connection port="SC_MIX:in_9" />
+    </port>
+    <port name="capture_74">
+      <connection port="SC_MIX:in_10" />
+    </port>
+    <port name="capture_75">
+      <connection port="SC_MIX:in_11" />
+    </port>
+    <port name="capture_76">
+      <connection port="SC_MIX:in_12" />
+    </port>
+    <port name="capture_77">
+      <connection port="SC_MIX:in_13" />
+    </port>
+    <port name="capture_78">
+      <connection port="SC_MIX:in_14" />
+    </port>
+    <port name="capture_79">
+      <connection port="SC_MIX:in_15" />
+    </port>
+    <port name="capture_80">
+      <connection port="SC_MIX:in_16" />
+    </port>
+    <port name="capture_81">
+      <connection port="SC_MIX:in_17" />
+    </port>
+    <port name="capture_82">
+      <connection port="SC_MIX:in_18" />
+    </port>
+    <port name="capture_83">
+      <connection port="SC_MIX:in_19" />
+    </port>
+    <port name="capture_84">
+      <connection port="SC_MIX:in_20" />
+    </port>
+    <port name="capture_85">
+      <connection port="SC_MIX:in_21" />
+    </port>
+    <port name="capture_86">
+      <connection port="SC_MIX:in_22" />
+    </port>
+    <port name="capture_87">
+      <connection port="SC_MIX:in_23" />
+    </port>
+    <port name="capture_88">
+      <connection port="SC_MIX:in_24" />
+    </port>
+    <port name="capture_89">
+      <connection port="SC_MIX:in_25" />
+    </port>
+    <port name="capture_90">
+      <connection port="SC_MIX:in_26" />
+    </port>
+    <port name="capture_91">
+      <connection port="SC_MIX:in_27" />
+    </port>
+    <port name="capture_92">
+      <connection port="SC_MIX:in_28" />
+    </port>
+    <port name="capture_93">
+      <connection port="SC_MIX:in_29" />
+    </port>
+    <port name="capture_94">
+      <connection port="SC_MIX:in_30" />
+    </port>
+    <port name="capture_95">
+      <connection port="SC_MIX:in_31" />
+    </port>
+    <port name="capture_96">
+      <connection port="SC_MIX:in_32" />
+    </port>
+    <port name="capture_97">
+      <connection port="ambdec_rev:in_0" />
+    </port>
+    <port name="capture_98">
+      <connection port="ambdec_rev:in_1" />
+    </port>
+    <port name="capture_99">
+      <connection port="ambdec_rev:in_2" />
+    </port>
+    <port name="capture_100">
+      <connection port="ambdec_rev:in_3" />
+    </port>
+    <port name="capture_101">
+      <connection port="ambdec_3rd:in_0" />
+    </port>
+    <port name="capture_102">
+      <connection port="ambdec_3rd:in_1" />
+    </port>
+    <port name="capture_103">
+      <connection port="ambdec_3rd:in_3" />
+    </port>
+    <port name="capture_104">
+      <connection port="ambdec_3rd:in_4" />
+    </port>
+    <port name="capture_105">
+      <connection port="ambdec_3rd:in_5" />
+    </port>
+    <port name="capture_106">
+      <connection port="ambdec_3rd:in_6" />
+    </port>
+    <port name="capture_107">
+      <connection port="ambdec_3rd:in_7" />
+    </port>
+    <port name="capture_108">
+      <connection port="ambdec_3rd:in_8" />
+    </port>
+    <port name="capture_109">
+      <connection port="ambdec_3rd:in_9" />
+    </port>
+    <port name="capture_110">
+      <connection port="ambdec_3rd:in_10" />
+    </port>
+    <port name="capture_111">
+      <connection port="ambdec_3rd:in_11" />
+    </port>
+    <port name="capture_112">
+      <connection port="ambdec_3rd:in_12" />
+    </port>
+    <port name="capture_113">
+      <connection port="ambdec_3rd:in_13" />
+    </port>
+    <port name="capture_114">
+      <connection port="ambdec_3rd:in_14" />
+    </port>
+    <port name="capture_115">
+      <connection port="ambdec_3rd:in_15" />
+    </port>
+    <port name="capture_116">
+      <connection port="system:playback_46" />
+    </port>
     <port name="capture_117" />
     <port name="capture_118" />
     <port name="capture_119" />
