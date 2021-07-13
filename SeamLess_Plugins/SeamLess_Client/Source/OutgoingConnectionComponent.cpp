@@ -82,7 +82,7 @@ void OutgoingConnectionComponent::paint (juce::Graphics& g)
 void OutgoingConnectionComponent::resized()
 {
     oscTargetAddressText.setBounds(40, 80, 120, 20);
-    oscTargetPortText.setBounds(200, 80, 120, 20);
+    oscTargetPortText.setBounds(180, 80, 80, 20);
     sendButton.setBounds(40,50,80,20);
 }
 

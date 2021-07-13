@@ -37,7 +37,7 @@ private:
     juce::Label sourceIndText;
     juce::AudioProcessorParameter& sourceIndex;
 
-    virtual void timerCallback();
+    void timerCallback() override;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SourceSettingsComponent)

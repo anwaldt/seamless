@@ -24,10 +24,10 @@ public:
 
   ~SoundSource() override;
 
-  void paint (juce::Graphics&);
-  void resized();
-  void mouseDown (const juce::MouseEvent& e);
-  void mouseDrag (const juce::MouseEvent& e);
+  void paint (juce::Graphics&) override;
+  void resized() override;
+  void mouseDown (const juce::MouseEvent& e) override;
+  void mouseDrag (const juce::MouseEvent& e) override;
   void moveX(double x);
   void moveY(double y);
 

@@ -28,7 +28,7 @@ SeamLess_ClientAudioProcessor::SeamLess_ClientAudioProcessor()
                   std::make_unique<juce::AudioParameterFloat> ("sendGainWFS", "Send Gain: WFS", 0, 1.0, 0.0),
                   std::make_unique<juce::AudioParameterFloat> ("sendGainHOA", "Send Gain: HOA", 0, 1.0, 0.0),
                   std::make_unique<juce::AudioParameterFloat> ("sendGainREV", "Send Gain: REV", 0, 1.0, 0.0),
-                  std::make_unique<juce::AudioParameterFloat> ("sendGainLFE", "Send Gain: LFE", 0, 1.0, 0.0),
+//                  std::make_unique<juce::AudioParameterFloat> ("sendGainLFE", "Send Gain: LFE", 0, 1.0, 0.0),
                   std::make_unique<juce::AudioParameterInt>   ("sourceIdx", "Source Index", -1, 128, -1)
                   }),
       client(new ClientConnection(*this)),
@@ -47,7 +47,7 @@ SeamLess_ClientAudioProcessor::SeamLess_ClientAudioProcessor()
     sendGainWFS      = parameters.getRawParameterValue("sendGainWFS");
     sendGainHOA      = parameters.getRawParameterValue("sendGainHOA");
     sendGainREV      = parameters.getRawParameterValue("sendGainREV");
-    sendGainLFE      = parameters.getRawParameterValue("sendGainLFE");
+//    sendGainLFE      = parameters.getRawParameterValue("sendGainLFE");
 
 
     // add a listener for every parameter to make it trigger parameterChanged()
@@ -58,7 +58,7 @@ SeamLess_ClientAudioProcessor::SeamLess_ClientAudioProcessor()
     parameters.addParameterListener("sendGainWFS", this);
     parameters.addParameterListener("sendGainHOA", this);
     parameters.addParameterListener("sendGainREV", this);
-    parameters.addParameterListener("sendGainLFE", this);
+//    parameters.addParameterListener("sendGainLFE", this);
 
     client->connectToSocket("localhost", port_nr, 5000);
 
@@ -265,11 +265,11 @@ void SeamLess_ClientAudioProcessor::sendGainSend()
     int i = (int) *sourceIdx;
     juce::OSCMessage m = juce::OSCMessage("/send/gain",i, 0, 0);
 
-    float in = (float) *sendGainWFS;
+    float in = (float) *sendGainHOA;
     m = juce::OSCMessage("/send/gain",i, 0, in);
     sender1.send(m);
 
-    in = (float) *sendGainHOA;
+    in = (float) *sendGainWFS;
     m = juce::OSCMessage("/send/gain",i, 1, in);
     sender1.send(m);
 
@@ -277,9 +277,9 @@ void SeamLess_ClientAudioProcessor::sendGainSend()
     m = juce::OSCMessage("/send/gain",i, 2, in);
     sender1.send(m);
 
-    in = (float) *sendGainLFE;
-    m = juce::OSCMessage("/send/gain",i, 3, in);
-    sender1.send(m);
+//    in = (float) *sendGainLFE;
+//    m = juce::OSCMessage("/send/gain",i, 3, in);
+//    sender1.send(m);
 
 }
 
@@ -291,21 +291,21 @@ void SeamLess_ClientAudioProcessor::setSendGain(int sendIndex, float in)
     switch (sendIndex)
     {
     case 0:
-        val = parameters.getParameterAsValue("sendGainWFS");
+        val = parameters.getParameterAsValue("sendGainHOA");
         val.setValue(juce::var(in));
         break;
     case 1:
-        val = parameters.getParameterAsValue("sendGainHOA");
+        val = parameters.getParameterAsValue("sendGainWFS");
         val.setValue(juce::var(in));
         break;
     case 2:
         val = parameters.getParameterAsValue("sendGainREV");
         val.setValue(juce::var(in));
         break;
-    case 3:
-        val = parameters.getParameterAsValue("sendGainLFE");
-        val.setValue(juce::var(in));
-        break;
+//    case 3:
+//        val = parameters.getParameterAsValue("sendGainLFE");
+//        val.setValue(juce::var(in));
+//        break;
 
     default:
         break;

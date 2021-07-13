@@ -34,13 +34,13 @@ public:
     /// \param e
     ///
     /// Calls changePosition() when the mouse is dragged.
-    void mouseDown(const juce::MouseEvent& e);
+    void mouseDown(const juce::MouseEvent& e) override;
 
     /// \brief mouseDrag
     /// \param e
     ///
     /// Calls changePosition() when the mouse is dragged.
-    void mouseDrag(const juce::MouseEvent& e);
+    void mouseDrag(const juce::MouseEvent& e) override;
 
     /// \brief changePosition
     /// \param p
@@ -48,7 +48,7 @@ public:
     /// processor.
     void changePosition(juce::Point <int> p);
 
-    void mouseUp(const juce::MouseEvent& e);
+    void mouseUp(const juce::MouseEvent& e) override;
 
 
 private:
@@ -66,7 +66,7 @@ private:
     /// \brief timerCallback
     /// set source position
     /// scaled between 0 and 1
-    virtual void timerCallback();
+    virtual void timerCallback() override;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (TopView)
 

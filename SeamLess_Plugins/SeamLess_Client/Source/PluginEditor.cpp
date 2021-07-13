@@ -23,7 +23,7 @@ SeamLess_ClientAudioProcessorEditor::SeamLess_ClientAudioProcessorEditor
       sendBox(p,apvts)
 {
 
-    setSize (1400, 900);
+    setSize (1070, 780);
 
     addAndMakeVisible(settingComponent);
 
@@ -105,17 +105,17 @@ void SeamLess_ClientAudioProcessorEditor::paint (juce::Graphics& g)
 void SeamLess_ClientAudioProcessorEditor::resized()
 {
 
-    topView.setBounds(100,70,600,600);
+    topView.setBounds(100,20,600,600);
 
-    sendBox.setBounds(820,70,500,600);
+    sendBox.setBounds(750,20,300,600);
 
     //xSlider.setBounds(210, -10, 400, 120);
     //ySlider.setBounds(-10, 200, 120, 400);
-    zSlider.setBounds(-10, 70, 100, 600);
+    zSlider.setBounds(-10, 20, 100, 600);
 
-    connectionComponent.setBounds(820, 690, 400, 120);
+    connectionComponent.setBounds(750, 640, 300, 120);
 
-    settingComponent.setBounds(100, 690, 400, 120);
+    settingComponent.setBounds(100, 640, 375, 120);
 
 }
 

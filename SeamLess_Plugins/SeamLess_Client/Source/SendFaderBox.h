@@ -33,17 +33,17 @@ public:
     /// \brief sliderValueChanged
     /// \param slider
     /// A slider listener for all send gain sliders.
-    void sliderValueChanged (juce::Slider* slider);
+    void sliderValueChanged (juce::Slider* slider) override;
 
 private:
 
     SeamLess_ClientAudioProcessor& audioProcessor;
     juce::AudioProcessorValueTreeState& treeState;
 
-    SendFader sendFaderWFS;
     SendFader sendFaderHOA;
+    SendFader sendFaderWFS;
     SendFader sendFaderREV;
-    SendFader sendFaderLFE;
+//    SendFader sendFaderLFE;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendFaderBox)
 };

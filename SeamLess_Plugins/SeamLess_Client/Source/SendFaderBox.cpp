@@ -15,21 +15,21 @@
 //==============================================================================
 SendFaderBox::SendFaderBox(SeamLess_ClientAudioProcessor& p, juce::AudioProcessorValueTreeState& apvts):
     audioProcessor(p), treeState(apvts),
-    sendFaderWFS(p,apvts,"sendGainWFS"),
     sendFaderHOA(p,apvts,"sendGainHOA"),
-    sendFaderREV(p,apvts,"sendGainREV"),
-    sendFaderLFE(p,apvts,"sendGainLFE")
+    sendFaderWFS(p,apvts,"sendGainWFS"),
+    sendFaderREV(p,apvts,"sendGainREV")
+//    sendFaderLFE(p,apvts,"sendGainLFE")
 {
 
     sendFaderWFS.setText("WFS");
     sendFaderHOA.setText("HOA");
     sendFaderREV.setText("REV");
-    sendFaderLFE.setText("LFE");
+//    sendFaderLFE.setText("LFE");
 
-    addAndMakeVisible(sendFaderWFS);
     addAndMakeVisible(sendFaderHOA);
+    addAndMakeVisible(sendFaderWFS);
     addAndMakeVisible(sendFaderREV);
-    addAndMakeVisible(sendFaderLFE);
+   // addAndMakeVisible(sendFaderLFE);
 
     // sendFaderWFS.addListener(this);
 
@@ -52,10 +52,10 @@ void SendFaderBox::paint (juce::Graphics& g)
 
 void SendFaderBox::resized()
 {
-    sendFaderWFS.setBounds(40, 60,60,460);
-    sendFaderHOA.setBounds(150,60,60,460);
-    sendFaderREV.setBounds(260,60,60,460);
-    sendFaderLFE.setBounds(370,60,60,460);
+    sendFaderWFS.setBounds(120, 60,60,460);
+    sendFaderHOA.setBounds(30,60,60,460);
+    sendFaderREV.setBounds(210,60,60,460);
+//    sendFaderLFE.setBounds(370,60,60,460);
 }
 
 

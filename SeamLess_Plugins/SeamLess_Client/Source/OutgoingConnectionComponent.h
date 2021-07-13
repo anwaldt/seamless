@@ -27,7 +27,7 @@ public:
     void paint (juce::Graphics&) override;
     void resized() override;
 
-    virtual void timerCallback();
+    void timerCallback() override;
 
 private:
 
