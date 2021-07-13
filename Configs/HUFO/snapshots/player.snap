@@ -1,0 +1,521 @@
+<?xml version="1.0" encoding="utf-8"?>
+<aj-snapshot>
+<jack>
+  <client name="system">
+    <port name="capture_1" />
+    <port name="capture_2" />
+    <port name="capture_3" />
+    <port name="capture_4" />
+    <port name="capture_5" />
+    <port name="capture_6" />
+    <port name="capture_7" />
+    <port name="capture_8" />
+    <port name="capture_9" />
+    <port name="capture_10" />
+    <port name="capture_11" />
+    <port name="capture_12" />
+    <port name="capture_13" />
+    <port name="capture_14" />
+    <port name="capture_15" />
+    <port name="capture_16" />
+    <port name="capture_17" />
+    <port name="capture_18" />
+    <port name="capture_19" />
+    <port name="capture_20" />
+    <port name="capture_21" />
+    <port name="capture_22" />
+    <port name="capture_23" />
+    <port name="capture_24" />
+    <port name="capture_25" />
+    <port name="capture_26" />
+    <port name="capture_27" />
+    <port name="capture_28" />
+    <port name="capture_29" />
+    <port name="capture_30" />
+    <port name="capture_31" />
+    <port name="capture_32" />
+    <port name="capture_33" />
+    <port name="capture_34" />
+    <port name="capture_35" />
+    <port name="capture_36" />
+    <port name="capture_37" />
+    <port name="capture_38" />
+    <port name="capture_39" />
+    <port name="capture_40" />
+    <port name="capture_41" />
+    <port name="capture_42" />
+    <port name="capture_43" />
+    <port name="capture_44" />
+    <port name="capture_45" />
+    <port name="capture_46" />
+    <port name="capture_47" />
+    <port name="capture_48" />
+    <port name="capture_49" />
+    <port name="capture_50" />
+    <port name="capture_51" />
+    <port name="capture_52" />
+    <port name="capture_53" />
+    <port name="capture_54" />
+    <port name="capture_55" />
+    <port name="capture_56" />
+    <port name="capture_57" />
+    <port name="capture_58" />
+    <port name="capture_59" />
+    <port name="capture_60" />
+    <port name="capture_61" />
+    <port name="capture_62" />
+    <port name="capture_63" />
+    <port name="capture_64" />
+    <port name="capture_65" />
+    <port name="capture_66" />
+    <port name="capture_67" />
+    <port name="capture_68" />
+    <port name="capture_69" />
+    <port name="capture_70" />
+    <port name="capture_71" />
+    <port name="capture_72" />
+    <port name="capture_73" />
+    <port name="capture_74" />
+    <port name="capture_75" />
+    <port name="capture_76" />
+    <port name="capture_77" />
+    <port name="capture_78" />
+    <port name="capture_79" />
+    <port name="capture_80" />
+    <port name="capture_81" />
+    <port name="capture_82" />
+    <port name="capture_83" />
+    <port name="capture_84" />
+    <port name="capture_85" />
+    <port name="capture_86" />
+    <port name="capture_87" />
+    <port name="capture_88" />
+    <port name="capture_89" />
+    <port name="capture_90" />
+    <port name="capture_91" />
+    <port name="capture_92" />
+    <port name="capture_93" />
+    <port name="capture_94" />
+    <port name="capture_95" />
+    <port name="capture_96" />
+    <port name="capture_97" />
+    <port name="capture_98" />
+    <port name="capture_99" />
+    <port name="capture_100" />
+    <port name="capture_101" />
+    <port name="capture_102" />
+    <port name="capture_103" />
+    <port name="capture_104" />
+    <port name="capture_105" />
+    <port name="capture_106" />
+    <port name="capture_107" />
+    <port name="capture_108" />
+    <port name="capture_109" />
+    <port name="capture_110" />
+    <port name="capture_111" />
+    <port name="capture_112" />
+    <port name="capture_113" />
+    <port name="capture_114" />
+    <port name="capture_115" />
+    <port name="capture_116" />
+    <port name="capture_117" />
+    <port name="capture_118" />
+    <port name="capture_119" />
+    <port name="capture_120" />
+    <port name="capture_121" />
+    <port name="capture_122" />
+    <port name="capture_123" />
+    <port name="capture_124" />
+    <port name="capture_125" />
+    <port name="capture_126" />
+    <port name="capture_127" />
+    <port name="capture_128" />
+  </client>
+  <client name="REAPER">
+    <port name="out1">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="out2">
+      <connection port="system:playback_2" />
+    </port>
+    <port name="out3">
+      <connection port="system:playback_3" />
+    </port>
+    <port name="out4">
+      <connection port="system:playback_4" />
+    </port>
+    <port name="out5">
+      <connection port="system:playback_5" />
+    </port>
+    <port name="out6">
+      <connection port="system:playback_6" />
+    </port>
+    <port name="out7">
+      <connection port="system:playback_7" />
+    </port>
+    <port name="out8">
+      <connection port="system:playback_8" />
+    </port>
+    <port name="out9">
+      <connection port="system:playback_9" />
+    </port>
+    <port name="out10">
+      <connection port="system:playback_10" />
+    </port>
+    <port name="out11">
+      <connection port="system:playback_11" />
+    </port>
+    <port name="out12">
+      <connection port="system:playback_12" />
+    </port>
+    <port name="out13">
+      <connection port="system:playback_13" />
+    </port>
+    <port name="out14">
+      <connection port="system:playback_14" />
+    </port>
+    <port name="out15">
+      <connection port="system:playback_15" />
+    </port>
+    <port name="out16">
+      <connection port="system:playback_16" />
+    </port>
+    <port name="out17">
+      <connection port="system:playback_17" />
+    </port>
+    <port name="out18">
+      <connection port="system:playback_18" />
+    </port>
+    <port name="out19">
+      <connection port="system:playback_19" />
+    </port>
+    <port name="out20">
+      <connection port="system:playback_20" />
+    </port>
+    <port name="out21">
+      <connection port="system:playback_21" />
+    </port>
+    <port name="out22">
+      <connection port="system:playback_22" />
+    </port>
+    <port name="out23">
+      <connection port="system:playback_23" />
+    </port>
+    <port name="out24">
+      <connection port="system:playback_24" />
+    </port>
+    <port name="out25">
+      <connection port="system:playback_25" />
+    </port>
+    <port name="out26">
+      <connection port="system:playback_26" />
+    </port>
+    <port name="out27">
+      <connection port="system:playback_27" />
+    </port>
+    <port name="out28">
+      <connection port="system:playback_28" />
+    </port>
+    <port name="out29">
+      <connection port="system:playback_29" />
+    </port>
+    <port name="out30">
+      <connection port="system:playback_30" />
+    </port>
+    <port name="out31">
+      <connection port="system:playback_31" />
+    </port>
+    <port name="out32">
+      <connection port="system:playback_32" />
+    </port>
+    <port name="out33">
+      <connection port="system:playback_33" />
+    </port>
+    <port name="out34">
+      <connection port="system:playback_34" />
+    </port>
+    <port name="out35">
+      <connection port="system:playback_35" />
+    </port>
+    <port name="out36">
+      <connection port="system:playback_36" />
+    </port>
+    <port name="out37">
+      <connection port="system:playback_37" />
+    </port>
+    <port name="out38">
+      <connection port="system:playback_38" />
+    </port>
+    <port name="out39">
+      <connection port="system:playback_39" />
+    </port>
+    <port name="out40">
+      <connection port="system:playback_40" />
+    </port>
+    <port name="out41">
+      <connection port="system:playback_41" />
+    </port>
+    <port name="out42">
+      <connection port="system:playback_42" />
+    </port>
+    <port name="out43">
+      <connection port="system:playback_43" />
+    </port>
+    <port name="out44">
+      <connection port="system:playback_44" />
+    </port>
+    <port name="out45">
+      <connection port="system:playback_45" />
+    </port>
+    <port name="out46">
+      <connection port="system:playback_46" />
+    </port>
+    <port name="out47">
+      <connection port="system:playback_47" />
+    </port>
+    <port name="out48">
+      <connection port="system:playback_48" />
+    </port>
+    <port name="out49">
+      <connection port="system:playback_49" />
+    </port>
+    <port name="out50">
+      <connection port="system:playback_50" />
+    </port>
+    <port name="out51">
+      <connection port="system:playback_51" />
+    </port>
+    <port name="out52">
+      <connection port="system:playback_52" />
+    </port>
+    <port name="out53">
+      <connection port="system:playback_53" />
+    </port>
+    <port name="out54">
+      <connection port="system:playback_54" />
+    </port>
+    <port name="out55">
+      <connection port="system:playback_55" />
+    </port>
+    <port name="out56">
+      <connection port="system:playback_56" />
+    </port>
+    <port name="out57">
+      <connection port="system:playback_57" />
+    </port>
+    <port name="out58">
+      <connection port="system:playback_58" />
+    </port>
+    <port name="out59">
+      <connection port="system:playback_59" />
+    </port>
+    <port name="out60">
+      <connection port="system:playback_60" />
+    </port>
+    <port name="out61">
+      <connection port="system:playback_61" />
+    </port>
+    <port name="out62">
+      <connection port="system:playback_62" />
+    </port>
+    <port name="out63">
+      <connection port="system:playback_63" />
+    </port>
+    <port name="out64">
+      <connection port="system:playback_64" />
+    </port>
+    <port name="out65">
+      <connection port="system:playback_65" />
+    </port>
+    <port name="out66">
+      <connection port="system:playback_66" />
+    </port>
+    <port name="out67">
+      <connection port="system:playback_67" />
+    </port>
+    <port name="out68">
+      <connection port="system:playback_68" />
+    </port>
+    <port name="out69">
+      <connection port="system:playback_69" />
+    </port>
+    <port name="out70">
+      <connection port="system:playback_70" />
+    </port>
+    <port name="out71">
+      <connection port="system:playback_71" />
+    </port>
+    <port name="out72">
+      <connection port="system:playback_72" />
+    </port>
+    <port name="out73">
+      <connection port="system:playback_73" />
+    </port>
+    <port name="out74">
+      <connection port="system:playback_74" />
+    </port>
+    <port name="out75">
+      <connection port="system:playback_75" />
+    </port>
+    <port name="out76">
+      <connection port="system:playback_76" />
+    </port>
+    <port name="out77">
+      <connection port="system:playback_77" />
+    </port>
+    <port name="out78">
+      <connection port="system:playback_78" />
+    </port>
+    <port name="out79">
+      <connection port="system:playback_79" />
+    </port>
+    <port name="out80">
+      <connection port="system:playback_80" />
+    </port>
+    <port name="out81">
+      <connection port="system:playback_81" />
+    </port>
+    <port name="out82">
+      <connection port="system:playback_82" />
+    </port>
+    <port name="out83">
+      <connection port="system:playback_83" />
+    </port>
+    <port name="out84">
+      <connection port="system:playback_84" />
+    </port>
+    <port name="out85">
+      <connection port="system:playback_85" />
+    </port>
+    <port name="out86">
+      <connection port="system:playback_86" />
+    </port>
+    <port name="out87">
+      <connection port="system:playback_87" />
+    </port>
+    <port name="out88">
+      <connection port="system:playback_88" />
+    </port>
+    <port name="out89">
+      <connection port="system:playback_89" />
+    </port>
+    <port name="out90">
+      <connection port="system:playback_90" />
+    </port>
+    <port name="out91">
+      <connection port="system:playback_91" />
+    </port>
+    <port name="out92">
+      <connection port="system:playback_92" />
+    </port>
+    <port name="out93">
+      <connection port="system:playback_93" />
+    </port>
+    <port name="out94">
+      <connection port="system:playback_94" />
+    </port>
+    <port name="out95">
+      <connection port="system:playback_95" />
+    </port>
+    <port name="out96">
+      <connection port="system:playback_96" />
+    </port>
+    <port name="out97">
+      <connection port="system:playback_97" />
+    </port>
+    <port name="out98">
+      <connection port="system:playback_98" />
+    </port>
+    <port name="out99">
+      <connection port="system:playback_99" />
+    </port>
+    <port name="out100">
+      <connection port="system:playback_100" />
+    </port>
+    <port name="out101">
+      <connection port="system:playback_101" />
+    </port>
+    <port name="out102">
+      <connection port="system:playback_102" />
+    </port>
+    <port name="out103">
+      <connection port="system:playback_103" />
+    </port>
+    <port name="out104">
+      <connection port="system:playback_104" />
+    </port>
+    <port name="out105">
+      <connection port="system:playback_105" />
+    </port>
+    <port name="out106">
+      <connection port="system:playback_106" />
+    </port>
+    <port name="out107">
+      <connection port="system:playback_107" />
+    </port>
+    <port name="out108">
+      <connection port="system:playback_108" />
+    </port>
+    <port name="out109">
+      <connection port="system:playback_109" />
+    </port>
+    <port name="out110">
+      <connection port="system:playback_110" />
+    </port>
+    <port name="out111">
+      <connection port="system:playback_111" />
+    </port>
+    <port name="out112">
+      <connection port="system:playback_112" />
+    </port>
+    <port name="out113">
+      <connection port="system:playback_113" />
+    </port>
+    <port name="out114">
+      <connection port="system:playback_114" />
+    </port>
+    <port name="out115">
+      <connection port="system:playback_115" />
+    </port>
+    <port name="out116">
+      <connection port="system:playback_116" />
+    </port>
+    <port name="out117">
+      <connection port="system:playback_117" />
+    </port>
+    <port name="out118">
+      <connection port="system:playback_118" />
+    </port>
+    <port name="out119">
+      <connection port="system:playback_119" />
+    </port>
+    <port name="out120">
+      <connection port="system:playback_120" />
+    </port>
+    <port name="out121">
+      <connection port="system:playback_121" />
+    </port>
+    <port name="out122">
+      <connection port="system:playback_122" />
+    </port>
+    <port name="out123">
+      <connection port="system:playback_123" />
+    </port>
+    <port name="out124">
+      <connection port="system:playback_124" />
+    </port>
+    <port name="out125">
+      <connection port="system:playback_125" />
+    </port>
+    <port name="out126">
+      <connection port="system:playback_126" />
+    </port>
+    <port name="out127">
+      <connection port="system:playback_127" />
+    </port>
+    <port name="out128">
+      <connection port="system:playback_128" />
+    </port>
+  </client>
+</jack>
+</aj-snapshot>
