@@ -535,14 +535,14 @@ class Oscar(SpatialRenderer):
 
 
 
-class HufoPlugin(SpatialRenderer):
+class SeamlessPlugin(SpatialRenderer):
     def myType(self) -> str:
-        return "Hufo Plugin"
+        return "Seamless Plugin"
 
     def __init__(self, **kwargs):
         if not 'dataformat' in kwargs.keys():
             kwargs['dataformat'] = skc.xyz
-        super(HufoPlugin, self).__init__(**kwargs)
+        super(SeamlessPlugin, self).__init__(**kwargs)
 
         # self.basePort = 11000
 
@@ -562,7 +562,7 @@ class HufoPlugin(SpatialRenderer):
 
 
 
-        self.debugPrefix = "/dHufoPlugin"
+        self.debugPrefix = "/dSeamlessPlugin"
 
 
     # def updateSource(self, source_idx):
@@ -634,8 +634,8 @@ def createRendererClient(renderclass: renderclasstype, kwargs) -> Renderer:
         rend = SuperColliderEngine(**kwargs)
     elif renderclass == renderclasstype.Audiorouter:
         rend = Audiorouter(**kwargs)
-    elif renderclass == renderclasstype.HufoPlugin:
-        rend = HufoPlugin(**kwargs)
+    elif renderclass == renderclasstype.SeamlessPlugin:
+        rend = SeamlessPlugin(**kwargs)
     else:
         rend = Renderer()
 
