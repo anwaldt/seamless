@@ -318,11 +318,11 @@ void SeamLess_MainAudioProcessor::hiResTimerCallback()
 {
 
     //    if(isSending==true)
-//    {
-//        xPosSend();
-//        yPosSend();
-//        zPosSend();
-//        sendGainSend();
-//    }
+    //    {
+    //        xPosSend();
+    //        yPosSend();
+    //        zPosSend();
+    //        sendGainSend();
+    //    }
 
 }
