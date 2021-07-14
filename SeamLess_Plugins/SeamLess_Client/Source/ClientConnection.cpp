@@ -52,4 +52,12 @@ void ClientConnection::messageReceived(const juce::MemoryBlock& msg)
     }
 }
 
+bool ClientConnection::mainConnection()
+{
+  return this->isConnected();
+}
 
+void ClientConnection::reconnect()
+{
+//  this.connectToSocket("localhost",);
+}

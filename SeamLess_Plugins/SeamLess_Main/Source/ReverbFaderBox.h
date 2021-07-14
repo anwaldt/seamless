@@ -12,20 +12,21 @@
 
 #include <JuceHeader.h>
 
-#include "SeamLess_Client.h"
+#include "SeamLess_Main.h"
 #include "PluginProcessor.h"
 
-#include "SendFader.h"
+#include "ReverbFader.h"
+
 
 //==============================================================================
 /*
 */
-class SendFaderBox  : public juce::Component, juce::Slider::Listener
+class ReverbFaderBox  : public juce::Component, juce::Slider::Listener
 {
 public:
 
-    SendFaderBox(SeamLess_ClientAudioProcessor &p, juce::AudioProcessorValueTreeState &apvts);
-    ~SendFaderBox() override;
+    ReverbFaderBox(SeamLess_MainAudioProcessor &p, juce::AudioProcessorValueTreeState &apvts);
+    ~ReverbFaderBox() override;
 
     void paint (juce::Graphics&) override;
     void resized() override;
@@ -37,13 +38,13 @@ public:
 
 private:
 
-    SeamLess_ClientAudioProcessor& audioProcessor;
+    SeamLess_MainAudioProcessor& audioProcessor;
     juce::AudioProcessorValueTreeState& treeState;
 
-    SendFader sendFaderHOA;
-    SendFader sendFaderWFS;
-    SendFader sendFaderREV;
+    ReverbFader revGainFader;
+    ReverbFader revSizeFader;
+    ReverbFader revColorFader;
 //    SendFader sendFaderLFE;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SendFaderBox)
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ReverbFaderBox)
 };

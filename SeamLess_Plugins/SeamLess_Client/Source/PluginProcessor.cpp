@@ -408,3 +408,8 @@ void SeamLess_ClientAudioProcessor::hiResTimerCallback()
         sendGainSend();
     }
 }
+
+bool SeamLess_ClientAudioProcessor::connectedToMain()
+{
+  return client->mainConnection();
+}

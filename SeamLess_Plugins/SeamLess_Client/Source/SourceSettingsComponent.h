@@ -24,6 +24,8 @@ public:
     SourceSettingsComponent(SeamLess_ClientAudioProcessor *a, juce::AudioProcessorValueTreeState &apvts);
     ~SourceSettingsComponent() override;
 
+    void setConnectionFeedback(bool state);
+
     void paint (juce::Graphics&) override;
     void resized() override;
 
@@ -36,6 +38,8 @@ private:
     juce::Label inputLabel;
     juce::Label sourceIndText;
     juce::AudioProcessorParameter& sourceIndex;
+
+    juce::TextButton mainConnectionButton;
 
     void timerCallback() override;
 
