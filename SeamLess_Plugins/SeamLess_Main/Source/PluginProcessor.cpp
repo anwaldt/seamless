@@ -10,15 +10,14 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
-    : AudioProcessor (BusesProperties())
+SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor() : parameters (*this, nullptr, juce::Identifier ("SeamLess_Main"),
 {
-
-
-    if (! connect (9002))
-        std::cout << "Can not open port!" << '\n';
-    else
-        std::cout << "Connected to port 9002" << '\n';
+  std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
+  std::make_unique<juce::AudioParameterFloat> ("revSize", "Reverb Size", 0.0, 10.0, 0.0),
+  std::make_unique<juce::AudioParameterFloat> ("revColor", "Reverb Color", 0.0, 1.0, 0.0)
+}),
+AudioProcessor (BusesProperties())
+{
 
     // Register OSC paths
     juce::OSCReceiver::addListener(this, "/source/pos/x");
@@ -27,9 +26,14 @@ SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
 
     juce::OSCReceiver::addListener(this, "/send/gain");
 
-    beginWaitingForSocket(incomingPort,"");
+    beginWaitingForSocket(52713,"");
 
+    if (! connect (incomingPort))
+        std::cout << "Can not open port!" << '\n';
+    else
+        std::cout << "Connected to port 9002" << '\n';
 
+    startTimer(100);
 }
 
 SeamLess_MainAudioProcessor::~SeamLess_MainAudioProcessor()
@@ -158,13 +162,14 @@ bool SeamLess_MainAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* SeamLess_MainAudioProcessor::createEditor()
 {
-    return new SeamLess_MainAudioProcessorEditor (*this);
+    return new SeamLess_MainAudioProcessorEditor (*this, parameters);
 }
 
 //==============================================================================
+
 void SeamLess_MainAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    std::unique_ptr<juce::XmlElement> xml (new juce::XmlElement ("HoFo_MAIN"));
+    std::unique_ptr<juce::XmlElement> xml (new juce::XmlElement ("SeamLess_Main"));
     xml->setAttribute ("incomingPort", (int) incomingPort);
     copyXmlToBinary (*xml, destData);
 }
@@ -174,9 +179,20 @@ void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int siz
     std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
 
     if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName ("HoFo_MAIN"))
+        if (xmlState->hasTagName ("SeamLess_Main"))
             setIncomingPort((int) xmlState->getIntAttribute("incomingPort", 1.0));
 
+
+    std::unique_ptr<juce::XmlElement> xmlState2 (getXmlFromBinary (data, sizeInBytes));
+
+    if (xmlState2.get() != nullptr)
+    {
+        if (xmlState2->hasTagName ("HoFo_Client"))
+        {
+            oscTargetAddress = (juce::String) xmlState2->getStringAttribute("oscTargetAddress");
+            setOscTargetPort((int) xmlState2->getIntAttribute("oscTargetPort", 1.0));
+        }
+    }
 }
 
 
@@ -264,5 +280,49 @@ void SeamLess_MainAudioProcessor::removeClosedConnections()
           else
             ++it;
         }
+}
+
+
+juce::AudioProcessorValueTreeState& SeamLess_MainAudioProcessor::getState()
+{
+    return parameters;
+}
+
+void SeamLess_MainAudioProcessor::parameterChanged(const juce::String & id, float val)
+{
+
+}
+
+
+void SeamLess_MainAudioProcessor::revGainSend()
+{}
+
+void SeamLess_MainAudioProcessor::revSizeSend()
+{}
+
+void SeamLess_MainAudioProcessor::revColorSend()
+{}
+
+
+void SeamLess_MainAudioProcessor::setOscTargetPort(int port)
+{
+    oscTargetPort = port;
+    oscSender.disconnect();
+    oscSender.connect(oscTargetAddress, oscTargetPort);
+    std::cout << "Switched OSC target (from port change): " << oscTargetAddress << ":" << oscTargetPort << '\n';
+}
+
+
+
+void SeamLess_MainAudioProcessor::hiResTimerCallback()
+{
+
+    //    if(isSending==true)
+//    {
+//        xPosSend();
+//        yPosSend();
+//        zPosSend();
+//        sendGainSend();
+//    }
 
 }

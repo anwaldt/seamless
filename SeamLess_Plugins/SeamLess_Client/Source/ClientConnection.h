@@ -22,6 +22,11 @@ public:
 
     ClientConnection(SeamLess_ClientAudioProcessor &p);
 
+    bool mainConnection();
+
+    void reconnect();
+
+
 private:
 
     SeamLess_ClientAudioProcessor* processor;

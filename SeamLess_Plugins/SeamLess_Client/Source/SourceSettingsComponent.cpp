@@ -26,6 +26,10 @@ SourceSettingsComponent::SourceSettingsComponent(SeamLess_ClientAudioProcessor *
     sourceIndText.setEditable (true);
     sourceIndText.setColour (juce::Label::backgroundColourId, seamlessBlue);
 
+    addAndMakeVisible (mainConnectionButton);
+    mainConnectionButton.setButtonText ("Not Connected!");
+    mainConnectionButton.setColour(juce::TextButton::buttonColourId,juce::Colours::red);
+
     sourceIndText.onTextChange = [this]
     {
         juce::String s = sourceIndText.getText();
@@ -60,11 +64,14 @@ void SourceSettingsComponent::paint (juce::Graphics& g)
     g.drawText ("SeamLess Client Plugin", 20, 20, 200, 20,
                 juce::Justification::left, true);   // draw some placeholder text
 
+
+
 }
 
 void SourceSettingsComponent::resized()
 {
     sourceIndText.setBounds(270, getHeight()/2 -10, 50, 20);
+    mainConnectionButton.setBounds(35,50,100,50);
 }
 
 
@@ -72,5 +79,23 @@ void SourceSettingsComponent::timerCallback()
 {
     if(sourceIndText.isBeingEdited() == false)
         sourceIndText.setText(juce::String(processor->getSourceIndex()), juce::dontSendNotification);
+
+    this->setConnectionFeedback(processor->connectedToMain());
+
 }
 
+
+void SourceSettingsComponent::setConnectionFeedback(bool state)
+{
+  if(state==true)
+  {
+    mainConnectionButton.setColour(juce::TextButton::buttonColourId,juce::Colours::green);
+    mainConnectionButton.setButtonText ("Connected to Main Plugin!");
+  }
+
+  if(state==false)
+  {
+      mainConnectionButton.setColour(juce::TextButton::buttonColourId,juce::Colours::red);
+      mainConnectionButton.setButtonText ("Not Connected!");
+  }
+}

@@ -11,12 +11,12 @@
       <FILE id="tQWjsj" name="HuFo.png" compile="0" resource="1" file="Resources/HuFo.png"/>
     </GROUP>
     <GROUP id="{430F3EF1-34BE-76D3-9328-5006156D1F39}" name="Source">
+      <FILE id="snD8JS" name="SendFader.cpp" compile="1" resource="0" file="Source/SendFader.cpp"/>
+      <FILE id="rHiBMC" name="SendFader.h" compile="0" resource="0" file="Source/SendFader.h"/>
       <FILE id="GJSi1n" name="SourceSettingsComponent.cpp" compile="1" resource="0"
             file="Source/SourceSettingsComponent.cpp"/>
       <FILE id="z8gsnA" name="SourceSettingsComponent.h" compile="0" resource="0"
             file="Source/SourceSettingsComponent.h"/>
-      <FILE id="lnUlPY" name="SendFader.cpp" compile="1" resource="0" file="Source/SendFader.cpp"/>
-      <FILE id="TmN6Zs" name="SendFader.h" compile="0" resource="0" file="Source/SendFader.h"/>
       <FILE id="kAUCPT" name="SendFaderBox.cpp" compile="1" resource="0"
             file="Source/SendFaderBox.cpp"/>
       <FILE id="TZoBQP" name="OutgoingConnectionComponent.cpp" compile="1"

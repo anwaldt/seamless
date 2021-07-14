@@ -89,11 +89,14 @@ public:
     juce::String  getOscTargetAddress();
     int getOscTargetPort();
 
+    bool connectedToMain();
+
     bool getSendState();
     void setSendState(bool s);
 
     virtual void parameterChanged(const juce::String & id, float val) override;
     juce::AudioProcessorValueTreeState& getState();
+
 
 private:
 
