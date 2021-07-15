@@ -182,7 +182,7 @@ if 'index_reverb' in globalconfig.keys():
 
 print('UI listenport:', globalconfig[skc.inputport_ui])
 print('DATA listenport (for automation):', globalconfig[skc.inputport_data])
-print('port for settings is (no function yet):', globalconfig[skc.settings_port], '\n')
+print('port for settings, ping and client subscription is:', globalconfig[skc.inputport_settings], '\n')
 if extendedOscInput:
     print('extended osc-string listening activated')
 else:

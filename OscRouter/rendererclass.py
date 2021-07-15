@@ -41,7 +41,8 @@ class Renderer(object):
                  continuously_update_intervall=-1,
                  renderid=-1,
                  sendport=0,
-                 sourceattributes=()):
+                 sourceattributes=(),
+                 indexAsValue=0):
 
         self.setVerbosity(verbosity)
 
@@ -415,10 +416,93 @@ class SuperColliderEngine(SpatialRenderer):
 
 class ViewClient(SpatialRenderer):
 
-    def __init__(self, **kwargs):
+    def myType(self) -> str:
+        return 'viewClient'
+
+    def __init__(self, aliasname, **kwargs):
         super(ViewClient, self).__init__(**kwargs)
 
-        self.debugPrefix = "/dViewClient"
+        self.pingCounter = 0
+
+        self.alias = aliasname
+        self.debugPrefix = "/d{}".format(aliasname.decode())
+        # self.biAlias = b''
+        # self.setAlias(aliasname)
+
+        self.indexAsValue = False
+        if 'indexAsValue' in kwargs.keys():
+            self.indexAsValue = kwargs['indexAsValue']
+
+        self.idxSourceOscPrePos = [b''] * self.numberOfSources
+        self.idxSourceOscPreAttri = [{}] * self.numberOfSources
+        self.idxSourceOscPreRender = [[b''] * self.globalConfig['number_renderunits']] * self.numberOfSources
+
+        self.createOscPrefixes()
+
+                # self.idxSourceOscPreAttri
+
+        self.pingTimer: Timer = None
+
+
+    def createOscPrefixes(self):
+        for i in range(self.numberOfSources):
+            self.idxSourceOscPrePos[i] = '/source/{}/{}'.format(i+1, self.posFormat).encode()
+            _aDic = {}
+            for attr in skc.knownAttributes:
+                _aDic[attr] = '/source/{}/{}'.format(i+1, attr).encode()
+
+            self.idxSourceOscPreAttri[i] = _aDic
+
+            if 'index_ambi' in self.globalConfig.keys() and 'index_wfs' in self.globalConfig.keys() and 'index_reverb' in self.globalConfig.keys():
+                self.idxSourceOscPreRender[i][self.globalConfig['index_ambi']] = '/source/{}/gain/ambi'.format(i+1).encode()
+                self.idxSourceOscPreRender[i][self.globalConfig['index_wfs']] = '/source/{}/gain/wfs'.format(i+1).encode()
+                self.idxSourceOscPreRender[i][self.globalConfig['index_reverb']] = '/source/{}/gain/reverb'.format(i+1).encode()
+            else:
+                for j in range(self.globalConfig['number_renderunits']):
+                    self.idxSourceOscPreRender[i][j] = '/source/{}/gain/{}'.format(i+1, j).encode()
+
+    # def setAlias(self, name):
+    #     dPref = ''
+    #     if type(name) == str:
+    #         dPref = name
+    #     else:
+    #         try:
+    #             dPref = name.decode()
+    #         except:
+    #             return
+    #
+    #     self.alias = dPref
+    #     self.biAlias = dPref.encode()
+    #     self.debugPrefix = '/d{}'.format(dPref)
+
+    def checkAlive(self, deleteClient):
+
+        self.pingTimer = Timer(2., partial(self.checkAlive, deleteClient))
+
+        if self.pingCounter < 10:
+            # self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']])
+            try:
+                self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']]) #, self.alias
+            except:
+                print('ERROR while pinging client', self.alias)
+                self.pingTimer.cancel()
+                deleteClient(self, self.alias)
+
+            self.pingCounter += 1
+            self.pingTimer.start()
+        else:
+            deleteClient(self, self.alias)
+
+    def receivedIsAlive(self):
+        self.pingCounter = 0
+
+    # def setPosFormat(self, posFormat:skc.posformat, indexAsValue:bool):
+    #     self.posFormat = posFormat
+    #     if indexAsValue:
+    #         pass
+    #     else:
+    #
+    #     _oscPref = '/source'
 
 
     #TODO: send complete Scene data

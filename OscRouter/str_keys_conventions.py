@@ -191,7 +191,7 @@ class CoordFormats(Enum):
 globalconfig = 'globalconfig'
 inputport_data = 'inputport_data'
 inputport_ui = 'inputport_ui'
-settings_port = 'settings_port'
+inputport_settings = 'inputport_settings'
 number_sources = 'number_sources'
 max_gain = 'max_gain'
 send_changes_only = 'send_changes_only'

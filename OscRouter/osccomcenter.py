@@ -1,4 +1,4 @@
-from rendererclass import Renderer
+from rendererclass import Renderer, ViewClient
 import str_keys_conventions as skc
 from oscpy.server import OSCThreadServer
 from functools import partial
@@ -16,6 +16,7 @@ import ipaddress
 # halligalli = 'moses'
 soundobjects: [SoundObject] = []
 
+clientSubscriptions = {}
 audiorouter: Renderer
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
@@ -45,11 +46,132 @@ osc_data_server = OSCThreadServer()
 osc_setting_server = OSCThreadServer()
 
 
+oscr_ip = False
 def setupOscSettingsBindings():
-    osc_setting_server.listen(address='0.0.0.0', port=globalconfig['settings_port'], default=True)
+    osc_setting_server.listen(address='0.0.0.0', port=globalconfig['inputport_settings'], default=True)
 
-    osc_setting_server.bind('/debug/osccopy'.encode(), oscreceived_debugOscCopy)
-    osc_setting_server.bind('/debug/verbose'.encode(), oscreceived_verbose)
+    osc_setting_server.bind('/oscrouter/debug/osccopy'.encode(), oscreceived_debugOscCopy)
+    osc_setting_server.bind('/oscrouter/debug/verbose'.encode(), oscreceived_verbose)
+    osc_setting_server.bind('/oscrouter/subscribe'.encode(), oscreceived_subsciptionRequest)
+    osc_setting_server.bind('/oscrouter/ping'.encode(), oscreceived_ping)
+    osc_setting_server.bind('/oscrouter/pong'.encode(), oscreceived_pong)
+    osc_setting_server.bind('/oscrouter/dump'.encode(), oscreceived_dump)
+
+    global oscr_ip
+    if 'oscr_ip' in globalconfig.keys() and checkIp(globalconfig['oscr_ip']):
+        oscr_ip = globalconfig['oscr_ip'].encode()
+
+
+
+
+def oscreceived_ping(*args):
+
+    # print(osc_setting_server.get_sender())
+    # # print(osc_setting_server.getaddress())
+    # ss = socket.socket()
+    # print(ss.gethostname())
+
+    if checkPort(args[0]):
+        vals = [oscr_ip] if oscr_ip else []
+        osc_setting_server.answer(b'/oscrouter/pong', port=args[0], values=vals)
+
+    # _ip = osc_setting_server.get_sender()[1]
+    # print(_ip)
+
+def oscreceived_pong(*args):
+
+    try:
+        uiClients[clientSubscriptions[args[0]]].receivedIsAlive()
+    except:
+        if verbosity>0:
+            _name = ''
+            if len(args) > 0:
+                _name = args[0]
+            print('no renderer for pong message {}'.format(_name))
+
+
+def oscreceived_subsciptionRequest(*args):
+#/oscrouter/subscribe myname 31441 xyz 0 5
+#  args[0] nameFor Client
+# args[1] port client listens to
+# args[2] format client expects
+# args[3] send source index as value instead of inside the osc prefix
+# args[4] source position update rate
+
+    viewClientInitValues = {}
+    vCName = args[0]
+    subArgs = len(args)
+    if subArgs>=2:
+        if checkPort(args[1]):
+            viewClientInitValues['listenport'] = args[1]
+
+            _ip = osc_setting_server.get_sender()[1]
+
+            viewClientInitValues['ipaddress'] = _ip
+
+            # if subArgs>2:
+            #     initKeys = ['dataformat', 'indexAsValue', 'updateintervall']
+            #     for i in range(2, subArgs):
+            #         viewClientInitValues[initKeys[i-2]] = args[i]
+            try:
+                viewClientInitValues['dataformat'] = args[2].decode()
+            except:
+                pass
+            try:
+                viewClientInitValues['indexAsValue'] = args[3]
+            except:
+                pass
+            try:
+                viewClientInitValues['updateintervall'] = args[4]
+            except:
+                pass
+
+        newViewClient = ViewClient(vCName, **viewClientInitValues)
+
+        clientSubscriptions[vCName] = newViewClient
+        uiClients.append(newViewClient)
+        newViewClient.checkAlive(deleteClient)
+
+    else:
+        if verbosity>0:
+            print('not enough arguments für view client')
+
+
+
+def oscreceived_dump(*args):
+    pass
+    #TODO: dump all source data to renderer
+
+
+def deleteClient(viewC, alias):
+    if verbosity > 0:
+        print('deleting client', viewC, alias)
+    uiClients.remove(viewC)
+    del clientSubscriptions[alias]
+
+def checkPort(port) -> bool:
+    if  type(port) == int and 1023 < port < 65535:
+        return True
+    else:
+        if verbosity > 0:
+            print('port', port, 'not legit')
+        return False
+
+def checkIp(ip) -> bool:
+    ipalright = True
+    try:
+        _ip = '127.0.0.1' if ip == 'localhost' else ip
+        _ = ipaddress.ip_address(_ip)
+    except:
+        ipalright = False
+        if verbosity > 0:
+            print('ip address', ip, 'not legit')
+
+    return ipalright
+
+def checkIpAndPort(ip, port) -> bool:
+    return checkIp(ip) and checkPort(port)
+
 
 def oscreceived_debugOscCopy(*args):
     print('received debug osc', args)
