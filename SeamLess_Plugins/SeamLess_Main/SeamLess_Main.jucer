@@ -6,6 +6,9 @@
               displaySplashScreen="1">
   <MAINGROUP id="VAkndo" name="SeamLess_MainPlugin">
     <GROUP id="{6DE0190C-DAA2-EA58-5C86-CBE9B2B9D26B}" name="Source">
+      <FILE id="RWRrSh" name="ConnectionBox.cpp" compile="1" resource="0"
+            file="Source/ConnectionBox.cpp"/>
+      <FILE id="V8zoRO" name="ConnectionBox.h" compile="0" resource="0" file="Source/ConnectionBox.h"/>
       <FILE id="aSsGfc" name="ReverbFaderBox.cpp" compile="1" resource="0"
             file="Source/ReverbFaderBox.cpp"/>
       <FILE id="ty5biW" name="ReverbFader.cpp" compile="1" resource="0" file="Source/ReverbFader.cpp"/>

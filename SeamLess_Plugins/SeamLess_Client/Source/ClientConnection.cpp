@@ -11,19 +11,21 @@
 #include "ClientConnection.h"
 
 ClientConnection::ClientConnection(SeamLess_ClientAudioProcessor& p)
-    : InterprocessConnection(false, 15)
+    : InterprocessConnection(true, 15)
 {
     processor = &p;
 }
 
 void ClientConnection::connectionMade()
 {
-    printf("Connection established from client plugin!\n");
+    printf("Client: connection established to main plugin!\n");
+    processor->setConnectedToMain(true);
 }
 
 void ClientConnection::connectionLost()
 {
-    printf("Connection lost\n");
+    printf("Client: connection to main lost!\n");
+    processor->setConnectedToMain(false);
 }
 
 

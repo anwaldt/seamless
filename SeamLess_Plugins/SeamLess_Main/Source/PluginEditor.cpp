@@ -12,29 +12,15 @@
 
 //==============================================================================
 SeamLess_MainAudioProcessorEditor::SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor& p, juce::AudioProcessorValueTreeState& apvts)
-    : AudioProcessorEditor (&p), audioProcessor (p), reverbFaderBox(p,apvts)
+    : AudioProcessorEditor (&p), audioProcessor (p), oscConnectionBox(p), reverbFaderBox(p,apvts)
 {
 
-    setSize (800,900);
+    setSize (800,800);
 
-    addAndMakeVisible(reverbFaderBox);
+    addAndMakeVisible(oscConnectionBox);
 
-    addAndMakeVisible(incomingPortLabel);
-    incomingPortLabel.setText("Set port for receiving OSC:", juce::dontSendNotification);
-    incomingPortLabel.setColour (juce::Label::textColourId, juce::Colours::black);
+    addAndMakeVisible(reverbFaderBox);    
 
-    addAndMakeVisible(incomingPortText);
-    incomingPortText.setText("-", juce::dontSendNotification);
-    incomingPortText.setEditable (true);
-    incomingPortText.setColour (juce::Label::backgroundColourId, juce::Colours::grey);
-
-
-    incomingPortText.onTextChange = [this]
-    {
-        audioProcessor.setIncomingPort(incomingPortText.getText().getIntValue());
-    };
-
-    startTimer(100);
 }
 
 SeamLess_MainAudioProcessorEditor::~SeamLess_MainAudioProcessorEditor()
@@ -57,18 +43,14 @@ void SeamLess_MainAudioProcessorEditor::paint (juce::Graphics& g)
 void SeamLess_MainAudioProcessorEditor::resized()
 {
 
-    reverbFaderBox.setBounds(100,200,300,600);
+    oscConnectionBox.setBounds(60,60,200,180);
 
-    incomingPortLabel.setBounds(100, 140, 220, 20);
-    incomingPortText.setBounds(140, 180, 120, 20);
+    reverbFaderBox.setBounds(300,60,300,600);
+
 }
-
 
 
 void SeamLess_MainAudioProcessorEditor::timerCallback()
 {
-
-    if(incomingPortText.isBeingEdited() == false)
-        incomingPortText.setText(juce::String(audioProcessor.getIncomingPort()), juce::dontSendNotification);
 
 }

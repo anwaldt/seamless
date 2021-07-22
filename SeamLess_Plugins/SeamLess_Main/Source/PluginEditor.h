@@ -11,6 +11,7 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
+#include "ConnectionBox.h"
 #include "ReverbFaderBox.h"
 
 //==============================================================================
@@ -27,17 +28,13 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+
     SeamLess_MainAudioProcessor& audioProcessor;
+
+    ConnectionBox oscConnectionBox;
 
     ReverbFaderBox reverbFaderBox;
 
-    juce::Label incomingPortLabel;
-    juce::Label incomingPortText;
-
-
-    juce::Label timeLabel;
 
      void timerCallback();
 

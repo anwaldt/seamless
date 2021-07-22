@@ -91,6 +91,8 @@ public:
 
     void setOscTargetPort(int port);
 
+    bool getReceivingState();
+    void setReceivingState(bool s);
 
 private:
 
@@ -111,7 +113,10 @@ private:
     /// @todo: Change from string to a more efficient interprocess protocol!
     void oscMessageReceived (const juce::OSCMessage& message) override;
 
-
+    ///
+    /// \brief receiving
+    /// used to indicate whether any OSC message has reached the plugin
+    bool receiving;
 
     /// Interconnection Stuff ====================================================================
     juce::WaitableEvent stop_signal;

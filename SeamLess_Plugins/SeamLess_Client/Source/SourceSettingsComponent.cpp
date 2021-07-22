@@ -80,7 +80,7 @@ void SourceSettingsComponent::timerCallback()
     if(sourceIndText.isBeingEdited() == false)
         sourceIndText.setText(juce::String(processor->getSourceIndex()), juce::dontSendNotification);
 
-    this->setConnectionFeedback(processor->connectedToMain());
+    this->setConnectionFeedback(processor->getConnectedToMain());
 
 }
 
@@ -92,8 +92,7 @@ void SourceSettingsComponent::setConnectionFeedback(bool state)
     mainConnectionButton.setColour(juce::TextButton::buttonColourId,juce::Colours::green);
     mainConnectionButton.setButtonText ("Connected to Main Plugin!");
   }
-
-  if(state==false)
+  else if(state==false)
   {
       mainConnectionButton.setColour(juce::TextButton::buttonColourId,juce::Colours::red);
       mainConnectionButton.setButtonText ("Not Connected!");
