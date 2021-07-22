@@ -8,18 +8,20 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "SeamLess_Main.h"
+#include "../../Common/SeamLess.h"
 
 //==============================================================================
 SeamLess_MainAudioProcessorEditor::SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor& p, juce::AudioProcessorValueTreeState& apvts)
-    : AudioProcessorEditor (&p), audioProcessor (p), oscConnectionBox(p), reverbFaderBox(p,apvts)
+    : AudioProcessorEditor (&p), audioProcessor (p), oscConnectionBox(p), reverbFaderBox(p,apvts), connectionComponent(&p)
 {
 
     setSize (1400,800);
 
     addAndMakeVisible(oscConnectionBox);
 
-    addAndMakeVisible(reverbFaderBox);    
+    addAndMakeVisible(reverbFaderBox);
+
+    addAndMakeVisible(connectionComponent);
 
 }
 
@@ -45,7 +47,9 @@ void SeamLess_MainAudioProcessorEditor::resized()
 
     oscConnectionBox.setBounds(60,60,200,180);
 
-    reverbFaderBox.setBounds(300,60,940,600);
+    reverbFaderBox.setBounds(360,60,940,600);
+
+    connectionComponent.setBounds(40, 640, 300, 120);
 
 }
 

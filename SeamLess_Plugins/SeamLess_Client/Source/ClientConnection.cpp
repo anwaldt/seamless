@@ -1,9 +1,9 @@
 /**
 
-    @brief: Manage the connection with client plugins.
-    @file: ClientConnection.cpp
+    @brief Manage the connection with client plugins.
+    @file ClientConnection.cpp
     @date 19 Mar 2021 4:14:08pm
-    @author:  anwaldt
+    @author HvC
 
 **/
 

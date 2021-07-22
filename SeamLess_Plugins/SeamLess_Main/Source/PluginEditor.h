@@ -13,6 +13,7 @@
 
 #include "ConnectionBox.h"
 #include "ReverbFaderBox.h"
+#include "OutgoingConnectionComponent.h"
 
 //==============================================================================
 /**
@@ -34,6 +35,8 @@ private:
     ConnectionBox oscConnectionBox;
 
     ReverbFaderBox reverbFaderBox;
+
+    OutgoingConnectionComponent connectionComponent;
 
 
      void timerCallback();
