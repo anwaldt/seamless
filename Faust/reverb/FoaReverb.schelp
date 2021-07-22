@@ -1,0 +1,94 @@
+TITLE:: FoaReverb
+summary:: (put short description here)
+categories:: Undocumented classes, UGens>Undocumented
+related:: Classes/SomeRelatedClass, Reference/SomeRelatedStuff, etc.
+
+DESCRIPTION::
+https://faustlibraries.grame.fr/libs/reverbs/
+
+CLASSMETHODS::
+
+METHOD:: kr
+(describe method here)
+
+ARGUMENT:: in1
+crossover frequency (Hz) separating dc and midrange frequencies
+
+ARGUMENT:: f1
+frequency (Hz) above f1 where T60 = t60m/2 (see below)
+
+ARGUMENT:: f2
+desired decay time (t60) at frequency 0 (sec)
+
+ARGUMENT:: rdel
+delay (in ms) before reverberation begins (e.g., 0 to ~100 ms) (remaining args and refs as for zita_rev_fdn above)
+
+ARGUMENT:: rgxyz
+relative gain of lanes 1,4,2 to lane 0 in output (e.g., -9 to 9) (remaining args and references as for zita_rev1_stereo above)
+
+ARGUMENT:: t60dc
+desired decay time (t60) at frequency 0 (sec)
+
+ARGUMENT:: t60m
+desired decay time (t60) at midrange frequencies (sec)
+
+returns:: (describe returnvalue here)
+
+METHOD:: ar
+(describe method here)
+
+ARGUMENT:: in1
+(describe argument here)
+
+ARGUMENT:: f1
+(describe argument here)
+
+ARGUMENT:: f2
+(describe argument here)
+
+ARGUMENT:: rdel
+(describe argument here)
+
+ARGUMENT:: rgxyz
+(describe argument here)
+
+ARGUMENT:: t60dc
+(describe argument here)
+
+ARGUMENT:: t60m
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+
+INSTANCEMETHODS::
+
+METHOD:: checkInputs
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: info
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: name
+(describe method here)
+
+returns:: (describe returnvalue here)
+
+METHOD:: init
+(describe method here)
+
+ARGUMENT::  ... theInputs
+(describe argument here)
+
+returns:: (describe returnvalue here)
+
+
+EXAMPLES::
+
+code::
+(some example code)
+::
