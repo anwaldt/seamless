@@ -81,18 +81,22 @@ public:
 
     juce::AudioProcessorValueTreeState& getState();
 
-    juce::String oscTargetAddress;
-    int oscTargetPort;
-    juce::OSCSender oscSender;
 
     void revGainSend();
     void revSizeSend();
     void revColorSend();
 
-    void setOscTargetPort(int port);
-
     bool getReceivingState();
     void setReceivingState(bool s);
+
+    void setOscTargetAddress(juce::String address);
+    void setOscTargetPort(int port);
+
+    bool getSendState();
+    void setSendState(bool s);
+
+    juce::String  getOscTargetAddress();
+    int getOscTargetPort();
 
 private:
 
@@ -104,6 +108,23 @@ private:
     // and manages serialization
     juce::AudioProcessorValueTreeState parameters;
 
+    // IP address and port are used by all instances
+    juce::String oscTargetAddress;
+    int oscTargetPort;
+    juce::OSCSender oscSender;
+
+    bool isSending;
+
+    std::atomic<float>* revGain   = nullptr;
+    std::atomic<float>* revFreq1  = nullptr;
+    std::atomic<float>* revFreq2  = nullptr;
+    std::atomic<float>* revRdel   = nullptr;
+    std::atomic<float>* revRgxyz  = nullptr;
+    std::atomic<float>* revT60dc  = nullptr;
+    std::atomic<float>* revT60m   = nullptr;
+    std::atomic<float>* revLpFreq = nullptr;
+    std::atomic<float>* revLpRs   = nullptr;
+    std::atomic<float>* revLpDb   = nullptr;
 
     /// \brief oscMessageReceived
     /// \param message

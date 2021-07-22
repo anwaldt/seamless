@@ -165,10 +165,8 @@ s.waitForBoot({
 	// AUDIO BUSSES:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
 	~sub_BUS           = Bus.audio(s, 1);
-
 
 	// bus for encoded HOA
 	~ambi_BUS   = Bus.audio(s, ~n_hoa_channnels);
@@ -572,7 +570,7 @@ s.waitForBoot({
 
 			if(~debug_level == 1,{msg.postln()});
 
-			~reverb_t60dc_global_BUS.set(svalue);
+			~reverb_t60dc_global_BUS.set(value);
 
 	},'/reverb/t60dc');
 

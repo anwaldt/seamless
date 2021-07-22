@@ -10,21 +10,33 @@
 #include "PluginEditor.h"
 
 //==============================================================================
-SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor() : parameters (*this, nullptr, juce::Identifier ("SeamLess_Main"),
+SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
+    : parameters (*this, nullptr, juce::Identifier ("SeamLess_Main"),
 {
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revFreq1", "Reverb Freq 1", 10.0, 20000.0, 500),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revFreq2", "Reverb Freq 2", 10.0, 20000.0, 1500.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revRdel", "Reverb Delay", 0.0, 100.0, 0.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revRgxyz", "Reverb Width", -9.0, 9.0, 0.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revT60dc", "Reverb T60 DC", 0.0, 10.0, 2.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revT60m", "Reverb T60 MID", 0.0, 10.0, 2.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 20000.0, 1000.0),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpRs", "Reverb LP Slope", 0.0, 1.0, 0.5),
-                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpDb", "Reverb Gain", -24.0, 6.0, -9.0)
-                                                                         }),
-AudioProcessor (BusesProperties())
+                  std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revFreq1", "Reverb Freq 1", 10.0, 20000.0, 500),
+                  std::make_unique<juce::AudioParameterFloat> ("revFreq2", "Reverb Freq 2", 10.0, 20000.0, 1500.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revRdel", "Reverb Delay", 0.0, 100.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revRgxyz", "Reverb Width", -9.0, 9.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revT60dc", "Reverb T60 DC", 0.0, 10.0, 2.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revT60m", "Reverb T60 MID", 0.0, 10.0, 2.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 20000.0, 1000.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpRs", "Reverb LP Slope", 0.0, 1.0, 0.5),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpDb", "Reverb Gain", -24.0, 6.0, -9.0)
+                  }),
+      AudioProcessor (BusesProperties())
 {
+
+    revGain   = parameters.getRawParameterValue("revGain");
+    revFreq1  = parameters.getRawParameterValue("revFreq1");
+    revFreq2  = parameters.getRawParameterValue("revFreq2");
+    revRdel   = parameters.getRawParameterValue("revRdel");
+    revRgxyz  = parameters.getRawParameterValue("revRgxyz");
+    revT60dc  = parameters.getRawParameterValue("revT60dc");
+    revT60m   = parameters.getRawParameterValue("revT60m");
+    revLpFreq = parameters.getRawParameterValue("revLpFreq");
+    revLpRs   = parameters.getRawParameterValue("revLpRs");
+    revLpDb   = parameters.getRawParameterValue("revLpDb");
 
     // Register OSC paths
     juce::OSCReceiver::addListener(this, "/source/pos/x");
@@ -174,6 +186,14 @@ void SeamLess_MainAudioProcessor::getStateInformation (juce::MemoryBlock& destDa
     std::unique_ptr<juce::XmlElement> xml (new juce::XmlElement ("SeamLess_Main"));
     xml->setAttribute ("incomingPort", (int) incomingPort);
     copyXmlToBinary (*xml, destData);
+
+
+    xml->setAttribute ("oscTargetAddress", (juce::String) oscTargetAddress);
+    copyXmlToBinary (*xml, destData);
+
+    xml->setAttribute ("oscTargetPort", (int) oscTargetPort);
+    copyXmlToBinary (*xml, destData);
+
 }
 
 void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -194,7 +214,7 @@ void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int siz
 
     if (xmlState2.get() != nullptr)
     {
-        if (xmlState2->hasTagName ("HoFo_Client"))
+        if (xmlState2->hasTagName ("SeamLess_Main"))
         {
             oscTargetAddress = (juce::String) xmlState2->getStringAttribute("oscTargetAddress");
             setOscTargetPort((int) xmlState2->getIntAttribute("oscTargetPort", 1.0));
@@ -312,6 +332,7 @@ void SeamLess_MainAudioProcessor::revSizeSend()
 void SeamLess_MainAudioProcessor::revColorSend()
 {}
 
+
 void SeamLess_MainAudioProcessor::setOscTargetPort(int port)
 {
     oscTargetPort = port;
@@ -320,20 +341,38 @@ void SeamLess_MainAudioProcessor::setOscTargetPort(int port)
     std::cout << "Switched OSC target (from port change): " << oscTargetAddress << ":" << oscTargetPort << '\n';
 }
 
-
-
-void SeamLess_MainAudioProcessor::hiResTimerCallback()
+void SeamLess_MainAudioProcessor::setOscTargetAddress(juce::String address)
 {
-
-    //    if(isSending==true)
-    //    {
-    //        xPosSend();
-    //        yPosSend();
-    //        zPosSend();
-    //        sendGainSend();
-    //    }
-
+    oscTargetAddress = address;
+    oscSender.disconnect();
+    oscSender.connect(oscTargetAddress, oscTargetPort);
+    std::cout << "Switched OSC target (from address change): " << oscTargetAddress << ":" << oscTargetPort << '\n';
 }
+
+
+
+int SeamLess_MainAudioProcessor::getOscTargetPort()
+{
+    return oscTargetPort;
+}
+
+juce::String  SeamLess_MainAudioProcessor::getOscTargetAddress()
+{
+    return oscTargetAddress;
+}
+
+
+
+bool SeamLess_MainAudioProcessor::getSendState()
+{
+    return isSending;
+}
+
+void SeamLess_MainAudioProcessor::setSendState(bool s)
+{
+    isSending=s;
+}
+
 
 bool SeamLess_MainAudioProcessor::getReceivingState()
 {
@@ -343,6 +382,16 @@ bool SeamLess_MainAudioProcessor::getReceivingState()
 void SeamLess_MainAudioProcessor::setReceivingState(bool s)
 {
     receiving = s;
+}
+
+
+void SeamLess_MainAudioProcessor::hiResTimerCallback()
+{
+
+    float in = (float) *revGain;
+    juce::OSCMessage m = juce::OSCMessage("/reverb/gain", in);
+    oscSender.send(m);
+
 }
 
 

@@ -11,9 +11,8 @@
 #pragma once
 
 #include <JuceHeader.h>
-
-#include "../../Common/SeamLess.h"
 #include "PluginProcessor.h"
+#include "../../Common/SeamLess.h"
 
 //==============================================================================
 /*
@@ -21,7 +20,7 @@
 class OutgoingConnectionComponent  : public juce::Component, juce::Timer
 {
 public:
-    OutgoingConnectionComponent(SeamLess_ClientAudioProcessor *a);
+    OutgoingConnectionComponent(SeamLess_MainAudioProcessor *a);
     ~OutgoingConnectionComponent() override;
 
     void paint (juce::Graphics&) override;
@@ -31,7 +30,7 @@ public:
 
 private:
 
-    SeamLess_ClientAudioProcessor *audioProcessor;
+    SeamLess_MainAudioProcessor *audioProcessor;
 
     juce::Label oscTargetAddressText;
     juce::Label oscTargetPortText;

@@ -13,7 +13,7 @@ class ClientConnection;
 
 #include <JuceHeader.h>
 
-#include "SeamLess_Client.h"
+#include "../../Common/SeamLess.h"
 #include "ClientConnection.h"
 
 //==============================================================================
@@ -112,7 +112,6 @@ private:
 
     static bool isSending;
 
-    ///
     /// \brief sender1
     /// @todo Make it non static!
     static juce::OSCSender sender1;
