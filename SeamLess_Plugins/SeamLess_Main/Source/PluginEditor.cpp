@@ -15,7 +15,7 @@ SeamLess_MainAudioProcessorEditor::SeamLess_MainAudioProcessorEditor (SeamLess_M
     : AudioProcessorEditor (&p), audioProcessor (p), oscConnectionBox(p), reverbFaderBox(p,apvts)
 {
 
-    setSize (800,800);
+    setSize (1400,800);
 
     addAndMakeVisible(oscConnectionBox);
 
@@ -45,7 +45,7 @@ void SeamLess_MainAudioProcessorEditor::resized()
 
     oscConnectionBox.setBounds(60,60,200,180);
 
-    reverbFaderBox.setBounds(300,60,300,600);
+    reverbFaderBox.setBounds(300,60,940,600);
 
 }
 
