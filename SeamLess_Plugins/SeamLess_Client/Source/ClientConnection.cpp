@@ -1,12 +1,11 @@
-/*
-  ==============================================================================
+/**
 
-    ClientConnection.cpp
-    Created: 19 Mar 2021 4:14:08pm
-    Author:  anwaldt
+    @brief: Manage the connection with client plugins.
+    @file: ClientConnection.cpp
+    @date 19 Mar 2021 4:14:08pm
+    @author:  anwaldt
 
-  ==============================================================================
-*/
+**/
 
 #include "ClientConnection.h"
 

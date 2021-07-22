@@ -12,11 +12,17 @@
 //==============================================================================
 SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor() : parameters (*this, nullptr, juce::Identifier ("SeamLess_Main"),
 {
-  std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
-  std::make_unique<juce::AudioParameterFloat> ("revSize", "Reverb Size", 0.0, 10.0, 0.0),
-  std::make_unique<juce::AudioParameterFloat> ("revColor", "Reverb Color", 0.0, 1.0, 0.0)
-}),
-
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revFreq1", "Reverb Freq 1", 10.0, 20000.0, 500),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revFreq2", "Reverb Freq 2", 10.0, 20000.0, 1500.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revRdel", "Reverb Delay", 0.0, 100.0, 0.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revRgxyz", "Reverb Width", -9.0, 9.0, 0.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revT60dc", "Reverb T60 DC", 0.0, 10.0, 2.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revT60m", "Reverb T60 MID", 0.0, 10.0, 2.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 20000.0, 1000.0),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpRs", "Reverb LP Slope", 0.0, 1.0, 0.5),
+                                                                         std::make_unique<juce::AudioParameterFloat> ("revLpDb", "Reverb Gain", -24.0, 6.0, -9.0)
+                                                                         }),
 AudioProcessor (BusesProperties())
 {
 
@@ -135,19 +141,19 @@ bool SeamLess_MainAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 
 void SeamLess_MainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-//    juce::ScopedNoDenormals noDenormals;
-//    auto totalNumInputChannels  = getTotalNumInputChannels();
-//    auto totalNumOutputChannels = getTotalNumOutputChannels();
+    //    juce::ScopedNoDenormals noDenormals;
+    //    auto totalNumInputChannels  = getTotalNumInputChannels();
+    //    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-//    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-//        buffer.clear (i, 0, buffer.getNumSamples());
+    //    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
+    //        buffer.clear (i, 0, buffer.getNumSamples());
 
 
-//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-//    {
-//        auto* channelData = buffer.getWritePointer (channel);
+    //    for (int channel = 0; channel < totalNumInputChannels; ++channel)
+    //    {
+    //        auto* channelData = buffer.getWritePointer (channel);
 
-//    }
+    //    }
 }
 
 //==============================================================================
@@ -277,12 +283,12 @@ int SeamLess_MainAudioProcessor::getIncomingPort()
 void SeamLess_MainAudioProcessor::removeClosedConnections()
 {
 
-     for (auto it = begin(connections); it != end(connections);) {
-       if ((*it)->isConnected()==false)
+    for (auto it = begin(connections); it != end(connections);) {
+        if ((*it)->isConnected()==false)
             it = connections.erase(it);
-          else
+        else
             ++it;
-        }
+    }
 }
 
 

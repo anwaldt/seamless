@@ -16,17 +16,39 @@
 ReverbFaderBox::ReverbFaderBox(SeamLess_MainAudioProcessor& p, juce::AudioProcessorValueTreeState& apvts):
     audioProcessor(p), treeState(apvts),
     revGainFader(p,apvts,"revGain"),
-    revSizeFader(p,apvts,"revSize"),
-    revColorFader(p,apvts,"revColor")
+    revFreq1Fader(p,apvts,"revFreq1"),
+    revFreq2Fader(p,apvts,"revFreq2"),
+    revRdelFader(p,apvts,"revRdel"),
+    revRgxyzFader(p,apvts,"revRgxyz"),
+    revT60dcFader(p,apvts,"revT60dc"),
+    revT60mFader(p,apvts,"revT60m"),
+    revLpFreqFader(p,apvts,"revLpFreq"),
+    revLpRsFader(p,apvts,"revLpRs"),
+    revLpDbFader(p,apvts,"revLpDb")
 {
 
-    revSizeFader.setText("Gain");
-    revGainFader.setText("Size");
-    revColorFader.setText("Color");
+    addAndMakeVisible( revGainFader);
+    addAndMakeVisible( revFreq1Fader);
+    addAndMakeVisible( revFreq2Fader);
+    addAndMakeVisible( revRdelFader);
+    addAndMakeVisible( revRgxyzFader);
+    addAndMakeVisible( revT60dcFader);
+    addAndMakeVisible( revT60mFader);
+    addAndMakeVisible( revLpFreqFader);
+    addAndMakeVisible( revLpRsFader);
+    addAndMakeVisible( revLpDbFader);
 
-    addAndMakeVisible(revGainFader);
-    addAndMakeVisible(revSizeFader);
-    addAndMakeVisible(revColorFader);
+
+      revGainFader.setText("Gain");
+      revFreq1Fader.setText("Freq 1");
+      revFreq2Fader.setText("Freq 2");
+      revRdelFader.setText("Delay");
+      revRgxyzFader.setText("Width");
+      revT60dcFader.setText("T60 DC");
+      revT60mFader.setText("T60 MID");
+      revLpFreqFader.setText("LP Cutoff");
+      revLpRsFader.setText("LP Slope");
+      revLpDbFader.setText("LP Gain");
 
 }
 
@@ -47,10 +69,20 @@ void ReverbFaderBox::paint (juce::Graphics& g)
 
 void ReverbFaderBox::resized()
 {
-    revSizeFader.setBounds(120, 60,60,460);
-    revGainFader.setBounds(30,60,60,460);
-    revColorFader.setBounds(210,60,60,460);
-//    sendFaderLFE.setBounds(370,60,60,460);
+
+
+    revGainFader.setBounds(30, 60,60,460);
+    revFreq1Fader.setBounds(120,60,60,460);
+    revFreq2Fader.setBounds(210,60,60,460);
+    revRdelFader.setBounds(300,60,60,460);
+    revRgxyzFader.setBounds(390,60,60,460);
+    revT60dcFader.setBounds(480,60,60,460);
+    revT60mFader.setBounds(570,60,60,460);
+    revLpFreqFader.setBounds(660,60,60,460);
+    revLpRsFader.setBounds(750,60,60,460);
+    revLpDbFader.setBounds(840,60,60,460);
+
+
 }
 
 

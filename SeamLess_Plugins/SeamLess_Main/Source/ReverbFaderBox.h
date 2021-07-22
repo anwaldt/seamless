@@ -42,9 +42,19 @@ private:
     juce::AudioProcessorValueTreeState& treeState;
 
     ReverbFader revGainFader;
-    ReverbFader revSizeFader;
-    ReverbFader revColorFader;
-//    SendFader sendFaderLFE;
+    ReverbFader revFreq1Fader;
+    ReverbFader revFreq2Fader;
+    ReverbFader revRdelFader;
+    ReverbFader revRgxyzFader;
+    ReverbFader revT60dcFader;
+    ReverbFader revT60mFader;
+    ReverbFader revLpFreqFader;
+    ReverbFader revLpRsFader;
+    ReverbFader revLpDbFader;
+
+
+
+    //    SendFader sendFaderLFE;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ReverbFaderBox)
 };
