@@ -409,7 +409,12 @@ void SeamLess_ClientAudioProcessor::hiResTimerCallback()
     }
 }
 
-bool SeamLess_ClientAudioProcessor::connectedToMain()
+bool SeamLess_ClientAudioProcessor::getConnectedToMain()
 {
-  return client->mainConnection();
+  return connectedToMain;
+}
+
+void SeamLess_ClientAudioProcessor::setConnectedToMain(bool b)
+{
+    connectedToMain = b;
 }

@@ -16,6 +16,7 @@ SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor() : parameters (*this, 
   std::make_unique<juce::AudioParameterFloat> ("revSize", "Reverb Size", 0.0, 10.0, 0.0),
   std::make_unique<juce::AudioParameterFloat> ("revColor", "Reverb Color", 0.0, 1.0, 0.0)
 }),
+
 AudioProcessor (BusesProperties())
 {
 
@@ -27,11 +28,6 @@ AudioProcessor (BusesProperties())
     juce::OSCReceiver::addListener(this, "/send/gain");
 
     beginWaitingForSocket(52713,"");
-
-    if (! connect (incomingPort))
-        std::cout << "Can not open port!" << '\n';
-    else
-        std::cout << "Connected to port 9002" << '\n';
 
     startTimer(100);
 }
@@ -179,9 +175,14 @@ void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int siz
     std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
 
     if (xmlState.get() != nullptr)
+    {
         if (xmlState->hasTagName ("SeamLess_Main"))
             setIncomingPort((int) xmlState->getIntAttribute("incomingPort", 1.0));
-
+    }
+    else
+    {
+        setIncomingPort(9001);
+    }
 
     std::unique_ptr<juce::XmlElement> xmlState2 (getXmlFromBinary (data, sizeInBytes));
 
@@ -205,6 +206,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void SeamLess_MainAudioProcessor::oscMessageReceived (const juce::OSCMessage& message)
 {
 
+    receiving = true;
 
     int nArgs = message.size();
     std::cout << "Main plugin: received OSC message with " << nArgs << " arguments!" <<  std::endl;
@@ -262,6 +264,7 @@ void SeamLess_MainAudioProcessor::setIncomingPort(int p)
         std::cout << "Can not open port!" << '\n';
     else
         std::cout << "Connected to port " << p << '\n';
+
 }
 
 
@@ -303,7 +306,6 @@ void SeamLess_MainAudioProcessor::revSizeSend()
 void SeamLess_MainAudioProcessor::revColorSend()
 {}
 
-
 void SeamLess_MainAudioProcessor::setOscTargetPort(int port)
 {
     oscTargetPort = port;
@@ -326,3 +328,16 @@ void SeamLess_MainAudioProcessor::hiResTimerCallback()
     //    }
 
 }
+
+bool SeamLess_MainAudioProcessor::getReceivingState()
+{
+    return receiving;
+}
+
+void SeamLess_MainAudioProcessor::setReceivingState(bool s)
+{
+    receiving = s;
+}
+
+
+

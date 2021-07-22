@@ -89,7 +89,8 @@ public:
     juce::String  getOscTargetAddress();
     int getOscTargetPort();
 
-    bool connectedToMain();
+    bool getConnectedToMain();
+    void setConnectedToMain(bool b);
 
     bool getSendState();
     void setSendState(bool s);
@@ -102,6 +103,8 @@ private:
 
     // for the inter com
     const int port_nr = 52713;
+
+    bool connectedToMain = false;
 
     // IP address and port are used by all instances
     static juce::String oscTargetAddress;
