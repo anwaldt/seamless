@@ -135,7 +135,6 @@ s.waitForBoot({
 	~control_elev_BUS     = Bus.control(s,~nInputs);
 	~control_dist_BUS     = Bus.control(s,~nInputs);
 
-
 	~reverb_gain_BUS  = Bus.control(s,~nInputs);
 	~sub_gain_BUS     = Bus.control(s,~nInputs);
 
@@ -357,6 +356,8 @@ s.waitForBoot({
 	}, '/source/sub/gain');
 
 
+
+
 	~send_OSC_ROUTINE = Routine({
 
 		inf.do({
@@ -449,6 +450,12 @@ s.waitForBoot({
 	// Reverb Output
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// global reverb parameters
+	~reverb_gain_global_BUS = Bus.control(s,1);
+	~reverb__global_BUS = Bus.control(s,1);
+	~reverb_gain_global_BUS = Bus.control(s,1);
+
+
 	~reverb = {
 
 		|f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 1.0, t60dc= 3.0, t60m= 4.0, freq= 2000, rs= 0.5, db= -10 |
@@ -469,15 +476,52 @@ s.waitForBoot({
 	~reverb.set(\t60dc, 1.75, \t60m, 3.5);
 	~reverb.set(\f1, 500, \f2, 2700);
 
-	/*
-	~reverb_output = Synth(\output_module,
-	[
-	\audio_bus, ~reverb_BUS.index,  //
-	\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
-	],
-	target: ~output_GROUP
-	);
-	*/
+
+
+	OSCdef(\reverb_gain,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[2];
+			value     = max(0,min(1,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_gain_global_BUS.set(msg[1],value);
+
+	},'/reverb/gain');
+
+
+	OSCdef(\reverb_gain,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[2];
+			value     = max(0,min(1,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_gain_global_BUS.set(msg[1],value);
+
+	},'/reverb/gain');
+
+
+	OSCdef(\reverb_gain,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[2];
+			value     = max(0,min(1,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_gain_global_BUS.set(msg[1],value);
+
+	},'/reverb/gain');
+
+
+
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// add BASS
