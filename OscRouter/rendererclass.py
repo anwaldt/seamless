@@ -123,11 +123,17 @@ class Renderer(object):
     def sendUpdates(self, msgs):
         for msg in msgs:
             for toRenderClient in self.toRender:
-                toRenderClient.send_message(msg[0], msg[1])
+                try:
+                    toRenderClient.send_message(msg[0], msg[1])
+                except:
+                    pass
 
                 if self.debugCopy:
                     debugOsc = (self.debugPrefix + '/' + toRenderClient.address + ':' + str(toRenderClient.port)  + msg[0].decode()).encode()
-                    self.oscDebugClient.send_message(debugOsc, msg[1])
+                    try:
+                        self.oscDebugClient.send_message(debugOsc, msg[1])
+                    except:
+                        pass
 
 
 
@@ -505,33 +511,7 @@ class Oscar(SpatialRenderer):
     def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
         osc_pre = args[0]
         return [(osc_pre, [values])]
-    #
-    # def composeSourceUpdateMessage(self, source_idx) -> [(str, [])]:
-    #     addrs = self.posAddrs[source_idx]
-    #     posData = self.sources[source_idx].getPosition(self.posFormat)
-    #
-    #     msgs = []
-    #
-    #     for idx, key in enumerate(skc.fullformat[self.posFormat]):
-    #         msgs.append((addrs[key], [posData[idx]]))
-    #
-    #     # for idx, addr in enumerate(addrs.values()):
-    #     #     msgs.append((addr, [posData[idx]]))
-    #
-    #     return msgs
-    #
-    # def sendSourceAttributeMessage(self, sidx, attribute):
-    #
-    #     attriValue = self.sources[sidx].getSourceAttribute(attribute)
-    #     for client in self.toRender:
-    #         client.send_message(self.posAddrs[sidx][attribute], [attriValue])
-    #
-    #     # if attribute == skc.SourceAttributes.planewave:
-    #     #     osc_str = b'/source/type'
-    #     #     self.toRender.send_message(osc_str, [attriValue])
-    #     # elif attribute == skc.SourceAttributes.doppler:
-    #     #     osc_str = b'/source/dopplerEffect'
-    #     #     self.toRender.send_message(osc_str, [attriValue])
+
 
 
 
