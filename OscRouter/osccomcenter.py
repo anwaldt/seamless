@@ -52,7 +52,7 @@ def setupOscSettingsBindings():
 
     osc_setting_server.bind('/oscrouter/debug/osccopy'.encode(), oscreceived_debugOscCopy)
     osc_setting_server.bind('/oscrouter/debug/verbose'.encode(), oscreceived_verbose)
-    osc_setting_server.bind('/oscrouter/subscribe'.encode(), oscreceived_subsciptionRequest)
+    osc_setting_server.bind('/oscrouter/subscribe'.encode(), oscreceived_subscriptionRequest)
     osc_setting_server.bind('/oscrouter/ping'.encode(), oscreceived_ping)
     osc_setting_server.bind('/oscrouter/pong'.encode(), oscreceived_pong)
     osc_setting_server.bind('/oscrouter/dump'.encode(), oscreceived_dump)
@@ -81,7 +81,9 @@ def oscreceived_ping(*args):
 def oscreceived_pong(*args):
 
     try:
-        uiClients[clientSubscriptions[args[0]]].receivedIsAlive()
+        # print(clientSubscriptions[args[0]])
+        clientName = args[0]
+        clientSubscriptions[clientName].receivedIsAlive()
     except:
         if verbosity>0:
             _name = ''
@@ -90,7 +92,7 @@ def oscreceived_pong(*args):
             print('no renderer for pong message {}'.format(_name))
 
 
-def oscreceived_subsciptionRequest(*args):
+def oscreceived_subscriptionRequest(*args):
 #/oscrouter/subscribe myname 31441 xyz 0 5
 #  args[0] nameFor Client
 # args[1] port client listens to
@@ -397,7 +399,6 @@ def oscreceived_setPosition(coordKey, *args, fromUi=True):
         oscreceived_setPositionForSource(coordKey, sIdx, *args[1:], fromUi=fromUi)
 
 def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
-
 
     if(soundobjects[sIdx].setPosition(coordKey, *args, fromUi=fromUi)):
         #print('soundobject has set position')
