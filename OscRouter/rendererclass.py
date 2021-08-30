@@ -10,6 +10,7 @@ from threading import Timer
 from functools import partial
 from sched import scheduler
 # from enum import Enum
+from collections.abc import Iterable
 
 verbosity = 0
 
@@ -41,7 +42,8 @@ class Renderer(object):
                  continuously_update_intervall=-1,
                  renderid=-1,
                  sendport=0,
-                 sourceattributes=()):
+                 sourceattributes=(),
+                 indexAsValue=0):
 
         self.setVerbosity(verbosity)
 
@@ -63,7 +65,7 @@ class Renderer(object):
         self.debugPrefix = "/genericRenderer"
         self.oscPre = ('/source/'+self.posFormat).encode()
 
-
+        self.sendOsc = True
 
         self.multipleDestinations = False
 
@@ -78,6 +80,15 @@ class Renderer(object):
         self.printRenderInformation()
 
         # self.sources_updatecounter = 0
+
+    def stopOscSend(self, pauseDuration=20):
+        self.sendOsc = False
+        if pauseDuration>0:
+            Timer(pauseDuration, self.startOscSend)
+
+    def startOscSend(self):
+        self.sendOsc = True
+
 
     def printRenderInformation(self):
         info = [self.myType(), '\n',
@@ -100,7 +111,7 @@ class Renderer(object):
         self.continuously_update_intervall = update
         self.continous_update = update > 0
 
-    def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
+    def composeSourceUpdateMessage(self, values, sIdx: int=0, *args) -> [(bytes, [])]:
         return [(args[0], values)]
 
     def sourceChanged(self, source_idx):
@@ -114,6 +125,7 @@ class Renderer(object):
         while self.updateStack[source_idx]:
             getValueFunc, oscPre = self.updateStack[source_idx].pop()
             values = getValueFunc()
+
             # print("wonder update Source:",oscPre)
             msgs = self.composeSourceUpdateMessage(values, source_idx, *oscPre)
             self.sendUpdates(msgs)
@@ -124,9 +136,14 @@ class Renderer(object):
         for msg in msgs:
             for toRenderClient in self.toRender:
                 try:
-                    toRenderClient.send_message(msg[0], msg[1])
+                    oscArgs = msg[1]
+                    toRenderClient.send_message(msg[0], oscArgs)
+                    # if isinstance(oscArgs, Iterable):
+                    #     toRenderClient.send_message(msg[0], oscArgs)
+                    # else:
+                    #     toRenderClient.send_message(msg[0], [oscArgs])
                 except:
-                    pass
+                    pass#print('sendfail')
 
                 if self.debugCopy:
                     debugOsc = (self.debugPrefix + '/' + toRenderClient.address + ':' + str(toRenderClient.port)  + msg[0].decode()).encode()
@@ -209,7 +226,7 @@ class SpatialRenderer(Renderer):
         self.sourceChanged(source_idx)
 
     def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
-        return [(args[0], values)]
+        return [(args[0], *values)]
 
 
 class Wonder(SpatialRenderer):
@@ -421,10 +438,103 @@ class SuperColliderEngine(SpatialRenderer):
 
 class ViewClient(SpatialRenderer):
 
-    def __init__(self, **kwargs):
+    def myType(self) -> str:
+        return 'viewClient: {}'.format(self.alias)
+
+    def __init__(self, aliasname, **kwargs):
+        self.alias = aliasname
+
         super(ViewClient, self).__init__(**kwargs)
 
-        self.debugPrefix = "/dViewClient"
+        self.pingCounter = 0
+
+        self.debugPrefix = "/d{}".format(aliasname.decode())
+        # self.biAlias = b''
+        # self.setAlias(aliasname)
+
+        self.indexAsValue = False
+        if 'indexAsValue' in kwargs.keys():
+            self.indexAsValue = kwargs['indexAsValue']
+
+        self.idxSourceOscPrePos = [b''] * self.numberOfSources
+        self.idxSourceOscPreAttri = [{}] * self.numberOfSources
+        self.idxSourceOscPreRender = [[]] * self.numberOfSources
+
+        self.createOscPrefixes()
+
+                # self.idxSourceOscPreAttri
+
+        self.pingTimer: Timer = None
+
+
+    def createOscPrefixes(self):
+        for i in range(self.numberOfSources):
+            self.idxSourceOscPrePos[i] = '/source/{}/{}'.format(i+1, self.posFormat).encode()
+            _aDic = {}
+            for attr in skc.knownAttributes:
+                _aDic[attr] = '/source/{}/{}'.format(i+1, attr).encode()
+
+            self.idxSourceOscPreAttri[i] = _aDic
+            renderList = [b''] * self.globalConfig['number_renderunits']
+            if 'index_ambi' in self.globalConfig.keys() and 'index_wfs' in self.globalConfig.keys() and 'index_reverb' in self.globalConfig.keys():
+                renderList[self.globalConfig['index_ambi']] = '/source/{}/send/ambi'.format(i+1).encode()
+                renderList[self.globalConfig['index_wfs']] = '/source/{}/send/wfs'.format(i+1).encode()
+                renderList[self.globalConfig['index_reverb']] = '/source/{}/send/reverb'.format(i+1).encode()
+            else:
+                for j in range(self.globalConfig['number_renderunits']):
+                    self.idxSourceOscPreRender[i][j] = '/source/{}/send/{}'.format(i+1, j).encode()
+            self.idxSourceOscPreRender[i] = renderList
+
+
+    def checkAlive(self, deleteClient):
+
+        self.pingTimer = Timer(2., partial(self.checkAlive, deleteClient))
+
+        if self.pingCounter < 6:
+            # self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']])
+            try:
+                self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']]) #, self.alias
+            except:
+                print('ERROR while pinging client', self.alias)
+                self.pingTimer.cancel()
+                deleteClient(self, self.alias)
+
+            self.pingCounter += 1
+            self.pingTimer.start()
+        else:
+            deleteClient(self, self.alias)
+
+    def receivedIsAlive(self):
+        # print('received is alive')
+        self.pingCounter = 0
+
+    def sourcePositionChanged(self, source_idx):
+        if self.indexAsValue:
+            self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
+                                              (self.idxSourceOscPrePos[source_idx],)))
+        else:
+            self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
+                                          (self.oscPre,)))
+        self.sourceChanged(source_idx)
+
+    def sourceRenderGainChanged(self, source_idx, render_idx):
+        # print('view client notified for renderchange', source_idx, render_idx)
+        self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.idxSourceOscPreRender[source_idx][render_idx],)))
+        # print(self.updateStack)
+        #
+        # if render_idx == 2:
+        #     self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_reverbGain, render_idx)))
+        # else:
+        #     self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
+        self.sourceChanged(source_idx)
+
+
+
+    def composeSourceUpdateMessage(self, values, sIdx: int=0, *args) -> [(bytes, [])]:
+        if isinstance(values, Iterable):
+            return [(args[0], values)]
+        else:
+            return [(args[0], [values])]
 
 
     #TODO: send complete Scene data
