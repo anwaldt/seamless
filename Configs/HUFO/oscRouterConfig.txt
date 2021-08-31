@@ -47,8 +47,8 @@ listenport      58100
 sendport        10101
 updateintervall 50
 ***
-dataclient      hufoplugin
-ipaddress       172.25.19.3
+dataclient      seamlessplugin
+ipaddress       172.25.19.36
 listenport      52714
 updateintervall 5
 ***
