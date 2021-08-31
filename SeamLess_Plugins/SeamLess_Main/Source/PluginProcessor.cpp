@@ -39,6 +39,7 @@ SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
     revLpDb   = parameters.getRawParameterValue("revLpDb");
 
     // Register OSC paths
+    // (this is used for remote controlling the client instances)
     juce::OSCReceiver::addListener(this, "/source/pos/x");
     juce::OSCReceiver::addListener(this, "/source/pos/y");
     juce::OSCReceiver::addListener(this, "/source/pos/z");
@@ -47,7 +48,7 @@ SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
 
     beginWaitingForSocket(52713,"");
 
-    startTimer(100);
+    startTimer(SEND_INTERVAL);
 }
 
 SeamLess_MainAudioProcessor::~SeamLess_MainAudioProcessor()
@@ -390,6 +391,42 @@ void SeamLess_MainAudioProcessor::hiResTimerCallback()
 
     float in = (float) *revGain;
     juce::OSCMessage m = juce::OSCMessage("/reverb/gain", in);
+    oscSender.send(m);
+
+    in = (float) *revFreq1;
+    m = juce::OSCMessage("/reverb/f1", in);
+    oscSender.send(m);
+
+    in = (float) *revFreq2;
+    m = juce::OSCMessage("/reverb/f2", in);
+    oscSender.send(m);
+
+    in = (float) *revRdel;
+    m = juce::OSCMessage("/reverb/rdel", in);
+    oscSender.send(m);
+
+    in = (float) *revRgxyz;
+    m = juce::OSCMessage("/reverb/rgxyz", in);
+    oscSender.send(m);
+
+    in = (float) *revT60dc;
+    m = juce::OSCMessage("/reverb/t60dc", in);
+    oscSender.send(m);
+
+    in = (float) *revT60m;
+    m = juce::OSCMessage("/reverb/t60m", in);
+    oscSender.send(m);
+
+    in = (float) *revLpFreq;
+    m = juce::OSCMessage("/reverb/lp/freq", in);
+    oscSender.send(m);
+
+    in = (float) *revLpRs;
+    m = juce::OSCMessage("/reverb/lp/rs", in);
+    oscSender.send(m);
+
+    in = (float) *revLpDb;
+    m = juce::OSCMessage("/reverb/lp/db", in);
     oscSender.send(m);
 
 }

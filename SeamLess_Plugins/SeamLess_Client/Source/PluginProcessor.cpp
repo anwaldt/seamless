@@ -64,7 +64,7 @@ SeamLess_ClientAudioProcessor::SeamLess_ClientAudioProcessor()
 
     setSendState(true);
 
-    startTimer(20);
+    startTimer(SEND_INTERVAL);
 
 }
 
