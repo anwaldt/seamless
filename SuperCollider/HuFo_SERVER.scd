@@ -622,7 +622,7 @@ s.waitForBoot({
 		arg msg, time, addr, recvPort;
 
 			var value = msg[1];
-			value     = max(-24,min(6,value));
+			value     = max(-18,min(6,value));
 
 			if(~debug_level == 1,{msg.postln()});
 			~reverb_lp_db_global_BUS.set(value);
