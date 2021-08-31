@@ -1,2 +1,3 @@
 oscpy
 apscheduler
+pyyaml
