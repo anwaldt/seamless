@@ -146,6 +146,9 @@ private:
 
     juce::InterprocessConnection* createConnectionObject();
 
+    ///
+    /// \brief hiResTimerCallback
+    /// Send all OSC commands with a timer call.
     void hiResTimerCallback();
 
     //==============================================================================
