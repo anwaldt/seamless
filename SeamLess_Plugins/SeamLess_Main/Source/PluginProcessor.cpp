@@ -20,7 +20,7 @@ SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
                   std::make_unique<juce::AudioParameterFloat> ("revRgxyz", "Reverb Width", -9.0, 9.0, 0.0),
                   std::make_unique<juce::AudioParameterFloat> ("revT60dc", "Reverb T60 DC", 0.0, 10.0, 2.0),
                   std::make_unique<juce::AudioParameterFloat> ("revT60m", "Reverb T60 MID", 0.0, 10.0, 2.0),
-                  std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 20000.0, 1000.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 10000.0, 1000.0),
                   std::make_unique<juce::AudioParameterFloat> ("revLpRs", "Reverb LP Slope", 0.0, 1.0, 0.5),
                   std::make_unique<juce::AudioParameterFloat> ("revLpDb", "Reverb Gain", -24.0, 6.0, -9.0)
                   }),

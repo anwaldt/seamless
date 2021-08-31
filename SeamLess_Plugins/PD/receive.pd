@@ -22,9 +22,9 @@
 #X obj 336 137 route 2;
 #X obj 416 137 route 3;
 #X obj 176 169 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 9652 1;
+-1 -1 9779 1;
 #X obj 257 169 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 2413 1;
+-1 -1 3302 1;
 #X obj 336 169 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
 -1 -1 0 1;
 #X obj 416 169 vsl 15 128 0 1 0 0 empty empty empty 0 -9 0 10 -262144
@@ -166,6 +166,7 @@
 #X connect 18 0 11 0;
 #X coords 0 -1 1 1 613 147 1 200 277;
 #X restore 475 451 pd source;
+#X msg 1053 408 1;
 #X connect 0 0 3 0;
 #X connect 0 0 12 0;
 #X connect 0 0 13 0;
@@ -182,3 +183,4 @@
 #X connect 10 1 8 0;
 #X connect 10 2 7 0;
 #X connect 11 0 6 0;
+#X connect 15 0 14 1;
