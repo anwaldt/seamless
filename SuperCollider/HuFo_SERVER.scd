@@ -594,7 +594,7 @@ s.waitForBoot({
 		arg msg, time, addr, recvPort;
 
 			var value = msg[1];
-			value     = max(10,min(10000,value));
+			value     = max(100,min(10000,value));
 
 			if(~debug_level == 1,{msg.postln()});
 			~reverb_lp_freq_global_BUS.set(value);
@@ -609,7 +609,7 @@ s.waitForBoot({
 		arg msg, time, addr, recvPort;
 
 			var value = msg[1];
-			value     = max(0.3,min(0.99,value));
+			value     = max(0.5,min(0.99,value));
 
 			if(~debug_level == 1,{msg.postln()});
 			~reverb_lp_rs_global_BUS.set(value);
