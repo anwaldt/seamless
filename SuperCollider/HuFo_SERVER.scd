@@ -566,7 +566,7 @@ s.waitForBoot({
 		arg msg, time, addr, recvPort;
 
 			var value = msg[1];
-			value     = max(0.01,min(10,value));
+			value     = max(0.05,min(10,value));
 
 			if(~debug_level == 1,{msg.postln()});
 
@@ -580,7 +580,7 @@ s.waitForBoot({
 		arg msg, time, addr, recvPort;
 
 			var value = msg[1];
-			value     = max(0.01,min(10,value));
+			value     = max(0.05, min(10,value));
 
 			if(~debug_level == 1,{msg.postln()});
 
