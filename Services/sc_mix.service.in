@@ -8,6 +8,7 @@ WantedBy=default.target
 [Service]
 Type=idle
 PrivateTmp=true
+Environment="QT_QPA_PLATFORM=offscreen"
 ExecStart=/usr/local/bin/sclang @share_dir@/SC/HuFo_SERVER.scd
 LimitRTPRIO=95
 LimitRTTIME=infinity
