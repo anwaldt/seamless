@@ -93,7 +93,7 @@ SynthDef(\send_module,
 
 
 		// use only the Ambisonics gain for LFE
-		for (1, 1,
+		for (0, 0,
 			{arg cnt;
 
 				gain_i = In.kr(individual_gains + cnt, 1);
