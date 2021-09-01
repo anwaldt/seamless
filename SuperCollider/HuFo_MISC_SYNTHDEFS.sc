@@ -85,12 +85,24 @@ SynthDef(\send_module,
 
 				Out.ar(send_bus + cnt, (in * gain) * gain_i);
 
-				// sub and reverb are added according to all spatial sends
-				Out.ar(sub_bus, sub_level* in * gain * gain_i * sub_gain);
+				// reverb is added according to all spatial sends
 				Out.ar(reverb_bus, in * gain * gain_i * reverb_gain);
 
 			}
 		);
+
+
+		// use only the Ambisonics gain for LFE
+		for (1, 1,
+			{arg cnt;
+
+				gain_i = In.kr(individual_gains + cnt, 1);
+				Out.ar(sub_bus, sub_level* in * gain * gain_i * sub_gain);
+
+			}
+		);
+
+
 
 		for (0, ~nCommonSends-1,
 			{arg cnt;
