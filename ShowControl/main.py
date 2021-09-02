@@ -8,8 +8,8 @@ port = 8000
 
 reaper = OSCClient(address, port)
 
-def play(reaper: OSCClient):
-    reaper.send_message(b'/play', [1])
+def play(track_nr):
+    reaper.send_message(b'/region', [track_nr])
 
 def load_show_control():
     with open('example.yml') as f:
@@ -18,7 +18,8 @@ def load_show_control():
 
 def add_jobs_to_scheduler(jobs, scheduler):
     for job in jobs:
-        scheduler.add_job(play, 'date', run_date=job['time'], args=[reaper])
+        if job['command'] == 'play':
+            scheduler.add_job(play, 'date', run_date=job['time'], args=[job['nr']])
 
 def main():
     sched = BlockingScheduler()
