@@ -10,6 +10,7 @@ reaper = OSCClient(address, port)
 
 def play(track_nr):
     reaper.send_message(b'/region', [track_nr])
+    reaper.send_message(b'/play', [1])
 
 def load_show_control():
     with open('example.yml') as f:
