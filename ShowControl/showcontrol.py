@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
 from apscheduler.schedulers.blocking import BlockingScheduler
