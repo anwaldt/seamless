@@ -5,6 +5,7 @@ from datetime import datetime
 import yaml
 import requests
 
+schedule_file = "/etc/seamless/schedule.yml"
 playing = False
 address = "127.0.0.1"
 reaper_port = 8000
@@ -32,7 +33,7 @@ def play_video(video_index):
     requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index={}'.format(video_index))
 
 def load_show_control():
-    with open('example.yml') as f:
+    with open(schedule_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         return data
 
