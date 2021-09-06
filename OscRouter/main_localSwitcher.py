@@ -9,6 +9,8 @@ import argparse
 
 parser = argparse.ArgumentParser(description='Local OSC-Message Router for Production in Hufo System')
 parser.add_argument('-r', '--remote', default='127.0.0.1', type=str, help='Ip address of remote osc router')
+parser.add_argument('-s', '--spatviewer', default='127.0.0.1', type=str, help='ip address of spat viewer')
+parser.add_argument('-a', '--autosubscribe', default=0, type=int, help='automatically connect to remote osc-router')
 args = parser.parse_args()
 
 configpath = 'oscRouterConfig.txt'
@@ -65,13 +67,14 @@ def getConfigurationFromFile(path: str) -> dict:
 
 
 globalConfig = getConfigurationFromFile(configpath)['globalconfig']
+globalConfig['spatviewer'] = args.spatviewer
 
 
 
 import signal
 
 if __name__ == '__main__':
-    localRouter = LocalOscrouter(globalConfig, remoteIp=remoteOscRouter_ip)
+    localRouter = LocalOscrouter(globalConfig, remoteIp=remoteOscRouter_ip, autosubscribe=bool(args.autosubscribe))
     # print(globalConfig['number_sources'])
 
     signal.pause()

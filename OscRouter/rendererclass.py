@@ -493,6 +493,7 @@ class ViewClient(SpatialRenderer):
         if self.pingCounter < 6:
             # self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']])
             try:
+                # print('send ping to', self.alias, self.toRender[0].address, self.toRender[0].port, self.globalConfig['inputport_settings'])
                 self.toRender[0].send_message(b'/oscrouter/ping', [self.globalConfig['inputport_settings']]) #, self.alias
             except:
                 print('ERROR while pinging client', self.alias)
@@ -509,6 +510,7 @@ class ViewClient(SpatialRenderer):
         self.pingCounter = 0
 
     def sourcePositionChanged(self, source_idx):
+        print('sourcePosition changed', source_idx)
         if self.indexAsValue:
             self.updateStack[source_idx].add((partial(self.sources[source_idx].getPosition, self.posFormat),
                                               (self.idxSourceOscPrePos[source_idx],)))
@@ -531,6 +533,7 @@ class ViewClient(SpatialRenderer):
 
 
     def composeSourceUpdateMessage(self, values, sIdx: int=0, *args) -> [(bytes, [])]:
+        print('source update', values, sIdx, args)
         if isinstance(values, Iterable):
             return [(args[0], values)]
         else:

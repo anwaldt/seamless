@@ -70,7 +70,7 @@ def oscreceived_ping(*args):
     # # print(osc_setting_server.getaddress())
     # ss = socket.socket()
     # print(ss.gethostname())
-
+    print('received ping', args)
     if checkPort(args[0]):
         vals = [oscr_ip] if oscr_ip else []
         osc_setting_server.answer(b'/oscrouter/pong', port=args[0], values=vals)
@@ -79,7 +79,7 @@ def oscreceived_ping(*args):
     # print(_ip)
 
 def oscreceived_pong(*args):
-
+    # print('something')
     try:
         # print(clientSubscriptions[args[0]])
         clientName = args[0]
@@ -99,7 +99,7 @@ def oscreceived_subscriptionRequest(*args):
 # args[2] format client expects
 # args[3] send source index as value instead of inside the osc prefix
 # args[4] source position update rate
-
+    print('subscribe request', args)
     viewClientInitValues = {}
     vCName = args[0]
     subArgs = len(args)
@@ -128,11 +128,12 @@ def oscreceived_subscriptionRequest(*args):
             except:
                 pass
 
-        newViewClient = ViewClient(vCName, **viewClientInitValues)
+        if not vCName in clientSubscriptions.keys():
+            newViewClient = ViewClient(vCName, **viewClientInitValues)
 
-        clientSubscriptions[vCName] = newViewClient
-        uiClients.append(newViewClient)
-        newViewClient.checkAlive(deleteClient)
+            clientSubscriptions[vCName] = newViewClient
+            uiClients.append(newViewClient)
+            newViewClient.checkAlive(deleteClient)
 
     else:
         if verbosity>0:
@@ -401,7 +402,7 @@ def oscreceived_setPosition(coordKey, *args, fromUi=True):
 def oscreceived_setPositionForSource(coordKey, sIdx: int, *args, fromUi=True):
 
     if(soundobjects[sIdx].setPosition(coordKey, *args, fromUi=fromUi)):
-        #print('soundobject has set position')
+        # print('soundobject has set position', args)
         notifyRenderClientsForUpdate('sourcePositionChanged', sIdx, fromUi=fromUi)
         # notifyRendererForSourcePosition(sIdx, fromUi)
 
