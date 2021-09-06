@@ -31,7 +31,7 @@ ny = 'ny'
 nyd = 'nyd'
 nz = 'nz'
 nzd = 'nzd'
-nd = 'dist' #distance
+nd = 'ndist' #distance
 
 aed = 'aed'
 ad = 'ad'
@@ -165,7 +165,7 @@ class CoordFormats(Enum):
         nyd = 'nyd'
         nz = 'nz'
         nzd = 'nzd'
-        nd = 'dist'  # distance
+        nd = 'ndist'  # distance
 
         aed = 'aed'
         ad = 'ad'

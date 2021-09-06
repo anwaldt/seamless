@@ -23,6 +23,7 @@ class SoundObject(object):
         cls.globalConfig = config
         cls.preferUi = bool(not config['data_port_timeout'] == 0)
         cls.dataPortTimeOut = float(config['data_port_timeout'])
+        cls.number_renderer = config['number_renderunits']
         # cls.number_renderer =
 
 
@@ -60,7 +61,7 @@ class SoundObject(object):
         self._positionIsSet = {
             skc.polar: False,
             skc.cartesian: True,
-            skc.normcartesian: True,
+            skc.normcartesian: False,
             skc.polar_rad: False
         }
         self._lastUpdateKey = ''

@@ -1,0 +1,20 @@
+
+
+TouchOsc Settings
+send: 55510
+receive: 55511
+
+SeamlessPlugin
+send: 55530
+receive: 55531
+
+SpatViewer
+send: 55550
+receive: 55551
+
+Reaper
+send: 55540
+receive: 55541
+
+localrouter (for settings)s
+receive: 55405
