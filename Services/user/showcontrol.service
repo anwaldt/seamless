@@ -1,0 +1,11 @@
+[Unit]
+Description=OSC Router
+After=network.target
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=showcontrol
