@@ -6,14 +6,16 @@ import yaml
 import requests
 
 schedule_file = "/etc/seamless/schedule.yml"
-playing = False
-address = "127.0.0.1"
-reaper_port = 8000
-server_port = 9000
+config_file = "/etc/seamless/showcontrol_config.yml"
+with open(config_file) as f:
+    config = yaml.load(f, Loader=yaml.FullLoader)
 
-reaper = OSCClient(address, reaper_port)
+playing = False
+
+reaper = OSCClient(config['reaper_ip'], config['reaper_port'])
 server = OSCThreadServer()
-server.listen(address, server_port, default = True)
+
+server.listen(config['server_ip'], config['server_port'], default = True)
 
 def play(track_nr):
     reaper.send_message(b'/region', [track_nr])
