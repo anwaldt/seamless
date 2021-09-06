@@ -6,6 +6,9 @@ import numpy as np
 
 import conversionsTools as ct
 
+from threading import Timer
+from time import time
+
 # from tochOscCommunication import TouchOscCommunicatior
 
 from soundobjectclass import SoundObject
@@ -15,6 +18,11 @@ soundObjectsData_remote: list[SoundObject] = []
 globalConfig = {}
 
 class LocalOscrouter:
+
+    uiElements = {'xy', 'z', 'azim', 'elev', 'dist'}
+    oscPre_sourcePositions = []
+    oscPre_sourceGain = []
+    # for elem in uiElements
 
     def __init__(self, config, remoteIp='127.0.0.1'):
 
@@ -27,7 +35,8 @@ class LocalOscrouter:
         self.oscServer = OSCThreadServer()
         self.oscServer.listen('0.0.0.0', self.listeningPort, default=True)
 
-        self.oscClient = OSCClient(self.remoteOscRouter_ip, 4999)
+        self.oscClient = OSCClient(self.remoteOscRouter_ip, 4455)
+        self.oscClient_settings = OSCClient(self.remoteOscRouter_ip, 4999)
 
         self.subscriptionName = 'productionClient'
 
@@ -35,12 +44,58 @@ class LocalOscrouter:
         # self.soundObjectsData: list[SoundObject] = []
         self.createSoundObjects()
 
+        self.remoteOscRouterConnected = False
+        self.waitingForPing = False
+        self.routerSearching = False
+        self.lastPing = time()
+
+        self.sendFromPlugin = True
+
         self.touchOscClient = TouchOscCommunicatior(self, 55510, 55511)
         self.seamlessPluginClient = SeamlessPluginCommunicator(self, 55530, 55531)
+        self.spatViewerClient = SpatSourceViewer(self, 55550, 55551)
+        self.reaperControlClient = ReaperOscCommunicator(self, 55540, 55541)
 
+        self.createSourcePositionOscPres()
+        self.initSubscription()
+
+
+    def createSourcePositionOscPres(self):
+        for i in range(globalConfig['number_sources']):
+            self.oscPre_sourcePositions.append({})
+            self.oscPre_sourceGain.append({})
+            for _elem in self.uiElements:
+                _oscPre = '/source/{}/{}'.format(i+1, _elem)
+                self.oscPre_sourcePositions[i][_elem] = _oscPre.encode()
+            for _rend in ['wfs', 'ambi', 'reverb']:
+                _oscPre = '/source/{}/{}'.format(i+1, _rend)
+                self.oscPre_sourceGain[i][_rend] = _oscPre.encode()
+
+    def oscS_sendMessageToRouterSettings(self, oscPre, values):
+        if self.remoteOscRouterConnected:
+            try:
+                self.oscClient_settings.send_message(oscPre, values)
+            except:
+                self.remoteOscRouterConnected = False
+
+    def oscS_sendMessageToRouterUi(self, oscPre, values):
+        if self.remoteOscRouterConnected:
+            try:
+                self.oscClient.send_message(oscPre, values)
+            except:
+                self.remoteOscRouterConnected = False
 
     def initSubscription(self):
-        self.oscClient.send_message(b'/oscrouter/subscribe', [self.subscriptionName, self.listeningPort, 'xyz', 1, 10])
+        if not self.remoteOscRouterConnected:
+            if not self.routerSearching:
+                self.routerSearching = True
+                print('looking for remote OSC-Router...')
+            try:
+                self.oscClient_settings.send_message(b'/oscrouter/subscribe', [self.subscriptionName, self.listeningPort, 'xyz', 1, 10])
+            except:
+                pass
+            Timer(4, self.initSubscription).start()
+
 
     def oscR_receivedPing(self, *args):
         try:
@@ -50,17 +105,51 @@ class LocalOscrouter:
         except:
             pass
 
-        self.oscClient.send_message(b'(oscrouter/pong', [self.subscriptionName])
+        self.lastPing = time()
+        if not self.remoteOscRouterConnected:
+            print('remote OSC-Router connected')
+            self.routerSearching = False
+            self.checkConnectionState()
+
+        self.oscS_sendMessageToRouterSettings(b'(oscrouter/pong', [self.subscriptionName])
+        # self.touchOscClient.
+
+    def checkConnectionState(self):
+        if self.remoteOscRouterConnected:
+            if time() - self.lastPing > 8000:
+                self.remoteOscRouterConnected = False
+                self.initSubscription()
+            else:
+                self.remoteOscRouterConnected = True
+                Timer(4500, self.checkConnectionState).start()
+        else:
+            self.initSubscription()
 
     def setupOscBindings(self):
         self.oscServer.bind(b'/oscrouter/ping', self.oscR_receivedPing)
+        for i in globalConfig['number_sources']:
+            _oscPre = '/source/{}/xyz'.format(i)
+            self.oscServer.bind(_oscPre.encode(), partial(self.oscR_receivePositionFromRouter, _oscPre.encode()))
 
     def createSoundObjects(self):
-
         for i in range(globalConfig['number_sources']):
             soundObjectsData_local.append(SoundObject(i + 1))
             soundObjectsData_remote.append(SoundObject(i + 1))
 
+    def sendPositionUpdatesFromTouch(self, sIdx, key, values):
+        _oscPre = self.oscPre_sourcePositions[sIdx][key]
+        self.sendUpdatesFromTouchClient(_oscPre, values)
+
+    def sendGainUpdatesFromTouch(self, sIdx, key, values):
+        _oscPre = self.oscPre_sourceGain[sIdx][key]
+        self.sendUpdatesFromTouchClient('_', values)
+
+    def sendUpdatesFromTouchClient(self, oscPre, values):
+        if 1:#not self.sendFromPlugin:
+            self.oscS_sendMessageToRouterUi(oscPre, values)
+
+    def oscR_receivePositionFromRouter(self, *args, oscPre=b'/source/1/xyz'):
+        self.spatViewerClient.oscS_forwardPositionMessage(oscPre, args)
 
 class CommunicationClients:
 
@@ -106,6 +195,8 @@ class TouchOscCommunicatior(CommunicationClients):
         'ambi': 0,
         'reverb': 2
     }
+    oscPre_touchPing = b'/touch/ping'
+    oscPre_routerPing = b'/router/ping'
 
     def __init__(self, *args):
         super(TouchOscCommunicatior, self).__init__(*args)
@@ -137,7 +228,8 @@ class TouchOscCommunicatior(CommunicationClients):
         self.sourceFollower = [-1]*self.numSourcesInInterface
         self.linkState = [False]*self.numSourcesInInterface
 
-
+        self.touchPingToggle = 0
+        self.routerPingToggle = 0
 
         self.setupOscBindings()
 
@@ -149,6 +241,14 @@ class TouchOscCommunicatior(CommunicationClients):
     def updateAllUiElements(self):
         self.updatePositionUiElements()
         self.updateAllGainsForSelectedSource()
+        for i in range(self.numSourcesInInterface):#self.linkState:
+            # print('link', i)
+
+            sVal = int(self.linkState[i])
+            self.oscS_sendOscMessage(self.oscPre_uiSourceLink[i], [sVal])
+
+            self.oscS_sendOscMessage(self.oscPre_uiSourceSelect[i], [int(i==self.selectedSourceIndex)])
+
 
     def updatePositionUiElements(self):
         for uiKey, touched in self.uiElementTouchstate.items():
@@ -334,13 +434,25 @@ class TouchOscCommunicatior(CommunicationClients):
         sender_info = self.oscServer.get_sender()
         self.oscClient = OSCClient(sender_info[1], sender_info[2])
         self.touchOscConnected = True
+        self.sendTouchPingMessage()
 
         self.updateAllUiElements()
-        for i in range(self.numSourcesInInterface):#self.linkState:
-            # print('link', i)
 
-            sVal = int(self.linkState[i])
-            self.oscS_sendOscMessage(self.oscPre_uiSourceLink[i], [sVal])
+
+    def sendTouchPingMessage(self):
+        self.touchPingToggle = int(not self.touchPingToggle)
+        self.oscS_sendOscMessage(self.oscPre_touchPing, [self.touchPingToggle])
+        if self.touchOscConnected:
+            if self.touchPingToggle:
+                Timer(0.2, self.sendTouchPingMessage).start()
+            else:
+                Timer(2, self.sendTouchPingMessage).start()
+
+
+    def sendRouterPingMessage(self, _on):
+        self.oscS_sendOscMessage(self.oscPre_routerPing, [_on])
+        if _on:
+            Timer(0.2, partial(self.sendRouterPingMessage, 0)).start()
 
 
     def oscS_sendOscMessage(self, oscPre, values):
@@ -395,6 +507,13 @@ class SpatSourceViewer(CommunicationClients):
         self.clientName = 'Spat Viewer'
         self.greetingMessage()
 
+    def oscS_forwardPositionMessage(self, oscPre, values):
+        self.oscClient.send_message(oscPre, values)
+
+    def greetingMessage(self):
+        super(SpatSourceViewer, self).greetingMessage()
+        print('\tforwarding only!\n')
+
 
 
 class ReaperOscCommunicator(CommunicationClients):
@@ -403,3 +522,7 @@ class ReaperOscCommunicator(CommunicationClients):
         super(ReaperOscCommunicator, self).__init__(*args)
         self.clientName = 'Reaper Com'
         self.greetingMessage()
+
+    def greetingMessage(self):
+        super(ReaperOscCommunicator, self).greetingMessage()
+        print('\tnot impelemented yet!!\n')

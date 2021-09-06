@@ -1,19 +1,19 @@
 
 
 
-#imports from oscrouter
-# import str_keys_conventions as skc
+
 import conversionsTools as ct
 from CommunicationClients import LocalOscrouter
-# pluginOscReceiver = OSCThreadServer(timeout=0.005)
 
-# osc_toPlugin = OSCClient('127.0.0.1', 9001)
-# osc_toRender = OSCClient('127.0.0.1', 9007)
-# osc_toReaper = OSCClient('127.0.0.1', 9005)
+import argparse
+
+parser = argparse.ArgumentParser(description='Local OSC-Message Router for Production in Hufo System')
+parser.add_argument('-r', '--remote', default='127.0.0.1', type=str, help='Ip address of remote osc router')
+args = parser.parse_args()
 
 configpath = 'oscRouterConfig.txt'
 
-remoteOscRouter_ip = '127.0.0.1'
+remoteOscRouter_ip = args.remote
 remoteOscRouter_portData = 4455
 remoteOscROuter_portSettings = 4999
 
@@ -71,7 +71,7 @@ globalConfig = getConfigurationFromFile(configpath)['globalconfig']
 import signal
 
 if __name__ == '__main__':
-    localRouter = LocalOscrouter(globalConfig)
+    localRouter = LocalOscrouter(globalConfig, remoteIp=remoteOscRouter_ip)
     # print(globalConfig['number_sources'])
 
     signal.pause()
