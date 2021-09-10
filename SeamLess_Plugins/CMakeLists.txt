@@ -54,6 +54,23 @@ juce_add_plugin(SeamLessMain
     FORMATS AU VST3                            # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
     PRODUCT_NAME "SeamLess_MainPlugin")        # The name of the final executable, which can differ from the target name
 
+juce_add_plugin(SeamLessClient
+    # VERSION ...                               # Set this if the plugin version is different to the project version
+    # ICON_BIG ...                              # ICON_* arguments specify a path to an image file to use as an icon for the Standalone
+    # ICON_SMALL ...
+    # COMPANY_NAME ...                          # Specify the name of the plugin's author
+    # IS_SYNTH TRUE/FALSE                       # Is this a synth or an effect?
+    # NEEDS_MIDI_INPUT TRUE/FALSE               # Does the plugin need midi input?
+    # NEEDS_MIDI_OUTPUT TRUE/FALSE              # Does the plugin need midi output?
+    # IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
+    # EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
+    # COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
+    PLUGIN_MANUFACTURER_CODE TU Studio               # A four-character manufacturer id with at least one upper-case character
+    PLUGIN_CODE tHsIzo                          # A unique four-character plugin id with exactly one upper-case character
+                                                # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
+    FORMATS AU VST3                            # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
+    PRODUCT_NAME "SeamLess_Client")        # The name of the final executable, which can differ from the target name
+
 # `juce_generate_juce_header` will create a JuceHeader.h for a given target, which will be generated
 # into your build tree. This should be included with `#include <JuceHeader.h>`. The include path for
 # this header will be automatically added to the target. The main function of the JuceHeader is to
@@ -61,6 +78,7 @@ juce_add_plugin(SeamLessMain
 # probably don't need to call this.
 
 juce_generate_juce_header(SeamLessMain)
+juce_generate_juce_header(SeamLessClient)
 
 # `target_sources` adds source files to a target. We pass the target that needs the sources as the
 # first argument, then a visibility parameter for the sources which should normally be PRIVATE.
@@ -69,7 +87,7 @@ juce_generate_juce_header(SeamLessMain)
 
 target_sources(SeamLessMain
     PRIVATE
-    	Common/SeamLess.h
+	Common/SeamLess.h
         SeamLess_Main/Source/PluginEditor.cpp
         SeamLess_Main/Source/PluginProcessor.cpp
         SeamLess_Main/Source/ConnectionBox.cpp
@@ -77,6 +95,19 @@ target_sources(SeamLessMain
         SeamLess_Main/Source/OutgoingConnectionComponent.cpp
         SeamLess_Main/Source/ReverbFader.cpp
         SeamLess_Main/Source/ReverbFaderBox.cpp)
+
+target_sources(SeamLessClient
+    PRIVATE
+	Common/SeamLess.h
+        SeamLess_Client/Source/PluginEditor.cpp
+        SeamLess_Client/Source/PluginProcessor.cpp
+        SeamLess_Client/Source/ClientConnection.cpp
+        SeamLess_Client/Source/OutgoingConnectionComponent.cpp
+        SeamLess_Client/Source/SendFader.cpp
+        SeamLess_Client/Source/SendFaderBox.cpp
+        SeamLess_Client/Source/SoundSource.cpp
+        SeamLess_Client/Source/SourceSettingsComponent.cpp
+        SeamLess_Client/Source/TopView.cpp)
 
 # `target_compile_definitions` adds some preprocessor definitions to our target. In a Projucer
 # project, these might be passed in the 'Preprocessor Definitions' field. JUCE modules also make use
@@ -86,6 +117,13 @@ target_sources(SeamLessMain
 # definitions, pick unique names that are unlikely to collide! This is a standard CMake command.
 
 target_compile_definitions(SeamLessMain
+    PUBLIC
+        # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
+        JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_plugin` call
+        JUCE_USE_CURL=0     # If you remove this, add `NEEDS_CURL TRUE` to the `juce_add_plugin` call
+        JUCE_VST3_CAN_REPLACE_VST2=0)
+
+target_compile_definitions(SeamLessClient
     PUBLIC
         # JUCE_WEB_BROWSER and JUCE_USE_CURL would be on by default, but you might not need them.
         JUCE_WEB_BROWSER=0  # If you remove this, add `NEEDS_WEB_BROWSER TRUE` to the `juce_add_plugin` call
@@ -108,6 +146,27 @@ target_compile_definitions(SeamLessMain
 # here too. This is a standard CMake command.
 
 target_link_libraries(SeamLessMain
+    PRIVATE
+        # AudioPluginData           # If we'd created a binary data target, we'd link to it here
+        juce::juce_audio_basics
+        juce::juce_audio_devices
+        juce::juce_audio_formats
+        juce::juce_audio_plugin_client
+        juce::juce_audio_processors
+        juce::juce_audio_utils
+        juce::juce_core
+        juce::juce_data_structures
+        juce::juce_events
+        juce::juce_graphics
+        juce::juce_gui_basics
+        juce::juce_gui_extra
+        juce::juce_osc
+    PUBLIC
+        juce::juce_recommended_config_flags
+        juce::juce_recommended_lto_flags
+        juce::juce_recommended_warning_flags)
+
+target_link_libraries(SeamLessClient
     PRIVATE
         # AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_basics
