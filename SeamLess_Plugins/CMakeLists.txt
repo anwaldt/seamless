@@ -137,7 +137,11 @@ target_compile_definitions(SeamLessClient
 # static library. These source files can be of any kind (wav data, images, fonts, icons etc.).
 # Conversion to binary-data will happen when your target is built.
 
-# juce_add_binary_data(AudioPluginData SOURCES ...)
+juce_add_binary_data(AudioPluginData SOURCES
+	SeamLess_Client/Resources/HuFo_Logo.png
+	SeamLess_Client/Resources/top_view.png
+	SeamLess_Client/Resources/HuFo_Logo.bmp
+	SeamLess_Client/Resources/HuFo.png)
 
 # `target_link_libraries` links libraries and JUCE modules to other libraries or executables. Here,
 # we're linking our executable target to the `juce::juce_audio_utils` module. Inter-module
@@ -168,7 +172,7 @@ target_link_libraries(SeamLessMain
 
 target_link_libraries(SeamLessClient
     PRIVATE
-        # AudioPluginData           # If we'd created a binary data target, we'd link to it here
+        AudioPluginData           # If we'd created a binary data target, we'd link to it here
         juce::juce_audio_basics
         juce::juce_audio_devices
         juce::juce_audio_formats
