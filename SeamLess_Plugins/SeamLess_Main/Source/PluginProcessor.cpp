@@ -195,6 +195,8 @@ void SeamLess_MainAudioProcessor::getStateInformation (juce::MemoryBlock& destDa
     xml->setAttribute ("oscTargetPort", (int) oscTargetPort);
     copyXmlToBinary (*xml, destData);
 
+
+
 }
 
 void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -351,7 +353,6 @@ void SeamLess_MainAudioProcessor::setOscTargetAddress(juce::String address)
 }
 
 
-
 int SeamLess_MainAudioProcessor::getOscTargetPort()
 {
     return oscTargetPort;
@@ -361,8 +362,6 @@ juce::String  SeamLess_MainAudioProcessor::getOscTargetAddress()
 {
     return oscTargetAddress;
 }
-
-
 
 bool SeamLess_MainAudioProcessor::getSendState()
 {

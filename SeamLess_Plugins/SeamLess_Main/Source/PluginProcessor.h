@@ -113,7 +113,7 @@ private:
     int oscTargetPort;
     juce::OSCSender oscSender;
 
-    bool isSending;
+    bool isSending = true;
 
     std::atomic<float>* revGain   = nullptr;
     std::atomic<float>* revFreq1  = nullptr;

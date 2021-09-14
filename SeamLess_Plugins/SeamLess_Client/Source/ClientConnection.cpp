@@ -37,7 +37,8 @@ void ClientConnection::messageReceived(const juce::MemoryBlock& msg)
 
     if(array[1].getIntValue() == processor->getSourceIndex())
     {
-        std::cout << "Client " << processor->getSourceIndex() << " received message: " << str << '\n';
+
+        // std::cout << "Client " << processor->getSourceIndex() << " received message: " << str << '\n';
 
         if(array[0]=="/source/pos/x")
             processor->setXPos(array[2].getFloatValue());
