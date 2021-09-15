@@ -24,6 +24,7 @@ def play(track_nr):
     if playing == False:
         reaper.send_message(b'/play', [1])
 
+
 @server.address(b'/play')
 def play_state(*values):
     if 1.0 in values:
@@ -33,13 +34,24 @@ def play_state(*values):
         playing = False
         requests.get('http://avm:avm@172.25.18.172/index.php?pause')
 
+
+@server.address(b'/mute')
+def mute(*values):
+    if 1.0 in values:
+        reaper.send_message(b'/track/1/mute', [1])
+    elif 0.0 in values:
+        reaper.send_message(b'/track/1/mute', [0])
+
+
 def play_video(video_index):
     requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index={}'.format(video_index))
+
 
 def load_show_control():
     with open(schedule_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
         return data
+
 
 def add_jobs_to_scheduler(jobs, scheduler):
     for job in jobs:
