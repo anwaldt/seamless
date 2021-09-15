@@ -6,6 +6,7 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from datetime import datetime
 import yaml
 import requests
+import os
 
 schedule_file = "/etc/seamless/schedule.yml"
 config_file = "/etc/seamless/showcontrol_config.yml"
@@ -41,6 +42,14 @@ def mute(*values):
         reaper.send_message(b'/track/1/mute', [1])
     elif 0.0 in values:
         reaper.send_message(b'/track/1/mute', [0])
+
+
+@server.address(b'/reboot')
+def reboot(*values)
+    if 1.0 in values:
+        for machine in config['system']
+            print(f'Reboot {machine['name']}')
+            os.popen(f'systemctl -H {machine['user']}@{machine['ip']} reboot')
 
 
 def play_video(video_index):

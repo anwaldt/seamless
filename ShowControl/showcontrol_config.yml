@@ -5,6 +5,7 @@ server_port: 9000
 system:
   - name: RE01
     ip: 172.25.18.201
+    user: avm
     services:
     - seamless_jack
     - oscrouter
@@ -15,6 +16,7 @@ system:
     - ambdec_rev
   - name: RE02
     ip: 172.25.18.202
+    user: avm
     services:
     - seamless_jack
     - twonder
@@ -22,6 +24,7 @@ system:
     - sc_wfs
   - name: RE03
     ip: 172.25.18.203
+    user: avm
     services:
     - seamless_jack
     - twonder
