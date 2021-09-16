@@ -1,4 +1,32 @@
-reaper_ip: 172.25.18.201
+reaper_ip: 172.25.18.204
 reaper_port: 8000
 server_ip: localhost
 server_port: 9000
+system:
+  - name: RE01
+    ip: 172.25.18.201
+    user: avm
+    services:
+    - seamless_jack
+    - oscrouter
+    - cwonder
+    - aj-snapshot
+    - sc_mix
+    - ambdec_3rd
+    - ambdec_rev
+  - name: RE02
+    ip: 172.25.18.202
+    user: avm
+    services:
+    - seamless_jack
+    - twonder
+    - aj-snapshot
+    - sc_wfs
+  - name: RE03
+    ip: 172.25.18.203
+    user: avm
+    services:
+    - seamless_jack
+    - twonder
+    - aj-snapshot
+    - sc_wfs
