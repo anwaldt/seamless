@@ -45,11 +45,11 @@ def mute(*values):
 
 
 @server.address(b'/reboot')
-def reboot(*values)
+def reboot(*values):
     if 1.0 in values:
-        for machine in config['system']
-            print(f'Reboot {machine['name']}')
-            os.popen(f'systemctl -H {machine['user']}@{machine['ip']} reboot')
+        for machine in config['system']:
+            print('Reboot {}'.format(machine['name']))
+            os.popen('systemctl -H {}@{} reboot'.format(machine['user'], machine['ip']))
 
 
 def play_video(video_index):
