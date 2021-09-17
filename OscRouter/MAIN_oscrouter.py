@@ -67,6 +67,11 @@ def getConfigurationFromFile(path: str) -> dict:
                 configd[type[0]] = []
             subdict = {}
             configd['audiorouter'].append(subdict)
+        elif type[0] in ['audiorouterWFS']:
+            if not 'audiorouterWFS' in configd.keys():
+                configd[type[0]] = []
+            subdict = {}
+            configd['audiorouterWFS'].append(subdict)
 
         else:
             if not type[0] in configd.keys():
@@ -131,6 +136,7 @@ for i in range(numberofsources):
 Renderer.sources = soundobjects
 
 audiorouter: Renderer = None
+audiorouterWFS: Renderer = None
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
 uiClients: [Renderer] = []
@@ -146,6 +152,15 @@ if 'audiorouter' in configurationDict.keys():
 else:
     print('!!! NO AUDIOROUTER CONFIGURED')
 print()
+
+if 'audiorouterWFS' in configurationDict.keys():
+    for dic in configurationDict['audiorouterWFS']:
+        if not audiorouterWFS:
+            audiorouterWFS = rendererclass.createRendererClient(skc.renderClass.AudiorouterWFS, kwargs=dic)
+        else:
+            audiorouterWFS.addDestination(dic['ipaddress'], dic['listenport'])
+else:
+    print('!!! NO WFS-AUDIOROUTER CONFIGURED')
 
 print('setting renderer connection\n')
 if 'renderengine' in configurationDict.keys():
@@ -211,6 +226,7 @@ elif args.verbose > 1:
 ###
 osccomcenter.soundobjects = soundobjects
 osccomcenter.audiorouter = audiorouter
+osccomcenter.audiorouterWFS = audiorouterWFS
 osccomcenter.renderengineClients = renderengineClients
 osccomcenter.dataClients = dataClients
 osccomcenter.uiClients = uiClients

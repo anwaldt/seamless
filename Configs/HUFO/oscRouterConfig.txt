@@ -20,13 +20,13 @@ listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       172.25.18.202
 listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       172.25.18.203
 listenport      57120
 sendport        59999
