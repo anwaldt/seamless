@@ -342,11 +342,26 @@ class Audiorouter(Renderer):
         self.sourceChanged(source_idx)
 
     def sourceRenderGainChanged(self, source_idx, render_idx):
-        if render_idx == 2:
-            self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_reverbGain, render_idx)))
-        else:
+        if not render_idx == 1:
+            if render_idx == 2:
+                self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_reverbGain, render_idx)))
+            else:
+                self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
+            self.sourceChanged(source_idx)
+
+class AudiorouterWFS(Audiorouter):
+
+    def __init__(self, **kwargs):
+        super(AudiorouterWFS, self).__init__(**kwargs)
+        self.debugPrefix = '/dAudiorouterWFS'
+
+    def sourceRenderGainChanged(self, source_idx, render_idx):
+        if render_idx == 1:
             self.updateStack[source_idx].add((partial(self.sources[source_idx].getRenderGain, render_idx), (self.oscpre_renderGain, render_idx)))
-        self.sourceChanged(source_idx)
+            self.sourceChanged(source_idx)
+
+    def myType(self) -> str:
+        return 'Audiorouter-WFS'
 
 
 class Panoramix(SpatialRenderer):
@@ -713,7 +728,6 @@ def createRendererClient(renderclass: renderclasstype, kwargs) -> Renderer:
             else:
                 print('unknown position format')
                 del(kwargs['dataformat'])
-
     if renderclass == renderclasstype.Wonder:
         rend = Wonder(**kwargs)
     elif renderclass == renderclasstype.Panoramix:
@@ -722,11 +736,18 @@ def createRendererClient(renderclass: renderclasstype, kwargs) -> Renderer:
         rend = Oscar(**kwargs)
     elif renderclass == renderclasstype.Scengine:
         rend = SuperColliderEngine(**kwargs)
-    elif renderclass == renderclasstype.Audiorouter:
-        rend = Audiorouter(**kwargs)
     elif renderclass == renderclasstype.SeamlessPlugin:
         rend = SeamlessPlugin(**kwargs)
+    elif renderclass == renderclasstype.Audiorouter:
+        rend = Audiorouter(**kwargs)
+        return rend
+    elif renderclass == renderclasstype.AudiorouterWFS:
+        rend = AudiorouterWFS(**kwargs)
+
     else:
         rend = Renderer()
 
+
     return rend
+
+
