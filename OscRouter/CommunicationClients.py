@@ -34,7 +34,7 @@ class LocalOscrouter:
     }
     # for elem in uiElements
 
-    def __init__(self, config, remoteIp='127.0.0.1', autosubscribe=True):
+    def __init__(self, config, remoteIp='127.0.0.1', autosubscribe=True, pluginAddress='127.0.0.1'):
 
         global globalConfig
         globalConfig = config
@@ -65,7 +65,7 @@ class LocalOscrouter:
         self.sendFromPlugin = True
 
         self.touchOscClient = TouchOscCommunicatior(self, 55510, 55511)
-        self.seamlessPluginClient = SeamlessPluginCommunicator(self, 55530, 55531)
+        self.seamlessPluginClient = SeamlessPluginCommunicator(self, 55530, 55531, remoteIp=pluginAddress)
         self.spatViewerClient = SpatSourceViewer(self, 55550, 55551)
         self.reaperControlClient = ReaperOscCommunicator(self, 55540, 55541)
 
@@ -171,7 +171,7 @@ class LocalOscrouter:
 
     def sendGainUpdatesFromTouch(self, sIdx, key, value):
         # _oscPre = self.oscPre_sourceGain[sIdx][key]
-        print('sendgains',self.oscPre_sourceGain[sIdx][key], [value] )
+        # print('sendgains',self.oscPre_sourceGain[sIdx][key], [value] )
         self.sendUpdatesFromTouchClient(self.oscPre_sourceGain[sIdx][key], [value])
         self.seamlessPluginClient.oscS_sendGainToPlugin(sIdx,key,value)
 
@@ -204,7 +204,7 @@ class LocalOscrouter:
 
 class CommunicationClients:
 
-    def __init__(self, localRouter, listeningPort, sendPort, remoteIp='127.0.0.1'):
+    def __init__(self, localRouter, listeningPort, sendPort, remoteIp='127.0.0.1'):#, clientIp='127.0.0.1'):
         self.localRouter = localRouter
         self.listeningPort = listeningPort
         self.sendPort = sendPort
@@ -257,7 +257,7 @@ class TouchOscCommunicatior(CommunicationClients):
         self.greetingMessage()
 
         self.touchOscConnected = False
-        self.numSourcesInInterface = 18
+        self.numSourcesInInterface = 32
         self.uiElementTouchstate = {
             'xy': False,
             'z': False,
@@ -524,6 +524,10 @@ class TouchOscCommunicatior(CommunicationClients):
         print('plugin send', self.localRouter.sendFromPlugin)
 
     def oscR_connectionRequest(self, *args):
+
+        self.localRouter.touchedSources = []
+        self.localRouter.touchedSources = []
+
         sender_info = self.oscServer.get_sender()
         self.oscClient = OSCClient(sender_info[1], sender_info[2])
         if not self.touchOscConnected:
@@ -608,7 +612,7 @@ class SeamlessPluginCommunicator(CommunicationClients):
     oscPre_positions = {}
     oscPre_gain = b'/send/gain'
 
-    def __init__(self, *args):
+    def __init__(self, *args, **kwargs):
         super(SeamlessPluginCommunicator, self).__init__(*args)
         self.clientName = 'Seamless Plugin'
         self.greetingMessage()
@@ -669,7 +673,7 @@ class SeamlessPluginCommunicator(CommunicationClients):
     def oscS_sendGainToPlugin(self, sIdx, key, value):
         _rIdx = self.localRouter.systemToRIdx[key]
         try:
-            print('gain to plugin', self.oscPre_gain, [sIdx+1, _rIdx, value])
+            # print('gain to plugin', self.oscPre_gain, [sIdx+1, _rIdx, value])
             self.oscClient.send_message(self.oscPre_gain, [sIdx+1, _rIdx, value])
         except:
             pass
