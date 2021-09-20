@@ -28,6 +28,7 @@ def play(track_nr):
 
 @server.address(b'/play')
 def play_state(*values):
+    global playing
     if 1.0 in values:
         playing = True
         requests.get('http://avm:avm@172.25.18.172/index.php?play')
