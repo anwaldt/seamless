@@ -1,6 +1,7 @@
 [Unit]
-Description=OSC Router
-After=network.target
+Description=Show Control
+After=network-online.target
+Wait=network-online.target
 
 [Install]
 WantedBy=default.target
