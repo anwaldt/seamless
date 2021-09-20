@@ -65,9 +65,9 @@ def load_show_control():
 def add_jobs_to_scheduler(jobs, scheduler):
     for job in jobs:
         if job['command'] == 'play':
-            scheduler.add_job(play, 'date', run_date=job['time'], args=[job['audio_index']])
+            scheduler.add_job(play, 'cron', start_date=job['time'], day_of_week=job['day_of_week'], args=[job['audio_index']])
         if 'video_index' in job:
-            scheduler.add_job(play_video, 'date', run_date=job['time'], args=[job['video_index']])
+            scheduler.add_job(play_video, 'cron', start_date=job['time'], day_of_week=job['day_of_week'] args=[job['video_index']])
 
 
 def main():
