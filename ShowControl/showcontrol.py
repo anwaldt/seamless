@@ -68,6 +68,7 @@ def add_jobs_to_scheduler(jobs, scheduler):
             scheduler.add_job(play, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['audio_index']])
         if 'video_index' in job:
             scheduler.add_job(play_video, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['video_index']])
+    scheduler.print_jobs()
 
 
 def main():
