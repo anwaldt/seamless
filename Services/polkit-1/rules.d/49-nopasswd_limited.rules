@@ -1,0 +1,11 @@
+/* Allow members of the wheel group to execute the defined actions
+ * without password authentication, similar to "sudo NOPASSWD:"
+ */
+polkit.addRule(function(action, subject) {
+    if ((action.id == "org.freedesktop.login1.reboot" ||
+	 action.id == "org.freedesktop.login1.reboot-multiple-sessions") &&
+        subject.isInGroup("sudo"))
+    {
+        return polkit.Result.YES;
+    }
+});
