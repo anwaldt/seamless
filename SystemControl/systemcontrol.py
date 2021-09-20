@@ -24,12 +24,11 @@ def on_activate(app):
     win.present()
 
 
-class SystemControlApp(Gtk.Application)
+class SystemControlApp(Gtk.Application):
     def __init__(self, *args, **kwargs):
         super().__init__()(
             *args,
             application_id='org.seamless.SystemControl',
-            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs
         )
         self.window = None
