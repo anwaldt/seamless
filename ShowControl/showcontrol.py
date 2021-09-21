@@ -78,6 +78,7 @@ def reboot(*values):
 @server.address(b'/showcontrol/track')
 def play_track(*values):
     print('Play track: ', values[0])
+    reaper.send_message(b'/track/1/mute', [0])
     if values[0] == 0:
         play(1)
         play_video(0)
