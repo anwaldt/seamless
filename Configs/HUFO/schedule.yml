@@ -17,21 +17,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 10
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 2
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 10
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 0
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 10
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 4
 # 11 Uhr
@@ -53,21 +53,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 11
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 7
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 11
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 5
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 11
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 9
 # 12 Uhr
@@ -89,21 +89,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 12
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 12
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 12
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 10
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 12
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 14
 # 13 Uhr
@@ -125,21 +125,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 13
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 17
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 13
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 15
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 13
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 19
 # 14 Uhr
@@ -161,21 +161,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 14
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 22
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 14
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 20
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 14
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 24
 # 15 Uhr
@@ -197,21 +197,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 15
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 27
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 15
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 25
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 15
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 29
 # 16 Uhr
@@ -233,21 +233,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 16
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 32
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 16
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 30
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 16
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 34
 # 17 Uhr
@@ -269,21 +269,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 17
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 37
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 17
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 35
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 17
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 39
 # 18 Uhr
@@ -305,21 +305,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 18
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 42
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 18
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 40
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 18
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 44
 # 19 Uhr
@@ -341,21 +341,21 @@
   day_of_week: '0,1,2,3,4,5,6'
   hour: 19
   minute: 19
-  second: 50
+  second: 40
   audio_index: 3
   video_index: 47
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 19
   minute: 39
-  second: 15
+  second: 5
   audio_index: 1
   video_index: 45
 - command: 'play'
   day_of_week: '0,1,2,3,4,5,6'
   hour: 19
   minute: 42
-  second: 45
+  second: 20
   audio_index: 4
   video_index: 49
 
