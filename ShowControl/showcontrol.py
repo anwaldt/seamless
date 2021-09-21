@@ -77,7 +77,9 @@ def reboot(*values):
 
 @server.address(b'/showcontrol/track')
 def play_track(*values):
+    global sched
     print('Play track: ', values[0])
+    sched.pause()
     reaper.send_message(b'/track/1/mute', [0])
     if values[0] == 0:
         play(1)
