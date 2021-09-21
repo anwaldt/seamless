@@ -20,6 +20,8 @@ server = OSCThreadServer()
 
 server.listen(config['server_ip'], config['server_port'], default = True)
 
+sched = BlockingScheduler()
+
 def play(track_nr):
     global playing
     reaper.send_message(b'/region', [track_nr])
@@ -47,17 +49,20 @@ def play_state(*values):
 
 @server.address(b'/pause')
 def pause(*values):
+    global sched
     if 1.0 in values:
         reaper.send_message(b'/track/1/mute', [1])
         # Video nr 1 starts with a black screen
         try:
-            requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0')
+            requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0', timeout=0.001)
         except requests.exceptions.Timeout:
             print('No connection to video player!')
-        scheduler.pause()
+        sched.pause()
+        print('Paused!')
     elif 0.0 in values:
+        print('Resumed!')
         reaper.send_message(b'/track/1/mute', [0])
-        scheduler.resume()
+        sched.resume()
 
 
 @server.address(b'/reboot')
@@ -88,8 +93,6 @@ def add_jobs_to_scheduler(jobs, scheduler):
 
 
 def main():
-    sched = BlockingScheduler()
-
     jobs = load_show_control()
     add_jobs_to_scheduler(jobs, sched)
 
