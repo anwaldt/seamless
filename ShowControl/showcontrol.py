@@ -49,11 +49,14 @@ def play_state(*values):
 
 @server.address(b'/pause')
 def pause(*values):
-    global sched
+    global sched, playing
     if 1.0 in values:
         reaper.send_message(b'/track/1/mute', [1])
+        if playing == True:
+            reaper.send_message(b'/play', [1.0])
         # Video nr 1 starts with a black screen
         try:
+            requests.get('http://avm:avm@172.25.18.172/index.php?pause', timeout=0.001)
             requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0', timeout=0.001)
         except requests.exceptions.Timeout:
             print('No connection to video player!')
