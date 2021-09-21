@@ -50,7 +50,10 @@ def pause(*values):
     if 1.0 in values:
         reaper.send_message(b'/track/1/mute', [1])
         # Video nr 1 starts with a black screen
-        reaper.send_message(b'/region', [1])
+        try:
+            requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0')
+        except requests.exceptions.Timeout:
+            print('No connection to video player!')
         scheduler.pause()
     elif 0.0 in values:
         reaper.send_message(b'/track/1/mute', [0])
