@@ -213,19 +213,11 @@ DEVICE_ROTARY_CENTER 0
 # configuration, copy this file and edit the copy.
 
 
-SCROLL_X- b/scroll/x/- r/scroll/x
-SCROLL_X+ b/scroll/x/+ r/scroll/x
-SCROLL_Y- b/scroll/y/- r/scroll/y
-SCROLL_Y+ b/scroll/y/+ r/scroll/y
-ZOOM_X- b/zoom/x/- r/zoom/x
-ZOOM_X+ b/zoom/x/+ r/zoom/x
-ZOOM_Y- b/zoom/y/- r/zoom/y
-ZOOM_Y+ b/zoom/y/+ r/zoom/y
 
-TIME f/time s/time/str
-BEAT s/beat/str
-SAMPLES f/samples s/samples/str
-FRAMES s/frames/str
+# TIME f/time s/time/str
+# BEAT s/beat/str
+# SAMPLES f/samples s/samples/str
+# FRAMES s/frames/str
 
 METRONOME t/click
 REPLACE t/replace
@@ -304,8 +296,6 @@ TRACK_SELECT b/track/select b/track/@/select
 TRACK_VOLUME n/track/volume n/track/@/volume
 TRACK_VOLUME s/track/volume/str s/track/@/volume/str
 TRACK_VOLUME f/track/volume/db f/track/@/volume/db
-
-
 
 
 ACTION i/action s/action/str t/action/@ f/action/@/cc
