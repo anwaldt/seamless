@@ -37,14 +37,14 @@ def play_state(*values):
         playing = True
         try:
             requests.get('http://avm:avm@172.25.18.172/index.php?play', timeout=0.001)
-        except requests.exceptions.Timeout:
+        except:
             print('No connection to video player!')
 
     elif values[0] == 0.0:
         playing = False
         try:
             requests.get('http://avm:avm@172.25.18.172/index.php?pause', timeout=0.001)
-        except requests.exceptions.Timeout:
+        except:
             print('No connection to video player!')
 
 @server.address(b'/showcontrol/pause')
@@ -57,7 +57,7 @@ def pause(*values):
         # Video nr 1 starts with a black screen
         try:
             requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0', timeout=0.001)
-        except requests.exceptions.Timeout:
+        except:
             print('No connection to video player!')
         sched.pause()
         print('Paused!')
@@ -75,9 +75,28 @@ def reboot(*values):
             os.popen('systemctl -H {}@{} reboot'.format(machine['user'], machine['ip']))
 
 
-def play_video(video_index):
-    requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index={}'.format(video_index))
+@server.address(b'/showcontrol/track')
+def play_track(*values):
+    print('Play track: ', values[0])
+    if values[0] == 0:
+        play(1)
+        play_video(0)
+    elif values[0] == 1:
+        play(2)
+        play_video(1)
+    elif values[0] == 2:
+        play(3)
+        play_video(2)
+    elif values[0] == 3:
+        play(4)
+        play_video(4)
 
+
+def play_video(video_index):
+    try:
+        requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index={}'.format(video_index), timeout=0.001)
+    except:
+        print('No connection to video player!')
 
 def load_show_control():
     with open(schedule_file) as f:
