@@ -21,27 +21,40 @@ server = OSCThreadServer()
 server.listen(config['server_ip'], config['server_port'], default = True)
 
 def play(track_nr):
+    global playing
     reaper.send_message(b'/region', [track_nr])
     if playing == False:
-        reaper.send_message(b'/play', [1])
+        reaper.send_message(b'/play', [1.0])
 
 
 @server.address(b'/play')
 def play_state(*values):
-    if 1.0 in values:
+    global playing
+    print(values[0])
+    if values[0] == 1.0:
         playing = True
-        requests.get('http://avm:avm@172.25.18.172/index.php?play')
-    elif 0.0 in values:
+        try:
+            requests.get('http://avm:avm@172.25.18.172/index.php?play', timeout=0.001)
+        except requests.exceptions.Timeout:
+            print('No connection to video player!')
+
+    elif values[0] == 0.0:
         playing = False
-        requests.get('http://avm:avm@172.25.18.172/index.php?pause')
+        try:
+            requests.get('http://avm:avm@172.25.18.172/index.php?pause', timeout=0.001)
+        except requests.exceptions.Timeout:
+            print('No connection to video player!')
 
-
-@server.address(b'/mute')
-def mute(*values):
+@server.address(b'/pause')
+def pause(*values):
     if 1.0 in values:
         reaper.send_message(b'/track/1/mute', [1])
+        # Video nr 1 starts with a black screen
+        reaper.send_message(b'/region', [1])
+        scheduler.pause()
     elif 0.0 in values:
         reaper.send_message(b'/track/1/mute', [0])
+        scheduler.resume()
 
 
 @server.address(b'/reboot')
