@@ -47,7 +47,7 @@ def play_state(*values):
         except requests.exceptions.Timeout:
             print('No connection to video player!')
 
-@server.address(b'/pause')
+@server.address(b'/showcontrol/pause')
 def pause(*values):
     global sched, playing
     if 1.0 in values:
@@ -68,7 +68,7 @@ def pause(*values):
         sched.resume()
 
 
-@server.address(b'/reboot')
+@server.address(b'/showcontrol/reboot')
 def reboot(*values):
     if 1.0 in values:
         for machine in config['system']:
