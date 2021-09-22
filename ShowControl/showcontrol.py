@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import time
 
 from oscpy.client import OSCClient
 from oscpy.server import OSCThreadServer
@@ -25,8 +26,9 @@ sched = BlockingScheduler()
 def play(track_nr):
     global playing
     reaper.send_message(b'/region', [track_nr])
-    if playing == False:
-        reaper.send_message(b'/play', [1.0])
+    # if playing == False:
+    reaper.send_message(b'/stop', [1.0])
+    reaper.send_message(b'/play', [1.0])
 
 
 @server.address(b'/play')
@@ -52,8 +54,9 @@ def pause(*values):
     global sched, playing
     if 1.0 in values:
         reaper.send_message(b'/track/1/mute', [1])
-        if playing == True:
-            reaper.send_message(b'/play', [1.0])
+        # if playing == True:
+        time.sleep(0.5)
+        reaper.send_message(b'/stop', [1.0])
         # Video nr 1 starts with a black screen
         try:
             requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0', timeout=0.001)
