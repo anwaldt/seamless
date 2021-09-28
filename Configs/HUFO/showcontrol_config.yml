@@ -30,3 +30,43 @@ system:
     - twonder
     - aj-snapshot
     - sc_wfs
+  - name: syncplayer-01
+    ip: 172.25.18.172
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-02
+    ip: 172.25.18.173
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-03
+    ip: 172.25.18.174
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-04
+    ip: 172.25.18.176
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-05
+    ip: 172.25.18.177
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-06
+    ip: 172.25.18.180
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-07
+    ip: 172.25.18.181
+    user: avm
+    services:
+    - mpv
+  - name: syncplayer-08
+    ip: 172.25.18.184
+    user: avm
+    services:
+    - mpv
