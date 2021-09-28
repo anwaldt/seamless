@@ -149,7 +149,7 @@ def generate_videoplayer_list():
     global videoplayers
     for machine in config['system']:
         if 'mpv' in machine['services']:
-            videoplayers += machine
+            videoplayers.append(machine)
 
 
 def main():
