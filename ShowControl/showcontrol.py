@@ -48,7 +48,7 @@ def play_state(*values):
                 print('No connection to video player: {}', player['name'])
 
             try:
-                message = json.dumps({'command': ['set_property', 'pause', 'no']})
+                message = json.dumps({'command': ['set_property', 'pause', 'no']}).encode('utf-8') + b'\n'
                 print(message)
                 sock.sendall(message)
 
@@ -66,7 +66,7 @@ def play_state(*values):
                 print('No connection to video player: {}', player['name'])
 
             try:
-                message = json.dumps({'command': ['set_property', 'pause', 'yes']})
+                message = json.dumps({'command': ['set_property', 'pause', 'yes']}).encode('utf-8') + b'\n'
                 print(message)
                 sock.sendall(message)
             except:
@@ -130,7 +130,7 @@ def play_video(video_index):
             print('No connection to video player: {}', player['name'])
 
         try:
-            message = json.dumps({'command': ['playlist-play-index', video_index]})
+            message = json.dumps({'command': ['playlist-play-index', video_index]}).encode('utf-8') + b'\n'
             print(message)
             sock.sendall(message)
         except:
