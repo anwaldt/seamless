@@ -1,11 +1,3 @@
-/*
-  ==============================================================================
-
-    This file contains the basic framework code for a JUCE plugin processor.
-
-  ==============================================================================
-*/
-
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
@@ -15,7 +7,9 @@
 juce::String SeamLess_ClientAudioProcessor::oscTargetAddress("127.0.0.1");
 int SeamLess_ClientAudioProcessor::oscTargetPort(9001);
 
-bool SeamLess_ClientAudioProcessor::isSending = false;
+
+bool SeamLess_ClientAudioProcessor::isSending   = false;
+bool SeamLess_ClientAudioProcessor::playSending = false;
 
 juce::OSCSender SeamLess_ClientAudioProcessor::sender1;
 
@@ -139,6 +133,10 @@ void SeamLess_ClientAudioProcessor::processBlock (juce::AudioBuffer<float>& buff
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
 
+    auto* ph = getPlayHead();
+    ph->getCurrentPosition(playInfo);
+    playSending = playInfo.isPlaying;
+
 }
 
 bool SeamLess_ClientAudioProcessor::hasEditor() const
@@ -259,6 +257,18 @@ void SeamLess_ClientAudioProcessor::zPosSend()
     juce::OSCMessage m = juce::OSCMessage("/source/pos/z",i, in);
     sender1.send(m);
 }
+
+void SeamLess_ClientAudioProcessor::xyzPosSend()
+{
+    int i = (int) *sourceIdx;
+    float x = (float) *xPos;
+    float y = (float) *xPos;
+    float z = (float) *xPos;
+
+    juce::OSCMessage m = juce::OSCMessage("/source/pos/xyz",i,x,y,z);
+    sender1.send(m);
+}
+
 
 void SeamLess_ClientAudioProcessor::sendGainSend()
 {
@@ -400,11 +410,15 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 
 void SeamLess_ClientAudioProcessor::hiResTimerCallback()
 {
-    if(isSending==true)
+    if(isSending==true && playSending==true)
     {
-        xPosSend();
-        yPosSend();
-        zPosSend();
+
+        // xPosSend();
+        // yPosSend();
+        // zPosSend();
+
+        xyzPosSend();
+
         sendGainSend();
     }
 }

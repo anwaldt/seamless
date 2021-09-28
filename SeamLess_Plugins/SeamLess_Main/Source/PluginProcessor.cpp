@@ -154,19 +154,12 @@ bool SeamLess_MainAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 
 void SeamLess_MainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-    //    juce::ScopedNoDenormals noDenormals;
-    //    auto totalNumInputChannels  = getTotalNumInputChannels();
-    //    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-    //    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-    //        buffer.clear (i, 0, buffer.getNumSamples());
+    // make send-state depend on play-state
+    auto* ph = getPlayHead();
+    ph->getCurrentPosition(playInfo);
+    playSending = playInfo.isPlaying;
 
-
-    //    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-    //    {
-    //        auto* channelData = buffer.getWritePointer (channel);
-
-    //    }
 }
 
 //==============================================================================
@@ -388,46 +381,48 @@ void SeamLess_MainAudioProcessor::setReceivingState(bool s)
 void SeamLess_MainAudioProcessor::hiResTimerCallback()
 {
 
-    float in = (float) *revGain;
-    juce::OSCMessage m = juce::OSCMessage("/reverb/gain", in);
-    oscSender.send(m);
+    if(isSending==true && playSending==true)
+    {
+        float in = (float) *revGain;
+        juce::OSCMessage m = juce::OSCMessage("/reverb/gain", in);
+        oscSender.send(m);
 
-    in = (float) *revFreq1;
-    m = juce::OSCMessage("/reverb/f1", in);
-    oscSender.send(m);
+        in = (float) *revFreq1;
+        m = juce::OSCMessage("/reverb/f1", in);
+        oscSender.send(m);
 
-    in = (float) *revFreq2;
-    m = juce::OSCMessage("/reverb/f2", in);
-    oscSender.send(m);
+        in = (float) *revFreq2;
+        m = juce::OSCMessage("/reverb/f2", in);
+        oscSender.send(m);
 
-    in = (float) *revRdel;
-    m = juce::OSCMessage("/reverb/rdel", in);
-    oscSender.send(m);
+        in = (float) *revRdel;
+        m = juce::OSCMessage("/reverb/rdel", in);
+        oscSender.send(m);
 
-    in = (float) *revRgxyz;
-    m = juce::OSCMessage("/reverb/rgxyz", in);
-    oscSender.send(m);
+        in = (float) *revRgxyz;
+        m = juce::OSCMessage("/reverb/rgxyz", in);
+        oscSender.send(m);
 
-    in = (float) *revT60dc;
-    m = juce::OSCMessage("/reverb/t60dc", in);
-    oscSender.send(m);
+        in = (float) *revT60dc;
+        m = juce::OSCMessage("/reverb/t60dc", in);
+        oscSender.send(m);
 
-    in = (float) *revT60m;
-    m = juce::OSCMessage("/reverb/t60m", in);
-    oscSender.send(m);
+        in = (float) *revT60m;
+        m = juce::OSCMessage("/reverb/t60m", in);
+        oscSender.send(m);
 
-    in = (float) *revLpFreq;
-    m = juce::OSCMessage("/reverb/lp/freq", in);
-    oscSender.send(m);
+        in = (float) *revLpFreq;
+        m = juce::OSCMessage("/reverb/lp/freq", in);
+        oscSender.send(m);
 
-    in = (float) *revLpRs;
-    m = juce::OSCMessage("/reverb/lp/rs", in);
-    oscSender.send(m);
+        in = (float) *revLpRs;
+        m = juce::OSCMessage("/reverb/lp/rs", in);
+        oscSender.send(m);
 
-    in = (float) *revLpDb;
-    m = juce::OSCMessage("/reverb/lp/db", in);
-    oscSender.send(m);
-
+        in = (float) *revLpDb;
+        m = juce::OSCMessage("/reverb/lp/db", in);
+        oscSender.send(m);
+    }
 }
 
 

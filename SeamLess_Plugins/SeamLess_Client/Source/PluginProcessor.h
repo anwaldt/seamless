@@ -66,6 +66,8 @@ public:
     void yPosSend();
     void zPosSend();
 
+    void xyzPosSend();
+
     ///
     /// \brief sendGainSend
     /// \param id The string identifier for the send channel.
@@ -110,7 +112,13 @@ private:
     static juce::String oscTargetAddress;
     static int oscTargetPort;
 
+    // used to detect play-state
+    juce::AudioPlayHead::CurrentPositionInfo playInfo;
+
+    // manual send state (used by all instances):
     static bool isSending;
+    // play state depending (used by all instances):
+    static bool playSending;
 
     /// \brief sender1
     /// @todo Make it non static!

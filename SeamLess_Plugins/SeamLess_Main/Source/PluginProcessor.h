@@ -113,7 +113,10 @@ private:
     int oscTargetPort;
     juce::OSCSender oscSender;
 
-    bool isSending = true;
+    juce::AudioPlayHead::CurrentPositionInfo playInfo;
+
+    bool isSending   = true;
+    bool playSending = true;
 
     std::atomic<float>* revGain   = nullptr;
     std::atomic<float>* revFreq1  = nullptr;
