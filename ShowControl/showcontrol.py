@@ -130,7 +130,9 @@ def play_video(video_index):
             print('No connection to video player: {}', player['name'])
 
         try:
-            sock.sendall(json.dumps({'command': ['playlist-play-index', video_index]}))
+            message = json.dumps({'command': ['playlist-play-index', video_index]})
+            print(message)
+            sock.sendall(message)
         except:
             print('Sending play video index command to {} failed.'.format(player['name']))
 
