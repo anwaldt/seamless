@@ -8,12 +8,15 @@ from datetime import datetime
 import yaml
 import requests
 import os
+import socket
+import json
 
 schedule_file = "/etc/seamless/schedule.yml"
 config_file = "/etc/seamless/showcontrol_config.yml"
 with open(config_file) as f:
     config = yaml.load(f, Loader=yaml.FullLoader)
 
+videoplayers = []
 playing = False
 
 reaper = OSCClient(config['reaper_ip'], config['reaper_port'])
@@ -37,17 +40,32 @@ def play_state(*values):
     print(values[0])
     if values[0] == 1.0:
         playing = True
-        try:
-            requests.get('http://avm:avm@172.25.18.172/index.php?play', timeout=0.001)
-        except:
-            print('No connection to video player!')
+        for player in videoplayers:
+            try:
+                sock = socket.socket()
+                sock.connect((player['ip'],12345))
+            except:
+                print('No connection to video player: {}', player['name'])
+
+            try:
+                sock.send(json.dumps({"command": ['set', 'pause', 'no']}))
+            except:
+                print('Sending play command to {} failed.'.format(player['name']))
+
 
     elif values[0] == 0.0:
         playing = False
-        try:
-            requests.get('http://avm:avm@172.25.18.172/index.php?pause', timeout=0.001)
-        except:
-            print('No connection to video player!')
+        for player in videoplayers:
+            try:
+                sock = socket.socket()
+                sock.connect((player['ip'],12345))
+            except:
+                print('No connection to video player: {}', player['name'])
+
+            try:
+                sock.send(json.dumps({"command": ['set', 'pause', 'yes']}))
+            except:
+                print('Sending pause command to {} failed.'.format(player['name']))
 
 @server.address(b'/showcontrol/pause')
 def pause(*values):
@@ -99,10 +117,18 @@ def play_track(*values):
 
 
 def play_video(video_index):
-    try:
-        requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index={}'.format(video_index), timeout=0.001)
-    except:
-        print('No connection to video player!')
+    for player in videoplayers:
+        try:
+            sock = socket.socket()
+            sock.connect((player['ip'],12345))
+        except:
+            print('No connection to video player: {}', player['name'])
+
+        try:
+            sock.send(json.dumps({"command": ['playlist-play-index', video_index]}))
+        except:
+            print('Sending play video index command to {} failed.'.format(player['name']))
+
 
 def load_show_control():
     with open(schedule_file) as f:
@@ -119,7 +145,15 @@ def add_jobs_to_scheduler(jobs, scheduler):
     scheduler.print_jobs()
 
 
+def generate_videoplayer_list():
+    global videoplayers
+    for machine in config['system']:
+        if 'mpv' in machine['services']:
+            videoplayers += machine
+
+
 def main():
+    generate_videoplayer_list()
     jobs = load_show_control()
     add_jobs_to_scheduler(jobs, sched)
 
