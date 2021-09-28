@@ -85,19 +85,19 @@ def pause(*values):
         reaper.send_message(b'/stop', [1.0])
         # Video nr 1 starts with a black screen
         for player in videoplayers:
-        try:
-            sock = socket.socket()
-            sock.connect((player['ip'],12345))
             try:
-                message = json.dumps({'command': ['playlist-play-index', 0]}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-                sock.close()
-            except:
-                print('Sending play video index command to {} failed.'.format(player['name']))
+                sock = socket.socket()
+                sock.connect((player['ip'],12345))
+                try:
+                    message = json.dumps({'command': ['playlist-play-index', 0]}).encode('utf-8') + b'\n'
+                    print(message)
+                    sock.sendall(message)
+                    sock.close()
+                except:
+                    print('Sending play video index command to {} failed.'.format(player['name']))
 
-        except:
-            print('No connection to video player: {}', player['name'])
+            except:
+                print('No connection to video player: {}', player['name'])
 
         sched.pause()
         print('Paused!')
