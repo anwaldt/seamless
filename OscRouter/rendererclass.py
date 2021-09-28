@@ -492,9 +492,9 @@ class ViewClient(SpatialRenderer):
             self.idxSourceOscPreAttri[i] = _aDic
             renderList = [b''] * self.globalConfig['number_renderunits']
             if 'index_ambi' in self.globalConfig.keys() and 'index_wfs' in self.globalConfig.keys() and 'index_reverb' in self.globalConfig.keys():
-                renderList[self.globalConfig['index_ambi']] = '/source/{}/send/ambi'.format(i+1).encode()
-                renderList[self.globalConfig['index_wfs']] = '/source/{}/send/wfs'.format(i+1).encode()
-                renderList[self.globalConfig['index_reverb']] = '/source/{}/send/reverb'.format(i+1).encode()
+                renderList[self.globalConfig['index_ambi']] = '/source/{}/ambi'.format(i+1).encode()
+                renderList[self.globalConfig['index_wfs']] = '/source/{}/wfs'.format(i+1).encode()
+                renderList[self.globalConfig['index_reverb']] = '/source/{}/reverb'.format(i+1).encode()
             else:
                 for j in range(self.globalConfig['number_renderunits']):
                     self.idxSourceOscPreRender[i][j] = '/source/{}/send/{}'.format(i+1, j).encode()
