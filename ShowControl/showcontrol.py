@@ -44,16 +44,17 @@ def play_state(*values):
             try:
                 sock = socket.socket()
                 sock.connect((player['ip'],12345))
+
+                try:
+                    message = json.dumps({'command': ['set_property', 'pause', 'no']}).encode('utf-8') + b'\n'
+                    print(message)
+                    sock.sendall(message)
+                    sock.close()
+                except:
+                    print('Sending play command to {} failed.'.format(player['name']))
+
             except:
                 print('No connection to video player: {}', player['name'])
-
-            try:
-                message = json.dumps({'command': ['set_property', 'pause', 'no']}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-
-            except:
-                print('Sending play command to {} failed.'.format(player['name']))
 
 
     elif values[0] == 0.0:
@@ -62,15 +63,17 @@ def play_state(*values):
             try:
                 sock = socket.socket()
                 sock.connect((player['ip'],12345))
+
+                try:
+                    message = json.dumps({'command': ['set_property', 'pause', 'yes']}).encode('utf-8') + b'\n'
+                    print(message)
+                    sock.sendall(message)
+                    sock.close()
+                except:
+                    print('Sending pause command to {} failed.'.format(player['name']))
+
             except:
                 print('No connection to video player: {}', player['name'])
-
-            try:
-                message = json.dumps({'command': ['set_property', 'pause', 'yes']}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-            except:
-                print('Sending pause command to {} failed.'.format(player['name']))
 
 @server.address(b'/showcontrol/pause')
 def pause(*values):
@@ -126,15 +129,17 @@ def play_video(video_index):
         try:
             sock = socket.socket()
             sock.connect((player['ip'],12345))
+            try:
+                message = json.dumps({'command': ['playlist-play-index', video_index]}).encode('utf-8') + b'\n'
+                print(message)
+                sock.sendall(message)
+                sock.close()
+            except:
+                print('Sending play video index command to {} failed.'.format(player['name']))
+
         except:
             print('No connection to video player: {}', player['name'])
 
-        try:
-            message = json.dumps({'command': ['playlist-play-index', video_index]}).encode('utf-8') + b'\n'
-            print(message)
-            sock.sendall(message)
-        except:
-            print('Sending play video index command to {} failed.'.format(player['name']))
 
 
 def load_show_control():
