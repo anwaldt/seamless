@@ -84,10 +84,21 @@ def pause(*values):
         time.sleep(0.5)
         reaper.send_message(b'/stop', [1.0])
         # Video nr 1 starts with a black screen
+        for player in videoplayers:
         try:
-            requests.get('http://avm:avm@172.25.18.172/index.php?playlist_index=0', timeout=0.001)
+            sock = socket.socket()
+            sock.connect((player['ip'],12345))
+            try:
+                message = json.dumps({'command': ['playlist-play-index', 0]}).encode('utf-8') + b'\n'
+                print(message)
+                sock.sendall(message)
+                sock.close()
+            except:
+                print('Sending play video index command to {} failed.'.format(player['name']))
+
         except:
-            print('No connection to video player!')
+            print('No connection to video player: {}', player['name'])
+
         sched.pause()
         print('Paused!')
     elif 0.0 in values:
