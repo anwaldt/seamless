@@ -7,7 +7,7 @@ WantedBy=default.target
 Alias=jack.service
 
 [Service]
-Type=notify
+Type=simple
 PrivateTmp=true
 EnvironmentFile=/etc/seamless/jack.conf
 Environment="JACK_NO_AUDIO_RESERVATION=1"
