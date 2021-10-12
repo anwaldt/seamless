@@ -262,8 +262,8 @@ void SeamLess_ClientAudioProcessor::xyzPosSend()
 {
     int i = (int) *sourceIdx;
     float x = (float) *xPos;
-    float y = (float) *xPos;
-    float z = (float) *xPos;
+    float y = (float) *yPos;
+    float z = (float) *zPos;
 
     juce::OSCMessage m = juce::OSCMessage("/source/pos/xyz",i,x,y,z);
     sender1.send(m);
