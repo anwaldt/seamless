@@ -7,6 +7,7 @@ WantedBy=default.target
 Alias=jack.service
 
 [Service]
+# Type notify available with jack version 1.9.13
 Type=simple
 PrivateTmp=true
 EnvironmentFile=/etc/seamless/jack.conf
