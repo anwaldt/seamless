@@ -1,5 +1,7 @@
 project('seamless')
 
+fs = import('fs')
+
 subdir('Configs')
 subdir('Services')
 subdir('Standalone_Decoders')
