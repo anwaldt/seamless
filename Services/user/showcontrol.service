@@ -1,7 +1,7 @@
 [Unit]
 Description=Show Control
 After=network-online.target
-Wait=network-online.target
+Wants=network-online.target
 
 [Install]
 WantedBy=default.target
