@@ -49,7 +49,7 @@ juce_add_plugin(SeamLessMain
     # IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
     # EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
     # COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
-    PLUGIN_MANUFACTURER_CODE TU Studio               # A four-character manufacturer id with at least one upper-case character
+    # PLUGIN_MANUFACTURER_CODE TU Studio               # A four-character manufacturer id with at least one upper-case character
     PLUGIN_CODE VAkndo                          # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
     FORMATS AU VST3                            # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
@@ -66,7 +66,7 @@ juce_add_plugin(SeamLessClient
     # IS_MIDI_EFFECT TRUE/FALSE                 # Is this plugin a MIDI effect?
     # EDITOR_WANTS_KEYBOARD_FOCUS TRUE/FALSE    # Does the editor need keyboard focus?
     # COPY_PLUGIN_AFTER_BUILD TRUE/FALSE        # Should the plugin be installed to a default location after building?
-    PLUGIN_MANUFACTURER_CODE TU Studio               # A four-character manufacturer id with at least one upper-case character
+    # PLUGIN_MANUFACTURER_CODE TU Studio               # A four-character manufacturer id with at least one upper-case character
     PLUGIN_CODE tHsIzo                          # A unique four-character plugin id with exactly one upper-case character
                                                 # GarageBand 10.3 requires the first letter to be upper-case, and the remaining letters to be lower-case
     FORMATS AU VST3                            # The formats to build. Other valid formats are: AAX Unity VST AU AUv3
