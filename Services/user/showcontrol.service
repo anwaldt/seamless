@@ -10,3 +10,4 @@ WantedBy=default.target
 Type=simple
 PrivateTmp=true
 ExecStart=showcontrol
+Restart=always
