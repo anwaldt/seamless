@@ -3,4 +3,4 @@ Description=Restart showcontrol service
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/systemctl try-restart showcontrol.service
+ExecStart=/usr/bin/systemctl --user try-restart showcontrol.service
