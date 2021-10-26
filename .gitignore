@@ -7,6 +7,8 @@ _localonly
 *.rpp-bak
 builddir
 
+ShowControl/instance/
+
 # PLUGIN:
 SeamLess_Plugins/SeamLess_Client/Builds/
 SeamLess_Plugins/SeamLess_Client/JuceLibraryCode/
