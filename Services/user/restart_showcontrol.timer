@@ -1,0 +1,9 @@
+[Unit]
+Description=Restart ShowControl at 4 AM
+
+[Timer]
+OnCalendar=4:00:00
+Unit=restart_showcontrol.service
+
+[Install]
+WantedBy=multi-user.target
