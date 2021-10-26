@@ -10,3 +10,9 @@ cmake -Bbuilddir -GNinja -DCMAKE_BUILD_TYPE=Release
 cd builddir
 ninja
 ```
+
+# Clean rebuild
+
+```bash
+cmake --build builddir/ --clean-first
+```
