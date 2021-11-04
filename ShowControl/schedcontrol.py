@@ -11,12 +11,13 @@ import json
 import time
 
 server = OSCThreadServer()
-server.listen(default=True)
 
 @ServerClass
 class SchedControl(object):
 
     def __init__(self):
+        global server
+
         self.schedule_file = "/etc/seamless/schedule.yml"
         self.config_file = "/etc/seamless/showcontrol_config.yml"
         with open(self.config_file) as f:
@@ -27,7 +28,6 @@ class SchedControl(object):
         self.playing = False
 
         self.reaper = OSCClient(self.config['reaper_ip'], self.config['reaper_port'])
-        server = OSCThreadServer()
 
         server.listen(self.config['server_ip'], self.config['server_port'], default = True)
 
