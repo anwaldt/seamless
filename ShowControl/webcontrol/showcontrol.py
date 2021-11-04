@@ -2,6 +2,7 @@ from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
 from werkzeug.exceptions import abort
+from threading import Thread
 
 from webcontrol import schedctrl
 from webcontrol.auth import login_required
@@ -13,7 +14,9 @@ def showcontrol():
     global schedctrl
     if request.method == 'POST':
         if "pause" in request.form:
-            schedctrl.pause(1,)
+            t = Thread(target=schedctrl.pause, args=(1,))
+            t.start()
         if "resume" in request.form:
-            print("resume")
+            t = Thread(target=schedctrl.pause, args=(0,))
+            t.start()
     return render_template('showcontrol/pause.html')

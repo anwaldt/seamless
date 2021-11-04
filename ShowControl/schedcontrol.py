@@ -36,6 +36,7 @@ class SchedControl(object):
         self.add_jobs_to_scheduler()
 
         self.sched_thr = Thread(target=self.sched.start)
+        self.sched_thr.start()
 
     def play(self, track_nr):
         self.reaper.send_message(b'/region', [track_nr])
