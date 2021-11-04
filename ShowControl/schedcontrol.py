@@ -64,7 +64,7 @@ class SchedControl(object):
                         print('Sending play command to {} failed.'.format(player['name']))
 
                 except:
-                    print('No connection to video player: {}', player['name'])
+                    print('No connection to video player: ', player['name'])
 
 
         elif values[0] == 0.0:
