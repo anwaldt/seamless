@@ -52,6 +52,7 @@ class SchedControl(object):
             for player in self.videoplayers:
                 try:
                     sock = socket.socket()
+                    sock.settimeout(5)
                     sock.connect((player['ip'],12345))
 
                     try:
