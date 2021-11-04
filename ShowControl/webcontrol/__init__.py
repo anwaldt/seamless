@@ -1,7 +1,9 @@
 import os
 
 from flask import Flask
+from schedcontrol import SchedControl
 
+schedctrl = SchedControl()
 
 def create_app(test_config=None):
     # create and configure the app

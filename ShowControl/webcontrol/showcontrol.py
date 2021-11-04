@@ -3,15 +3,17 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
+from webcontrol import schedctrl
 from webcontrol.auth import login_required
 from webcontrol.db import get_db
 bp = Blueprint('showcontrol', __name__)
 
 @bp.route('/showcontrol', methods=('GET', 'POST'))
 def showcontrol():
+    global schedctrl
     if request.method == 'POST':
         if "pause" in request.form:
-            pause(1,)
+            schedctrl.pause(1,)
         if "resume" in request.form:
             print("resume")
     return render_template('showcontrol/pause.html')

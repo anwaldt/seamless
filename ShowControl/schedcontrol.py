@@ -86,8 +86,9 @@ class SchedControl(object):
                     print('No connection to video player: {}', player['name'])
 
     @server.address_method(b'/showcontrol/pause')
-    def pause(*values):
+    def pause(self, *values):
         if 1.0 in values:
+            print('Pause message!')
             self.reaper.send_message(b'/track/1/mute', [1])
             # if playing == True:
             time.sleep(0.5)
