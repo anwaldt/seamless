@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Pause and Resume{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <input type="submit" name="pause" value="Pause">
+    <input type="submit" name="resume" value="Resume">
+  </form>
+{% endblock %}
