@@ -10,6 +10,7 @@ from webcontrol.db import get_db
 bp = Blueprint('showcontrol', __name__)
 
 @bp.route('/showcontrol', methods=('GET', 'POST'))
+@login_required
 def showcontrol():
     global schedctrl
     if request.method == 'POST':
