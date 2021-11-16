@@ -20,4 +20,5 @@ def showcontrol():
         if "resume" in request.form:
             t = Thread(target=schedctrl.pause, args=(0,))
             t.start()
-    return render_template('showcontrol/pause.html')
+    print("Play state is: ", schedctrl.playing)
+    return render_template('showcontrol/pause.html', state=schedctrl.playing)

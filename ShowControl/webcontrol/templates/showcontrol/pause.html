@@ -9,4 +9,10 @@
     <input type="submit" name="pause" value="Pause">
     <input type="submit" name="resume" value="Resume">
   </form>
+  State:
+  {% if state is sameas true %}
+  <div>Schedule paused</div>
+  {% elif state is sameas false %}
+  <div>Schedule playing</div>
+  {% endif %}
 {% endblock %}
