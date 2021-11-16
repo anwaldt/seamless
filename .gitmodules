@@ -4,3 +4,6 @@
 [submodule "SeamLess_Plugins/JUCE"]
 	path = SeamLess_Plugins/JUCE
 	url = https://github.com/juce-framework/JUCE
+[submodule "SeamLess_Plugins/FRUT"]
+	path = SeamLess_Plugins/FRUT
+	url = https://github.com/McMartin/FRUT.git
