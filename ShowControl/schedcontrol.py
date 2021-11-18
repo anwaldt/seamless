@@ -73,6 +73,7 @@ class SchedControl(object):
             for player in self.videoplayers:
                 try:
                     sock = socket.socket()
+                    sock.settimeout(5)
                     sock.connect((player['ip'],12345))
 
                     try:
@@ -94,10 +95,12 @@ class SchedControl(object):
             # if playing == True:
             time.sleep(0.5)
             self.reaper.send_message(b'/stop', [1.0])
+            print('Paused!')
             # Video nr 1 starts with a black screen
             for player in self.videoplayers:
                 try:
                     sock = socket.socket()
+                    sock.settimeout(5)
                     sock.connect((player['ip'],12345))
                     try:
                         message = json.dumps({'command': ['playlist-play-index', 0]}).encode('utf-8') + b'\n'
@@ -111,7 +114,6 @@ class SchedControl(object):
                     print('No connection to video player: ', player['name'])
 
             self.sched.pause()
-            print('Paused!')
         elif 0.0 in values:
             print('Resumed!')
             self.reaper.send_message(b'/track/1/mute', [0])
@@ -149,6 +151,7 @@ class SchedControl(object):
         for player in self.videoplayers:
             try:
                 sock = socket.socket()
+                sock.settimeout(5)
                 sock.connect((player['ip'],12345))
                 try:
                     message = json.dumps({'command': ['playlist-play-index', video_index]}).encode('utf-8') + b'\n'
