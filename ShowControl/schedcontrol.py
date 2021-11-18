@@ -108,7 +108,7 @@ class SchedControl(object):
                         print('Sending play video index command to {} failed.'.format(player['name']))
 
                 except:
-                    print('No connection to video player: {}', player['name'])
+                    print('No connection to video player: ', player['name'])
 
             self.sched.pause()
             print('Paused!')
