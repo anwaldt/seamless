@@ -9,7 +9,7 @@ from webcontrol.auth import login_required
 from webcontrol.db import get_db
 bp = Blueprint('showcontrol', __name__)
 
-@bp.route('/showcontrol', methods=('GET', 'POST'))
+@bp.route('/', methods=('GET', 'POST'))
 @login_required
 def showcontrol():
     global schedctrl
