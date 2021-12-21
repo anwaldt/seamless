@@ -4,6 +4,7 @@ from flask import (
 from werkzeug.exceptions import abort
 from threading import Thread
 
+import apscheduler
 from webcontrol import schedctrl
 from webcontrol.auth import login_required
 from webcontrol.db import get_db
@@ -20,5 +21,5 @@ def showcontrol():
         if "resume" in request.form:
             t = Thread(target=schedctrl.pause, args=(0,))
             t.start()
-    print("Play state is: ", schedctrl.playing)
-    return render_template('showcontrol/pause.html', state=schedctrl.playing)
+    print("Scheduler is running: ", schedctrl.sched.state != apscheduler.schedulers.base.STATE_PAUSED)
+    return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED))
