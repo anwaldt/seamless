@@ -85,7 +85,7 @@ class SchedControl(object):
                         print('Sending pause command to {} failed.'.format(player['name']))
 
                 except:
-                    print('No connection to video player: {}', player['name'])
+                    print('No connection to video player: ', player['name'])
 
     @server.address_method(b'/showcontrol/pause')
     def pause(self, *values):
