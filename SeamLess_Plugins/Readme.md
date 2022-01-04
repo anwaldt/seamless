@@ -6,6 +6,8 @@ FRUT. So first FRUT needs to be build.
 Install Homebrew:
 
 ```bash
+cd FRUT
+mkdir build && cd build/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
 Follow the directions in the terminal to finish installation.
@@ -59,6 +61,8 @@ pip install ninja
 cmake -Bbuilddir -GNinja -DCMAKE_BUILD_TYPE=Release
 cmake --build builddir --parallel
 ```
+#Open in Reaper
+If you use a Mac with M1 chip you need to install the ARM-Version.
 
 # Clean rebuild
 
