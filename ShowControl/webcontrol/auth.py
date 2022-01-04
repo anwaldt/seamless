@@ -19,12 +19,40 @@ def login_required(view):
 
     return wrapped_view
 
+def admin_required(view):
+    @functools.wraps(view)
+    def wrapped_view(**kwargs):
+        db = get_db()
+        users = db.execute(
+            'SELECT * FROM user'
+            ).fetchall()
+        if len(users) == 0:
+            return view(**kwargs)
+        if g.user is None:
+            return redirect(url_for('auth.login'))
+        if g.user['admin'] == 0:
+            return redirect(url_for('index'))
+
+        return view(**kwargs)
+
+    return wrapped_view
+
+@bp.route('/')
+def index():
+    db = get_db()
+    users = db.execute(
+        'SELECT id, username, admin'
+        ' FROM user'
+    ).fetchall()
+    return render_template('auth/users.html', users=users)
+
 @bp.route('/register', methods=('GET', 'POST'))
-@login_required
+@admin_required
 def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        admin = (request.form.get('admin') == 'on')
         db = get_db()
         error = None
 
@@ -36,14 +64,14 @@ def register():
         if error is None:
             try:
                 db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
+                    "INSERT INTO user (username, password, admin) VALUES (?, ?, ?)",
+                    (username, generate_password_hash(password), int(admin))
                 )
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."
             else:
-                return redirect(url_for("auth.login"))
+                return redirect(url_for("auth.index"))
 
         flash(error)
 
@@ -126,3 +154,23 @@ def logout():
     session.clear()
     return redirect(url_for('index'))
 
+# def get_user(id, check_user=True):
+#     user = get_db().execute(
+#         'SELECT id, username'
+#         ' FROM user WHERE id = ?',
+#         (id,)
+#     ).fetchone()
+
+#     if post is None:
+#         abort(404, f"User id {id} doesn't exist.")
+
+#     return post
+
+@bp.route('/<int:id>/delete', methods=('POST',))
+@login_required
+def delete(id):
+    # get_user(id)
+    db = get_db()
+    db.execute('DELETE FROM user WHERE id = ?', (id,))
+    db.commit()
+    return redirect(url_for('auth.index'))
