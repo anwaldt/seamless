@@ -60,7 +60,7 @@ pip install ninja
 cmake -Bbuilddir -GNinja -DCMAKE_BUILD_TYPE=Release
 cmake --build builddir --parallel
 ```
-#Open in Reaper
+# Open in Reaper
 If you use a Mac with M1 chip you need to install the ARM-Version.
 
 # Clean rebuild
