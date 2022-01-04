@@ -8,9 +8,8 @@ Install Homebrew:
 ```bash
 cd FRUT
 mkdir build && cd build/
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)". #Follow the directions in the terminal to finish installation
 ```
-Follow the directions in the terminal to finish installation.
 
 Then install cmake: 
 
