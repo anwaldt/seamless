@@ -18,6 +18,7 @@ class SeamLess_MainAudioProcessor;
 class MainConnection : public juce::InterprocessConnection
 {
 public:
+
     MainConnection(juce::WaitableEvent& stop_signal, SeamLess_MainAudioProcessor *p);
 
     void connectionMade();

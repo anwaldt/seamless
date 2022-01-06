@@ -63,7 +63,7 @@ SynthDef(\send_module,
 		reverb_gain   = 0.1,
 		//
 		sub_bus       = nil,
-		sub_gain      = 0.5,
+		sub_gain      = 1,
 		//
 		gain          = 1,
 		// there needs to be a distance set for all sources
@@ -76,7 +76,7 @@ SynthDef(\send_module,
 
 		in = SoundIn.ar(in_chan);
 
-		sub_level =  (0.75/(max(0,dist)+1.0))*(0.75/(max(0,dist)+1.0));
+		sub_level =  (0.75/(max(0,dist)+1.0));
 
 		for (0, ~nIndividualSends-1,
 			{arg cnt;
@@ -85,12 +85,24 @@ SynthDef(\send_module,
 
 				Out.ar(send_bus + cnt, (in * gain) * gain_i);
 
-				// sub and reverb are added according to all spatial sends
-				Out.ar(sub_bus, sub_level*(in * gain * gain_i * sub_gain));
+				// reverb is added according to all spatial sends
 				Out.ar(reverb_bus, in * gain * gain_i * reverb_gain);
 
 			}
 		);
+
+
+		// use only the Ambisonics gain for LFE
+		for (0, 0,
+			{arg cnt;
+
+				gain_i = In.kr(individual_gains + cnt, 1);
+				Out.ar(sub_bus, sub_level* in * gain * gain_i * sub_gain);
+
+			}
+		);
+
+
 
 		for (0, ~nCommonSends-1,
 			{arg cnt;

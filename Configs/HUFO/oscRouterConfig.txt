@@ -2,7 +2,7 @@ globalconfig
 oscr_ip 172.25.18.201
 inputport_ui    4455            // inputport for UI-Clients, blocks inputport_data for short time
 inputport_data  4007            // inputport for automation-data clients
-settings_port   4999            // global configs can be changed with this port
+inputport_settings   4999            // global configs can be changed with this port
 number_sources   64
 number_renderunits 3
 index_ambi 0
@@ -20,13 +20,13 @@ listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       172.25.18.202
 listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       172.25.18.203
 listenport      57120
 sendport        59999
@@ -46,10 +46,5 @@ ipaddress       127.0.0.1
 listenport      58100
 sendport        10101
 updateintervall 50
-***
-dataclient      hufoplugin
-ipaddress       172.25.19.3
-listenport      52714
-updateintervall 5
 ***
 

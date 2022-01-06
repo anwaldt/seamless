@@ -1,5 +1,6 @@
 install_subdir('system', install_dir: '/usr/lib/systemd/')
 install_subdir('user', install_dir: '/usr/lib/systemd/')
+install_subdir('polkit-1', install_dir: '/etc/')
 if get_option('location') == 'HUFO'
 	conf_data = configuration_data()
 	conf_data.set('share_dir', get_option('prefix') / get_option('datadir') / 'seamless')

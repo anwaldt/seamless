@@ -6,3 +6,16 @@ __pycache__
 _localonly
 *.rpp-bak
 builddir
+
+# PLUGIN:
+SeamLess_Plugins/SeamLess_Client/Builds/
+SeamLess_Plugins/SeamLess_Client/JuceLibraryCode/
+*.config
+*.creator
+*.user
+*.files
+*.includes
+
+# FAUST:
+*.so
+*.sc

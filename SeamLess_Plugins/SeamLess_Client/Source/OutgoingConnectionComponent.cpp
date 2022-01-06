@@ -70,12 +70,8 @@ void OutgoingConnectionComponent::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (14.0f);
-    g.drawText ("Outgoing Connection (global)", 20, 20, 200, 20,
+    g.drawText ("Outgoing Connection (All Client Plugins)", 20, 20, 200, 20,
                 juce::Justification::left, true);   // draw some placeholder text
-
-
-
-
 
 }
 

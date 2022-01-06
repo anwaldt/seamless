@@ -145,6 +145,7 @@ class renderClass(Enum):
     Scengine = 'scengine'
     Audiorouter = 'audiorouter'
     SeamlessPlugin = "seamlessplugin"
+    AudiorouterWFS =  'AudiorouterWFS'
 
 
 # sourceAttributes: dict = {

@@ -5,8 +5,23 @@
               pluginFormats="buildVST3" pluginManufacturer="TU Studio" companyName="TU Studio"
               displaySplashScreen="1">
   <MAINGROUP id="VAkndo" name="SeamLess_MainPlugin">
+    <GROUP id="{5E0E9B09-F129-C295-6118-F0694B2F959F}" name="Common">
+      <FILE id="ELNS5D" name="SeamLess.h" compile="0" resource="0" file="../Common/SeamLess.h"/>
+    </GROUP>
     <GROUP id="{6DE0190C-DAA2-EA58-5C86-CBE9B2B9D26B}" name="Source">
-      <FILE id="po0avM" name="SeamLess_Main.h" compile="0" resource="0" file="Source/SeamLess_Main.h"/>
+      <FILE id="NoLKxU" name="OutgoingConnectionComponent.cpp" compile="1"
+            resource="0" file="Source/OutgoingConnectionComponent.cpp"/>
+      <FILE id="tBdJ2A" name="OutgoingConnectionComponent.h" compile="0"
+            resource="0" file="Source/OutgoingConnectionComponent.h"/>
+      <FILE id="RWRrSh" name="ConnectionBox.cpp" compile="1" resource="0"
+            file="Source/ConnectionBox.cpp"/>
+      <FILE id="V8zoRO" name="ConnectionBox.h" compile="0" resource="0" file="Source/ConnectionBox.h"/>
+      <FILE id="aSsGfc" name="ReverbFaderBox.cpp" compile="1" resource="0"
+            file="Source/ReverbFaderBox.cpp"/>
+      <FILE id="ty5biW" name="ReverbFader.cpp" compile="1" resource="0" file="Source/ReverbFader.cpp"/>
+      <FILE id="qj6qUu" name="ReverbFader.h" compile="0" resource="0" file="Source/ReverbFader.h"/>
+      <FILE id="RG9gw6" name="ReverbFaderBox.h" compile="0" resource="0"
+            file="Source/ReverbFaderBox.h"/>
       <FILE id="L1NGl7" name="MainConnection.cpp" compile="1" resource="0"
             file="Source/MainConnection.cpp"/>
       <FILE id="nGDe0h" name="MainConnection.h" compile="0" resource="0"

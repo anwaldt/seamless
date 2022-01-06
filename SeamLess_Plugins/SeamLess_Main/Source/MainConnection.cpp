@@ -12,7 +12,7 @@
 
 
 MainConnection::MainConnection(juce::WaitableEvent& stop_signal, SeamLess_MainAudioProcessor *p)
-: InterprocessConnection(false, 15),
+: InterprocessConnection(true, 15),
   stop_signal_(stop_signal)
 {
     processor = p;

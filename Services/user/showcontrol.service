@@ -1,0 +1,13 @@
+[Unit]
+Description=Show Control
+After=network-online.target
+Wants=network-online.target
+
+[Install]
+WantedBy=default.target
+
+[Service]
+Type=simple
+PrivateTmp=true
+ExecStart=showcontrol
+Restart=always

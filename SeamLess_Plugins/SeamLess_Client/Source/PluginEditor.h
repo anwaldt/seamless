@@ -9,7 +9,6 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <JuceHeader.h>
 #include "PluginProcessor.h"
 #include "TopView.h"
 #include "OutgoingConnectionComponent.h"

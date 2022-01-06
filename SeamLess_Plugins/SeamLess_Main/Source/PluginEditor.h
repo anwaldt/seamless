@@ -11,13 +11,17 @@
 #include <JuceHeader.h>
 #include "PluginProcessor.h"
 
+#include "ConnectionBox.h"
+#include "ReverbFaderBox.h"
+#include "OutgoingConnectionComponent.h"
+
 //==============================================================================
 /**
 */
 class SeamLess_MainAudioProcessorEditor  : public juce::AudioProcessorEditor, juce::Timer
 {
 public:
-    SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor&);
+    SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor&, juce::AudioProcessorValueTreeState&);
     ~SeamLess_MainAudioProcessorEditor() override;
 
     //==============================================================================
@@ -25,14 +29,17 @@ public:
     void resized() override;
 
 private:
-    // This reference is provided as a quick way for your editor to
-    // access the processor object that created it.
+
     SeamLess_MainAudioProcessor& audioProcessor;
 
-    juce::Label incomingPortLabel;
-    juce::Label incomingPortText;
+    ConnectionBox oscConnectionBox;
 
-    void timerCallback();
+    ReverbFaderBox reverbFaderBox;
+
+    OutgoingConnectionComponent connectionComponent;
+
+
+     void timerCallback();
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (SeamLess_MainAudioProcessorEditor)
 };

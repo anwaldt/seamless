@@ -12,10 +12,10 @@
 
 #include <JuceHeader.h>
 
-#include "SeamLess_Client.h"
-#include "SendFader.h"
+#include "../../Common/SeamLess.h"
 #include "PluginProcessor.h"
 
+#include "SendFader.h"
 
 //==============================================================================
 /*

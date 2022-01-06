@@ -8,32 +8,21 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
-#include "SeamLess_Main.h"
+#include "../../Common/SeamLess.h"
 
 //==============================================================================
-SeamLess_MainAudioProcessorEditor::SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+SeamLess_MainAudioProcessorEditor::SeamLess_MainAudioProcessorEditor (SeamLess_MainAudioProcessor& p, juce::AudioProcessorValueTreeState& apvts)
+    : AudioProcessorEditor (&p), audioProcessor (p), oscConnectionBox(p), reverbFaderBox(p,apvts), connectionComponent(&p)
 {
 
-    setSize (400, 300);
+    setSize (1400,800);
 
-    addAndMakeVisible(incomingPortLabel);
-    incomingPortLabel.setText("Set port for receiving OSC:", juce::dontSendNotification);
-    incomingPortLabel.setColour (juce::Label::textColourId, juce::Colours::black);
+    addAndMakeVisible(oscConnectionBox);
 
+    addAndMakeVisible(reverbFaderBox);
 
-    addAndMakeVisible(incomingPortText);
-    incomingPortText.setText("-", juce::dontSendNotification);
-    incomingPortText.setEditable (true);
-    incomingPortText.setColour (juce::Label::backgroundColourId, juce::Colours::grey);
+    addAndMakeVisible(connectionComponent);
 
-
-    incomingPortText.onTextChange = [this]
-    {
-        audioProcessor.setIncomingPort(incomingPortText.getText().getIntValue());
-    };
-
-    startTimer(100);
 }
 
 SeamLess_MainAudioProcessorEditor::~SeamLess_MainAudioProcessorEditor()
@@ -56,16 +45,16 @@ void SeamLess_MainAudioProcessorEditor::paint (juce::Graphics& g)
 void SeamLess_MainAudioProcessorEditor::resized()
 {
 
-    incomingPortLabel.setBounds(100, 140, 220, 20);
-    incomingPortText.setBounds(140, 180, 120, 20);
-}
+    oscConnectionBox.setBounds(60,60,200,180);
 
+    reverbFaderBox.setBounds(360,60,940,600);
+
+    connectionComponent.setBounds(40, 640, 300, 120);
+
+}
 
 
 void SeamLess_MainAudioProcessorEditor::timerCallback()
 {
-
-    if(incomingPortText.isBeingEdited() == false)
-        incomingPortText.setText(juce::String(audioProcessor.getIncomingPort()), juce::dontSendNotification);
 
 }

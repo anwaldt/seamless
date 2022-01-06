@@ -1,5 +1,10 @@
 config_dir = '/etc/seamless'
-install_data('jack.conf', install_dir: config_dir)
+
+if not fs.exists('/etc/seamless/jack.conf')
+	install_data('jack.conf', install_dir: config_dir)
+else
+	message('/etc/seamless/jack.conf already exists.')
+endif
 
 if get_option('location') == 'EN325'
 	install_subdir('EN325', strip_directory: true, install_dir: config_dir)

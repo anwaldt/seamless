@@ -1,29 +1,30 @@
-/*
-  ==============================================================================
+/**
 
-    ClientConnection.cpp
-    Created: 19 Mar 2021 4:14:08pm
-    Author:  anwaldt
+    @brief Manage the connection with client plugins.
+    @file ClientConnection.cpp
+    @date 19 Mar 2021 4:14:08pm
+    @author HvC
 
-  ==============================================================================
-*/
+**/
 
 #include "ClientConnection.h"
 
 ClientConnection::ClientConnection(SeamLess_ClientAudioProcessor& p)
-    : InterprocessConnection(false, 15)
+    : InterprocessConnection(true, 15)
 {
     processor = &p;
 }
 
 void ClientConnection::connectionMade()
 {
-    printf("Connection established from client plugin!\n");
+    printf("Client: connection established to main plugin!\n");
+    processor->setConnectedToMain(true);
 }
 
 void ClientConnection::connectionLost()
 {
-    printf("Connection lost\n");
+    printf("Client: connection to main lost!\n");
+    processor->setConnectedToMain(false);
 }
 
 
@@ -36,7 +37,8 @@ void ClientConnection::messageReceived(const juce::MemoryBlock& msg)
 
     if(array[1].getIntValue() == processor->getSourceIndex())
     {
-        std::cout << "Client " << processor->getSourceIndex() << " received message: " << str << '\n';
+
+        // std::cout << "Client " << processor->getSourceIndex() << " received message: " << str << '\n';
 
         if(array[0]=="/source/pos/x")
             processor->setXPos(array[2].getFloatValue());
@@ -52,4 +54,12 @@ void ClientConnection::messageReceived(const juce::MemoryBlock& msg)
     }
 }
 
+bool ClientConnection::mainConnection()
+{
+  return this->isConnected();
+}
 
+void ClientConnection::reconnect()
+{
+//  this.connectToSocket("localhost",);
+}

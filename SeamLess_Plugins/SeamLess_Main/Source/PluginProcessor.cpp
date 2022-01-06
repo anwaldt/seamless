@@ -11,25 +11,44 @@
 
 //==============================================================================
 SeamLess_MainAudioProcessor::SeamLess_MainAudioProcessor()
-    : AudioProcessor (BusesProperties())
+    : parameters (*this, nullptr, juce::Identifier ("SeamLess_Main"),
+{
+                  std::make_unique<juce::AudioParameterFloat> ("revGain", "Reverb Gain", 0.0, 1.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revFreq1", "Reverb Freq 1", 10.0, 20000.0, 500),
+                  std::make_unique<juce::AudioParameterFloat> ("revFreq2", "Reverb Freq 2", 10.0, 20000.0, 1500.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revRdel", "Reverb Delay", 0.0, 100.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revRgxyz", "Reverb Width", -9.0, 9.0, 0.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revT60dc", "Reverb T60 DC", 0.0, 10.0, 2.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revT60m", "Reverb T60 MID", 0.0, 10.0, 2.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpFreq", "Reverb LP Freq", 10.0, 10000.0, 1000.0),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpRs", "Reverb LP Slope", 0.0, 1.0, 0.5),
+                  std::make_unique<juce::AudioParameterFloat> ("revLpDb", "Reverb Gain", -24.0, 6.0, -9.0)
+                  }),
+      AudioProcessor (BusesProperties())
 {
 
-
-    if (! connect (9002))
-        std::cout << "Can not open port!" << '\n';
-    else
-        std::cout << "Connected to port 9002" << '\n';
+    revGain   = parameters.getRawParameterValue("revGain");
+    revFreq1  = parameters.getRawParameterValue("revFreq1");
+    revFreq2  = parameters.getRawParameterValue("revFreq2");
+    revRdel   = parameters.getRawParameterValue("revRdel");
+    revRgxyz  = parameters.getRawParameterValue("revRgxyz");
+    revT60dc  = parameters.getRawParameterValue("revT60dc");
+    revT60m   = parameters.getRawParameterValue("revT60m");
+    revLpFreq = parameters.getRawParameterValue("revLpFreq");
+    revLpRs   = parameters.getRawParameterValue("revLpRs");
+    revLpDb   = parameters.getRawParameterValue("revLpDb");
 
     // Register OSC paths
+    // (this is used for remote controlling the client instances)
     juce::OSCReceiver::addListener(this, "/source/pos/x");
     juce::OSCReceiver::addListener(this, "/source/pos/y");
     juce::OSCReceiver::addListener(this, "/source/pos/z");
 
     juce::OSCReceiver::addListener(this, "/send/gain");
 
-    beginWaitingForSocket(incomingPort,"");
+    beginWaitingForSocket(52713,"");
 
-
+    startTimer(SEND_INTERVAL);
 }
 
 SeamLess_MainAudioProcessor::~SeamLess_MainAudioProcessor()
@@ -135,19 +154,12 @@ bool SeamLess_MainAudioProcessor::isBusesLayoutSupported (const BusesLayout& lay
 
 void SeamLess_MainAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages)
 {
-//    juce::ScopedNoDenormals noDenormals;
-//    auto totalNumInputChannels  = getTotalNumInputChannels();
-//    auto totalNumOutputChannels = getTotalNumOutputChannels();
 
-//    for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
-//        buffer.clear (i, 0, buffer.getNumSamples());
+    // make send-state depend on play-state
+    auto* ph = getPlayHead();
+    ph->getCurrentPosition(playInfo);
+    playSending = playInfo.isPlaying;
 
-
-//    for (int channel = 0; channel < totalNumInputChannels; ++channel)
-//    {
-//        auto* channelData = buffer.getWritePointer (channel);
-
-//    }
 }
 
 //==============================================================================
@@ -158,15 +170,26 @@ bool SeamLess_MainAudioProcessor::hasEditor() const
 
 juce::AudioProcessorEditor* SeamLess_MainAudioProcessor::createEditor()
 {
-    return new SeamLess_MainAudioProcessorEditor (*this);
+    return new SeamLess_MainAudioProcessorEditor (*this, parameters);
 }
 
 //==============================================================================
+
 void SeamLess_MainAudioProcessor::getStateInformation (juce::MemoryBlock& destData)
 {
-    std::unique_ptr<juce::XmlElement> xml (new juce::XmlElement ("HoFo_MAIN"));
+    std::unique_ptr<juce::XmlElement> xml (new juce::XmlElement ("SeamLess_Main"));
     xml->setAttribute ("incomingPort", (int) incomingPort);
     copyXmlToBinary (*xml, destData);
+
+
+    xml->setAttribute ("oscTargetAddress", (juce::String) oscTargetAddress);
+    copyXmlToBinary (*xml, destData);
+
+    xml->setAttribute ("oscTargetPort", (int) oscTargetPort);
+    copyXmlToBinary (*xml, destData);
+
+
+
 }
 
 void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
@@ -174,9 +197,25 @@ void SeamLess_MainAudioProcessor::setStateInformation (const void* data, int siz
     std::unique_ptr<juce::XmlElement> xmlState (getXmlFromBinary (data, sizeInBytes));
 
     if (xmlState.get() != nullptr)
-        if (xmlState->hasTagName ("HoFo_MAIN"))
+    {
+        if (xmlState->hasTagName ("SeamLess_Main"))
             setIncomingPort((int) xmlState->getIntAttribute("incomingPort", 1.0));
+    }
+    else
+    {
+        setIncomingPort(9001);
+    }
 
+    std::unique_ptr<juce::XmlElement> xmlState2 (getXmlFromBinary (data, sizeInBytes));
+
+    if (xmlState2.get() != nullptr)
+    {
+        if (xmlState2->hasTagName ("SeamLess_Main"))
+        {
+            oscTargetAddress = (juce::String) xmlState2->getStringAttribute("oscTargetAddress");
+            setOscTargetPort((int) xmlState2->getIntAttribute("oscTargetPort", 1.0));
+        }
+    }
 }
 
 
@@ -189,6 +228,7 @@ juce::AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 void SeamLess_MainAudioProcessor::oscMessageReceived (const juce::OSCMessage& message)
 {
 
+    receiving = true;
 
     int nArgs = message.size();
     std::cout << "Main plugin: received OSC message with " << nArgs << " arguments!" <<  std::endl;
@@ -246,6 +286,7 @@ void SeamLess_MainAudioProcessor::setIncomingPort(int p)
         std::cout << "Can not open port!" << '\n';
     else
         std::cout << "Connected to port " << p << '\n';
+
 }
 
 
@@ -258,11 +299,131 @@ int SeamLess_MainAudioProcessor::getIncomingPort()
 void SeamLess_MainAudioProcessor::removeClosedConnections()
 {
 
-     for (auto it = begin(connections); it != end(connections);) {
-       if ((*it)->isConnected()==false)
+    for (auto it = begin(connections); it != end(connections);) {
+        if ((*it)->isConnected()==false)
             it = connections.erase(it);
-          else
+        else
             ++it;
-        }
+    }
+}
+
+
+juce::AudioProcessorValueTreeState& SeamLess_MainAudioProcessor::getState()
+{
+    return parameters;
+}
+
+void SeamLess_MainAudioProcessor::parameterChanged(const juce::String & id, float val)
+{
 
 }
+
+
+void SeamLess_MainAudioProcessor::revGainSend()
+{}
+
+void SeamLess_MainAudioProcessor::revSizeSend()
+{}
+
+void SeamLess_MainAudioProcessor::revColorSend()
+{}
+
+
+void SeamLess_MainAudioProcessor::setOscTargetPort(int port)
+{
+    oscTargetPort = port;
+    oscSender.disconnect();
+    oscSender.connect(oscTargetAddress, oscTargetPort);
+    std::cout << "Switched OSC target (from port change): " << oscTargetAddress << ":" << oscTargetPort << '\n';
+}
+
+void SeamLess_MainAudioProcessor::setOscTargetAddress(juce::String address)
+{
+    oscTargetAddress = address;
+    oscSender.disconnect();
+    oscSender.connect(oscTargetAddress, oscTargetPort);
+    std::cout << "Switched OSC target (from address change): " << oscTargetAddress << ":" << oscTargetPort << '\n';
+}
+
+
+int SeamLess_MainAudioProcessor::getOscTargetPort()
+{
+    return oscTargetPort;
+}
+
+juce::String  SeamLess_MainAudioProcessor::getOscTargetAddress()
+{
+    return oscTargetAddress;
+}
+
+bool SeamLess_MainAudioProcessor::getSendState()
+{
+    return isSending;
+}
+
+void SeamLess_MainAudioProcessor::setSendState(bool s)
+{
+    isSending=s;
+}
+
+
+bool SeamLess_MainAudioProcessor::getReceivingState()
+{
+    return receiving;
+}
+
+void SeamLess_MainAudioProcessor::setReceivingState(bool s)
+{
+    receiving = s;
+}
+
+
+void SeamLess_MainAudioProcessor::hiResTimerCallback()
+{
+
+    if(isSending==true && playSending==true)
+    {
+        float in = (float) *revGain;
+        juce::OSCMessage m = juce::OSCMessage("/reverb/gain", in);
+        oscSender.send(m);
+
+        in = (float) *revFreq1;
+        m = juce::OSCMessage("/reverb/f1", in);
+        oscSender.send(m);
+
+        in = (float) *revFreq2;
+        m = juce::OSCMessage("/reverb/f2", in);
+        oscSender.send(m);
+
+        in = (float) *revRdel;
+        m = juce::OSCMessage("/reverb/rdel", in);
+        oscSender.send(m);
+
+        in = (float) *revRgxyz;
+        m = juce::OSCMessage("/reverb/rgxyz", in);
+        oscSender.send(m);
+
+        in = (float) *revT60dc;
+        m = juce::OSCMessage("/reverb/t60dc", in);
+        oscSender.send(m);
+
+        in = (float) *revT60m;
+        m = juce::OSCMessage("/reverb/t60m", in);
+        oscSender.send(m);
+
+        in = (float) *revLpFreq;
+        m = juce::OSCMessage("/reverb/lp/freq", in);
+        oscSender.send(m);
+
+        in = (float) *revLpRs;
+        m = juce::OSCMessage("/reverb/lp/rs", in);
+        oscSender.send(m);
+
+        in = (float) *revLpDb;
+        m = juce::OSCMessage("/reverb/lp/db", in);
+        oscSender.send(m);
+    }
+}
+
+
+

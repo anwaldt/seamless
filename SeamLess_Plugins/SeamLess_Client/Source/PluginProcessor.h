@@ -13,7 +13,7 @@ class ClientConnection;
 
 #include <JuceHeader.h>
 
-#include "SeamLess_Client.h"
+#include "../../Common/SeamLess.h"
 #include "ClientConnection.h"
 
 //==============================================================================
@@ -66,6 +66,8 @@ public:
     void yPosSend();
     void zPosSend();
 
+    void xyzPosSend();
+
     ///
     /// \brief sendGainSend
     /// \param id The string identifier for the send channel.
@@ -89,24 +91,35 @@ public:
     juce::String  getOscTargetAddress();
     int getOscTargetPort();
 
+    bool getConnectedToMain();
+    void setConnectedToMain(bool b);
+
     bool getSendState();
     void setSendState(bool s);
 
     virtual void parameterChanged(const juce::String & id, float val) override;
     juce::AudioProcessorValueTreeState& getState();
 
+
 private:
 
     // for the inter com
     const int port_nr = 52713;
 
+    bool connectedToMain = false;
+
     // IP address and port are used by all instances
     static juce::String oscTargetAddress;
     static int oscTargetPort;
 
-    static bool isSending;
+    // used to detect play-state
+    juce::AudioPlayHead::CurrentPositionInfo playInfo;
 
-    ///
+    // manual send state (used by all instances):
+    static bool isSending;
+    // play state depending (used by all instances):
+    static bool playSending;
+
     /// \brief sender1
     /// @todo Make it non static!
     static juce::OSCSender sender1;

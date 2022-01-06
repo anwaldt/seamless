@@ -135,7 +135,6 @@ s.waitForBoot({
 	~control_elev_BUS     = Bus.control(s,~nInputs);
 	~control_dist_BUS     = Bus.control(s,~nInputs);
 
-
 	~reverb_gain_BUS  = Bus.control(s,~nInputs);
 	~sub_gain_BUS     = Bus.control(s,~nInputs);
 
@@ -159,17 +158,16 @@ s.waitForBoot({
 	s.sync;
 
 	~reverb_gain_BUS.set(0);
-	~sub_gain_BUS.set(0);
+
+	~sub_gain_BUS.setAll(0.33);
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// AUDIO BUSSES:
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
 	~common_send_BUSES = Bus.audio(s, ~nCommonSends);
 	~sub_BUS           = Bus.audio(s, 1);
-
 
 	// bus for encoded HOA
 	~ambi_BUS   = Bus.audio(s, ~n_hoa_channnels);
@@ -357,6 +355,8 @@ s.waitForBoot({
 	}, '/source/sub/gain');
 
 
+
+
 	~send_OSC_ROUTINE = Routine({
 
 		inf.do({
@@ -449,35 +449,188 @@ s.waitForBoot({
 	// Reverb Output
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+	// global reverb parameters
+	~reverb_gain_global_BUS  = Bus.control(s,1).set(1);
+	~reverb_f1_global_BUS    = Bus.control(s,1).set(500);
+	~reverb_f2_global_BUS    = Bus.control(s,1).set(2700);
+	~reverb_rdel_global_BUS  = Bus.control(s,1).set(10);
+	~reverb_rgxyz_global_BUS = Bus.control(s,1).set(0);
+	~reverb_t60dc_global_BUS = Bus.control(s,1).set(1.75);
+	~reverb_t60m_global_BUS  = Bus.control(s,1).set(3.5);
+
+	~reverb_lp_freq_global_BUS = Bus.control(s,1).set(2000);
+	~reverb_lp_rs_global_BUS   = Bus.control(s,1).set(0.5);
+	~reverb_lp_db_global_BUS   = Bus.control(s,1).set(-10);
+
 	~reverb = {
 
-		|f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 1.0, t60dc= 3.0, t60m= 4.0, freq= 2000, rs= 0.5, db= -10 |
+		|gain = 1, f1= 300.0, f2= 2000.0, rdel= 2.0, rgxyz= 0, t60dc= 3.0, t60m= 4.0, freq= 2000, rs= 0.5, db= -10 |
 
 		var sig = BHiShelf.ar(In.ar(~reverb_BUS.index),freq,rs,db);
 
-		Out.ar(~nInputs + ~n_hoa_channnels, FoaReverb.ar(2*sig,f1,f2,rdel,rgxyz,t60dc,t60m));
+		Out.ar(~nInputs + ~n_hoa_channnels, gain*FoaReverb.ar(2*sig,f1,f2,rdel,rgxyz,t60dc,t60m));
 
 	}.play;
-
 	s.sync;
 
 	~reverb.moveToTail(~output_GROUP);
 
-	// manual reverb settings
-	~reverb.set(\rgxyz,-9);
-	~reverb.set(\rdel,10);
-	~reverb.set(\t60dc, 1.75, \t60m, 3.5);
-	~reverb.set(\f1, 500, \f2, 2700);
 
-	/*
-	~reverb_output = Synth(\output_module,
-	[
-	\audio_bus, ~reverb_BUS.index,  //
-	\out_bus,   ~nInputs + ~n_hoa_channnels    // output after WFS
-	],
-	target: ~output_GROUP
-	);
-	*/
+
+	~reverb.map(\gain, ~reverb_gain_global_BUS);
+	~reverb.map(\f1, ~reverb_f1_global_BUS);
+	~reverb.map(\f2, ~reverb_f2_global_BUS);
+
+	~reverb.map(\rdel, ~reverb_rdel_global_BUS);
+	~reverb.map(\rgxyz, ~reverb_rgxyz_global_BUS);
+	~reverb.map(\t60dc, ~reverb_t60dc_global_BUS);
+	~reverb.map(\t60m, ~reverb_t60m_global_BUS);
+
+	~reverb.map(\freq, ~reverb_lp_freq_global_BUS);
+	~reverb.map(\rs, ~reverb_lp_rs_global_BUS);
+	~reverb.map(\db, ~reverb_lp_db_global_BUS);
+
+
+
+	OSCdef(\reverb_gain,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(0,min(1,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_gain_global_BUS.set(value);
+
+	},'/reverb/gain');
+
+
+	OSCdef(\reverb_f1,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(10,min(10000,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_f1_global_BUS.set(value);
+
+	},'/reverb/f1');
+
+
+	OSCdef(\reverb_f2,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(10,min(10000,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_f2_global_BUS.set(value);
+
+	},'/reverb/f2');
+
+
+	OSCdef(\reverb_rdel,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(0,min(100,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_rdel_global_BUS.set(value);
+
+	},'/reverb/rdel');
+
+
+	OSCdef(\reverb_rgxyz,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(-9,min(9,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_rgxyz_global_BUS.set(value);
+
+	},'/reverb/rgxyz');
+
+
+	OSCdef(\reverb_t60dc,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(0.05,min(10,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_t60dc_global_BUS.set(value);
+
+	},'/reverb/t60dc');
+
+
+	OSCdef(\reverb_t60m,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(0.05, min(10,value));
+
+			if(~debug_level == 1,{msg.postln()});
+
+			~reverb_t60m_global_BUS.set(value);
+
+	},'/reverb/t60m');
+
+
+	OSCdef(\reverb_lp_freq,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(100,min(10000,value));
+
+			if(~debug_level == 1,{msg.postln()});
+			~reverb_lp_freq_global_BUS.set(value);
+
+	},'/reverb/lp/freq');
+
+
+
+
+	OSCdef(\reverb_lp_rs,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(0.5,min(0.99,value));
+
+			if(~debug_level == 1,{msg.postln()});
+			~reverb_lp_rs_global_BUS.set(value);
+
+	},'/reverb/lp/rs');
+
+
+	OSCdef(\reverb_lp_db,
+		{
+		arg msg, time, addr, recvPort;
+
+			var value = msg[1];
+			value     = max(-18,min(6,value));
+
+			if(~debug_level == 1,{msg.postln()});
+			~reverb_lp_db_global_BUS.set(value);
+
+	},'/reverb/lp/db');
+
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	// add BASS

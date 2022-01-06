@@ -20,7 +20,7 @@ listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       127.0.0.1
 listenport      57121
 sendport        59999
@@ -41,9 +41,5 @@ listenport      58100
 sendport        10101
 updateintervall 50
 ***
-dataclient      seamlessplugin
-ipaddress       127.0.0.1
-listenport      52713
-updateintervall 5
-***
+
 

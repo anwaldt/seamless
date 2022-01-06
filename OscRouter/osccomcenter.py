@@ -18,6 +18,7 @@ soundobjects: [SoundObject] = []
 
 clientSubscriptions = {}
 audiorouter: Renderer
+audiorouterWFS: Renderer
 renderengineClients: [Renderer] = []
 dataClients: [Renderer] = []
 uiClients: [Renderer] = []
@@ -487,7 +488,7 @@ def oscreceived_setValueForSourceForAttribute(sIdx:int, attribute:skc.SourceAttr
 #     p
 
 def notifyRenderClientsForUpdate(updateFunction: str, *args, fromUi:bool=True):
-    for rend in [*renderengineClients, *uiClients, audiorouter]:
+    for rend in [*renderengineClients, *uiClients, audiorouter, audiorouterWFS]:
         #print("notifying renderer", rend)
         updatFunc = getattr(rend, updateFunction)
         updatFunc(*args)

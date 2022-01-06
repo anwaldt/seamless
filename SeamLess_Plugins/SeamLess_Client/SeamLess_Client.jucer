@@ -4,6 +4,9 @@
               addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1"
               companyName="TU Studio">
   <MAINGROUP id="tHsIzo" name="SeamLess_Client">
+    <GROUP id="{CDD0B1F1-7F7E-4E06-0F19-AAF42F51A8B3}" name="Common">
+      <FILE id="IXrrTa" name="SeamLess.h" compile="0" resource="0" file="../Common/SeamLess.h"/>
+    </GROUP>
     <GROUP id="{26827123-0244-B915-E85F-A652B1B3F034}" name="Resources">
       <FILE id="Kzhfnz" name="HuFo_Logo.png" compile="0" resource="1" file="Resources/HuFo_Logo.png"/>
       <FILE id="ckfowz" name="top_view.png" compile="0" resource="1" file="Resources/top_view.png"/>
@@ -11,12 +14,12 @@
       <FILE id="tQWjsj" name="HuFo.png" compile="0" resource="1" file="Resources/HuFo.png"/>
     </GROUP>
     <GROUP id="{430F3EF1-34BE-76D3-9328-5006156D1F39}" name="Source">
+      <FILE id="snD8JS" name="SendFader.cpp" compile="1" resource="0" file="Source/SendFader.cpp"/>
+      <FILE id="rHiBMC" name="SendFader.h" compile="0" resource="0" file="Source/SendFader.h"/>
       <FILE id="GJSi1n" name="SourceSettingsComponent.cpp" compile="1" resource="0"
             file="Source/SourceSettingsComponent.cpp"/>
       <FILE id="z8gsnA" name="SourceSettingsComponent.h" compile="0" resource="0"
             file="Source/SourceSettingsComponent.h"/>
-      <FILE id="lnUlPY" name="SendFader.cpp" compile="1" resource="0" file="Source/SendFader.cpp"/>
-      <FILE id="TmN6Zs" name="SendFader.h" compile="0" resource="0" file="Source/SendFader.h"/>
       <FILE id="kAUCPT" name="SendFaderBox.cpp" compile="1" resource="0"
             file="Source/SendFaderBox.cpp"/>
       <FILE id="TZoBQP" name="OutgoingConnectionComponent.cpp" compile="1"
@@ -24,8 +27,6 @@
       <FILE id="yiY13o" name="OutgoingConnectionComponent.h" compile="0"
             resource="0" file="Source/OutgoingConnectionComponent.h"/>
       <FILE id="eTKZTM" name="SendFaderBox.h" compile="0" resource="0" file="Source/SendFaderBox.h"/>
-      <FILE id="Yo7NuO" name="SeamLess_Client.h" compile="0" resource="0"
-            file="Source/SeamLess_Client.h"/>
       <FILE id="zOIUM5" name="ClientConnection.cpp" compile="1" resource="0"
             file="Source/ClientConnection.cpp"/>
       <FILE id="f2fV4h" name="TopView.cpp" compile="1" resource="0" file="Source/TopView.cpp"/>

@@ -12,7 +12,7 @@
 
 #include <JuceHeader.h>
 
-#include "SeamLess_Client.h"
+#include "../../Common/SeamLess.h"
 #include "PluginProcessor.h"
 
 //==============================================================================

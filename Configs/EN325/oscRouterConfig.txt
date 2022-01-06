@@ -1,14 +1,18 @@
 globalconfig
+oscr_ip 130.149.23.24
 inputport_ui    4455            // inputport for UI-Clients, blocks inputport_data for short time
 inputport_data  4007            // inputport for automation-data clients
 settings_port   4999            // global configs can be changed with this port
 number_sources   64
 number_renderunits 3
+index_ambi 0
+index_wfs 1
+index_reverb 2
 max_gain        2               // max gain for the audiorouter
 min_dist        0.001
 number_direct_sends   46              // including subwoofer
 send_changes_only 1             // checks every input for changes, if set to 1 might be slower
-data_port_timeout 1           // time a change in the ui-port blocks incoming automation, set to 0 to deactivate this feature
+data_port_timeout 2          // time a change in the ui-port blocks incoming automation, set to 0 to deactivate this feature
 ***
 audiorouter
 ipaddress       127.0.0.1
@@ -16,7 +20,7 @@ listenport      57120
 sendport        59999
 updateintervall 5
 ***
-audiorouter
+audiorouterWFS
 ipaddress       130.149.23.16
 listenport      57120
 sendport        59999
@@ -37,9 +41,5 @@ listenport      58100
 sendport        10101
 updateintervall 50
 ***
-dataclient      hufoplugin
-ipaddress       130.149.23.46
-listenport      52713
-updateintervall 5
-***
+
 
