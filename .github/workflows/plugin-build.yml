@@ -58,12 +58,12 @@ jobs:
           cmake --build . --target install --parallel
       - name: build Main-Plugin
         run: |
-          cd SeamLess_Main
+          cd ${{ env.MAIN_SRC_PATH }}
           cmake -B${{ env.MAIN_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build ${{ env.MAIN_BUILD_PATH }} --parallel
       - name: build SeamLess_Client
         run: |
-          cd SeamLess_Client
+          cd ${{ env.CLIENT_SRC_PATH }}
           cmake -B${{ env.CLIENT_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build ${{ env.CLIENT_BUILD_PATH }} --parallel
       - name: upload artifacts
