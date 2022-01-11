@@ -29,7 +29,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --yes cmake libxrandr-dev libxinerama-dev libxcursor-dev libx11-dev
+          sudo apt-get install --yes cmake libxrandr-dev libxinerama-dev libxcursor-dev
           python -m pip install --upgrade pip
           pip install ninja
       - name: install dependencies for macOS
