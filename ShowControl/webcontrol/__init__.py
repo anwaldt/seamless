@@ -2,12 +2,17 @@ import os
 
 from flask import Flask
 from schedcontrol import SchedControl
+from xdg import (xdg_state_home)
 
 schedctrl = SchedControl()
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(
+        __name__,
+        instance_path=os.path.join(xdg_state_home(),'showcontrol'),
+        instance_relative_config=True
+    )
     app.config.from_mapping(
         SECRET_KEY='dev',
         DATABASE=os.path.join(app.instance_path, 'webcontrol.sqlite'),
@@ -33,6 +38,8 @@ def create_app(test_config=None):
 
     from . import db
     db.init_app(app)
+#    if not os.path.isfile(os.path.join(app.instance_path, 'webcontrol.sqlite')):
+#        db.init_db()
 
     from . import auth
     app.register_blueprint(auth.bp)
