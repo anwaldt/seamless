@@ -29,7 +29,7 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install --yes cmake
+          sudo apt-get install --yes cmake libxrandr-dev
           python -m pip install --upgrade pip
           pip install ninja
       - name: install dependencies for macOS
