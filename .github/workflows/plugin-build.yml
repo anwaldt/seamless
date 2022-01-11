@@ -52,7 +52,7 @@ jobs:
         if: runner.os == 'Windows'
       - name: build FRUT 
         run: |
-          cd FRUT
+          cd SeamLess_Plugins/FRUT
           mkdir build && cd build/
           cmake .. -DCMAKE_INSTALL_PREFIX="../prefix" -DJUCE_ROOT="../../JUCE"
           cmake --build . --target install --parallel
@@ -62,6 +62,7 @@ jobs:
           cmake -B${{ env.MAIN_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build ${{ env.MAIN_BUILD_PATH }} --parallel
       - name: build SeamLess_Client
+        run: |
           cd SeamLess_Client
           cmake -B${{ env.CLIENT_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
           cmake --build ${{ env.CLIENT_BUILD_PATH }} --parallel
