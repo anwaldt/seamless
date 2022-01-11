@@ -1,0 +1,74 @@
+name: meson-build
+on: [push, pull_request]
+jobs:
+  build:
+    runs-on: ${{ matrix.runs-on }}
+    name: ${{ matrix.name }}
+    strategy:
+      fail-fast: false # don't abort if one of the build failse
+      matrix:
+        include:
+          - name: Linux
+            runs-on: ubuntu-20.04
+          - name: macOS
+            runs-on: macos-10.15
+          - name: Windows
+            runs-on: windows-2019
+    env:
+      MAIN_SRC_PATH: ${{ github.workspace }}/SeamLess_Plugins/SeamLess_Main
+      MAIN_BUILD_PATH: ${{ github.workspace }}/SeamLess_Plugins/SeamLess_Main/builddir
+      CLIENT_SRC_PATH: ${{ github.workspace }}/SeamLess_Plugins/SeamLess_Client
+      CLIENT_BUILD_PATH: ${{ github.workspace }}/SeamLess_Plugins/SeamLess_Client/builddir
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: install dependencies for Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes cmake
+          python -m pip install --upgrade pip
+          pip install ninja
+      - name: install dependencies for macOS
+        if: runner.os == 'macOS'
+        env:
+          HOMEBREW_NO_ANALYTICS: 1
+          HOMEBREW_NO_AUTO_UPDATE: 1
+          HOMEBREW_NO_INSTALL_CLEANUP: 1
+        run: |
+          brew install cmake
+          pip install ninja
+      - name: install dependencies for Windows
+        if: runner.os == 'Windows'
+        run: |
+          choco install cmake
+          python -m pip install --upgrade pip
+          pip install ninja
+      - name: Setup MSVC
+        uses: ilammy/msvc-dev-cmd@v1
+        if: runner.os == 'Windows'
+      - name: build FRUT 
+        run: |
+          cd FRUT
+          mkdir build && cd build/
+          cmake .. -DCMAKE_INSTALL_PREFIX="../prefix" -DJUCE_ROOT="../../JUCE"
+          cmake --build . --target install --parallel
+      - name: build Main-Plugin
+        run: |
+          cd SeamLess_Main
+          cmake -B${{ env.MAIN_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake --build ${{ env.MAIN_BUILD_PATH }} --parallel
+      -name: build SeamLess_Client
+          cd SeamLess_Client
+          cmake -B${{ env.CLIENT_BUILD_PATH }} -GNinja -DCMAKE_BUILD_TYPE=Release
+          cmake --build ${{ env.CLIENT_BUILD_PATH }} --parallel
+      - name: upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: SeamLess_Plugins-${{ matrix.name }} # version number could be added here
+          path: |
+            ${{ env.MAIN_BUILD_PATH }}/SeamLess_MainPlugin.vst3
+            ${{ env.CLIENT_BUILD_PATH }}/SeamLess_Client.vst3
