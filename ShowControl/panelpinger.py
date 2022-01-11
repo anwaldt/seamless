@@ -1,4 +1,6 @@
 """
+
+OSC interface:
 init request:
 send to port: 41234
 osc:  /check/panels
@@ -11,19 +13,48 @@ osc: /check/panels
 osc: /panel/ok panelName
 -> panel answers to ping
 osc: /panel/error panelName
--> panel answers NOT to ping, may take a few seconds
+-> panel answers NOT to ping-message, may take a few seconds
 """
 
 
-import os, platform
+import os, platform, sys
 import threading
 #import platform
 import time
-from oscpy import server, client
+
 # from subprocess import check_output
 import subprocess as sp
+import argparse
 
 keepOnRunning = True
+
+parser = argparse.ArgumentParser(description='Tool to send a ping to a list of devices')
+parser.add_argument('-l', '--devicelist', default='panelList.txt', type=str, help='Path to devicelist file')
+parser.add_argument('-r', '--remotedevice', default='172.25.18.204', type=str, help='address for remotedevice, in theory the scripts answers to the ip of requeste-sender')
+parser.add_argument('-n', '--noosc', default=False, action='store_true', help='do not open osc server, just check and quit')
+args = parser.parse_args()
+
+
+useOsc = True
+if args.noosc:
+    useOsc = False
+    print("no osc-server will be opened")
+else:
+    try:
+        from oscpy import server, client
+    except ImportError:
+        currentdir = os.path.dirname(os.path.realpath(__file__))
+        parentdir = os.path.dirname(currentdir)
+        sys.path.append(currentdir)
+        try:
+            from oscpy import server, client
+        except ImportError:
+            print("no osc-package found")
+            useOsc = False
+
+if useOsc:
+    print("osc-server reachable on port 41234: /check/panels, answer comes on port 41231")
+
 
 if platform.system() == "Windows":
     pingStr = "ping -n 1 "
@@ -37,12 +68,10 @@ class WfsPanel:
         self.reachable = reachable
 
     def testPing(self):
-        # response = os.system(pingStr + self.address)
-        # response = check_output([pingStr, self.address])
+
         subchild = sp.Popen([*pingStr.split(), self.address],  stdout=sp.PIPE)
         daat = subchild.communicate()[0]
         response = subchild.returncode
-        # print(self.name, response)
         if response == 0:
             self.reachable = True
         else:
@@ -51,7 +80,7 @@ class WfsPanel:
 
 panelList = list()
 
-file = open("panelList.txt")
+file = open(args.devicelist)
 rawPanelsString = file.read().split("\n")
 file.close()
 
@@ -70,27 +99,27 @@ def pingAllPanels():
 def pingPanel(panel) -> bool:
     panel.testPing()
     if panel.reachable:
-        oscClient.send_message(b'/panel/ok', [panel.name.encode()])
+        if useOsc:
+            oscClient.send_message(b'/panel/ok', [panel.name.encode(), panel.address.encode()])
     else:
-        oscClient.send_message(b'/panel/error', [panel.name.encode()])
+        if useOsc:
+            oscClient.send_message(b'/panel/error', [panel.name.encode()])
 
     return panel.reachable
 
 time.sleep(3)
 
-oscServer = server.OSCThreadServer()
-oscServer.listen('0.0.0.0', 41234, default=True)
-oscClient = client.OSCClient(address='172.25.18.204', port=41231)
-
 def oscR_receivedCheckRequest(*args):
-    remoteAddress = oscServer.get_sender()[1]
-    # print(remoteAddress)
-    oscServer.answer(b'/ping/request', [], port=41231)
-    global oscClient
-    oscClient = client.OSCClient(remoteAddress, 41231)
-    # oscClient.send_message(b'/ping/request', [])
-    # checkPanelReachable()
-    # pingAllPanels()
+    print("getting ping request")
+    try:
+        remoteAddress = oscServer.get_sender()[1]
+        print("from ", remoteAddress)
+        oscServer.answer(b'/ping/request', [], port=41231)
+        global oscClient
+        oscClient = client.OSCClient(remoteAddress, 41231)
+    except:
+        pass
+
     sendPanelStatus()
 
 def sendPanelStatus():
@@ -100,31 +129,30 @@ def sendPanelStatus():
         paarThreads.append(threading.Thread(target=pingPanel, args=(panel,)))
     for threads in paarThreads:
         threads.start()
-        # if pingPanel(panel):
-        #     allPanelsOk = False
-        #     oscClient.send_message(b'/panel/error', [panel.name.encode()])
-
-    # if allPanelsOk:
-    #     oscClient.send_message(b'/panel/ok', [])
+        time.sleep(0.05)
 
 
 def checkPanelReachable():
-    pingAllPanels()
+    # pingAllPanels()
+    sendPanelStatus()
     for panel in panelList:
+        # panel.testPing()
         if panel.reachable:
             _statusString = " reachable, OK!!"
         else:
             _statusString = " ERRORERROR!!!!!!!"
 
-        print("name: " + panel.name, " addr:" +panel.address + _statusString)
+        print("name: " + panel.name, "addr:" +panel.address + " status: " + _statusString)
 
-oscServer.bind(b'/check/panels', oscR_receivedCheckRequest)
+if useOsc:
+    oscServer = server.OSCThreadServer()
+    oscServer.listen('0.0.0.0', 41234, default=True)
+    oscClient = client.OSCClient(address=args.remotedevice, port=41231)
+    oscServer.bind(b'/check/panels', oscR_receivedCheckRequest)
 
 
-#pingAllPanels()
-#oscR_receivedCheckRequest()
-# signal.pause()
-# checkPanelReachable()
-while keepOnRunning:
-    time.sleep(10)
-# with server.OSCThreadServer
+checkPanelReachable()
+
+if useOsc:
+    while keepOnRunning:
+        time.sleep(10)
