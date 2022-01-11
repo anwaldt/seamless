@@ -2,19 +2,22 @@
 Plugins are built separately. The cmake build depends on
 FRUT. So first FRUT needs to be build.
 
-## First Install Homebrew and CMake
+## First Install Homebrew and CMake and Ninja
 Install Homebrew:
 
 ```bash
-cd FRUT
-mkdir build && cd build/
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)". #Follow the directions in the terminal to finish installation
 ```
 
-Then install cmake: 
+Install cmake: 
 
 ```bash
 brew install cmake
+```
+Install Ninja 
+
+```bash
+pip install ninja
 ```
 
 ## Prepare submodules (JUCE, FRUT)
@@ -49,14 +52,12 @@ cmake --build . --target install --parallel  # with CMake 3.12 or later
 Build and installation example for SeamLess_Client: 
 ```bash
 cd SeamLess_Client
-pip install ninja
 cmake -Bbuilddir -GNinja -DCMAKE_BUILD_TYPE=Release
 cmake --build builddir --parallel
 ```
 Build and installation example for SeamLess_Main:
 ```bash
 cd SeamLess_Main
-pip install ninja
 cmake -Bbuilddir -GNinja -DCMAKE_BUILD_TYPE=Release
 cmake --build builddir --parallel
 ```
