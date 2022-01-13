@@ -7,7 +7,7 @@ theme:
     logo: graphics/interface_HVC_small.png
 
 plugins:
-#    - with-pdf
+     - with-pdf
 #    - search
 #    - mkpdfs
 

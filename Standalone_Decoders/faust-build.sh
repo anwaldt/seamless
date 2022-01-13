@@ -8,8 +8,8 @@ cp ../adt/decoders/EN325_DOME1 .
 faust2jackconsole ../adt/decoders/EN325_DOME2.dsp;
 cp ../adt/decoders/EN325_DOME2 .
 
-faust2jackconsole ../adt/decoders/EN325_DOME2.dsp;
-cp ../adt/decoders/EN325_DOME2 .
+faust2jackconsole ../adt/decoders/EN325_DOME3.dsp;
+cp ../adt/decoders/EN325_DOME3 .
 
 
 
