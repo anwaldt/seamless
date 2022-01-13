@@ -1,6 +1,7 @@
 [Unit]
 Description=SuperCollider mixer for WFS Node
 After=sound.target local-fs.target seamless_jack.service
+Requires=jack.service
 
 [Install]
 WantedBy=default.target
