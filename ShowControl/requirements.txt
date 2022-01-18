@@ -1,3 +1,5 @@
 oscpy
 apscheduler
 pyyaml
+flask
+xdg

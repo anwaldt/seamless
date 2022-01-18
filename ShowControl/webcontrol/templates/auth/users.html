@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Users{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <table class="users">
+    <tr>
+      <th>Username</th>
+      <th>Admin rights</th>
+    </tr>
+
+  {% for user in users %}
+    <tr>
+      <td>{{ user['username'] }}</td>
+      <td>{{ user['admin'] }}</td>
+      <td>
+      {% if g.user['admin'] %}
+        <form action="{{ url_for('auth.delete', id=user['id']) }}" method="post">
+          <input class="danger" type="submit" value="Delete" onclick="return confirm('Are you sure?');">
+        </form>
+      {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}
