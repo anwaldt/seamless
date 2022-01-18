@@ -15,6 +15,7 @@ def create_app(test_config=None):
     )
     app.config.from_mapping(
         SECRET_KEY='dev',
+        SERVER_NAME='127.0.0.1:8080',
         DATABASE=os.path.join(app.instance_path, 'webcontrol.sqlite'),
     )
 
