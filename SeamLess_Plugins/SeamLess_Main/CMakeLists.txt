@@ -239,4 +239,20 @@ jucer_export_target_configuration(
   BINARY_NAME "SeamLess_MainPlugin"
 )
 
+jucer_export_target("Visual Studio 2019")
+
+jucer_export_target_configuration(
+    "Visual Studio 2019"
+    NAME "Debug"
+    DEBUG_MODE ON
+    BINARY_NAME "HuFo_MasterPlugin_DEBUG"
+)
+
+jucer_export_target_configuration(
+    "Visual Studio 2019"
+    NAME "Release"
+    DEBUG_MODE OFF
+    BINARY_NAME "SeamLess_MainPlugin"
+)
+
 jucer_project_end()
