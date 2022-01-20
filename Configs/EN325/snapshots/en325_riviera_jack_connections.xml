@@ -274,7 +274,7 @@
     <port name="capture_127" />
     <port name="capture_128" />
   </client>
-  <client name="EN325_DOME3">
+  <client name="ambdec_3rd">
     <port name="out_0">
       <connection port="system:playback_65" />
     </port>
@@ -339,7 +339,7 @@
       <connection port="system:playback_85" />
     </port>
   </client>
-  <client name="EN325_DOME1">
+  <client name="ambdec_rev">
     <port name="out_0">
       <connection port="system:playback_65" />
     </port>
@@ -790,64 +790,64 @@
       <connection port="twonder2:input64" />
     </port>
     <port name="out_65">
-      <connection port="EN325_DOME3:in_0" />
+      <connection port="ambdec_3rd:in_0" />
     </port>
     <port name="out_66">
-      <connection port="EN325_DOME3:in_1" />
+      <connection port="ambdec_3rd:in_1" />
     </port>
     <port name="out_67">
-      <connection port="EN325_DOME3:in_2" />
+      <connection port="ambdec_3rd:in_2" />
     </port>
     <port name="out_68">
-      <connection port="EN325_DOME3:in_3" />
+      <connection port="ambdec_3rd:in_3" />
     </port>
     <port name="out_69">
-      <connection port="EN325_DOME3:in_4" />
+      <connection port="ambdec_3rd:in_4" />
     </port>
     <port name="out_70">
-      <connection port="EN325_DOME3:in_5" />
+      <connection port="ambdec_3rd:in_5" />
     </port>
     <port name="out_71">
-      <connection port="EN325_DOME3:in_6" />
+      <connection port="ambdec_3rd:in_6" />
     </port>
     <port name="out_72">
-      <connection port="EN325_DOME3:in_7" />
+      <connection port="ambdec_3rd:in_7" />
     </port>
     <port name="out_73">
-      <connection port="EN325_DOME3:in_8" />
+      <connection port="ambdec_3rd:in_8" />
     </port>
     <port name="out_74">
-      <connection port="EN325_DOME3:in_9" />
+      <connection port="ambdec_3rd:in_9" />
     </port>
     <port name="out_75">
-      <connection port="EN325_DOME3:in_10" />
+      <connection port="ambdec_3rd:in_10" />
     </port>
     <port name="out_76">
-      <connection port="EN325_DOME3:in_11" />
+      <connection port="ambdec_3rd:in_11" />
     </port>
     <port name="out_77">
-      <connection port="EN325_DOME3:in_12" />
+      <connection port="ambdec_3rd:in_12" />
     </port>
     <port name="out_78">
-      <connection port="EN325_DOME3:in_13" />
+      <connection port="ambdec_3rd:in_13" />
     </port>
     <port name="out_79">
-      <connection port="EN325_DOME3:in_14" />
+      <connection port="ambdec_3rd:in_14" />
     </port>
     <port name="out_80">
-      <connection port="EN325_DOME3:in_15" />
+      <connection port="ambdec_3rd:in_15" />
     </port>
     <port name="out_81">
-      <connection port="EN325_DOME1:in_0" />
+      <connection port="ambdec_rev:in_0" />
     </port>
     <port name="out_82">
-      <connection port="EN325_DOME1:in_1" />
+      <connection port="ambdec_rev:in_1" />
     </port>
     <port name="out_83">
-      <connection port="EN325_DOME1:in_2" />
+      <connection port="ambdec_rev:in_2" />
     </port>
     <port name="out_84">
-      <connection port="EN325_DOME1:in_3" />
+      <connection port="ambdec_rev:in_3" />
     </port>
     <port name="out_85" />
     <port name="out_86" />
