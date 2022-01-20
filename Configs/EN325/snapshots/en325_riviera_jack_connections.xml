@@ -1,20 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <aj-snapshot>
-<alsa>
-  <client name="System">
-    <port id="0" />
-    <port id="1" />
-  </client>
-  <client name="Midi Through">
-    <port id="0" />
-  </client>
-  <client name="External MIDI">
-    <port id="0" />
-    <port id="32" />
-    <port id="64" />
-  </client>
-  <client name="Client-128" />
-</alsa>
 <jack>
   <client name="system">
     <port name="capture_1">
@@ -114,101 +99,80 @@
       <connection port="SC_MIX:in_32" />
     </port>
     <port name="capture_33">
-      <connection port="SC_MIX:in_33" />
+      <connection port="ambdec_rev:in_0" />
     </port>
     <port name="capture_34">
-      <connection port="SC_MIX:in_34" />
+      <connection port="ambdec_rev:in_1" />
     </port>
     <port name="capture_35">
-      <connection port="SC_MIX:in_35" />
+      <connection port="ambdec_rev:in_2" />
     </port>
     <port name="capture_36">
-      <connection port="SC_MIX:in_36" />
+      <connection port="ambdec_rev:in_3" />
     </port>
     <port name="capture_37">
-      <connection port="SC_MIX:in_37" />
+      <connection port="ambdec_3rd:in_0" />
     </port>
     <port name="capture_38">
-      <connection port="SC_MIX:in_38" />
+      <connection port="ambdec_3rd:in_1" />
     </port>
     <port name="capture_39">
-      <connection port="SC_MIX:in_39" />
+      <connection port="ambdec_3rd:in_2" />
     </port>
     <port name="capture_40">
-      <connection port="SC_MIX:in_40" />
+      <connection port="ambdec_3rd:in_3" />
     </port>
     <port name="capture_41">
-      <connection port="SC_MIX:in_41" />
+      <connection port="ambdec_3rd:in_4" />
     </port>
     <port name="capture_42">
-      <connection port="SC_MIX:in_42" />
+      <connection port="ambdec_3rd:in_5" />
     </port>
     <port name="capture_43">
-      <connection port="SC_MIX:in_43" />
+      <connection port="ambdec_3rd:in_6" />
     </port>
     <port name="capture_44">
-      <connection port="SC_MIX:in_44" />
+      <connection port="ambdec_3rd:in_7" />
     </port>
     <port name="capture_45">
-      <connection port="SC_MIX:in_45" />
+      <connection port="ambdec_3rd:in_8" />
     </port>
     <port name="capture_46">
-      <connection port="SC_MIX:in_46" />
+      <connection port="ambdec_3rd:in_9" />
     </port>
     <port name="capture_47">
-      <connection port="SC_MIX:in_47" />
+      <connection port="ambdec_3rd:in_10" />
     </port>
     <port name="capture_48">
-      <connection port="SC_MIX:in_48" />
+      <connection port="ambdec_3rd:in_11" />
     </port>
     <port name="capture_49">
-      <connection port="SC_MIX:in_49" />
+      <connection port="ambdec_3rd:in_12" />
     </port>
     <port name="capture_50">
-      <connection port="SC_MIX:in_50" />
+      <connection port="ambdec_3rd:in_13" />
     </port>
     <port name="capture_51">
-      <connection port="SC_MIX:in_51" />
+      <connection port="ambdec_3rd:in_14" />
     </port>
     <port name="capture_52">
-      <connection port="SC_MIX:in_52" />
+      <connection port="ambdec_3rd:in_15" />
     </port>
     <port name="capture_53">
-      <connection port="SC_MIX:in_53" />
+      <connection port="system:playback_87" />
+      <connection port="system:playback_88" />
     </port>
-    <port name="capture_54">
-      <connection port="SC_MIX:in_54" />
-    </port>
-    <port name="capture_55">
-      <connection port="SC_MIX:in_55" />
-    </port>
-    <port name="capture_56">
-      <connection port="SC_MIX:in_56" />
-    </port>
-    <port name="capture_57">
-      <connection port="SC_MIX:in_57" />
-    </port>
-    <port name="capture_58">
-      <connection port="SC_MIX:in_58" />
-    </port>
-    <port name="capture_59">
-      <connection port="SC_MIX:in_59" />
-    </port>
-    <port name="capture_60">
-      <connection port="SC_MIX:in_60" />
-    </port>
-    <port name="capture_61">
-      <connection port="SC_MIX:in_61" />
-    </port>
-    <port name="capture_62">
-      <connection port="SC_MIX:in_62" />
-    </port>
-    <port name="capture_63">
-      <connection port="SC_MIX:in_63" />
-    </port>
-    <port name="capture_64">
-      <connection port="SC_MIX:in_64" />
-    </port>
+    <port name="capture_54" />
+    <port name="capture_55" />
+    <port name="capture_56" />
+    <port name="capture_57" />
+    <port name="capture_58" />
+    <port name="capture_59" />
+    <port name="capture_60" />
+    <port name="capture_61" />
+    <port name="capture_62" />
+    <port name="capture_63" />
+    <port name="capture_64" />
     <port name="capture_65" />
     <port name="capture_66" />
     <port name="capture_67" />
@@ -274,71 +238,6 @@
     <port name="capture_127" />
     <port name="capture_128" />
   </client>
-  <client name="ambdec_3rd">
-    <port name="out_0">
-      <connection port="system:playback_65" />
-    </port>
-    <port name="out_1">
-      <connection port="system:playback_66" />
-    </port>
-    <port name="out_2">
-      <connection port="system:playback_67" />
-    </port>
-    <port name="out_3">
-      <connection port="system:playback_68" />
-    </port>
-    <port name="out_4">
-      <connection port="system:playback_69" />
-    </port>
-    <port name="out_5">
-      <connection port="system:playback_70" />
-    </port>
-    <port name="out_6">
-      <connection port="system:playback_71" />
-    </port>
-    <port name="out_7">
-      <connection port="system:playback_72" />
-    </port>
-    <port name="out_8">
-      <connection port="system:playback_73" />
-    </port>
-    <port name="out_9">
-      <connection port="system:playback_74" />
-    </port>
-    <port name="out_10">
-      <connection port="system:playback_75" />
-    </port>
-    <port name="out_11">
-      <connection port="system:playback_76" />
-    </port>
-    <port name="out_12">
-      <connection port="system:playback_77" />
-    </port>
-    <port name="out_13">
-      <connection port="system:playback_78" />
-    </port>
-    <port name="out_14">
-      <connection port="system:playback_79" />
-    </port>
-    <port name="out_15">
-      <connection port="system:playback_80" />
-    </port>
-    <port name="out_16">
-      <connection port="system:playback_81" />
-    </port>
-    <port name="out_17">
-      <connection port="system:playback_82" />
-    </port>
-    <port name="out_18">
-      <connection port="system:playback_83" />
-    </port>
-    <port name="out_19">
-      <connection port="system:playback_84" />
-    </port>
-    <port name="out_20">
-      <connection port="system:playback_85" />
-    </port>
-  </client>
   <client name="ambdec_rev">
     <port name="out_0">
       <connection port="system:playback_65" />
@@ -382,6 +281,99 @@
     <port name="out_13">
       <connection port="system:playback_78" />
     </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_0">
+      <connection port="system:playback_65" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_14">
+      <connection port="system:playback_79" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_1">
+      <connection port="system:playback_66" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_15">
+      <connection port="system:playback_80" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_2">
+      <connection port="system:playback_67" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_16">
+      <connection port="system:playback_81" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_3">
+      <connection port="system:playback_68" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_17">
+      <connection port="system:playback_82" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_4">
+      <connection port="system:playback_69" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_18">
+      <connection port="system:playback_83" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_5">
+      <connection port="system:playback_70" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_19">
+      <connection port="system:playback_84" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_6">
+      <connection port="system:playback_71" />
+    </port>
+  </client>
+  <client name="ambdec_rev">
+    <port name="out_20">
+      <connection port="system:playback_85" />
+    </port>
+  </client>
+  <client name="ambdec_3rd">
+    <port name="out_7">
+      <connection port="system:playback_72" />
+    </port>
+    <port name="out_8">
+      <connection port="system:playback_73" />
+    </port>
+    <port name="out_9">
+      <connection port="system:playback_74" />
+    </port>
+    <port name="out_10">
+      <connection port="system:playback_75" />
+    </port>
+    <port name="out_11">
+      <connection port="system:playback_76" />
+    </port>
+    <port name="out_12">
+      <connection port="system:playback_77" />
+    </port>
+    <port name="out_13">
+      <connection port="system:playback_78" />
+    </port>
     <port name="out_14">
       <connection port="system:playback_79" />
     </port>
@@ -402,6 +394,106 @@
     </port>
     <port name="out_20">
       <connection port="system:playback_85" />
+    </port>
+  </client>
+  <client name="twonder1">
+    <port name="speaker1">
+      <connection port="system:playback_1" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_2" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_3" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_4" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_5" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_6" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_7" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_8" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_9" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_10" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_11" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_12" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_13" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_14" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_15" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_16" />
+    </port>
+  </client>
+  <client name="twonder2">
+    <port name="speaker1">
+      <connection port="system:playback_17" />
+    </port>
+    <port name="speaker2">
+      <connection port="system:playback_18" />
+    </port>
+    <port name="speaker3">
+      <connection port="system:playback_19" />
+    </port>
+    <port name="speaker4">
+      <connection port="system:playback_20" />
+    </port>
+    <port name="speaker5">
+      <connection port="system:playback_21" />
+    </port>
+    <port name="speaker6">
+      <connection port="system:playback_22" />
+    </port>
+    <port name="speaker7">
+      <connection port="system:playback_23" />
+    </port>
+    <port name="speaker8">
+      <connection port="system:playback_24" />
+    </port>
+    <port name="speaker9">
+      <connection port="system:playback_25" />
+    </port>
+    <port name="speaker10">
+      <connection port="system:playback_26" />
+    </port>
+    <port name="speaker11">
+      <connection port="system:playback_27" />
+    </port>
+    <port name="speaker12">
+      <connection port="system:playback_28" />
+    </port>
+    <port name="speaker13">
+      <connection port="system:playback_29" />
+    </port>
+    <port name="speaker14">
+      <connection port="system:playback_30" />
+    </port>
+    <port name="speaker15">
+      <connection port="system:playback_31" />
+    </port>
+    <port name="speaker16">
+      <connection port="system:playback_32" />
     </port>
   </client>
   <client name="SC_MIX">
@@ -849,7 +941,10 @@
     <port name="out_84">
       <connection port="ambdec_rev:in_3" />
     </port>
-    <port name="out_85" />
+    <port name="out_85">
+      <connection port="system:playback_87" />
+      <connection port="system:playback_88" />
+    </port>
     <port name="out_86" />
     <port name="out_87" />
     <port name="out_88" />
@@ -868,106 +963,31 @@
     <port name="out_101" />
     <port name="out_102" />
     <port name="out_103" />
-  </client>
-  <client name="twonder1">
-    <port name="speaker1">
-      <connection port="system:playback_1" />
-    </port>
-    <port name="speaker2">
-      <connection port="system:playback_2" />
-    </port>
-    <port name="speaker3">
-      <connection port="system:playback_3" />
-    </port>
-    <port name="speaker4">
-      <connection port="system:playback_4" />
-    </port>
-    <port name="speaker5">
-      <connection port="system:playback_5" />
-    </port>
-    <port name="speaker6">
-      <connection port="system:playback_6" />
-    </port>
-    <port name="speaker7">
-      <connection port="system:playback_7" />
-    </port>
-    <port name="speaker8">
-      <connection port="system:playback_8" />
-    </port>
-    <port name="speaker9">
-      <connection port="system:playback_9" />
-    </port>
-    <port name="speaker10">
-      <connection port="system:playback_10" />
-    </port>
-    <port name="speaker11">
-      <connection port="system:playback_11" />
-    </port>
-    <port name="speaker12">
-      <connection port="system:playback_12" />
-    </port>
-    <port name="speaker13">
-      <connection port="system:playback_13" />
-    </port>
-    <port name="speaker14">
-      <connection port="system:playback_14" />
-    </port>
-    <port name="speaker15">
-      <connection port="system:playback_15" />
-    </port>
-    <port name="speaker16">
-      <connection port="system:playback_16" />
-    </port>
-  </client>
-  <client name="twonder2">
-    <port name="speaker1">
-      <connection port="system:playback_17" />
-    </port>
-    <port name="speaker2">
-      <connection port="system:playback_18" />
-    </port>
-    <port name="speaker3">
-      <connection port="system:playback_19" />
-    </port>
-    <port name="speaker4">
-      <connection port="system:playback_20" />
-    </port>
-    <port name="speaker5">
-      <connection port="system:playback_21" />
-    </port>
-    <port name="speaker6">
-      <connection port="system:playback_22" />
-    </port>
-    <port name="speaker7">
-      <connection port="system:playback_23" />
-    </port>
-    <port name="speaker8">
-      <connection port="system:playback_24" />
-    </port>
-    <port name="speaker9">
-      <connection port="system:playback_25" />
-    </port>
-    <port name="speaker10">
-      <connection port="system:playback_26" />
-    </port>
-    <port name="speaker11">
-      <connection port="system:playback_27" />
-    </port>
-    <port name="speaker12">
-      <connection port="system:playback_28" />
-    </port>
-    <port name="speaker13">
-      <connection port="system:playback_29" />
-    </port>
-    <port name="speaker14">
-      <connection port="system:playback_30" />
-    </port>
-    <port name="speaker15">
-      <connection port="system:playback_31" />
-    </port>
-    <port name="speaker16">
-      <connection port="system:playback_32" />
-    </port>
+    <port name="out_104" />
+    <port name="out_105" />
+    <port name="out_106" />
+    <port name="out_107" />
+    <port name="out_108" />
+    <port name="out_109" />
+    <port name="out_110" />
+    <port name="out_111" />
+    <port name="out_112" />
+    <port name="out_113" />
+    <port name="out_114" />
+    <port name="out_115" />
+    <port name="out_116" />
+    <port name="out_117" />
+    <port name="out_118" />
+    <port name="out_119" />
+    <port name="out_120" />
+    <port name="out_121" />
+    <port name="out_122" />
+    <port name="out_123" />
+    <port name="out_124" />
+    <port name="out_125" />
+    <port name="out_126" />
+    <port name="out_127" />
+    <port name="out_128" />
   </client>
   <client name="twonder3">
     <port name="speaker1">
@@ -1068,33 +1088,6 @@
     <port name="speaker16">
       <connection port="system:playback_64" />
     </port>
-  </client>
-  <client name="SC_MIX">
-    <port name="out_104" />
-    <port name="out_105" />
-    <port name="out_106" />
-    <port name="out_107" />
-    <port name="out_108" />
-    <port name="out_109" />
-    <port name="out_110" />
-    <port name="out_111" />
-    <port name="out_112" />
-    <port name="out_113" />
-    <port name="out_114" />
-    <port name="out_115" />
-    <port name="out_116" />
-    <port name="out_117" />
-    <port name="out_118" />
-    <port name="out_119" />
-    <port name="out_120" />
-    <port name="out_121" />
-    <port name="out_122" />
-    <port name="out_123" />
-    <port name="out_124" />
-    <port name="out_125" />
-    <port name="out_126" />
-    <port name="out_127" />
-    <port name="out_128" />
   </client>
 </jack>
 </aj-snapshot>
