@@ -1,1 +1,2 @@
 option('location', type : 'combo', choices: ['EN325', 'HUFO'], value : 'HUFO', description : 'Set location')
+option('reverb', type : 'boolean', value: true, description: 'Build reverb (depends on Faust and SuperCollider)')
