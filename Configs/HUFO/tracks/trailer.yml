@@ -1,0 +1,9 @@
+- name: trailer
+  title: Trailer
+  title_en: Trailer
+  audio_index: 1
+  video_index: 0
+  duration: [7,20]
+  description: >
+    Blabla
+    blablabla
