@@ -1,0 +1,11 @@
+default:
+  length: 80
+  track_padding: 10
+  tracks:
+    1: trailer
+    2: brunnen
+    3: sufi
+    4: trailer
+    5: oksus
+    6: korea
+

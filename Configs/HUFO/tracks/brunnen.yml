@@ -4,8 +4,8 @@ brunnen:
   audio_index: 2
   video_index: 1
   duration:
-    min: 17
-    sec: 0
+    minutes: 16
+    seconds: 14
   description: >
     Brunnen blär
 
