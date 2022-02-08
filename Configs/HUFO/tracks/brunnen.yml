@@ -3,7 +3,9 @@ brunnen:
   title_en: Well of the Sun
   audio_index: 2
   video_index: 1
-  duration: [17,0]
+  duration:
+    min: 17
+    sec: 0
   description: >
     Brunnen blär
 
