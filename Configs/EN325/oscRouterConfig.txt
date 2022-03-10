@@ -26,6 +26,12 @@ listenport      57120
 sendport        59999
 updateintervall 5
 ***
+audiorouterWFS
+ipaddress       127.0.0.1
+listenport      57120
+sendport        59999
+updateintervall 5
+***
 renderengine    scengine
 renderid        0
 ipaddress       127.0.0.1
