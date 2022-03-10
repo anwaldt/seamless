@@ -84,6 +84,7 @@ s.options.memSize              = 65536;
 s.options.numBuffers           = 4096;
 
 s.options.numAudioBusChannels = 4096;
+s.options.numWireBufs         = 128;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////
 // HOA parameters
