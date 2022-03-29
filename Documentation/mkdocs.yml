@@ -7,7 +7,7 @@ theme:
     logo: graphics/interface_HVC_small.png
 
 plugins:
-     - with-pdf
+#    - with-pdf
 #    - search
 #    - mkpdfs
 
@@ -19,8 +19,14 @@ extra:
 
 markdown_extensions:
   - attr_list
+  - def_list
   - pymdownx.arithmatex:
       generic: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+
+
 #docs:
 #    ../graphics/
 #      hufo_flow_1.png
@@ -38,4 +44,5 @@ nav:
       - WFS/WONDER: wonder.md
       - Reverb: reverb.md
       - OSC Router: oscrouter.md
+      - Show Control: showcontrol.md
       - System Setup: system_setup.md
