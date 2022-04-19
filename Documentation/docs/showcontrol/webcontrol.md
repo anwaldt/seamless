@@ -11,5 +11,5 @@ created:
 ```bash
 export FLASK_APP=webcontrol
 cd /usr/local/share/seamless/ShowControl
-flask db-init
+flask init-db
 ```
