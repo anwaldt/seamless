@@ -1,0 +1,927 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.6">
+    
+    
+      
+        <title>Setup - SeamLess</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.9d5733d3.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#setting-up-the-system" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SeamLess" class="md-header__button md-logo" aria-label="SeamLess" data-md-component="logo">
+      
+  <img src="../../graphics/interface_HVC_small.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SeamLess
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setup
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/anwaldt/seamless/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SeamLess" class="md-nav__button md-logo" aria-label="SeamLess" data-md-component="logo">
+      
+  <img src="../../graphics/interface_HVC_small.png" alt="logo">
+
+    </a>
+    SeamLess
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/anwaldt/seamless/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/" class="md-nav__link">
+        About the System
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reaper/" class="md-nav__link">
+        Reaper User Guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          SeamLess Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SeamLess Plugins" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SeamLess Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../plugins/" class="md-nav__link">
+        Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../paths/" class="md-nav__link">
+        OSC Paths
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Technical Documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../signalflow/" class="md-nav__link">
+        Signal Flow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../supercollider/" class="md-nav__link">
+        SuperCollider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../wonder/" class="md-nav__link">
+        WFS/WONDER
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reverb/" class="md-nav__link">
+        Reverb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../oscrouter/" class="md-nav__link">
+        OSC Router
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
+          Show Control
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Show Control" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          Show Control
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../showcontrol/showcontrol/" class="md-nav__link">
+        General
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../showcontrol/webcontrol/" class="md-nav__link">
+        WebControl
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_7" type="checkbox" id="__nav_4_7" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_7">
+          System
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="System" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_7">
+          <span class="md-nav__icon md-icon"></span>
+          System
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Setup
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-dependencies" class="md-nav__link">
+    Python Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supercollider" class="md-nav__link">
+    SuperCollider
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-faust-reverb" class="md-nav__link">
+    Build Faust Reverb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developer-mode" class="md-nav__link">
+    Developer Mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seamless-installation" class="md-nav__link">
+    Seamless installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wonder-installation" class="md-nav__link">
+    WONDER installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disable-unneeded-things" class="md-nav__link">
+    Disable unneeded things
+  </a>
+  
+    <nav class="md-nav" aria-label="Disable unneeded things">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-dbus-activated-jack" class="md-nav__link">
+    Turn off dbus activated jack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-pulseaudio" class="md-nav__link">
+    Turn off pulseaudio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-automatic-updates" class="md-nav__link">
+    Disable Automatic Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-graphical-user-interface" class="md-nav__link">
+    Turn off graphical user interface
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-user-to-audio-group" class="md-nav__link">
+    Add user to audio group
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../timeshift/" class="md-nav__link">
+        Backup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#python-dependencies" class="md-nav__link">
+    Python Dependencies
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#supercollider" class="md-nav__link">
+    SuperCollider
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-faust-reverb" class="md-nav__link">
+    Build Faust Reverb
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#developer-mode" class="md-nav__link">
+    Developer Mode
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#seamless-installation" class="md-nav__link">
+    Seamless installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#wonder-installation" class="md-nav__link">
+    WONDER installation
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#disable-unneeded-things" class="md-nav__link">
+    Disable unneeded things
+  </a>
+  
+    <nav class="md-nav" aria-label="Disable unneeded things">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-dbus-activated-jack" class="md-nav__link">
+    Turn off dbus activated jack
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-pulseaudio" class="md-nav__link">
+    Turn off pulseaudio
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-automatic-updates" class="md-nav__link">
+    Disable Automatic Updates
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#turn-off-graphical-user-interface" class="md-nav__link">
+    Turn off graphical user interface
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-user-to-audio-group" class="md-nav__link">
+    Add user to audio group
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/anwaldt/seamless/edit/master/docs/system/system_setup.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="setting-up-the-system">Setting up the System</h1>
+<h2 id="python-dependencies">Python Dependencies</h2>
+<div class="highlight"><pre><span></span><code>pip3 install oscpy
+</code></pre></div>
+<h2 id="supercollider">SuperCollider</h2>
+<p>1: Build and install SC</p>
+<p>2: Build a headless version of SC:</p>
+<p>Follow https://github.com/supercollider/supercollider/blob/develop/README_LINUX.md but call cmake:</p>
+<div class="highlight"><pre><span></span><code>cmake -DCMAKE_BUILD_TYPE=Release -DNATIVE=ON -DSC_EL=no -DSC_ABLETON_LINK=off -NO_X11=ON -DSC_QT=OFF ..
+</code></pre></div>
+<p>Install SC3-Plugins:</p>
+<div class="highlight"><pre><span></span><code>https://github.com/supercollider/sc3-plugins
+</code></pre></div>
+<p>Install SC-HOA classes:</p>
+<div class="highlight"><pre><span></span><code>Quarks.install(&quot;https://github.com/florian-grond/SC-HOA&quot;)
+</code></pre></div>
+<h2 id="build-faust-reverb">Build Faust Reverb</h2>
+<p>Faust code for the Ambisonics reverb is located in <code>Faust/reverb</code>. The install script builds and installs the SuperCollider class and objects to the user extensions directory. Make sure install ruby before using the Faust to SC compiler.</p>
+<h2 id="developer-mode">Developer Mode</h2>
+<p>The scripts <code>supercollider_gui.sh</code> and <code>supercollider_nogui.sh</code>
+allow to switch between the standard SC install
+and the headless version by setting symlinks in <code>/usr/local/bin</code></p>
+<p>Once the standard version is lionked, <code>scide</code> can be started for
+development and debugging.</p>
+<h2 id="seamless-installation">Seamless installation</h2>
+<p>For the installation of SeamLess the Meson build system is used.</p>
+<p>Create build directory:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>meson builddir
+</code></pre></div></p>
+<p>Set SeamLess location (e.g. EN325, HUFO):
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">cd</span> builddir
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>meson configure -Dlocation<span class="o">=</span>HUFO
+</code></pre></div></p>
+<p>Installation:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>sudo meson install
+</code></pre></div></p>
+<p>Create symlink to specific snapshot:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nb">cd</span> /etc/seamless
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>ln -s snapshots/wfs1.snap aj_snapshot_config.xml
+</code></pre></div></p>
+<h2 id="wonder-installation">WONDER installation</h2>
+<p>WONDER also uses Meson.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>meson builddir
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nb">cd</span> builddir
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>meson configure -Dlocation<span class="o">=</span>HUFO
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>meson compile
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>sudo meson install
+</code></pre></div>
+<h2 id="disable-unneeded-things">Disable unneeded things</h2>
+<h3 id="turn-off-dbus-activated-jack">Turn off dbus activated jack</h3>
+<p>For using the seamless_jack system service it might be necessary to turn off
+the dbus activated jack daemon:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>jack_control stop
+</code></pre></div></p>
+<p>Comment out <code>jackdbus auto</code> in <code>/usr/share/dbus-1/services/org.jackaudio.service</code>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="o">[</span>D-BUS Service<span class="o">]</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="nv">Name</span><span class="o">=</span>org.jackaudio.service
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1">#Exec=/usr/bin/jackdbus auto</span>
+</code></pre></div></p>
+<h3 id="turn-off-pulseaudio">Turn off pulseaudio</h3>
+<p>Pulseaudio runs as user service and should be masked.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>systemctl --user stop pulseaudio.socket
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>systemctl --user stop pulseaudio.service
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>systemctl --user mask pulseaudio.socket
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>systemctl --user mask pulseaudio.service
+</code></pre></div>
+<h3 id="disable-automatic-updates">Disable Automatic Updates</h3>
+<p>Automatic updates are not desired, since they can change the
+system behavior. In addition can disable the DANTE drivers.</p>
+<p>Edit:</p>
+<div class="highlight"><pre><span></span><code>/etc/apt/apt.conf.d/20auto-upgrades
+</code></pre></div>
+<p>It needs to be:</p>
+<div class="highlight"><pre><span></span><code>APT::Periodic::Update-Package-Lists &quot;0&quot;;
+APT::Periodic::Download-Upgradeable-Packages &quot;0&quot;;
+APT::Periodic::AutocleanInterval &quot;0&quot;;
+APT::Periodic::Unattended-Upgrade &quot;0&quot;;
+</code></pre></div>
+<h3 id="turn-off-graphical-user-interface">Turn off graphical user interface</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>sudo systemctl set-default multi-user
+</code></pre></div>
+<h2 id="add-user-to-audio-group">Add user to audio group</h2>
+<p>Add the user to the audio group:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>audio:x:29:pulse,user
+</code></pre></div></p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../../showcontrol/webcontrol/" class="md-footer__link md-footer__link--prev" aria-label="Previous: WebControl" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              WebControl
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../timeshift/" class="md-footer__link md-footer__link--next" aria-label="Next: Backup" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Backup
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../../assets/javascripts/workers/search.5e67fbfe.min.js"}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.e87a5f81.min.js"></script>
+      
+    
+  </body>
+</html>

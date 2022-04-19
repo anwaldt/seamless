@@ -1,0 +1,944 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-8.2.6">
+    
+    
+      
+        <title>OSC Router - SeamLess</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.9d5733d3.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.e6a45f82.min.css">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#osc-router-and-processor" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="SeamLess" class="md-header__button md-logo" aria-label="SeamLess" data-md-component="logo">
+      
+  <img src="../graphics/interface_HVC_small.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SeamLess
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              OSC Router
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/anwaldt/seamless/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="SeamLess" class="md-nav__button md-logo" aria-label="SeamLess" data-md-component="logo">
+      
+  <img src="../graphics/interface_HVC_small.png" alt="logo">
+
+    </a>
+    SeamLess
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/anwaldt/seamless/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../about/" class="md-nav__link">
+        About the System
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reaper/" class="md-nav__link">
+        Reaper User Guide
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          SeamLess Plugins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="SeamLess Plugins" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          SeamLess Plugins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../plugins/" class="md-nav__link">
+        Plugins
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../paths/" class="md-nav__link">
+        OSC Paths
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" type="checkbox" id="__nav_4" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4">
+          Technical Documentation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical Documentation" data-md-level="1">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          Technical Documentation
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../signalflow/" class="md-nav__link">
+        Signal Flow
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../supercollider/" class="md-nav__link">
+        SuperCollider
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../wonder/" class="md-nav__link">
+        WFS/WONDER
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reverb/" class="md-nav__link">
+        Reverb
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          OSC Router
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        OSC Router
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-info" class="md-nav__link">
+    Quick-Info
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick-Info">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#messages-with-source-index-in-osc-address" class="md-nav__link">
+    Messages with source-index in osc-address:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#messages-with-source-index-as-argument" class="md-nav__link">
+    Messages with source index as argument:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-coordinate-prefixes" class="md-nav__link">
+    Possible coordinate prefixes:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#osc-router-config" class="md-nav__link">
+    OSC-Router config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accepted-osc-messages" class="md-nav__link">
+    accepted OSC messages
+  </a>
+  
+    <nav class="md-nav" aria-label="accepted OSC messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#secondary-port" class="md-nav__link">
+    secondary Port
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subcription-protocol" class="md-nav__link">
+    Subcription-Protocol
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcription-Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subscribe" class="md-nav__link">
+    Subscribe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debug-functions" class="md-nav__link">
+    Debug functions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_6" type="checkbox" id="__nav_4_6" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_6">
+          Show Control
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Show Control" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_6">
+          <span class="md-nav__icon md-icon"></span>
+          Show Control
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../showcontrol/showcontrol/" class="md-nav__link">
+        General
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../showcontrol/webcontrol/" class="md-nav__link">
+        WebControl
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4_7" type="checkbox" id="__nav_4_7" >
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4_7">
+          System
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="System" data-md-level="2">
+        <label class="md-nav__title" for="__nav_4_7">
+          <span class="md-nav__icon md-icon"></span>
+          System
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/system_setup/" class="md-nav__link">
+        Setup
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../system/timeshift/" class="md-nav__link">
+        Backup
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#quick-info" class="md-nav__link">
+    Quick-Info
+  </a>
+  
+    <nav class="md-nav" aria-label="Quick-Info">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#messages-with-source-index-in-osc-address" class="md-nav__link">
+    Messages with source-index in osc-address:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#messages-with-source-index-as-argument" class="md-nav__link">
+    Messages with source index as argument:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#possible-coordinate-prefixes" class="md-nav__link">
+    Possible coordinate prefixes:
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#osc-router-config" class="md-nav__link">
+    OSC-Router config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#accepted-osc-messages" class="md-nav__link">
+    accepted OSC messages
+  </a>
+  
+    <nav class="md-nav" aria-label="accepted OSC messages">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#secondary-port" class="md-nav__link">
+    secondary Port
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#subcription-protocol" class="md-nav__link">
+    Subcription-Protocol
+  </a>
+  
+    <nav class="md-nav" aria-label="Subcription-Protocol">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#subscribe" class="md-nav__link">
+    Subscribe
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#debug-functions" class="md-nav__link">
+    Debug functions
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+<a href="https://github.com/anwaldt/seamless/edit/master/docs/oscrouter.md" title="Edit this page" class="md-content__button md-icon">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+</a>
+
+
+
+<h1 id="osc-router-and-processor">OSC-Router and Processor</h1>
+<p>The OSC-Router written in python serves as central interface for OSC-messages in a multiclient spatial rendering environment.
+It automatically translates incoming OSC-messages to match the expected formats of the rendering-engines and distributes it to all connected clients including UI-Clients and Data-clients for automation data.</p>
+<h2 id="quick-info">Quick-Info</h2>
+<p>Port: 4455</p>
+<p>There are 32 sources which can be set via the following messages:</p>
+<h3 id="messages-with-source-index-in-osc-address">Messages with source-index in osc-address:</h3>
+<ul>
+<li>Position</li>
+<li><code>/source/1/xyz fff</code> </li>
+<li><code>/source/1/aed fff</code></li>
+<li>Gain<ul>
+<li><code>/source/1/ambi f</code></li>
+<li><code>/source/1/wfs f</code> </li>
+<li><code>/source/1/reverb f</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="messages-with-source-index-as-argument">Messages with source index as argument:</h3>
+<ul>
+<li>Position<ul>
+<li><code>/source/xyz ifff</code> </li>
+<li><code>/source/aed ifff</code></li>
+</ul>
+</li>
+<li>Gain<ul>
+<li><code>/source/ambi if</code> </li>
+<li><code>/source/wfs if</code> </li>
+<li><code>/source/reverb if</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="possible-coordinate-prefixes">Possible coordinate prefixes:</h3>
+<ul>
+<li>Polar (angles in degree -180:180)
+aed, ae, ad, ed, azim, elev, dist</li>
+<li>Cartesian
+xyz, xy, xz, yz, x, y, z</li>
+</ul>
+<h2 id="osc-router-config">OSC-Router config</h2>
+<p>The OSC-Router is started by executing the <code>MAIN_oscrouter.py</code>. Per default it loads the configurationfile <code>oscRouterConfig.txt</code> in the same folder. With the argument <code>--config</code> another file can be loaded.</p>
+<p>The configfile consists of a number of blocks which are divided with <code>***</code>. For more information have a look at <code>configSample.txt</code></p>
+<p>It provides an additional debug option: using the option <code>--oscdebug</code> followed by a string with ip and port (e.g. <code>--oscdebug "192.168.3.2:55112"</code>) an additional OSC-listener can be defined, which receives a copy of every OSC-message sent out by the OSC-router.</p>
+<h2 id="accepted-osc-messages">accepted OSC messages</h2>
+<p>port:4455</p>
+<p>The Osc-Router accepts various message formats and take care of converting them to the right format. Every OSC-Message consists of a OSC-Address Prefix followed by a number of values. Here we only work with integer- (i) and float-values (f)</p>
+<p>Source IDs begins with Index 1 and can go up to 32. The following examples demonstrate which OSC-Messages are accepted for position data. </p>
+<ul>
+<li>
+<p>Source ID can be in the OSC-Prefix
+<code>/source/1/aed f f f</code>  with f f f = <em>azimuth elevation distance</em></p>
+</li>
+<li>
+<p>Or part of the Message-Values
+<code>/source/xyz i f f f</code> with i f f f = <em>sID x y z</em></p>
+</li>
+<li>
+<p>The last component of the OSC-Prefix defines the coordinate format. Besides full sets of coordinates single coordinate values can be send too
+<code>/source/azim i f</code> ,
+<code>/source/1/x f</code></p>
+</li>
+<li>
+<p>as well as pairs 
+<code>/source/1/ad f f</code> , 
+<code>/source/xy i f f</code></p>
+</li>
+</ul>
+<p>Polar and Cartesian formats will automatically converted according to the target renderer.</p>
+<p>A <strong>gain-send</strong> value has to be given which is the amount of audio sent to a specific rendering module (e.g. Ambisonics, WFS).</p>
+<p><code>/source/send/spatial i i f</code> with i i f = <em>sourceID renderingID gain(linear)</em></p>
+<p>If confgured in the config file the gains can also be set with the name of the renderer:
+* <code>/source/1/wfs f</code>
+* <code>/source/1/ambi f</code>
+* <code>/source/1/rev f</code></p>
+<h3 id="secondary-port">secondary Port</h3>
+<p>Port: 4007
+The secondary port has basically the same function as the main port 4455 but messages coming in on the main port are causing messages on the secondary port to be ignored for 2sec (configurable in the config-file). This happens separately for each source.</p>
+<h2 id="subcription-protocol">Subcription-Protocol</h2>
+<p>Subcription-Port: 4999
+Source-Data-Port: 4455</p>
+<p>The connection is initialised by a subscricption-request from the client which is followed by a regular ping-message from the OSC-router that must by answered by a pong-message in order to keep the subscription alive. Source-Position and gain messages should be sent to port 4455 and the subcription-messages to port 4999.</p>
+<h3 id="subscribe">Subscribe</h3>
+<p>A client can subscribe to all position and gain messages e.g. a viewer-client during production process. Subcriptions and pong messages should be send to port 4999.
+The connection is initialised via:
+<code>/oscrouer/subscribe s i s (i i)</code> with s = uniqueClientName, i=listeningPort, s=coordinateFormat, i=sourceIndexInOsc(0/1), i=minUpdateIntervall
+The last three arguments are optional and are set to '1 10' by default. 
+e.g. <code>/oscrouter/subscribe maxViewer 55123 xyz 1 10</code>
+will send source-position messages to the subscribing client as follows:
+* For Position
+    <code>/source/1/xyz fff</code> with a max. rate of 100Hz (every 10 ms).
+* For gains e.g.
+ <code>/source/1/ambi f</code></p>
+<p>The ip-Address of the client is retrieved automatically from the udp-packet by the OSC-Router.</p>
+<p>### ping-pong</p>
+<p>The osc-router send the message
+<code>/oscrouter/ping 4999</code>
+which should be answered (to port 4999) with
+<code>/oscrouter/pong uniqueClientName</code>
+The uniqueClientName has to be the same as in the subcription message. 
+If the client does not answer to the ping message he will be erased after a certain time. </p>
+<h2 id="debug-functions">Debug functions</h2>
+<p>Port: 4999</p>
+<p>A copy of all outgoing osc-messages from the osc-router can requested by sending:
+<code>/oscrouter/debug/osccopy ipAddress:port</code> with ipAddress and listening port of the receiving machine e.g. <code>/oscrouter/debug/osccopy 192.168.3.2:55112</code>
+The debug-osc messages contain the name of the target as well as ip-address and port.
+To deactivate this send a message without target address: <code>/oscrouter/debug/osccopy</code></p>
+<p>With the message <code>/oscrouter/debug/verbose i</code> a verbosity level can be set which activates console printing of incoming and outcoming messages as well as further informations. 
+Set verbosity to 0 when to stop console output which can significantly slow down the system. </p>
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../reverb/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Reverb" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Reverb
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../showcontrol/showcontrol/" class="md-footer__link md-footer__link--next" aria-label="Next: General" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              General
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.5e67fbfe.min.js"}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.e87a5f81.min.js"></script>
+      
+    
+  </body>
+</html>
