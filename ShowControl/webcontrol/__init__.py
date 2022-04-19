@@ -48,4 +48,5 @@ def create_app(test_config=None):
     from . import showcontrol
     app.register_blueprint(showcontrol.bp)
     app.add_url_rule('/', endpoint='index')
+    app.add_url_rule('/tracks', endpoint='tracks')
     return app
