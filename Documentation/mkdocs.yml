@@ -44,5 +44,7 @@ nav:
       - WFS/WONDER: wonder.md
       - Reverb: reverb.md
       - OSC Router: oscrouter.md
-      - Show Control: showcontrol.md
+      - Show Control:
+        - General: showcontrol/showcontrol.md
+        - WebControl: showcontrol/webcontrol.md
       - System Setup: system_setup.md

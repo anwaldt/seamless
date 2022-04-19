@@ -5,11 +5,17 @@ or by using the web interface.
 
 ## SystemD services
 
-There are three systemd user services concerning ShowControl. 
+ShowControl usually starts as a systemd user service. 
 
-* __showcontrol__: Scheduler, OSC server 
+* __showcontrol__: Scheduler, OSC server, Web Interface
+
+The web interface using the Gtk broadway web backend is deprecated. It was
+managed by systemd user services too.
+
 * __seamlesscontrol__: SeamLessControl GUI application as web service
 * __broadwayd__: Gtk web backend 
+
+
 
 ## OSC Commands
 
@@ -122,10 +128,4 @@ default:
     3: default
     4: default
 ```
-## WebControl
-
-There are two different web interfaces. Currently the web version of
-SeamLessControl is used. This web interface __can only be used by
-one instance__.
-
 
