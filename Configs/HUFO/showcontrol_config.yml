@@ -1,6 +1,6 @@
 reaper_ip: 172.25.18.204
 reaper_port: 8000
-server_ip: localhost
+server_ip: 0.0.0.0
 server_port: 9000
 system:
   - name: RE01
