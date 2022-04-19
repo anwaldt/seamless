@@ -99,7 +99,9 @@ Pulseaudio runs as user service and should be masked.
 
 ```bash
 systemctl --user stop pulseaudio.socket
+systemctl --user stop pulseaudio.service
 systemctl --user mask pulseaudio.socket
+systemctl --user mask pulseaudio.service
 ```
 
 ### Disable Automatic Updates
