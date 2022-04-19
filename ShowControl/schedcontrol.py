@@ -84,12 +84,12 @@ class SchedControl(object):
         if values[0] == 1.0:
             self.playing = True
             for player in self.videoplayers:
-                Thread(target=self.resume_video_player, args=(player,))
+                Thread(target=self.resume_video_player, args=(player,)).start()
 
         elif values[0] == 0.0:
             self.playing = False
             for player in self.videoplayers:
-                Thread(target=self.pause_video_player, args=(player,))
+                Thread(target=self.pause_video_player, args=(player,)).start()
 
     def jump_to_black_screen(self, player):
         try:
@@ -118,7 +118,7 @@ class SchedControl(object):
             print('Paused!')
             # Video nr 1 starts with a black screen
             for player in self.videoplayers:
-                Thread(target=self.jump_to_black_screen, args=(player,))
+                Thread(target=self.jump_to_black_screen, args=(player,)).start()
 
             self.sched.pause()
         elif 0.0 in values:
@@ -171,7 +171,7 @@ class SchedControl(object):
 
     def play_video(self, video_index):
         for player in self.videoplayers:
-            Thread(target=self.play_video_index, args=(player,video_index))
+            Thread(target=self.play_video_index, args=(player,video_index)).start()
 
     def load_show_control(self):
         with open(self.schedule_file) as f:
