@@ -17,10 +17,14 @@ $ sudo -s
 
 ## Booting different EFI entries
 
+Every machine has a ~Playback~ and a ~Development~ (~Entwicklung~) installation.
+They are on separate drives.
+On PS-1 you can repeatedly press F12 on startup to get to the EFI boot menu.
 
+```
 efibootmgr -v
 efibootmgr -c -d /dev/sda -p 1 -L 'SATA Entwicklung' -l '\EFI\ubuntu\shimx64.efi'
 efibootmgr -c -d /dev/nvme0n1 -p 1 -L 'NVME Playback' -l '\EFI\ubuntu\shimx64.efi'
 efibootmgr -n 0001
-
-
+efibootmgr -o 0002,0004,0008,0009,000A,000B
+```
