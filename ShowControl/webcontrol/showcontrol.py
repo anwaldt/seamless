@@ -30,5 +30,13 @@ def web_tracks():
     global schedctrl
     if request.method == 'POST':
         if "trailer" in request.form:
-            schedctrl.play_track([0])
+            schedctrl.play_track((0))
+        elif "brunnen" in request.form:
+            schedctrl.play_track((1))
+        elif "sufi" in request.form:
+            schedctrl.play_track((2))
+        elif "oksus" in request.form:
+            schedctrl.play_track((3))
+        elif "datenerhebung" in request.form:
+            schedctrl.play_track((4))
     return render_template('showcontrol/tracks.html')
