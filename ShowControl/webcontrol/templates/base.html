@@ -6,6 +6,7 @@
   <ul>
     {% if g.user %}
       <li><a href="{{ url_for('index') }}">Scheduler</a>
+      <li><a href="{{ url_for('tracks') }}">Tracks</a>
       <li><a href="{{ url_for('auth.index') }}">Users</a>
       <li><span>{{ g.user['username'] }}</span>
       <li><a href="{{ url_for('auth.logout') }}">Log Out</a>

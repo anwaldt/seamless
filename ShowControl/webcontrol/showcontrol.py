@@ -23,3 +23,12 @@ def showcontrol():
             t.start()
     print("Scheduler is running: ", schedctrl.sched.state != apscheduler.schedulers.base.STATE_PAUSED)
     return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED))
+
+@bp.route('/tracks', methods=('GET', 'POST'))
+@login_required
+def web_tracks():
+    global schedctrl
+    if request.method == 'POST':
+        if "trailer" in request.form:
+            schedctrl.play_track([0])
+    return render_template('showcontrol/tracks.html')
