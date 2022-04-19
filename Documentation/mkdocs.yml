@@ -47,4 +47,6 @@ nav:
       - Show Control:
         - General: showcontrol/showcontrol.md
         - WebControl: showcontrol/webcontrol.md
-      - System Setup: system_setup.md
+      - System:
+        - Setup: system/system_setup.md
+        - Backup: system/timeshift.md
