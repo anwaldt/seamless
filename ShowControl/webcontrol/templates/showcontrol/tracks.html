@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  <h1>{% block title %}Play tracks{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+  <form method="post">
+    <input type="submit" name="trailer" value="Trailer">
+    <input type="submit" name="brunnen" value="Brunnen der Sonne">
+    <input type="submit" name="sufi" value="Sufisonics">
+    <input type="submit" name="oksus" value="Oksus">
+    <input type="submit" name="datenerhebung" value="Datenerhebung">
+  </form>
+{% endblock %}
