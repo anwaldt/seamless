@@ -184,10 +184,10 @@ class SchedControl(object):
 
     def add_jobs_to_scheduler(self):
         for job in self.jobs:
+            if 'video_index' in job:
+                self.sched.add_job(self.play_video, 'cron', hour=job['hour'], minute=job['minute'], second=job['second']-1, day_of_week=job['day_of_week'], args=[job['video_index']])
             if job['command'] == 'play':
                 self.sched.add_job(self.play, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['audio_index']])
-            if 'video_index' in job:
-                self.sched.add_job(self.play_video, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['video_index']])
         self.sched.print_jobs()
 
 
