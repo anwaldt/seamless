@@ -229,6 +229,9 @@ class SpatialRenderer(Renderer):
         return [(args[0], *values)]
 
 
+
+import math as ma
+from shapely.geometry import Point, Polygon
 class Wonder(SpatialRenderer):
 
     def __init__(self, **kwargs):
@@ -248,6 +251,17 @@ class Wonder(SpatialRenderer):
         self.interpolTime = self.updateIntervall
         self.linkPositionAndAngle = True
 
+        self.wonderOscMap = {
+            b'/WONDER/source/position': self.wonderPositionValues,
+            b'/WONDER/source/angle': self.wonderAngleValues,
+            b'/WONDER/source/dopplerEffect': self.wonderDopplerValues,
+            b'/WONDER/source/type': self.wonderPlanewave
+        }
+
+        self.polygonInnerShift = 0.2
+        self.deadStripeWidth = 1
+        self.renderPolygon = self.createPolygonObject()
+
         self.debugPrefix = "/dWonder"
 
     def myType(self) -> str:
@@ -258,22 +272,20 @@ class Wonder(SpatialRenderer):
                                           (self.attributeOsc[attribute],)))
         self.sourceChanged(source_idx)
 
+
     def composeSourceUpdateMessage(self, values, sIdx:int=0, *args) -> [(bytes, [])]:
         osc_pre = args[0]
-        wonderOscMap = {
-            b'/WONDER/source/position': self.wonderPositionValues,
-            b'/WONDER/source/angle': self.wonderAngleValues,
-            b'/WONDER/source/dopplerEffect': self.wonderDopplerValues,
-            b'/WONDER/source/type': self.wonderPlanewave
-        }
 
-        send_values = wonderOscMap[osc_pre](sIdx, values)
+        send_values = self.wonderOscMap[osc_pre](sIdx, values)
 
         return [(osc_pre, send_values)]
 
     def wonderPositionValues(self, sIdx:int, values) -> []:
         if self.linkPositionAndAngle and self.sources[sIdx].getAttribute(skc.SourceAttributes.planewave):
             self.addUpdateAngleToStack(sIdx)
+
+        values = self.validatePosition(values)
+
         return [sIdx, *values, self.interpolTime]
 
     def wonderAngleValues(self, sIdx, values) -> []:
@@ -290,6 +302,38 @@ class Wonder(SpatialRenderer):
 
     def addUpdateAngleToStack(self, sIdx:int):
         self.updateStack[sIdx].add((partial(self.sources[sIdx].getPosition, skc.azim), (self.oscAnglePref,)))
+
+
+    # hack functions
+    def validatePosition(self, values) -> (float, float):
+        p = Point(*values)
+        dis = p.distance(self.renderPolygon)
+        if dis == 0.0 or dis > self.deadStripeWidth:
+            return values
+        else:
+            _abs = p.distance(Point(0, 0))
+            _mvDist = self.deadStripeWidth - dis
+            _mvX = p.x + ((p.x / _abs) * _mvDist)
+            _mvY = p.y + ((p.y / _abs) * _mvDist)
+            return _mvX, _mvY
+
+    def createPolygonObject(self) -> Polygon:
+        pointStrs = '-1.62,3.023\n1.62,3.023\n2.43,1.62\n2.43,-1.62\n1.62,-3.023\n-1.62,-3.023\n-2.43,-1.62\n-2.43,1.62'.split()
+        pointList = []
+        shift = self.polygonInnerShift
+        for pStr in pointStrs:
+            _x = float(pStr.split(',')[0])
+            _y = float(pStr.split(',')[1])
+            # shift polygon it slightly inside
+            absXy = ma.sqrt(_x ** 2 + _y ** 2)
+            _x = _x - ((_x/absXy) * shift)
+            _y = _y - ((_y / absXy) * shift)
+            pointList.append((_x, _y))
+
+        return Polygon(pointList)
+
+
+
 
 
 class Audiorouter(Renderer):
