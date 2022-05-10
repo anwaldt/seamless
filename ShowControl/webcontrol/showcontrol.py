@@ -39,4 +39,6 @@ def web_tracks():
             schedctrl.play_track((3))
         elif "datenerhebung" in request.form:
             schedctrl.play_track((4))
+        elif "iwillnotweep" in request.form:
+            schedctrl.play_track((5))
     return render_template('showcontrol/tracks.html')
