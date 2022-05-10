@@ -16,7 +16,8 @@ def main():
     output_file = "schedule_new.yml"
     track_files = ""
     block_files = ""
-
+    video_continuous_index = True
+    _video_idx = -1
 
     for file in os.listdir("tracks"):
         if file.endswith(".yml"):
@@ -52,7 +53,10 @@ def main():
             for i in range(N):
                 title_name = block['tracks'][i+1]
                 _audio_idx = tracks[title_name]['audio_index']
-                _video_idx = tracks[title_name]['video_index']
+                if video_continuous_index:
+                    _video_idx += 1
+                else:
+                    _video_idx = tracks[title_name]['video_index']
                 _minutes = tracks[title_name]['duration']['minutes']
                 _seconds = tracks[title_name]['duration']['seconds']
 
