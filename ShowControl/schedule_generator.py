@@ -19,19 +19,19 @@ def main():
     video_continuous_index = True
     _video_idx = -1
 
-    for file in os.listdir("tracks"):
+    for file in os.listdir("../Configs/HUFO/tracks"):
         if file.endswith(".yml"):
-            with open(os.path.join('tracks', file)) as f:
+            with open(os.path.join('../Configs/HUFO/tracks', file)) as f:
                 track_files += f.read()
     tracks = yaml.load(track_files, Loader=yaml.FullLoader)
 
-    for file in os.listdir("blocks"):
+    for file in os.listdir("../Configs/HUFO/blocks"):
         if file.endswith(".yml"):
-            with open(os.path.join('blocks', file)) as f:
+            with open(os.path.join('../Configs/HUFO/blocks', file)) as f:
                 block_files += f.read()
     blocks = yaml.load(block_files, Loader=yaml.FullLoader)
 
-    with open('blockplan.yml') as f:
+    with open('../Configs/HUFO/blockplan.yml') as f:
         blockplan = yaml.load(f.read(), Loader=yaml.FullLoader)
 
     N_bp = len(blockplan['default']['blocks'])
