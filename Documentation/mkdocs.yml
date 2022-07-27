@@ -28,7 +28,7 @@ markdown_extensions:
 nav:
 #    - Back to Project Page: https://hvc.berlin/projects/hufo-listening-room/
     - About the System: about.md
-    - Reaper User Guide: reaper.md
+    - Using the System: reaper.md
     - SeamLess Plugins:
       - Plugins: plugins.md
       - OSC Paths: paths.md
