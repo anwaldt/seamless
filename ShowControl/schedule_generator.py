@@ -13,7 +13,7 @@ def writeEntry(file, _hour, _minute, _secs, _audio_idx, _video_idx):
 
 def main():
     startzeit = datetime(2022, 2, 1, 9, 0, 0)
-    output_file = "schedule_new.yml"
+    output_file = "schedule.yml"
     track_files = ""
     block_files = ""
     video_continuous_index = True
