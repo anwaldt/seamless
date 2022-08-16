@@ -158,6 +158,9 @@ class SchedControl(object):
         elif values[0] == 5:
             self.play(6)
             self.play_video(6)
+        elif values[0] == 6:
+            self.play(7)
+            self.play_video(7)
 
     def play_video_index(self, player, video_index):
         try:
