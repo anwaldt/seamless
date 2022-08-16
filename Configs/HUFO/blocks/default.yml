@@ -1,5 +1,5 @@
 default:
-  length: 80
+  length: 120
   track_padding: 10
   tracks:
     1: trailer
@@ -8,4 +8,6 @@ default:
     4: trailer
     5: oksus
     6: datenerhebung
+    7: iwillnotweep
+    8: liquidcontinent
 

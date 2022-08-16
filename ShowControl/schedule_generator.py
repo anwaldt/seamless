@@ -13,24 +13,25 @@ def writeEntry(file, _hour, _minute, _secs, _audio_idx, _video_idx):
 
 def main():
     startzeit = datetime(2022, 2, 1, 9, 0, 0)
-    output_file = "schedule_new.yml"
+    output_file = "schedule.yml"
     track_files = ""
     block_files = ""
+    video_continuous_index = True
+    _video_idx = -1
 
-
-    for file in os.listdir("tracks"):
+    for file in os.listdir("../Configs/HUFO/tracks"):
         if file.endswith(".yml"):
-            with open(os.path.join('tracks', file)) as f:
+            with open(os.path.join('../Configs/HUFO/tracks', file)) as f:
                 track_files += f.read()
     tracks = yaml.load(track_files, Loader=yaml.FullLoader)
 
-    for file in os.listdir("blocks"):
+    for file in os.listdir("../Configs/HUFO/blocks"):
         if file.endswith(".yml"):
-            with open(os.path.join('blocks', file)) as f:
+            with open(os.path.join('../Configs/HUFO/blocks', file)) as f:
                 block_files += f.read()
     blocks = yaml.load(block_files, Loader=yaml.FullLoader)
 
-    with open('blockplan.yml') as f:
+    with open('../Configs/HUFO/blockplan.yml') as f:
         blockplan = yaml.load(f.read(), Loader=yaml.FullLoader)
 
     N_bp = len(blockplan['default']['blocks'])
@@ -52,7 +53,10 @@ def main():
             for i in range(N):
                 title_name = block['tracks'][i+1]
                 _audio_idx = tracks[title_name]['audio_index']
-                _video_idx = tracks[title_name]['video_index']
+                if video_continuous_index:
+                    _video_idx += 1
+                else:
+                    _video_idx = tracks[title_name]['video_index']
                 _minutes = tracks[title_name]['duration']['minutes']
                 _seconds = tracks[title_name]['duration']['seconds']
 
