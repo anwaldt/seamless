@@ -41,4 +41,6 @@ def web_tracks():
             schedctrl.play_track((4))
         elif "iwillnotweep" in request.form:
             schedctrl.play_track((5))
+        elif "liquidcontinent" in request.form:
+            schedctrl.play_track((6))
     return render_template('showcontrol/tracks.html')
