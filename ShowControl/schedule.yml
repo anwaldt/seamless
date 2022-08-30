@@ -19,14 +19,14 @@
   minute: 19
   second: 34
   video_index: 2
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 9
   minute: 38
   second: 49
   video_index: 3
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 9
@@ -40,7 +40,7 @@
   minute: 18
   second: 39
   video_index: 5
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 10
@@ -54,14 +54,14 @@
   minute: 39
   second: 28
   video_index: 7
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 10
   minute: 59
   second: 28
   video_index: 8
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 11
@@ -89,14 +89,14 @@
   minute: 59
   second: 34
   video_index: 12
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 12
   minute: 18
   second: 49
   video_index: 13
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 12
@@ -110,7 +110,7 @@
   minute: 58
   second: 39
   video_index: 15
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 13
@@ -124,14 +124,14 @@
   minute: 19
   second: 28
   video_index: 17
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 13
   minute: 39
   second: 28
   video_index: 18
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 13
@@ -159,14 +159,14 @@
   minute: 39
   second: 34
   video_index: 22
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 14
   minute: 58
   second: 49
   video_index: 23
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 15
@@ -180,7 +180,7 @@
   minute: 38
   second: 39
   video_index: 25
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 15
@@ -194,14 +194,14 @@
   minute: 59
   second: 28
   video_index: 27
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 16
   minute: 19
   second: 28
   video_index: 28
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 16
@@ -229,14 +229,14 @@
   minute: 19
   second: 34
   video_index: 32
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 17
   minute: 38
   second: 49
   video_index: 33
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 17
@@ -250,7 +250,7 @@
   minute: 18
   second: 39
   video_index: 35
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 18
@@ -264,14 +264,14 @@
   minute: 39
   second: 28
   video_index: 37
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 18
   minute: 59
   second: 28
   video_index: 38
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 19
@@ -299,14 +299,14 @@
   minute: 59
   second: 34
   video_index: 42
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 20
   minute: 18
   second: 49
   video_index: 43
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 20
@@ -320,7 +320,7 @@
   minute: 58
   second: 39
   video_index: 45
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 21
@@ -334,14 +334,14 @@
   minute: 19
   second: 28
   video_index: 47
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 21
   minute: 39
   second: 28
   video_index: 48
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 21
@@ -369,14 +369,14 @@
   minute: 39
   second: 34
   video_index: 52
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 22
   minute: 58
   second: 49
   video_index: 53
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 23
@@ -390,7 +390,7 @@
   minute: 38
   second: 39
   video_index: 55
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 23
@@ -404,14 +404,14 @@
   minute: 59
   second: 28
   video_index: 57
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 0
   minute: 19
   second: 28
   video_index: 58
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 0
@@ -439,14 +439,14 @@
   minute: 19
   second: 34
   video_index: 62
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 1
   minute: 38
   second: 49
   video_index: 63
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 1
@@ -460,7 +460,7 @@
   minute: 18
   second: 39
   video_index: 65
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 2
@@ -474,14 +474,14 @@
   minute: 39
   second: 28
   video_index: 67
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 2
   minute: 59
   second: 28
   video_index: 68
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 3
@@ -509,14 +509,14 @@
   minute: 59
   second: 34
   video_index: 72
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 4
   minute: 18
   second: 49
   video_index: 73
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 4
@@ -530,7 +530,7 @@
   minute: 58
   second: 39
   video_index: 75
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 5
@@ -544,14 +544,14 @@
   minute: 19
   second: 28
   video_index: 77
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 5
   minute: 39
   second: 28
   video_index: 78
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 5
@@ -579,14 +579,14 @@
   minute: 39
   second: 34
   video_index: 82
-- audio_index: 5
+- audio_index: 4
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 6
   minute: 58
   second: 49
   video_index: 83
-- audio_index: 6
+- audio_index: 5
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 7
@@ -600,7 +600,7 @@
   minute: 38
   second: 39
   video_index: 85
-- audio_index: 4
+- audio_index: 6
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 7
@@ -614,14 +614,14 @@
   minute: 59
   second: 28
   video_index: 87
-- audio_index: 9
+- audio_index: 8
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 8
   minute: 19
   second: 28
   video_index: 88
-- audio_index: 8
+- audio_index: 9
   command: play
   day_of_week: 0,1,2,3,4,5,6
   hour: 8
