@@ -177,9 +177,6 @@ class SchedControl(object):
             self.play(9)
             self.play_video(9)
            
-        elif values[0] == 9:
-            self.play(10)
-            self.play_video(10)
             
     def play_video_index(self, player, video_index):
         try:
