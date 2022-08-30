@@ -155,11 +155,11 @@ class SchedControl(object):
         
         elif values[0] == 3:
             self.play(4)
-            self.play_video(4)
+            self.play_video(3)
         
         elif values[0] == 4:
             self.play(5)
-            self.play_video(5)
+            self.play_video(4)
         
         elif values[0] == 5:
             self.play(6)
