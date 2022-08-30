@@ -43,4 +43,8 @@ def web_tracks():
             schedctrl.play_track((5))
         elif "liquidcontinent" in request.form:
             schedctrl.play_track((6))
+        elif "doublefeedback" in request.form:
+            schedctrl.play_track((7))
+        elif "thepassage" in request.form:
+            schedctrl.play_track((8))
     return render_template('showcontrol/tracks.html')
