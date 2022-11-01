@@ -47,4 +47,6 @@ def web_tracks():
             schedctrl.play_track((7))
         elif "thepassage" in request.form:
             schedctrl.play_track((8))
+        elif "transformation" in request.form:
+            schedctrl.play_track((9))
     return render_template('showcontrol/tracks.html')
