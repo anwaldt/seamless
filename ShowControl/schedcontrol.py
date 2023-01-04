@@ -4,7 +4,6 @@ from apscheduler.schedulers.blocking import BlockingScheduler
 from datetime import datetime
 from threading import Thread
 import yaml
-import requests
 import os
 import socket
 import json
@@ -20,11 +19,14 @@ class SchedControl(object):
 
         self.schedule_file = "/etc/seamless/schedule.yml"
         self.config_file = "/etc/seamless/showcontrol_config.yml"
+
         with open(self.config_file) as f:
             self.config = yaml.load(f, Loader=yaml.FullLoader)
 
-        self.videoplayers = []
-        self.generate_videoplayer_list()
+
+        self.video_broadcast_ip = self.config["videobroadcast_ip"]
+        self.video_broadcast_port = self.config["videobroadcast_port"]
+
         self.playing = False
 
         self.reaper = OSCClient(self.config['reaper_ip'], self.config['reaper_port'])
@@ -37,6 +39,8 @@ class SchedControl(object):
 
         self.sched_thr = Thread(target=self.sched.start)
         self.sched_thr.start()
+        print('sched_control init finished')
+
 
     def play(self, track_nr):
         self.reaper.send_message(b'/region', [track_nr])
@@ -44,38 +48,15 @@ class SchedControl(object):
         self.reaper.send_message(b'/stop', [1.0])
         self.reaper.send_message(b'/play', [1.0])
 
-    def resume_video_player(self, player):
-        try:
-            sock = socket.socket()
-            sock.settimeout(5)
-            sock.connect((player['ip'],12345))
-            try:
-                message = json.dumps({'command': ['set_property', 'pause', 'no']}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-                sock.close()
-            except:
-                print('Sending play command to {} failed.'.format(player['name']))
 
-        except:
-            print('No connection to video player: ', player['name'])
+    def send_udp_broadcast(self, command_dict: dict):
+        message = json.dumps(command_dict).encode("utf-8") + b"\n"
+        print(message)
 
-    def pause_video_player(self, player):
-        try:
-            sock = socket.socket()
-            sock.settimeout(5)
-            sock.connect((player['ip'],12345))
-
-            try:
-                message = json.dumps({'command': ['set_property', 'pause', 'yes']}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-                sock.close()
-            except:
-                print('Sending pause command to {} failed.'.format(player['name']))
-
-        except:
-            print('No connection to video player: ', player['name'])
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
+        sock.sendto(message, (self.video_broadcast_ip, self.video_broadcast_port))
+        sock.close()
 
 
     @server.address_method(b'/play')
@@ -83,29 +64,18 @@ class SchedControl(object):
         print(values[0])
         if values[0] == 1.0:
             self.playing = True
-            for player in self.videoplayers:
-                Thread(target=self.resume_video_player, args=(player,)).start()
+            try:
+                self.send_udp_broadcast({'command': ['set_property', 'pause', 'no']})
+            except:
+                print("sending play command failed")
 
         elif values[0] == 0.0:
             self.playing = False
-            for player in self.videoplayers:
-                Thread(target=self.pause_video_player, args=(player,)).start()
-
-    def jump_to_black_screen(self, player):
-        try:
-            sock = socket.socket()
-            sock.settimeout(5)
-            sock.connect((player['ip'],12345))
             try:
-                message = json.dumps({'command': ['playlist-play-index', 0]}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-                sock.close()
+                self.send_udp_broadcast({'command': ['set_property', 'pause', 'yes']})
             except:
-                print('Sending play video index command to {} failed.'.format(player['name']))
+                print("sending pause command failed")
 
-        except:
-            print('No connection to video player: ', player['name'])
 
     @server.address_method(b'/showcontrol/pause')
     def pause(self, *values):
@@ -116,11 +86,15 @@ class SchedControl(object):
             time.sleep(0.5)
             self.reaper.send_message(b'/stop', [1.0])
             print('Paused!')
-            # Video nr 1 starts with a black screen
-            for player in self.videoplayers:
-                Thread(target=self.jump_to_black_screen, args=(player,)).start()
+
+            # Video nr 0 starts with a black screen
+            try:
+                self.send_udp_broadcast({'command': ['playlist-play-index', 0]})
+            except:
+                print("sending play video index command to 0 failed")
 
             self.sched.pause()
+
         elif 0.0 in values:
             print('Resumed!')
             self.reaper.send_message(b'/track/1/mute', [0])
@@ -185,27 +159,14 @@ class SchedControl(object):
         elif values[0] == 8:
             self.play(9)
             self.play_video(8)
-           
-            
-    def play_video_index(self, player, video_index):
-        try:
-            sock = socket.socket()
-            sock.settimeout(5)
-            sock.connect((player['ip'],12345))
-            try:
-                message = json.dumps({'command': ['playlist-play-index', video_index]}).encode('utf-8') + b'\n'
-                print(message)
-                sock.sendall(message)
-                sock.close()
-            except:
-                print('Sending play video index command to {} failed.'.format(player['name']))
 
-        except:
-            print('No connection to video player: {}', player['name'])
 
     def play_video(self, video_index):
-        for player in self.videoplayers:
-            Thread(target=self.play_video_index, args=(player,video_index)).start()
+        try:
+            self.send_udp_broadcast({'command': ['playlist-play-index', video_index]})
+        except:
+            print(f'Sending play video index command to {video_index} failed.')
+
 
     def load_show_control(self):
         with open(self.schedule_file) as f:
@@ -221,9 +182,8 @@ class SchedControl(object):
                 self.sched.add_job(self.play_video, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['video_index']])
         self.sched.print_jobs()
 
-
-    def generate_videoplayer_list(self):
-        for machine in self.config['system']:
-            if 'mpv' in machine['services']:
-                self.videoplayers.append(machine)
-
+if __name__=="__main__":
+    schedctrl = SchedControl()
+    schedctrl.play_video(1)
+    time.sleep(0.3)
+    
