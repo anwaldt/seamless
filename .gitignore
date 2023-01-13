@@ -6,7 +6,7 @@ __pycache__
 _localonly
 *.rpp-bak
 builddir
-
+venv
 ShowControl/instance/
 
 # PLUGIN:
