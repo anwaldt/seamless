@@ -1,6 +1,7 @@
 import yaml
 import os
 from datetime import datetime, timedelta
+from pathlib import Path
 
 def writeEntry(file, _hour, _minute, _secs, _audio_idx, _video_idx):
     file.write(f"- audio_index: {_audio_idx}\n"
@@ -12,26 +13,27 @@ def writeEntry(file, _hour, _minute, _secs, _audio_idx, _video_idx):
                f"  video_index: {_video_idx}\n")
 
 def main():
-    startzeit = datetime(2022, 2, 1, 9, 0, 0)
-    output_file = "schedule.yml"
+    path_config = Path(__file__).parent.parent / "Configs/HUFO"
+    startzeit = datetime(2022, 2, 1, 10, 40, 0)
+    output_file = path_config / "schedule.yml"
     track_files = ""
     block_files = ""
-    video_continuous_index = True
+    video_continuous_index = False
     _video_idx = -1
 
-    for file in os.listdir("../Configs/HUFO/tracks"):
+    for file in os.listdir(path_config / "tracks"):
         if file.endswith(".yml"):
-            with open(os.path.join('../Configs/HUFO/tracks', file)) as f:
+            with open(path_config / "tracks" / file) as f:
                 track_files += f.read()
     tracks = yaml.load(track_files, Loader=yaml.FullLoader)
 
-    for file in os.listdir("../Configs/HUFO/blocks"):
+    for file in os.listdir(path_config / "blocks"):
         if file.endswith(".yml"):
-            with open(os.path.join('../Configs/HUFO/blocks', file)) as f:
+            with open(path_config / 'blocks'/ file) as f:
                 block_files += f.read()
     blocks = yaml.load(block_files, Loader=yaml.FullLoader)
 
-    with open('../Configs/HUFO/blockplan.yml') as f:
+    with open(path_config / "blockplan.yml") as f:
         blockplan = yaml.load(f.read(), Loader=yaml.FullLoader)
 
     N_bp = len(blockplan['default']['blocks'])
