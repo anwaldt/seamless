@@ -14,7 +14,7 @@ def writeEntry(file, _hour, _minute, _secs, _audio_idx, _video_idx):
 
 def main():
     path_config = Path(__file__).parent.parent / "Configs/HUFO"
-    startzeit = datetime(2022, 2, 1, 10, 30, 0)
+    startzeit = datetime(2022, 2, 1, 10, 40, 0)
     output_file = path_config / "schedule.yml"
     track_files = ""
     block_files = ""
