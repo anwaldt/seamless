@@ -7,7 +7,6 @@ _localonly
 *.rpp-bak
 builddir
 venv
-
 ShowControl/instance/
 
 # PLUGIN:
