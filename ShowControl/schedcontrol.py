@@ -12,9 +12,9 @@ from pathlib import Path
 
 server = OSCThreadServer()
 
+
 @ServerClass
 class SchedControl(object):
-
     def __init__(self):
         global server
 
@@ -27,15 +27,16 @@ class SchedControl(object):
 
         self.generate_track_list()
 
-
         self.video_broadcast_ip = self.config["videobroadcast_ip"]
         self.video_broadcast_port = self.config["videobroadcast_port"]
 
         self.playing = False
 
-        self.reaper = OSCClient(self.config['reaper_ip'], self.config['reaper_port'])
+        self.reaper = OSCClient(self.config["reaper_ip"], self.config["reaper_port"])
 
-        server.listen(self.config['server_ip'], self.config['server_port'], default = True)
+        server.listen(
+            self.config["server_ip"], self.config["server_port"], default=True
+        )
 
         self.sched = BlockingScheduler()
         self.jobs = self.load_show_control()
@@ -43,17 +44,16 @@ class SchedControl(object):
 
         self.sched_thr = Thread(target=self.sched.start)
         self.sched_thr.start()
-        print('sched_control init finished')
-
+        print("sched_control init finished")
 
     def play(self, track_nr):
-        self.reaper.send_message(b'/region', [track_nr])
+        self.reaper.send_message(b"/region", [track_nr])
         # if playing == False:
-        self.reaper.send_message(b'/stop', [1.0])
-        self.reaper.send_message(b'/play', [1.0])
-
+        self.reaper.send_message(b"/stop", [1.0])
+        self.reaper.send_message(b"/play", [1.0])
 
     def send_udp_broadcast(self, command_dict: dict):
+
         message = json.dumps(command_dict).encode("utf-8") + b"\n"
         print(message)
 
@@ -62,62 +62,60 @@ class SchedControl(object):
         sock.sendto(message, (self.video_broadcast_ip, self.video_broadcast_port))
         sock.close()
 
-
-    @server.address_method(b'/play')
+    @server.address_method(b"/play")
     def play_state(self, *values):
         print(values[0])
         if values[0] == 1.0:
             self.playing = True
             try:
-                self.send_udp_broadcast({'command': ['set_property', 'pause', 'no']})
+                self.send_udp_broadcast({"command": ["set_property", "pause", "no"]})
             except:
                 print("sending play command failed")
 
         elif values[0] == 0.0:
             self.playing = False
             try:
-                self.send_udp_broadcast({'command': ['set_property', 'pause', 'yes']})
+                self.send_udp_broadcast({"command": ["set_property", "pause", "yes"]})
             except:
                 print("sending pause command failed")
 
-
-    @server.address_method(b'/showcontrol/pause')
+    @server.address_method(b"/showcontrol/pause")
     def pause(self, *values):
         if 1.0 in values:
-            print('Pause message!')
-            self.reaper.send_message(b'/track/1/mute', [1])
+            print("Pause message!")
+            self.reaper.send_message(b"/track/1/mute", [1])
             # if playing == True:
             time.sleep(0.5)
-            self.reaper.send_message(b'/stop', [1.0])
-            print('Paused!')
+            self.reaper.send_message(b"/stop", [1.0])
+            print("Paused!")
 
             # Video nr 0 starts with a black screen
             try:
-                self.send_udp_broadcast({'command': ['playlist-play-index', 0]})
+                self.send_udp_broadcast({"command": ["playlist-play-index", 0]})
             except:
                 print("sending play video index command to 0 failed")
 
             self.sched.pause()
 
         elif 0.0 in values:
-            print('Resumed!')
-            self.reaper.send_message(b'/track/1/mute', [0])
+            print("Resumed!")
+            self.reaper.send_message(b"/track/1/mute", [0])
             self.sched.resume()
 
-
-    @server.address_method(b'/showcontrol/reboot')
+    @server.address_method(b"/showcontrol/reboot")
     def reboot(*values):
         if 1.0 in values:
-            for machine in self.config['system']:
-                print('Reboot {}'.format(machine['name']))
-                os.popen('systemctl -H {}@{} reboot'.format(machine['user'], machine['ip']))
+            for machine in self.config["system"]:
+                print("Reboot {}".format(machine["name"]))
+                os.popen(
+                    "systemctl -H {}@{} reboot".format(machine["user"], machine["ip"])
+                )
 
-
-    @server.address_method(b'/showcontrol/track')
+    @server.address_method(b"/showcontrol/track")
     def play_track(self, *values):
-        
+
         self.sched.pause()
-        self.reaper.send_message(b'/track/1/mute', [0])
+        self.reaper.send_message(b"/track/1/mute", [0])
 
         if isinstance(values[0], int):
             # TODO maybe play the track at that index instead? would be unpredictable tho...
@@ -126,33 +124,47 @@ class SchedControl(object):
         track_id = values[0]
         track = self.tracks[track_id]
 
-        print(f"Play track: {track_id} (audio_index {track['audio_index']}, video_index {track['video_index']}")
+        print(
+            f"Play track: {track_id} (audio_index {track['audio_index']}, video_index {track['video_index']}"
+        )
 
         self.play(track["audio_index"])
         self.play_video(track["video_index"])
 
-
     def play_video(self, video_index):
         try:
-            self.send_udp_broadcast({'command': ['playlist-play-index', video_index]})
+            self.send_udp_broadcast({"command": ["playlist-play-index", video_index]})
         except:
-            print(f'Sending play video index command to {video_index} failed.')
-
+            print(f"Sending play video index command to {video_index} failed.")
 
     def load_show_control(self):
         with open(self.schedule_file) as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
             return data
 
-
     def add_jobs_to_scheduler(self):
         for job in self.jobs:
-            if job['command'] == 'play':
-                self.sched.add_job(self.play, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['audio_index']])
-            if 'video_index' in job:
-                self.sched.add_job(self.play_video, 'cron', hour=job['hour'], minute=job['minute'], second=job['second'], day_of_week=job['day_of_week'], args=[job['video_index']])
+            if job["command"] == "play":
+                self.sched.add_job(
+                    self.play,
+                    "cron",
+                    hour=job["hour"],
+                    minute=job["minute"],
+                    second=job["second"],
+                    day_of_week=job["day_of_week"],
+                    args=[job["audio_index"]],
+                )
+            if "video_index" in job:
+                self.sched.add_job(
+                    self.play_video,
+                    "cron",
+                    hour=job["hour"],
+                    minute=job["minute"],
+                    second=job["second"],
+                    day_of_week=job["day_of_week"],
+                    args=[job["video_index"]],
+                )
         self.sched.print_jobs()
-
 
     def generate_track_list(self):
         """Reads the tracks directory and stores the tracks into the self.tracks dict
@@ -171,3 +183,6 @@ class SchedControl(object):
 
             # Add track to tracks dict
             self.tracks.update(track_conf)
+
+    def get_scheduled_tracks(self):
+        print(self.sched.get_jobs())
