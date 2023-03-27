@@ -1,5 +1,5 @@
 default:
-  length: 160
+  length: 180
   track_padding: 10
   tracks:
     1: trailer
