@@ -53,7 +53,6 @@ class SchedControl(object):
         self.reaper.send_message(b"/play", [1.0])
 
     def send_udp_broadcast(self, command_dict: dict):
-
         message = json.dumps(command_dict).encode("utf-8") + b"\n"
         print(message)
 
@@ -113,7 +112,6 @@ class SchedControl(object):
 
     @server.address_method(b"/showcontrol/track")
     def play_track(self, *values):
-
         self.sched.pause()
         self.reaper.send_message(b"/track/1/mute", [0])
 
@@ -184,5 +182,34 @@ class SchedControl(object):
             # Add track to tracks dict
             self.tracks.update(track_conf)
 
-    def get_scheduled_tracks(self):
-        print(self.sched.get_jobs())
+    def get_scheduled_tracks(self, n_tracks=20):
+        """Returns the next n_tracks scheduled tracks.
+
+        Args:
+            n_tracks (int, optional): Number of tracks to return. Defaults to 15.
+
+        Returns:
+            List[Tuple[str]]: Scheduled tracks as list with tuples in the format (time, title)
+        """
+        # get all jobs
+        a = self.sched.get_jobs()
+
+        if len(a) < n_tracks:
+            n_tracks = len(a)
+
+        # filter out only play commands
+        next_track_jobs = (
+            t for t in a[: n_tracks * 2] if t.name == "SchedControl.play"
+        )
+
+        # build a readable data structure out of that
+        next_tracks = []
+        for t in next_track_jobs:
+            for track_name, value in self.tracks.items():
+                if value["audio_index"] == t.args[0]:
+                    next_tracks.append(
+                        (t.next_run_time.strftime("%H:%M"), value["title"])
+                    )
+                    break
+
+        return next_tracks

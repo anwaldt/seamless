@@ -22,7 +22,7 @@ def showcontrol():
             t = Thread(target=schedctrl.pause, args=(0,))
             t.start()
     print("Scheduler is running: ", schedctrl.sched.state != apscheduler.schedulers.base.STATE_PAUSED)
-    return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED))
+    return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED), schedule=schedctrl.get_scheduled_tracks())
 
 @bp.route('/tracks', methods=('GET', 'POST'))
 @login_required

@@ -15,4 +15,12 @@
   {% elif state is sameas false %}
   <div>Schedule playing</div>
   {% endif %}
+
+  <h1>Schedule</h1>
+  <table>
+  <tr><th>Time</th><th>Piece</th></tr>
+  {% for s in schedule %}
+  <tr><td>{{s[0]}}</td> <td>{{s[1]}}</td></tr>
+  {% endfor %}
+  </table>
 {% endblock %}

@@ -25,3 +25,5 @@ nav ul li a, nav ul li span, header .action { display: block; padding: 0.5rem; }
 input.danger { color: #cc2f2e; }
 input[type=submit] { align-self: start; min-width: 10em; }
 button { align-self: start; min-width: 20em; }
+th {	text-align: left;}
+td {	padding-right: 1em;}
