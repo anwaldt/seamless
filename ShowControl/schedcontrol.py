@@ -53,6 +53,7 @@ class SchedControl(object):
         self.reaper.send_message(b"/play", [1.0])
 
     def send_udp_broadcast(self, command_dict: dict):
+        command_dict.update({"async": True})
         message = json.dumps(command_dict).encode("utf-8") + b"\n"
         print(message)
 
@@ -213,3 +214,16 @@ class SchedControl(object):
                     break
 
         return next_tracks
+
+
+if __name__ == "__main__":
+    sched = SchedControl()
+    while True:
+        print("playing 4")
+        sched.play_track("oksus")
+        time.sleep(0.5)
+        print("playing 8")
+        sched.play_track("trailer")
+        time.sleep(0.5)
+
+    sched.pause()
