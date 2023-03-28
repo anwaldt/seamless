@@ -31,42 +31,42 @@ system:
     - aj-snapshot
     - sc_wfs
   - name: syncplayer-01
-    ip: 3910-PC-01
+    ip: 172.25.18.171
     user: avm
     services:
     - mpv
   - name: syncplayer-02
-    ip: 3910-PC-02
+    ip: 172.25.18.172
     user: avm
     services:
     - mpv
   - name: syncplayer-03
-    ip: 3910-PC-03
+    ip: 172.25.18.173
     user: avm
     services:
     - mpv
   - name: syncplayer-04
-    ip: 3910-PC-04
+    ip: 172.25.18.174
     user: avm
     services:
     - mpv
   - name: syncplayer-05
-    ip: 3910-PC-05
+    ip: 172.25.18.175
     user: avm
     services:
     - mpv
   - name: syncplayer-06
-    ip: 3910-PC-06
+    ip: 172.25.18.176
     user: avm
     services:
     - mpv
   - name: syncplayer-07
-    ip: 3910-PC-07
+    ip: 172.25.18.177
     user: avm
     services:
     - mpv
   - name: syncplayer-08
-    ip: 3910-PC-08
+    ip: 172.25.18.178
     user: avm
     services:
     - mpv
