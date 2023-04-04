@@ -64,6 +64,8 @@ class SchedControl(object):
 
     @server.address_method(b"/play")
     def play_state(self, *values):
+        # TODO warum wird das aufgerufen, funktioniert das noch?
+        return
         print(values[0])
         if values[0] == 1.0:
             self.playing = True
