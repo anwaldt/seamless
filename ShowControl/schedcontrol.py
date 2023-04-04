@@ -155,7 +155,7 @@ class SchedControl(object):
             # Set all video players to the correct video
             self.send_udp_broadcast({"command": ["playlist-play-index", video_index]})
             # start the video on the inner screens
-            time.sleep(0.1)
+            time.sleep(0.03)
             self.send_udp_broadcast(
                 {"command": ["set_property", "pause", "no"], "async": True},
                 self.video_broadcast_port,
