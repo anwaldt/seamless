@@ -64,12 +64,12 @@ class SchedControl(object):
 
     @server.address_method(b"/play")
     def play_state(self, *values):
-        # TODO warum wird das aufgerufen, funktioniert das noch?
-        return
+        # TODO von wo wird das aufgerufen? die sleeps sind, damit die commands in der richtigen reihenfolge ankommen
         print(values[0])
         if values[0] == 1.0:
             self.playing = True
             try:
+                time.sleep(0.1)
                 self.send_udp_broadcast({"command": ["set_property", "pause", "no"]})
             except:
                 print("sending play command failed")
@@ -77,6 +77,7 @@ class SchedControl(object):
         elif values[0] == 0.0:
             self.playing = False
             try:
+                time.sleep(0.05)
                 self.send_udp_broadcast({"command": ["set_property", "pause", "yes"]})
             except:
                 print("sending pause command failed")
