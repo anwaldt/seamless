@@ -29,6 +29,7 @@ class SchedControl(object):
 
         self.video_broadcast_ip = self.config["videobroadcast_ip"]
         self.video_broadcast_port = self.config["videobroadcast_port"]
+        self.info_broadcast_port = self.config["infobroadcast_port"]
 
         self.playing = False
 
@@ -52,36 +53,47 @@ class SchedControl(object):
         self.reaper.send_message(b"/stop", [1.0])
         self.reaper.send_message(b"/play", [1.0])
 
-    def send_udp_broadcast(self, command_dict: dict):
-        command_dict.update({"async": True})
+    def send_udp_broadcast(self, command_dict: dict, port=None):
+        """Sends the command in command_dict to the ip address defined in self.video_broadcast_ip
+        if no port is specified, it will send the broadcast to all defined brooadcast ports
+
+        Args:
+            command_dict (dict): should follow the format {"command": [COMMAND_NAME, ARGS*]}
+            port (int, optional): Port the broadcast is sent to. Defaults to None.
+        """
+        # command_dict.update({"async": True})
         message = json.dumps(command_dict).encode("utf-8") + b"\n"
         print(message)
 
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)
-        sock.sendto(message, (self.video_broadcast_ip, self.video_broadcast_port))
+        if port:
+            sock.sendto(message, (self.video_broadcast_ip, port))
+        else:
+            sock.sendto(message, (self.video_broadcast_ip, self.video_broadcast_port))
+            sock.sendto(message, (self.video_broadcast_ip, self.info_broadcast_port))
         sock.close()
 
-    @server.address_method(b"/play")
-    def play_state(self, *values):
-        return  # return early because we don't know how it works
-        # TODO von wo wird das aufgerufen? die sleeps sind, damit die commands in der richtigen reihenfolge ankommen
-        print(values[0])
-        if values[0] == 1.0:
-            self.playing = True
-            try:
-                time.sleep(0.1)
-                self.send_udp_broadcast({"command": ["set_property", "pause", "no"]})
-            except:
-                print("sending play command failed")
+    # @server.address_method(b"/play")
+    # def play_state(self, *values):
+    #     return  # return early because we don't know how it works
+    #     # TODO von wo wird das aufgerufen? die sleeps sind, damit die commands in der richtigen reihenfolge ankommen
+    #     print(values[0])
+    #     if values[0] == 1.0:
+    #         self.playing = True
+    #         try:
+    #             time.sleep(0.1)
+    #             self.send_udp_broadcast({"command": ["set_property", "pause", "no"]})
+    #         except:
+    #             print("sending play command failed")
 
-        elif values[0] == 0.0:
-            self.playing = False
-            try:
-                time.sleep(0.05)
-                self.send_udp_broadcast({"command": ["set_property", "pause", "yes"]})
-            except:
-                print("sending pause command failed")
+    #     elif values[0] == 0.0:
+    #         self.playing = False
+    #         try:
+    #             time.sleep(0.05)
+    #             self.send_udp_broadcast({"command": ["set_property", "pause", "yes"]})
+    #         except:
+    #             print("sending pause command failed")
 
     @server.address_method(b"/showcontrol/pause")
     def pause(self, *values):
@@ -96,6 +108,7 @@ class SchedControl(object):
             # Video nr 0 starts with a black screen
             try:
                 self.send_udp_broadcast({"command": ["playlist-play-index", 0]})
+
             except:
                 print("sending play video index command to 0 failed")
 
@@ -136,7 +149,18 @@ class SchedControl(object):
 
     def play_video(self, video_index):
         try:
+            # info screens (outside) receive on different port.
+            # machines are on "freeze on first frame", so the video players inside need an explicit play/unpause command.
+
+            # Set all video players to the correct video
             self.send_udp_broadcast({"command": ["playlist-play-index", video_index]})
+            # start the video on the inner screens
+            time.sleep(0.1)
+            self.send_udp_broadcast(
+                {"command": ["set_property", "pause", "no"], "async": True},
+                self.video_broadcast_port,
+            )
+
         except:
             print(f"Sending play video index command to {video_index} failed.")
 
