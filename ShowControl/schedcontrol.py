@@ -64,6 +64,7 @@ class SchedControl(object):
 
     @server.address_method(b"/play")
     def play_state(self, *values):
+        return  # return early because we don't know how it works
         # TODO von wo wird das aufgerufen? die sleeps sind, damit die commands in der richtigen reihenfolge ankommen
         print(values[0])
         if values[0] == 1.0:
