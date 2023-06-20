@@ -22,31 +22,19 @@ def showcontrol():
             t = Thread(target=schedctrl.pause, args=(0,))
             t.start()
     print("Scheduler is running: ", schedctrl.sched.state != apscheduler.schedulers.base.STATE_PAUSED)
-    return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED))
+    return render_template('showcontrol/pause.html', state=(schedctrl.sched.state == apscheduler.schedulers.base.STATE_PAUSED), schedule=schedctrl.get_scheduled_tracks())
 
 @bp.route('/tracks', methods=('GET', 'POST'))
 @login_required
 def web_tracks():
     global schedctrl
     if request.method == 'POST':
-        if "trailer" in request.form:
-            schedctrl.play_track((0))
-        elif "brunnen" in request.form:
-            schedctrl.play_track((1))
-        elif "sufi" in request.form:
-            schedctrl.play_track((2))
-        elif "oksus" in request.form:
-            schedctrl.play_track((3))
-        elif "datenerhebung" in request.form:
-            schedctrl.play_track((4))
-        elif "iwillnotweep" in request.form:
-            schedctrl.play_track((5))
-        elif "liquidcontinent" in request.form:
-            schedctrl.play_track((6))
-        elif "doublefeedback" in request.form:
-            schedctrl.play_track((7))
-        elif "thepassage" in request.form:
-            schedctrl.play_track((8))
-        elif "transformation" in request.form:
-            schedctrl.play_track((9))
-    return render_template('showcontrol/tracks.html')
+        
+        track = request.form.get("track")
+        
+        if track not in schedctrl.tracks:
+            return "Track not found", 400
+
+        schedctrl.play_track(track)
+
+    return render_template('showcontrol/tracks.html', tracks=schedctrl.tracks, track_keys=sorted(schedctrl.tracks.keys()))

@@ -6,15 +6,8 @@
 
 {% block content %}
   <form method="post">
-    <input type="submit" name="trailer" value="Trailer">
-    <input type="submit" name="brunnen" value="Brunnen der Sonne">
-    <input type="submit" name="sufi" value="Sufisonics">
-    <input type="submit" name="oksus" value="Oksus">
-    <input type="submit" name="datenerhebung" value="Datenerhebung">
-    <input type="submit" name="iwillnotweep" value="I Will Not Weep">
-    <input type="submit" name="liquidcontinent" value="Liquid Continent">
-    <input type="submit" name="doublefeedback" value="Double Feedback">
-    <input type="submit" name="thepassage" value="The Passage">
-    <input type="submit" name="transformation" value="Transformation">
+    {%for track_id in track_keys%}
+      <button type="submit" name="track" value="{{track_id}}">{{tracks[track_id]['title']}}</button>
+    {%endfor%}
   </form>
 {% endblock %}
