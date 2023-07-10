@@ -246,12 +246,8 @@ class SchedControl(object):
 
 if __name__ == "__main__":
     sched = SchedControl()
-    while True:
-        print("playing 4")
-        sched.play_track("oksus")
-        time.sleep(0.5)
-        print("playing 8")
-        sched.play_track("trailer")
-        time.sleep(0.5)
+    from time import sleep
 
-    sched.pause()
+    sleep(1)
+    tracks = sched.get_scheduled_tracks(150)
+    print(tracks)
