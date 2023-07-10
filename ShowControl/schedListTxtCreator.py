@@ -10,7 +10,7 @@ import glob
 import os
 from pathlib import Path
 
-day_names = ["So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"]
+day_names = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 base_path = Path(__file__).parent
 
 parser = argparse.ArgumentParser("Convert yaml file to readable program file .txt")
