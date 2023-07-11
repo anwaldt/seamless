@@ -108,9 +108,10 @@ def main():
                         + timedelta(minutes=track_minutes, seconds=track_seconds)
                         + timedelta(seconds=block["track_padding"])
                     )
-                blockstart = blockstart + timedelta(minutes=block["length"])
-                if blockstart <= trackstart:
-                    log.warn("Block length is too short")
+                # blockstart = blockstart + timedelta(minutes=block["length"])
+                blockstart = trackstart
+                # if blockstart <= trackstart:
+                # log.warn("Block length is too short")
 
 
 if __name__ == "__main__":

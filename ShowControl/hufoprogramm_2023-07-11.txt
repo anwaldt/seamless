@@ -1,0 +1,211 @@
+Mo,Sa,So            	10:40:00	Trailer
+Mo,Sa,So            	10:43:10	Brunnen der Sonne
+Mo,Sa,So            	10:59:34	Sufi Sonics
+Mo,Sa,So            	11:18:49	Korea Datenerhebung
+Mo,Sa,So            	11:38:59	I Will Not Weep
+Mo,Sa,So            	11:58:39	Trailer
+Mo,Sa,So            	12:01:49	Oksus
+Mo,Sa,So            	12:19:28	Liquid Continent
+Mo,Sa,So            	12:39:28	The Passage
+Mo,Sa,So            	12:59:34	Double Feedback
+Mo,Sa,So            	13:19:34	Transformation
+Mo,Sa,So            	13:28:44	Trailer
+Mo,Sa,So            	13:31:54	Brunnen der Sonne
+Mo,Sa,So            	13:48:18	Sufi Sonics
+Mo,Sa,So            	14:07:33	Korea Datenerhebung
+Mo,Sa,So            	14:27:43	I Will Not Weep
+Mo,Sa,So            	14:47:23	Trailer
+Mo,Sa,So            	14:50:33	Oksus
+Mo,Sa,So            	15:08:12	Liquid Continent
+Mo,Sa,So            	15:28:12	The Passage
+Mo,Sa,So            	15:48:18	Double Feedback
+Mo,Sa,So            	16:08:18	Transformation
+Mo,Sa,So            	16:17:28	Trailer
+Mo,Sa,So            	16:20:38	Brunnen der Sonne
+Mo,Sa,So            	16:37:02	Sufi Sonics
+Mo,Sa,So            	16:56:17	Korea Datenerhebung
+Mo,Sa,So            	17:16:27	I Will Not Weep
+Mo,Sa,So            	17:36:07	Trailer
+Mo,Sa,So            	17:39:17	Oksus
+Mo,Sa,So            	17:56:56	Liquid Continent
+Mo,Sa,So            	18:16:56	The Passage
+Mo,Sa,So            	18:37:02	Double Feedback
+Mo,Sa,So            	18:57:02	Transformation
+Mo,Sa,So            	19:06:12	Trailer
+Mo,Sa,So            	19:09:22	Brunnen der Sonne
+Mo,Sa,So            	19:25:46	Sufi Sonics
+Mo,Sa,So            	19:45:01	Korea Datenerhebung
+Mo,Sa,So            	20:05:11	I Will Not Weep
+Mo,Sa,So            	20:24:51	Trailer
+Mo,Sa,So            	20:28:01	Oksus
+Mo,Sa,So            	20:45:40	Liquid Continent
+Mo,Sa,So            	21:05:40	The Passage
+Mo,Sa,So            	21:25:46	Double Feedback
+Mo,Sa,So            	21:45:46	Transformation
+Di                  	10:40:00	Wasserwelten
+Di                  	10:48:58	Skulpturale Schwebungen
+Di                  	11:04:20	Trailer
+Di                  	11:07:30	Oksus
+Di                  	11:25:09	The Passage
+Di                  	11:45:15	Trailer
+Di                  	11:48:25	Brunnen der Sonne
+Di                  	12:04:49	Sufi Sonics
+Di                  	12:24:04	Korea Datenerhebung
+Di                  	12:44:14	I Will Not Weep
+Di                  	13:03:54	Trailer
+Di                  	13:07:04	Liquid Continent
+Di                  	13:27:04	Double Feedback
+Di                  	13:47:04	Transformation
+Di                  	13:56:14	Wasserwelten
+Di                  	14:05:12	Skulpturale Schwebungen
+Di                  	14:20:34	Trailer
+Di                  	14:23:44	Oksus
+Di                  	14:41:23	The Passage
+Di                  	15:01:29	Trailer
+Di                  	15:04:39	Brunnen der Sonne
+Di                  	15:21:03	Sufi Sonics
+Di                  	15:40:18	Korea Datenerhebung
+Di                  	16:00:28	I Will Not Weep
+Di                  	16:20:08	Trailer
+Di                  	16:23:18	Liquid Continent
+Di                  	16:43:18	Double Feedback
+Di                  	17:03:18	Transformation
+Di                  	17:12:28	Wasserwelten
+Di                  	17:21:26	Skulpturale Schwebungen
+Di                  	17:36:48	Trailer
+Di                  	17:39:58	Oksus
+Di                  	17:57:37	The Passage
+Di                  	18:17:43	Trailer
+Di                  	18:20:53	Brunnen der Sonne
+Di                  	18:37:17	Sufi Sonics
+Di                  	18:56:32	Korea Datenerhebung
+Di                  	19:16:42	I Will Not Weep
+Di                  	19:36:22	Trailer
+Di                  	19:39:32	Liquid Continent
+Di                  	19:59:32	Double Feedback
+Di                  	20:19:32	Transformation
+Mi                  	10:40:00	Trailer
+Mi                  	10:43:10	Oksus
+Mi                  	11:00:49	The Passage
+Mi                  	11:20:55	Trailer
+Mi                  	11:24:05	Brunnen der Sonne
+Mi                  	11:40:29	Sufi Sonics
+Mi                  	11:59:44	Korea Datenerhebung
+Mi                  	12:19:54	I Will Not Weep
+Mi                  	12:39:34	Trailer
+Mi                  	12:42:44	Liquid Continent
+Mi                  	13:02:44	Double Feedback
+Mi                  	13:22:44	Transformation
+Mi                  	13:31:54	Wasserwelten
+Mi                  	13:40:52	Skulpturale Schwebungen
+Mi                  	13:56:14	Trailer
+Mi                  	13:59:24	Oksus
+Mi                  	14:17:03	The Passage
+Mi                  	14:37:09	Trailer
+Mi                  	14:40:19	Brunnen der Sonne
+Mi                  	14:56:43	Sufi Sonics
+Mi                  	15:15:58	Korea Datenerhebung
+Mi                  	15:36:08	I Will Not Weep
+Mi                  	15:55:48	Trailer
+Mi                  	15:58:58	Liquid Continent
+Mi                  	16:18:58	Double Feedback
+Mi                  	16:38:58	Transformation
+Mi                  	16:48:08	Wasserwelten
+Mi                  	16:57:06	Skulpturale Schwebungen
+Mi                  	17:12:28	Trailer
+Mi                  	17:15:38	Oksus
+Mi                  	17:33:17	The Passage
+Mi                  	17:53:23	Trailer
+Mi                  	17:56:33	Brunnen der Sonne
+Mi                  	18:12:57	Sufi Sonics
+Mi                  	18:32:12	Korea Datenerhebung
+Mi                  	18:52:22	I Will Not Weep
+Mi                  	19:12:02	Trailer
+Mi                  	19:15:12	Liquid Continent
+Mi                  	19:35:12	Double Feedback
+Mi                  	19:55:12	Transformation
+Mi                  	20:04:22	Wasserwelten
+Mi                  	20:13:20	Skulpturale Schwebungen
+Do                  	10:40:00	Wasserwelten
+Do                  	10:48:58	Skulpturale Schwebungen
+Do                  	11:04:20	Trailer
+Do                  	11:07:30	Brunnen der Sonne
+Do                  	11:23:54	Sufi Sonics
+Do                  	11:43:09	Korea Datenerhebung
+Do                  	12:03:19	I Will Not Weep
+Do                  	12:22:59	Trailer
+Do                  	12:26:09	Oksus
+Do                  	12:43:48	Liquid Continent
+Do                  	13:03:48	The Passage
+Do                  	13:23:54	Double Feedback
+Do                  	13:43:54	Transformation
+Do                  	13:53:04	Wasserwelten
+Do                  	14:02:02	Skulpturale Schwebungen
+Do                  	14:17:24	Trailer
+Do                  	14:20:34	Brunnen der Sonne
+Do                  	14:36:58	Sufi Sonics
+Do                  	14:56:13	Korea Datenerhebung
+Do                  	15:16:23	I Will Not Weep
+Do                  	15:36:03	Trailer
+Do                  	15:39:13	Oksus
+Do                  	15:56:52	Liquid Continent
+Do                  	16:16:52	The Passage
+Do                  	16:36:58	Double Feedback
+Do                  	16:56:58	Transformation
+Do                  	17:06:08	Wasserwelten
+Do                  	17:15:06	Skulpturale Schwebungen
+Do                  	17:30:28	Trailer
+Do                  	17:33:38	Brunnen der Sonne
+Do                  	17:50:02	Sufi Sonics
+Do                  	18:09:17	Korea Datenerhebung
+Do                  	18:29:27	I Will Not Weep
+Do                  	18:49:07	Trailer
+Do                  	18:52:17	Oksus
+Do                  	19:09:56	Liquid Continent
+Do                  	19:29:56	The Passage
+Do                  	19:50:02	Double Feedback
+Do                  	20:10:02	Transformation
+Do                  	20:19:12	Wasserwelten
+Do                  	20:28:10	Skulpturale Schwebungen
+Fr                  	10:40:00	Trailer
+Fr                  	10:43:10	Oksus
+Fr                  	11:00:49	The Passage
+Fr                  	11:20:55	Wasserwelten
+Fr                  	11:29:53	Skulpturale Schwebungen
+Fr                  	11:45:15	Trailer
+Fr                  	11:48:25	Brunnen der Sonne
+Fr                  	12:04:49	Sufi Sonics
+Fr                  	12:24:04	Korea Datenerhebung
+Fr                  	12:44:14	I Will Not Weep
+Fr                  	13:03:54	Trailer
+Fr                  	13:07:04	Liquid Continent
+Fr                  	13:27:04	Double Feedback
+Fr                  	13:47:04	Transformation
+Fr                  	13:56:14	Trailer
+Fr                  	13:59:24	Oksus
+Fr                  	14:17:03	The Passage
+Fr                  	14:37:09	Wasserwelten
+Fr                  	14:46:07	Skulpturale Schwebungen
+Fr                  	15:01:29	Trailer
+Fr                  	15:04:39	Brunnen der Sonne
+Fr                  	15:21:03	Sufi Sonics
+Fr                  	15:40:18	Korea Datenerhebung
+Fr                  	16:00:28	I Will Not Weep
+Fr                  	16:20:08	Trailer
+Fr                  	16:23:18	Liquid Continent
+Fr                  	16:43:18	Double Feedback
+Fr                  	17:03:18	Transformation
+Fr                  	17:12:28	Trailer
+Fr                  	17:15:38	Oksus
+Fr                  	17:33:17	The Passage
+Fr                  	17:53:23	Wasserwelten
+Fr                  	18:02:21	Skulpturale Schwebungen
+Fr                  	18:17:43	Trailer
+Fr                  	18:20:53	Brunnen der Sonne
+Fr                  	18:37:17	Sufi Sonics
+Fr                  	18:56:32	Korea Datenerhebung
+Fr                  	19:16:42	I Will Not Weep
+Fr                  	19:36:22	Trailer
+Fr                  	19:39:32	Liquid Continent
+Fr                  	19:59:32	Double Feedback
+Fr                  	20:19:32	Transformation

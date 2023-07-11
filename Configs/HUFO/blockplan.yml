@@ -4,9 +4,49 @@ default:
     - default
     - default
     - default
+
+tuesday:
+  blocks:
+    - student_pieces
+    - elektroakustisch
+    - soundscape
+    - student_pieces
+    - elektroakustisch
+    - soundscape
+    - student_pieces
+    - elektroakustisch
+    - soundscape
+
+wednesday:
+  blocks:
+    - elektroakustisch
+    - soundscape
+    - student_pieces
+    - elektroakustisch
+    - soundscape
+    - student_pieces
+    - elektroakustisch
+    - soundscape
+    - student_pieces
+
 thursday:
   blocks:
     - student_pieces
+    - default
     - student_pieces
+    - default
     - student_pieces
+    - default
     - student_pieces
+
+friday:
+  blocks:
+    - elektroakustisch
+    - student_pieces
+    - soundscape
+    - elektroakustisch
+    - student_pieces
+    - soundscape
+    - elektroakustisch
+    - student_pieces
+    - soundscape
