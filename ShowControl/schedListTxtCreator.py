@@ -15,13 +15,23 @@ base_path = Path(__file__).parent
 
 
 def read_tracks(tracks_folder):
+    """Reads the tracks in the tracks_folder directory
+
+    Raises:
+        KeyError: _description_
+
+    Returns:
+        dict: dict with the tracks, tracks can be accessed by their audio_index
+    """
     tracks_dir = Path(tracks_folder)
     tracks = {}
 
+    # get all yml files
     for track_file in tracks_dir.glob("*.yml"):
         with open(track_file) as f:
             track_conf = yaml.load(f, Loader=yaml.FullLoader)
 
+        # get rid of the useless outer most key
         track_dict = track_conf[list(track_conf.keys())[0]]
         if track_dict["audio_index"] in tracks:
             raise KeyError(f'audio index of track {track_dict["title"]} is not unique')
@@ -36,22 +46,28 @@ def create_alternative_schedule(input_file, output_file, tracks_folder):
     with open(input_file, "r") as f:
         schedule = yaml.safe_load(f)
 
+    # prepare track dicts by adding empty runtime dicts
     for t in tracks.values():
         t["runtimes"] = {}
 
+    # populate runtime dicts by adding all occurances from the schedule file to them
     for e in schedule:
         idx = e["audio_index"]
         day_of_week = e["day_of_week"]
         time = f"{e['hour']:02}:{e['minute']:02}"
+
         if day_of_week not in tracks[idx]["runtimes"]:
             tracks[idx]["runtimes"][day_of_week] = []
         tracks[idx]["runtimes"][day_of_week].append(time)
 
+    # write schedule to file
     with open(output_file, "w") as f:
         for t in tracks.values():
+            # write track title
             f.write(t["title"] + "\n")
 
             for day_nrs, times in t["runtimes"].items():
+                # convert day_nrs to human readable format
                 if isinstance(day_nrs, str):
                     day_nrs = day_nrs.split(",")
                     days = ",".join([day_names[int(d)] for d in day_nrs])
