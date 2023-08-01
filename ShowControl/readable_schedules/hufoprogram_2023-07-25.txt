@@ -1,0 +1,227 @@
+Mo,Sa,So            	10:40:00	Trailer
+Mo,Sa,So            	10:43:10	Pune Metamorphosis
+Mo,Sa,So            	11:03:38	Brunnen der Sonne
+Mo,Sa,So            	11:20:02	Sufi Sonics
+Mo,Sa,So            	11:39:17	Korea Datenerhebung
+Mo,Sa,So            	11:59:27	I Will Not Weep
+Mo,Sa,So            	12:19:07	Trailer
+Mo,Sa,So            	12:22:17	Oksus
+Mo,Sa,So            	12:39:56	Liquid Continent
+Mo,Sa,So            	12:59:56	The Passage
+Mo,Sa,So            	13:20:02	Double Feedback
+Mo,Sa,So            	13:40:02	Transformation
+Mo,Sa,So            	13:49:12	Trailer
+Mo,Sa,So            	13:52:22	Pune Metamorphosis
+Mo,Sa,So            	14:12:50	Brunnen der Sonne
+Mo,Sa,So            	14:29:14	Sufi Sonics
+Mo,Sa,So            	14:48:29	Korea Datenerhebung
+Mo,Sa,So            	15:08:39	I Will Not Weep
+Mo,Sa,So            	15:28:19	Trailer
+Mo,Sa,So            	15:31:29	Oksus
+Mo,Sa,So            	15:49:08	Liquid Continent
+Mo,Sa,So            	16:09:08	The Passage
+Mo,Sa,So            	16:29:14	Double Feedback
+Mo,Sa,So            	16:49:14	Transformation
+Mo,Sa,So            	16:58:24	Trailer
+Mo,Sa,So            	17:01:34	Pune Metamorphosis
+Mo,Sa,So            	17:22:02	Brunnen der Sonne
+Mo,Sa,So            	17:38:26	Sufi Sonics
+Mo,Sa,So            	17:57:41	Korea Datenerhebung
+Mo,Sa,So            	18:17:51	I Will Not Weep
+Mo,Sa,So            	18:37:31	Trailer
+Mo,Sa,So            	18:40:41	Oksus
+Mo,Sa,So            	18:58:20	Liquid Continent
+Mo,Sa,So            	19:18:20	The Passage
+Mo,Sa,So            	19:38:26	Double Feedback
+Mo,Sa,So            	19:58:26	Transformation
+Mo,Sa,So            	20:07:36	Trailer
+Mo,Sa,So            	20:10:46	Pune Metamorphosis
+Mo,Sa,So            	20:31:14	Brunnen der Sonne
+Mo,Sa,So            	20:47:38	Sufi Sonics
+Mo,Sa,So            	21:06:53	Korea Datenerhebung
+Mo,Sa,So            	21:27:03	I Will Not Weep
+Mo,Sa,So            	21:46:43	Trailer
+Mo,Sa,So            	21:49:53	Oksus
+Mo,Sa,So            	22:07:32	Liquid Continent
+Mo,Sa,So            	22:27:32	The Passage
+Mo,Sa,So            	22:47:38	Double Feedback
+Mo,Sa,So            	23:07:38	Transformation
+Di                  	10:40:00	Wasserwelten
+Di                  	10:48:58	Skulpturale Schwebungen
+Di                  	11:04:20	Trailer
+Di                  	11:07:30	Oksus
+Di                  	11:25:09	The Passage
+Di                  	11:45:15	Trailer
+Di                  	11:48:25	Brunnen der Sonne
+Di                  	12:04:49	Sufi Sonics
+Di                  	12:24:04	Korea Datenerhebung
+Di                  	12:44:14	I Will Not Weep
+Di                  	13:03:54	Trailer
+Di                  	13:07:04	Pune Metamorphosis
+Di                  	13:27:32	Liquid Continent
+Di                  	13:47:32	Double Feedback
+Di                  	14:07:32	Transformation
+Di                  	14:16:42	Wasserwelten
+Di                  	14:25:40	Skulpturale Schwebungen
+Di                  	14:41:02	Trailer
+Di                  	14:44:12	Oksus
+Di                  	15:01:51	The Passage
+Di                  	15:21:57	Trailer
+Di                  	15:25:07	Brunnen der Sonne
+Di                  	15:41:31	Sufi Sonics
+Di                  	16:00:46	Korea Datenerhebung
+Di                  	16:20:56	I Will Not Weep
+Di                  	16:40:36	Trailer
+Di                  	16:43:46	Pune Metamorphosis
+Di                  	17:04:14	Liquid Continent
+Di                  	17:24:14	Double Feedback
+Di                  	17:44:14	Transformation
+Di                  	17:53:24	Wasserwelten
+Di                  	18:02:22	Skulpturale Schwebungen
+Di                  	18:17:44	Trailer
+Di                  	18:20:54	Oksus
+Di                  	18:38:33	The Passage
+Di                  	18:58:39	Trailer
+Di                  	19:01:49	Brunnen der Sonne
+Di                  	19:18:13	Sufi Sonics
+Di                  	19:37:28	Korea Datenerhebung
+Di                  	19:57:38	I Will Not Weep
+Di                  	20:17:18	Trailer
+Di                  	20:20:28	Pune Metamorphosis
+Di                  	20:40:56	Liquid Continent
+Di                  	21:00:56	Double Feedback
+Di                  	21:20:56	Transformation
+Mi                  	10:40:00	Trailer
+Mi                  	10:43:10	Oksus
+Mi                  	11:00:49	The Passage
+Mi                  	11:20:55	Trailer
+Mi                  	11:24:05	Brunnen der Sonne
+Mi                  	11:40:29	Sufi Sonics
+Mi                  	11:59:44	Korea Datenerhebung
+Mi                  	12:19:54	I Will Not Weep
+Mi                  	12:39:34	Trailer
+Mi                  	12:42:44	Pune Metamorphosis
+Mi                  	13:03:12	Liquid Continent
+Mi                  	13:23:12	Double Feedback
+Mi                  	13:43:12	Transformation
+Mi                  	13:52:22	Wasserwelten
+Mi                  	14:01:20	Skulpturale Schwebungen
+Mi                  	14:16:42	Trailer
+Mi                  	14:19:52	Oksus
+Mi                  	14:37:31	The Passage
+Mi                  	14:57:37	Trailer
+Mi                  	15:00:47	Brunnen der Sonne
+Mi                  	15:17:11	Sufi Sonics
+Mi                  	15:36:26	Korea Datenerhebung
+Mi                  	15:56:36	I Will Not Weep
+Mi                  	16:16:16	Trailer
+Mi                  	16:19:26	Pune Metamorphosis
+Mi                  	16:39:54	Liquid Continent
+Mi                  	16:59:54	Double Feedback
+Mi                  	17:19:54	Transformation
+Mi                  	17:29:04	Wasserwelten
+Mi                  	17:38:02	Skulpturale Schwebungen
+Mi                  	17:53:24	Trailer
+Mi                  	17:56:34	Oksus
+Mi                  	18:14:13	The Passage
+Mi                  	18:34:19	Trailer
+Mi                  	18:37:29	Brunnen der Sonne
+Mi                  	18:53:53	Sufi Sonics
+Mi                  	19:13:08	Korea Datenerhebung
+Mi                  	19:33:18	I Will Not Weep
+Mi                  	19:52:58	Trailer
+Mi                  	19:56:08	Pune Metamorphosis
+Mi                  	20:16:36	Liquid Continent
+Mi                  	20:36:36	Double Feedback
+Mi                  	20:56:36	Transformation
+Mi                  	21:05:46	Wasserwelten
+Mi                  	21:14:44	Skulpturale Schwebungen
+Do                  	10:40:00	Wasserwelten
+Do                  	10:48:58	Skulpturale Schwebungen
+Do                  	11:04:20	Trailer
+Do                  	11:07:30	Pune Metamorphosis
+Do                  	11:27:58	Brunnen der Sonne
+Do                  	11:44:22	Sufi Sonics
+Do                  	12:03:37	Korea Datenerhebung
+Do                  	12:23:47	I Will Not Weep
+Do                  	12:43:27	Trailer
+Do                  	12:46:37	Oksus
+Do                  	13:04:16	Liquid Continent
+Do                  	13:24:16	The Passage
+Do                  	13:44:22	Double Feedback
+Do                  	14:04:22	Transformation
+Do                  	14:13:32	Wasserwelten
+Do                  	14:22:30	Skulpturale Schwebungen
+Do                  	14:37:52	Trailer
+Do                  	14:41:02	Pune Metamorphosis
+Do                  	15:01:30	Brunnen der Sonne
+Do                  	15:17:54	Sufi Sonics
+Do                  	15:37:09	Korea Datenerhebung
+Do                  	15:57:19	I Will Not Weep
+Do                  	16:16:59	Trailer
+Do                  	16:20:09	Oksus
+Do                  	16:37:48	Liquid Continent
+Do                  	16:57:48	The Passage
+Do                  	17:17:54	Double Feedback
+Do                  	17:37:54	Transformation
+Do                  	17:47:04	Wasserwelten
+Do                  	17:56:02	Skulpturale Schwebungen
+Do                  	18:11:24	Trailer
+Do                  	18:14:34	Pune Metamorphosis
+Do                  	18:35:02	Brunnen der Sonne
+Do                  	18:51:26	Sufi Sonics
+Do                  	19:10:41	Korea Datenerhebung
+Do                  	19:30:51	I Will Not Weep
+Do                  	19:50:31	Trailer
+Do                  	19:53:41	Oksus
+Do                  	20:11:20	Liquid Continent
+Do                  	20:31:20	The Passage
+Do                  	20:51:26	Double Feedback
+Do                  	21:11:26	Transformation
+Do                  	21:20:36	Wasserwelten
+Do                  	21:29:34	Skulpturale Schwebungen
+Fr                  	10:40:00	Trailer
+Fr                  	10:43:10	Oksus
+Fr                  	11:00:49	The Passage
+Fr                  	11:20:55	Wasserwelten
+Fr                  	11:29:53	Skulpturale Schwebungen
+Fr                  	11:45:15	Trailer
+Fr                  	11:48:25	Brunnen der Sonne
+Fr                  	12:04:49	Sufi Sonics
+Fr                  	12:24:04	Korea Datenerhebung
+Fr                  	12:44:14	I Will Not Weep
+Fr                  	13:03:54	Trailer
+Fr                  	13:07:04	Pune Metamorphosis
+Fr                  	13:27:32	Liquid Continent
+Fr                  	13:47:32	Double Feedback
+Fr                  	14:07:32	Transformation
+Fr                  	14:16:42	Trailer
+Fr                  	14:19:52	Oksus
+Fr                  	14:37:31	The Passage
+Fr                  	14:57:37	Wasserwelten
+Fr                  	15:06:35	Skulpturale Schwebungen
+Fr                  	15:21:57	Trailer
+Fr                  	15:25:07	Brunnen der Sonne
+Fr                  	15:41:31	Sufi Sonics
+Fr                  	16:00:46	Korea Datenerhebung
+Fr                  	16:20:56	I Will Not Weep
+Fr                  	16:40:36	Trailer
+Fr                  	16:43:46	Pune Metamorphosis
+Fr                  	17:04:14	Liquid Continent
+Fr                  	17:24:14	Double Feedback
+Fr                  	17:44:14	Transformation
+Fr                  	17:53:24	Trailer
+Fr                  	17:56:34	Oksus
+Fr                  	18:14:13	The Passage
+Fr                  	18:34:19	Wasserwelten
+Fr                  	18:43:17	Skulpturale Schwebungen
+Fr                  	18:58:39	Trailer
+Fr                  	19:01:49	Brunnen der Sonne
+Fr                  	19:18:13	Sufi Sonics
+Fr                  	19:37:28	Korea Datenerhebung
+Fr                  	19:57:38	I Will Not Weep
+Fr                  	20:17:18	Trailer
+Fr                  	20:20:28	Pune Metamorphosis
+Fr                  	20:40:56	Liquid Continent
+Fr                  	21:00:56	Double Feedback
+Fr                  	21:20:56	Transformation

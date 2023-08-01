@@ -3,6 +3,7 @@ import os
 from datetime import datetime, timedelta
 from pathlib import Path
 import logging
+from schedListTxtCreator import create_readable_txt, create_alternative_schedule
 
 log = logging.getLogger()
 
@@ -36,6 +37,11 @@ def writeEntry(
     )
 
 
+def round_up_time(timestamp: datetime, round_to_minutes=5):
+    delta = timedelta(minutes=round_to_minutes)
+    return timestamp + (datetime.min - timestamp) % delta
+
+
 def main():
     track_files = ""
     block_files = ""
@@ -60,6 +66,10 @@ def main():
 
     # find days with explicit schedules
     days_explicit_schedule = set(blockplan.keys()) - set(["default"])
+
+    # get the differnce of the set of all day numbers and the days with an
+    # explicit schedule to find the days for which the
+    # default schedule will be applied
     days_default_schedule = set(day_numbers.keys()) - days_explicit_schedule
     day_numbers_default = [day_numbers[d] for d in days_default_schedule]
     day_numbers_default.sort()
@@ -103,7 +113,7 @@ def main():
                         days,
                     )
 
-                    trackstart = (
+                    trackstart = round_up_time(
                         trackstart
                         + timedelta(minutes=track_minutes, seconds=track_seconds)
                         + timedelta(seconds=block["track_padding"])
@@ -116,3 +126,15 @@ def main():
 
 if __name__ == "__main__":
     main()
+    today = datetime.now().strftime("%Y-%m-%d")
+    readable_schedule_path = Path(__file__).parent / "readable_schedules"
+    create_readable_txt(
+        output_file,
+        readable_schedule_path / f"hufoprogram_{today}_full_schedule.txt",
+        path_config / "tracks",
+    )
+    create_alternative_schedule(
+        output_file,
+        readable_schedule_path / f"hufoprogram_{today}_track_schedule.txt",
+        path_config / "tracks",
+    )

@@ -52,6 +52,7 @@ class SchedControl(object):
         # if playing == False:
         self.reaper.send_message(b"/stop", [1.0])
         self.reaper.send_message(b"/play", [1.0])
+        print(f"started track {track_nr} in reaper")
 
     def send_udp_broadcast(self, command_dict: dict, port=None):
         """Sends the command in command_dict to the ip address defined in self.video_broadcast_ip
