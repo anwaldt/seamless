@@ -1,6 +1,6 @@
 import yaml
 import os
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from pathlib import Path
 import logging
 from schedListTxtCreator import create_readable_txt, create_alternative_schedule
@@ -18,7 +18,9 @@ day_numbers = {
 }
 
 path_config = Path(__file__).parent.parent / "Configs/HUFO"
-startzeit = datetime(2022, 2, 1, 10, 40, 0)
+time_start = datetime(2022, 2, 1, 10, 40, 0)
+time_stop = datetime(2022, 2, 1, 18, 30, 0)
+
 output_file = path_config / "schedule.yml"
 
 
@@ -73,11 +75,11 @@ def main():
     days_default_schedule = set(day_numbers.keys()) - days_explicit_schedule
     day_numbers_default = [day_numbers[d] for d in days_default_schedule]
     day_numbers_default.sort()
-
     with open(output_file, "w") as out_file:
         # iterate over all days (including "default")
         for day in blockplan:
             logging.info(f"building schedule for day {day}")
+            day_over = False
 
             # get the daynumbers for the default block plan
             if day == "default":
@@ -88,7 +90,7 @@ def main():
             else:
                 days = [day_numbers[day]]
 
-            blockstart = startzeit
+            blockstart = time_start
 
             # iterate over all blocks on a certain day
             for blockname in blockplan[day]["blocks"]:
@@ -96,8 +98,15 @@ def main():
 
                 trackstart = blockstart
 
+                if day_over:
+                    break
+
                 # iterate over all tracks in a block
                 for track_name in block["tracks"]:
+                    if trackstart >= time_stop:
+                        day_over = True
+                        break
+
                     audio_idx = tracks[track_name]["audio_index"]
                     video_idx = tracks[track_name]["video_index"]
                     track_minutes = tracks[track_name]["duration"]["minutes"]
