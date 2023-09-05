@@ -2,6 +2,5 @@ elektroakustisch:
   length: 31
   track_padding: 10
   tracks:
-    - trailer
     - oksus
     - thepassage

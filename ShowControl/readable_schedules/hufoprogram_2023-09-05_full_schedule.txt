@@ -1,138 +1,136 @@
-Mo,Sa,So            	10:40:00	Trailer
-Mo,Sa,So            	10:45:00	Pune Metamorphosis
-Mo,Sa,So            	11:10:00	Brunnen der Sonne
-Mo,Sa,So            	11:30:00	Sufi Sonics
-Mo,Sa,So            	11:50:00	Korea Datenerhebung
-Mo,Sa,So            	12:15:00	I Will Not Weep
-Mo,Sa,So            	12:35:00	Trailer
-Mo,Sa,So            	12:40:00	Oksus
-Mo,Sa,So            	13:00:00	Liquid Continent
-Mo,Sa,So            	13:20:00	The Passage
-Mo,Sa,So            	13:45:00	Double Feedback
-Mo,Sa,So            	14:05:00	Transformation
-Mo,Sa,So            	14:15:00	Trailer
-Mo,Sa,So            	14:20:00	Pune Metamorphosis
-Mo,Sa,So            	14:45:00	Brunnen der Sonne
-Mo,Sa,So            	15:05:00	Sufi Sonics
-Mo,Sa,So            	15:25:00	Korea Datenerhebung
-Mo,Sa,So            	15:50:00	I Will Not Weep
-Mo,Sa,So            	16:10:00	Trailer
-Mo,Sa,So            	16:15:00	Oksus
-Mo,Sa,So            	16:35:00	Liquid Continent
-Mo,Sa,So            	16:55:00	The Passage
-Mo,Sa,So            	17:20:00	Double Feedback
-Mo,Sa,So            	17:40:00	Transformation
-Mo,Sa,So            	17:50:00	Trailer
-Mo,Sa,So            	17:55:00	Pune Metamorphosis
-Mo,Sa,So            	18:20:00	Brunnen der Sonne
-Di                  	10:40:00	Wasserwelten
-Di                  	10:50:00	Skulpturale Schwebungen
-Di                  	11:10:00	Trailer
-Di                  	11:15:00	Oksus
-Di                  	11:35:00	The Passage
-Di                  	12:00:00	Trailer
-Di                  	12:05:00	Brunnen der Sonne
-Di                  	12:25:00	Sufi Sonics
-Di                  	12:45:00	Korea Datenerhebung
-Di                  	13:10:00	I Will Not Weep
-Di                  	13:30:00	Trailer
-Di                  	13:35:00	Pune Metamorphosis
-Di                  	14:00:00	Liquid Continent
-Di                  	14:20:00	Double Feedback
-Di                  	14:40:00	Transformation
-Di                  	14:50:00	Wasserwelten
-Di                  	15:00:00	Skulpturale Schwebungen
-Di                  	15:20:00	Trailer
-Di                  	15:25:00	Oksus
-Di                  	15:45:00	The Passage
-Di                  	16:10:00	Trailer
-Di                  	16:15:00	Brunnen der Sonne
-Di                  	16:35:00	Sufi Sonics
-Di                  	16:55:00	Korea Datenerhebung
-Di                  	17:20:00	I Will Not Weep
-Di                  	17:40:00	Trailer
-Di                  	17:45:00	Pune Metamorphosis
-Di                  	18:10:00	Liquid Continent
+Di,Sa,So            	10:40:00	Trailer
+Di,Sa,So            	10:45:00	Pune Metamorphosis
+Di,Sa,So            	11:10:00	Brunnen der Sonne
+Di,Sa,So            	11:30:00	Sufi Sonics
+Di,Sa,So            	11:50:00	Korea Datenerhebung
+Di,Sa,So            	12:15:00	I Will Not Weep
+Di,Sa,So            	12:35:00	Trailer
+Di,Sa,So            	12:40:00	Oksus
+Di,Sa,So            	13:00:00	Liquid Continent
+Di,Sa,So            	13:20:00	The Passage
+Di,Sa,So            	13:45:00	Double Feedback
+Di,Sa,So            	14:05:00	Transformation
+Di,Sa,So            	14:15:00	Wasserwelten
+Di,Sa,So            	14:25:00	Skulpturale Schwebungen
+Di,Sa,So            	14:45:00	Trailer
+Di,Sa,So            	14:50:00	Pune Metamorphosis
+Di,Sa,So            	15:15:00	Brunnen der Sonne
+Di,Sa,So            	15:35:00	Sufi Sonics
+Di,Sa,So            	15:55:00	Korea Datenerhebung
+Di,Sa,So            	16:20:00	I Will Not Weep
+Di,Sa,So            	16:40:00	Trailer
+Di,Sa,So            	16:45:00	Oksus
+Di,Sa,So            	17:05:00	Liquid Continent
+Di,Sa,So            	17:25:00	The Passage
+Di,Sa,So            	17:50:00	Double Feedback
+Di,Sa,So            	18:10:00	Transformation
+Di,Sa,So            	18:20:00	Trailer
+Di,Sa,So            	18:25:00	Pune Metamorphosis
+Mo                  	10:40:00	Trailer
+Mo                  	10:45:00	Pune Metamorphosis
+Mo                  	11:10:00	Brunnen der Sonne
+Mo                  	11:30:00	Sufi Sonics
+Mo                  	11:50:00	Korea Datenerhebung
+Mo                  	12:15:00	I Will Not Weep
+Mo                  	12:35:00	Trailer
+Mo                  	12:40:00	Oksus
+Mo                  	13:00:00	Liquid Continent
+Mo                  	13:20:00	The Passage
+Mo                  	13:45:00	Double Feedback
+Mo                  	14:05:00	Wasserwelten
+Mo                  	14:15:00	Skulpturale Schwebungen
+Mo                  	14:35:00	Trailer
+Mo                  	14:40:00	Pune Metamorphosis
+Mo                  	15:05:00	Brunnen der Sonne
+Mo                  	15:25:00	Sufi Sonics
+Mo                  	15:45:00	Korea Datenerhebung
+Mo                  	16:10:00	I Will Not Weep
+Mo                  	16:30:00	Trailer
+Mo                  	16:35:00	Oksus
+Mo                  	16:55:00	Liquid Continent
+Mo                  	17:15:00	The Passage
+Mo                  	17:40:00	Double Feedback
+Mo                  	18:00:00	Trailer
+Mo                  	18:05:00	Pune Metamorphosis
 Mi                  	10:40:00	Trailer
-Mi                  	10:45:00	Oksus
-Mi                  	11:05:00	The Passage
-Mi                  	11:30:00	Trailer
-Mi                  	11:35:00	Brunnen der Sonne
-Mi                  	11:55:00	Sufi Sonics
-Mi                  	12:15:00	Korea Datenerhebung
-Mi                  	12:40:00	I Will Not Weep
-Mi                  	13:00:00	Trailer
-Mi                  	13:05:00	Pune Metamorphosis
-Mi                  	13:30:00	Liquid Continent
-Mi                  	13:50:00	Double Feedback
-Mi                  	14:10:00	Transformation
-Mi                  	14:20:00	Wasserwelten
-Mi                  	14:30:00	Skulpturale Schwebungen
-Mi                  	14:50:00	Trailer
-Mi                  	14:55:00	Oksus
-Mi                  	15:15:00	The Passage
-Mi                  	15:40:00	Trailer
-Mi                  	15:45:00	Brunnen der Sonne
-Mi                  	16:05:00	Sufi Sonics
-Mi                  	16:25:00	Korea Datenerhebung
-Mi                  	16:50:00	I Will Not Weep
-Mi                  	17:10:00	Trailer
-Mi                  	17:15:00	Pune Metamorphosis
-Mi                  	17:40:00	Liquid Continent
-Mi                  	18:00:00	Double Feedback
-Mi                  	18:20:00	Transformation
-Do                  	10:40:00	Wasserwelten
-Do                  	10:50:00	Skulpturale Schwebungen
-Do                  	11:10:00	Trailer
-Do                  	11:15:00	Pune Metamorphosis
-Do                  	11:40:00	Brunnen der Sonne
-Do                  	12:00:00	Sufi Sonics
-Do                  	12:20:00	Korea Datenerhebung
-Do                  	12:45:00	I Will Not Weep
-Do                  	13:05:00	Trailer
-Do                  	13:10:00	Oksus
-Do                  	13:30:00	Liquid Continent
-Do                  	13:50:00	The Passage
-Do                  	14:15:00	Double Feedback
-Do                  	14:35:00	Transformation
-Do                  	14:45:00	Wasserwelten
-Do                  	14:55:00	Skulpturale Schwebungen
-Do                  	15:15:00	Trailer
-Do                  	15:20:00	Pune Metamorphosis
-Do                  	15:45:00	Brunnen der Sonne
-Do                  	16:05:00	Sufi Sonics
-Do                  	16:25:00	Korea Datenerhebung
-Do                  	16:50:00	I Will Not Weep
-Do                  	17:10:00	Trailer
-Do                  	17:15:00	Oksus
-Do                  	17:35:00	Liquid Continent
-Do                  	17:55:00	The Passage
-Do                  	18:20:00	Double Feedback
+Mi                  	10:45:00	Pune Metamorphosis
+Mi                  	11:10:00	Brunnen der Sonne
+Mi                  	11:30:00	Sufi Sonics
+Mi                  	11:50:00	I Will Not Weep
+Mi                  	12:10:00	Trailer
+Mi                  	12:15:00	Oksus
+Mi                  	12:35:00	Liquid Continent
+Mi                  	12:55:00	The Passage
+Mi                  	13:20:00	Double Feedback
+Mi                  	13:40:00	Transformation
+Mi                  	13:50:00	Trailer
+Mi                  	13:55:00	Pune Metamorphosis
+Mi                  	14:20:00	Brunnen der Sonne
+Mi                  	14:40:00	Sufi Sonics
+Mi                  	15:00:00	I Will Not Weep
+Mi                  	15:20:00	Trailer
+Mi                  	15:25:00	Oksus
+Mi                  	15:45:00	Liquid Continent
+Mi                  	16:05:00	The Passage
+Mi                  	16:30:00	Double Feedback
+Mi                  	16:50:00	Transformation
+Mi                  	17:00:00	Wasserwelten
+Mi                  	17:10:00	Skulpturale Schwebungen
+Mi                  	17:30:00	Trailer
+Mi                  	17:35:00	Pune Metamorphosis
+Mi                  	18:00:00	Brunnen der Sonne
+Mi                  	18:20:00	Sufi Sonics
+Do                  	10:40:00	Trailer
+Do                  	10:45:00	Pune Metamorphosis
+Do                  	11:10:00	Brunnen der Sonne
+Do                  	11:30:00	Sufi Sonics
+Do                  	11:50:00	Korea Datenerhebung
+Do                  	12:15:00	I Will Not Weep
+Do                  	12:35:00	Trailer
+Do                  	12:40:00	Oksus
+Do                  	13:00:00	Liquid Continent
+Do                  	13:20:00	The Passage
+Do                  	13:45:00	Double Feedback
+Do                  	14:05:00	Wasserwelten
+Do                  	14:15:00	Skulpturale Schwebungen
+Do                  	14:35:00	Trailer
+Do                  	14:40:00	Pune Metamorphosis
+Do                  	15:05:00	Brunnen der Sonne
+Do                  	15:25:00	Sufi Sonics
+Do                  	15:45:00	Korea Datenerhebung
+Do                  	16:10:00	I Will Not Weep
+Do                  	16:30:00	Trailer
+Do                  	16:35:00	Oksus
+Do                  	16:55:00	Liquid Continent
+Do                  	17:15:00	The Passage
+Do                  	17:40:00	Double Feedback
+Do                  	18:00:00	Trailer
+Do                  	18:05:00	Pune Metamorphosis
 Fr                  	10:40:00	Trailer
-Fr                  	10:45:00	Oksus
-Fr                  	11:05:00	The Passage
-Fr                  	11:30:00	Wasserwelten
-Fr                  	11:40:00	Skulpturale Schwebungen
-Fr                  	12:00:00	Trailer
-Fr                  	12:05:00	Brunnen der Sonne
-Fr                  	12:25:00	Sufi Sonics
-Fr                  	12:45:00	Korea Datenerhebung
-Fr                  	13:10:00	I Will Not Weep
-Fr                  	13:30:00	Trailer
-Fr                  	13:35:00	Pune Metamorphosis
-Fr                  	14:00:00	Liquid Continent
-Fr                  	14:20:00	Double Feedback
-Fr                  	14:40:00	Transformation
-Fr                  	14:50:00	Trailer
-Fr                  	14:55:00	Oksus
-Fr                  	15:15:00	The Passage
-Fr                  	15:40:00	Wasserwelten
-Fr                  	15:50:00	Skulpturale Schwebungen
-Fr                  	16:10:00	Trailer
-Fr                  	16:15:00	Brunnen der Sonne
-Fr                  	16:35:00	Sufi Sonics
-Fr                  	16:55:00	Korea Datenerhebung
-Fr                  	17:20:00	I Will Not Weep
-Fr                  	17:40:00	Trailer
-Fr                  	17:45:00	Pune Metamorphosis
-Fr                  	18:10:00	Liquid Continent
+Fr                  	10:45:00	Pune Metamorphosis
+Fr                  	11:10:00	Brunnen der Sonne
+Fr                  	11:30:00	Sufi Sonics
+Fr                  	11:50:00	I Will Not Weep
+Fr                  	12:10:00	Trailer
+Fr                  	12:15:00	Oksus
+Fr                  	12:35:00	Liquid Continent
+Fr                  	12:55:00	The Passage
+Fr                  	13:20:00	Double Feedback
+Fr                  	13:40:00	Transformation
+Fr                  	13:50:00	Wasserwelten
+Fr                  	14:00:00	Skulpturale Schwebungen
+Fr                  	14:20:00	Trailer
+Fr                  	14:25:00	Pune Metamorphosis
+Fr                  	14:50:00	Brunnen der Sonne
+Fr                  	15:10:00	Sufi Sonics
+Fr                  	15:30:00	I Will Not Weep
+Fr                  	15:50:00	Trailer
+Fr                  	15:55:00	Oksus
+Fr                  	16:15:00	Liquid Continent
+Fr                  	16:35:00	The Passage
+Fr                  	17:00:00	Double Feedback
+Fr                  	17:20:00	Transformation
+Fr                  	17:30:00	Trailer
+Fr                  	17:35:00	Pune Metamorphosis
+Fr                  	18:00:00	Brunnen der Sonne
+Fr                  	18:20:00	Sufi Sonics
