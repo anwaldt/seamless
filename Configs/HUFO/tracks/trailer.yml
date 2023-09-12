@@ -1,11 +1,11 @@
-trailer:
-  title: Trailer
-  title_en: Trailer
-  audio_index: 1
-  video_index: 0
-  duration:
-    minutes: 3
-    seconds: 0
-  description: >
-    Blabla
-    blablabla
+name: trailer
+title: Trailer
+title_en: Trailer
+audio_index: 1
+video_index: 0
+duration:
+  minutes: 3
+  seconds: 0
+description: >
+  Blabla
+  blablabla

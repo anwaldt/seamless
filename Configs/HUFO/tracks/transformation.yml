@@ -1,10 +1,10 @@
-transformation:
-  title: Transformation
-  title_en: Transformation
-  audio_index: 10
-  video_index: 9
-  duration:
-    minutes: 9
-    seconds: 0
-  description: >
-    Transformation
+name: transformation
+title: Transformation
+title_en: Transformation
+audio_index: 10
+video_index: 9
+duration:
+  minutes: 9
+  seconds: 0
+description: >
+  Transformation

@@ -1,16 +1,16 @@
-default:
-  length: 170
-  track_padding: 10
-  tracks:
-    - trailer
-    - pune
-    - brunnen
-    - sufi
-    - datenerhebung
-    - iwillnotweep
-    - trailer
-    - oksus
-    - liquidcontinent
-    - thepassage
-    - doublefeedback
-    - transformation
+name: default
+length: 170
+track_padding: 10
+tracks:
+  - trailer
+  - pune
+  - brunnen
+  - sufi
+  - datenerhebung
+  - iwillnotweep
+  - trailer
+  - oksus
+  - liquidcontinent
+  - thepassage
+  - doublefeedback
+  - transformation

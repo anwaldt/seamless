@@ -1,10 +1,10 @@
-sufi:
-  title: Sufi Sonics
-  title_en: Sufi Sonics
-  audio_index: 3
-  video_index: 2
-  duration:
-    minutes: 19
-    seconds: 5
-  description: >
-    Sufi lalala
+name: sufi
+title: Sufi Sonics
+title_en: Sufi Sonics
+audio_index: 3
+video_index: 2
+duration:
+  minutes: 19
+  seconds: 5
+description: >
+  Sufi lalala

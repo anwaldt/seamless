@@ -1,6 +1,6 @@
-student_pieces:
-  length: 28
-  track_padding: 10
-  tracks:
-    - wasserwelten
-    - sculpturalbeatings
+name: student_pieces
+length: 28
+track_padding: 10
+tracks:
+  - wasserwelten
+  - sculpturalbeatings

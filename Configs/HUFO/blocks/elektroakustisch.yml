@@ -1,6 +1,6 @@
-elektroakustisch:
-  length: 31
-  track_padding: 10
-  tracks:
-    - oksus
-    - thepassage
+name: elektroakustisch
+length: 31
+track_padding: 10
+tracks:
+  - oksus
+  - thepassage

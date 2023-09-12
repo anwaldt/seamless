@@ -1,11 +1,10 @@
-brunnen:
-  title: Brunnen der Sonne
-  title_en: Well of the Sun
-  audio_index: 2
-  video_index: 1
-  duration:
-    minutes: 16
-    seconds: 14
-  description: >
-    Brunnen blär
-
+name: brunnen
+title: Brunnen der Sonne
+title_en: Well of the Sun
+audio_index: 2
+video_index: 1
+duration:
+  minutes: 16
+  seconds: 14
+description: >
+  Brunnen blär

@@ -1,10 +1,10 @@
-oksus:
-  title: Oksus
-  title_en: Oksus
-  audio_index: 4
-  video_index: 5
-  duration:
-    minutes: 17
-    seconds: 29
-  description: >
-    Oksus bäm
+name: oksus
+title: Oksus
+title_en: Oksus
+audio_index: 4
+video_index: 5
+duration:
+  minutes: 17
+  seconds: 29
+description: >
+  Oksus bäm

@@ -1,10 +1,10 @@
-wasserwelten:
-  title: Wasserwelten
-  title_en: Worlds of Water
-  audio_index: 12
-  video_index: 11
-  duration:
-    minutes: 8
-    seconds: 48
-  description: >
-    Wasser ist Nass, Die Welt ist Wasser => Die Welt ist Nass
+name: wasserwelten
+title: Wasserwelten
+title_en: Worlds of Water
+audio_index: 12
+video_index: 11
+duration:
+  minutes: 8
+  seconds: 48
+description: >
+  Wasser ist Nass, Die Welt ist Wasser => Die Welt ist Nass

@@ -1,10 +1,10 @@
-pune:
-  title: Pune Metamorphosis
-  title_en: Pune Metamorphosis
-  audio_index: 13
-  video_index: 12
-  duration:
-    minutes: 20
-    seconds: 18
-  description: >
-    Schrebreibung
+name: pune
+title: Pune Metamorphosis
+title_en: Pune Metamorphosis
+audio_index: 13
+video_index: 12
+duration:
+  minutes: 20
+  seconds: 18
+description: >
+  Schrebreibung

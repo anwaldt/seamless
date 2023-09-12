@@ -1,14 +1,14 @@
-soundscape:
-  length: 140
-  track_padding: 10
-  tracks:
-    - trailer
-    - brunnen
-    - sufi
-    - datenerhebung
-    - iwillnotweep
-    - trailer
-    - pune
-    - liquidcontinent
-    - doublefeedback
-    - transformation
+name: soundscape
+length: 140
+track_padding: 10
+tracks:
+  - trailer
+  - brunnen
+  - sufi
+  - datenerhebung
+  - iwillnotweep
+  - trailer
+  - pune
+  - liquidcontinent
+  - doublefeedback
+  - transformation
