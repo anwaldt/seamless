@@ -11,7 +11,7 @@
   hour: 10
   minute: 45
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 1,5,6
@@ -53,49 +53,49 @@
   hour: 12
   minute: 40
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 1,5,6
   hour: 13
   minute: 0
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 1,5,6
   hour: 13
   minute: 20
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 1,5,6
   hour: 13
   minute: 45
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 1,5,6
   hour: 14
   minute: 5
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 12
   command: play
   day_of_week: 1,5,6
   hour: 14
   minute: 15
   second: 0
-  video_index: 12
+  video_index: 11
 - audio_index: 11
   command: play
   day_of_week: 1,5,6
   hour: 14
   minute: 25
   second: 0
-  video_index: 11
+  video_index: 10
 - audio_index: 1
   command: play
   day_of_week: 1,5,6
@@ -109,7 +109,7 @@
   hour: 14
   minute: 50
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 1,5,6
@@ -151,35 +151,35 @@
   hour: 16
   minute: 45
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 1,5,6
   hour: 17
   minute: 5
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 1,5,6
   hour: 17
   minute: 25
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 1,5,6
   hour: 17
   minute: 50
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 1,5,6
   hour: 18
   minute: 10
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 1
   command: play
   day_of_week: 1,5,6
@@ -193,7 +193,7 @@
   hour: 18
   minute: 25
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 1
   command: play
   day_of_week: 0
@@ -207,7 +207,7 @@
   hour: 10
   minute: 45
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 0
@@ -249,42 +249,42 @@
   hour: 12
   minute: 40
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 0
   hour: 13
   minute: 0
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 0
   hour: 13
   minute: 20
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 0
   hour: 13
   minute: 45
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 12
   command: play
   day_of_week: 0
   hour: 14
   minute: 5
   second: 0
-  video_index: 12
+  video_index: 11
 - audio_index: 11
   command: play
   day_of_week: 0
   hour: 14
   minute: 15
   second: 0
-  video_index: 11
+  video_index: 10
 - audio_index: 1
   command: play
   day_of_week: 0
@@ -298,7 +298,7 @@
   hour: 14
   minute: 40
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 0
@@ -340,28 +340,28 @@
   hour: 16
   minute: 35
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 0
   hour: 16
   minute: 55
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 0
   hour: 17
   minute: 15
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 0
   hour: 17
   minute: 40
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 1
   command: play
   day_of_week: 0
@@ -375,7 +375,7 @@
   hour: 18
   minute: 5
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 1
   command: play
   day_of_week: 2
@@ -389,7 +389,7 @@
   hour: 10
   minute: 45
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 2
@@ -424,35 +424,35 @@
   hour: 12
   minute: 15
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 2
   hour: 12
   minute: 35
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 2
   hour: 12
   minute: 55
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 2
   hour: 13
   minute: 20
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 2
   hour: 13
   minute: 40
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 1
   command: play
   day_of_week: 2
@@ -466,7 +466,7 @@
   hour: 13
   minute: 55
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 2
@@ -501,49 +501,49 @@
   hour: 15
   minute: 25
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 2
   hour: 15
   minute: 45
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 2
   hour: 16
   minute: 5
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 2
   hour: 16
   minute: 30
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 2
   hour: 16
   minute: 50
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 12
   command: play
   day_of_week: 2
   hour: 17
   minute: 0
   second: 0
-  video_index: 12
+  video_index: 11
 - audio_index: 11
   command: play
   day_of_week: 2
   hour: 17
   minute: 10
   second: 0
-  video_index: 11
+  video_index: 10
 - audio_index: 1
   command: play
   day_of_week: 2
@@ -557,7 +557,7 @@
   hour: 17
   minute: 35
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 2
@@ -585,7 +585,7 @@
   hour: 10
   minute: 45
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 3
@@ -627,42 +627,42 @@
   hour: 12
   minute: 40
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 3
   hour: 13
   minute: 0
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 3
   hour: 13
   minute: 20
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 3
   hour: 13
   minute: 45
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 12
   command: play
   day_of_week: 3
   hour: 14
   minute: 5
   second: 0
-  video_index: 12
+  video_index: 11
 - audio_index: 11
   command: play
   day_of_week: 3
   hour: 14
   minute: 15
   second: 0
-  video_index: 11
+  video_index: 10
 - audio_index: 1
   command: play
   day_of_week: 3
@@ -676,7 +676,7 @@
   hour: 14
   minute: 40
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 3
@@ -718,28 +718,28 @@
   hour: 16
   minute: 35
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 3
   hour: 16
   minute: 55
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 3
   hour: 17
   minute: 15
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 3
   hour: 17
   minute: 40
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 1
   command: play
   day_of_week: 3
@@ -753,7 +753,7 @@
   hour: 18
   minute: 5
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 1
   command: play
   day_of_week: 4
@@ -767,7 +767,7 @@
   hour: 10
   minute: 45
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 4
@@ -802,49 +802,49 @@
   hour: 12
   minute: 15
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 4
   hour: 12
   minute: 35
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 4
   hour: 12
   minute: 55
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 4
   hour: 13
   minute: 20
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 4
   hour: 13
   minute: 40
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 12
   command: play
   day_of_week: 4
   hour: 13
   minute: 50
   second: 0
-  video_index: 12
+  video_index: 11
 - audio_index: 11
   command: play
   day_of_week: 4
   hour: 14
   minute: 0
   second: 0
-  video_index: 11
+  video_index: 10
 - audio_index: 1
   command: play
   day_of_week: 4
@@ -858,7 +858,7 @@
   hour: 14
   minute: 25
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 4
@@ -893,35 +893,35 @@
   hour: 15
   minute: 55
   second: 0
-  video_index: 6
+  video_index: 5
 - audio_index: 7
   command: play
   day_of_week: 4
   hour: 16
   minute: 15
   second: 0
-  video_index: 7
+  video_index: 6
 - audio_index: 9
   command: play
   day_of_week: 4
   hour: 16
   minute: 35
   second: 0
-  video_index: 8
+  video_index: 7
 - audio_index: 8
   command: play
   day_of_week: 4
   hour: 17
   minute: 0
   second: 0
-  video_index: 9
+  video_index: 8
 - audio_index: 10
   command: play
   day_of_week: 4
   hour: 17
   minute: 20
   second: 0
-  video_index: 10
+  video_index: 9
 - audio_index: 1
   command: play
   day_of_week: 4
@@ -935,7 +935,7 @@
   hour: 17
   minute: 35
   second: 0
-  video_index: 13
+  video_index: 12
 - audio_index: 2
   command: play
   day_of_week: 4
