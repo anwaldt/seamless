@@ -44,27 +44,49 @@ def round_up_time(timestamp: datetime, round_to_minutes=5):
     return timestamp + (datetime.min - timestamp) % delta
 
 
+def read_tracks(track_dir, by_name=True):
+    track_dir = Path(track_dir)
+    tracks = {}
+    for track_file in track_dir.glob("*.yml"):
+        with open(track_file) as f:
+            track = yaml.load(f, Loader=yaml.FullLoader)
+            if by_name:
+                identifier = track["name"]
+            else:
+                identifier = track["audio_index"]
+
+            if identifier in tracks:
+                raise Exception(f"track identifier {identifier} is not unique!")
+
+            tracks[identifier] = track
+
+    return tracks
+
+
+def read_blocks(block_dir):
+    block_dir = Path(block_dir)
+
+    blocks = {}
+    for block_file in block_dir.glob("*.yml"):
+        with open(block_file) as f:
+            block = yaml.load(f, Loader=yaml.FullLoader)
+            identifier = block["name"]
+            if identifier in blocks:
+                raise Exception(f"Block identifier {identifier} is not unique")
+            blocks[identifier] = block
+    return blocks
+
+
 def main():
-    track_files = ""
-    block_files = ""
-
     # load tracks
-    for file in os.listdir(path_config / "tracks"):
-        if file.endswith(".yml"):
-            with open(path_config / "tracks" / file) as f:
-                track_files += f.read()
-    tracks = yaml.load(track_files, Loader=yaml.FullLoader)
-
+    tracks = read_tracks(path_config / "tracks")
+    print(tracks)
     # load blocks
-    for file in os.listdir(path_config / "blocks"):
-        if file.endswith(".yml"):
-            with open(path_config / "blocks" / file) as f:
-                block_files += f.read()
-    blocks = yaml.load(block_files, Loader=yaml.FullLoader)
+    blocks = read_blocks(path_config / "blocks")
 
     # load block plan
     with open(path_config / "blockplan.yml") as f:
-        blockplan = yaml.load(f.read(), Loader=yaml.FullLoader)
+        blockplan = yaml.load(f, Loader=yaml.FullLoader)
 
     # find days with explicit schedules
     days_explicit_schedule = set(blockplan.keys()) - set(["default"])

@@ -206,11 +206,11 @@ class SchedControl(object):
                 track_conf = yaml.load(f, Loader=yaml.FullLoader)
 
             # check that the track id is unique
-            if list(track_conf.keys())[0] in self.tracks:
-                raise KeyError(f"Track id {list(track_conf.keys())[0]} is not unique!")
+            if track_conf["name"] in self.tracks:
+                raise KeyError(f"Track id {track_conf['name']} is not unique!")
 
             # Add track to tracks dict
-            self.tracks.update(track_conf)
+            self.tracks[track_conf["name"]] = track_conf
 
     def get_scheduled_tracks(self, n_tracks=20):
         """Returns the next n_tracks scheduled tracks.

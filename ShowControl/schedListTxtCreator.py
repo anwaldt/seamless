@@ -10,6 +10,7 @@ import glob
 import os
 from pathlib import Path
 
+
 day_names = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 base_path = Path(__file__).parent
 
@@ -29,10 +30,8 @@ def read_tracks(tracks_folder):
     # get all yml files
     for track_file in tracks_dir.glob("*.yml"):
         with open(track_file) as f:
-            track_conf = yaml.load(f, Loader=yaml.FullLoader)
+            track_dict = yaml.load(f, Loader=yaml.FullLoader)
 
-        # get rid of the useless outer most key
-        track_dict = track_conf[list(track_conf.keys())[0]]
         if track_dict["audio_index"] in tracks:
             raise KeyError(f'audio index of track {track_dict["title"]} is not unique')
 
