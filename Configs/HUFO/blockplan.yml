@@ -1,11 +1,6 @@
 default:
   blocks:
-    1: default
-    2: default
-    3: default
-    4: default
-    # 5: default
-    # 6: default
-    # 7: default
-    # 8: default
-    # 9: default
+    - block_a
+    - student_pieces
+    - block_b
+    - block_a
