@@ -1,34 +1,6 @@
 default:
   blocks:
-    - default
-    - student_pieces
-    - default
-    - default
-
-monday:
-  blocks:
     - block_a
     - student_pieces
+    - block_b
     - block_a
-    - block_a
-
-wednesday:
-  blocks:
-    - block_b
-    - block_b
-    - student_pieces
-    - block_b
-
-thursday:
-  blocks:
-    - block_a
-    - student_pieces
-    - block_a
-    - block_a
-
-friday:
-  blocks:
-    - block_b
-    - student_pieces
-    - block_b
-    - block_b

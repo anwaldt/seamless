@@ -3,6 +3,8 @@ block_b:
   track_padding: 10
   tracks:
     - trailer
+    - transformation
+    - thepassage
     - pune
     - brunnen
     - sufi
@@ -10,6 +12,4 @@ block_b:
     - trailer
     - oksus
     - liquidcontinent
-    - thepassage
     - doublefeedback
-    - transformation
