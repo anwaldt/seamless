@@ -10,6 +10,8 @@ import json
 import time
 from pathlib import Path
 
+from common import read_tracks
+
 server = OSCThreadServer()
 
 
@@ -200,17 +202,7 @@ class SchedControl(object):
         Raises:
             KeyError: Raised when a track id is not unique
         """
-        self.tracks = {}
-        for track_file in self.tracks_dir.iterdir():
-            with open(track_file) as f:
-                track_conf = yaml.load(f, Loader=yaml.FullLoader)
-
-            # check that the track id is unique
-            if track_conf["name"] in self.tracks:
-                raise KeyError(f"Track id {track_conf['name']} is not unique!")
-
-            # Add track to tracks dict
-            self.tracks[track_conf["name"]] = track_conf
+        self.tracks = read_tracks(self.tracks_dir, identifier_is_name=True)
 
     def get_scheduled_tracks(self, n_tracks=20):
         """Returns the next n_tracks scheduled tracks.

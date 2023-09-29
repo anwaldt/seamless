@@ -9,39 +9,15 @@ import argparse
 import glob
 import os
 from pathlib import Path
+from common import read_tracks
 
 
 day_names = ["Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"]
 base_path = Path(__file__).parent
 
 
-def read_tracks(tracks_folder):
-    """Reads the tracks in the tracks_folder directory
-
-    Raises:
-        KeyError: _description_
-
-    Returns:
-        dict: dict with the tracks, tracks can be accessed by their audio_index
-    """
-    tracks_dir = Path(tracks_folder)
-    tracks = {}
-
-    # get all yml files
-    for track_file in tracks_dir.glob("*.yml"):
-        with open(track_file) as f:
-            track_dict = yaml.load(f, Loader=yaml.FullLoader)
-
-        if track_dict["audio_index"] in tracks:
-            raise KeyError(f'audio index of track {track_dict["title"]} is not unique')
-
-        # Add track to tracks dict
-        tracks[track_dict["audio_index"]] = track_dict
-    return tracks
-
-
 def create_alternative_schedule(input_file, output_file, tracks_folder):
-    tracks = read_tracks(tracks_folder)
+    tracks = read_tracks(tracks_folder, identifier_is_name=False)
     with open(input_file, "r") as f:
         schedule = yaml.safe_load(f)
 
